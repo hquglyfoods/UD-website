@@ -2,7 +2,7 @@
 title: Why We Fry in 100% Avocado Oil
 published_date: 2026-06-27
 category: The Brand
-cover: /uploads/chatgpt-image-jun-27-2026-01_42_35-pm.png
+cover: /uploads/chatgpt-image-jun-27-2026-01_42_35-pm.jpg
 excerpt: Most fried food is cooked in blended vegetable oils chosen for price.
   We fry everything in 100 percent avocado oil. Here is what that changes about
   how our corn dogs and donuts taste.

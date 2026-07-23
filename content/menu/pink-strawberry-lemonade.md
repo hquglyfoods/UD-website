@@ -1,7 +1,7 @@
 ---
 name: Pink Strawberry Lemonade
 category: Fruit Refreshers
-photo: /uploads/pink-strawberry-lemonade.png
+photo: /uploads/pink-strawberry-lemonade.jpg
 description: A refreshing strawberry lemonade made with premium real fruit
   syrups, finished with a floral hibiscus touch
 best_seller: false

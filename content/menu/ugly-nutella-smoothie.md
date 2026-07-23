@@ -1,7 +1,7 @@
 ---
 name: Ugly Nutella Smoothie
 category: Smoothies
-photo: /uploads/ugly-nutella.png
+photo: /uploads/ugly-nutella.jpg
 description: A rich chocolate hazelnut blend with Nutella, cocoa, and crunchy
   chocolate toppings.
 best_seller: false

@@ -773,4 +773,136 @@ console.log('[ok]   FAQ internal links + sitemap entry');
   console.log('[ok]   location hierarchy (' + items.length + ' stores, ' + Object.keys(byState).length + ' state hubs)');
 })();
 
+// ---------------------------------------------------------------------------
+// 10. CLS: inject width/height into <img> tags that lack them.
+// Pure-JS header parsing (png/jpeg/gif/webp), no dependencies. Idempotent:
+// tags that already have a width attribute are skipped. Resolves local file
+// srcs (/uploads/..., /images/...) and inline data: URIs. External URLs and
+// unreadable files are skipped silently.
+// ---------------------------------------------------------------------------
+(function () {
+  function dims(buf) {
+    if (!buf || buf.length < 24) return null;
+    // PNG
+    if (buf[0] === 0x89 && buf[1] === 0x50) {
+      return { w: buf.readUInt32BE(16), h: buf.readUInt32BE(20) };
+    }
+    // GIF
+    if (buf[0] === 0x47 && buf[1] === 0x49) {
+      return { w: buf.readUInt16LE(6), h: buf.readUInt16LE(8) };
+    }
+    // JPEG: scan SOF markers
+    if (buf[0] === 0xFF && buf[1] === 0xD8) {
+      var i = 2;
+      while (i + 9 < buf.length) {
+        if (buf[i] !== 0xFF) { i++; continue; }
+        var marker = buf[i + 1];
+        if (marker >= 0xC0 && marker <= 0xCF && marker !== 0xC4 && marker !== 0xC8 && marker !== 0xCC) {
+          return { h: buf.readUInt16BE(i + 5), w: buf.readUInt16BE(i + 7) };
+        }
+        var len = buf.readUInt16BE(i + 2);
+        if (len < 2) break;
+        i += 2 + len;
+      }
+      return null;
+    }
+    // WebP
+    if (buf.slice(0, 4).toString('ascii') === 'RIFF' && buf.slice(8, 12).toString('ascii') === 'WEBP') {
+      var fmt = buf.slice(12, 16).toString('ascii');
+      if (fmt === 'VP8X') return { w: 1 + buf.readUIntLE(24, 3), h: 1 + buf.readUIntLE(27, 3) };
+      if (fmt === 'VP8L') {
+        var b = buf.readUInt32LE(21);
+        return { w: (b & 0x3FFF) + 1, h: ((b >> 14) & 0x3FFF) + 1 };
+      }
+      if (fmt === 'VP8 ') return { w: buf.readUInt16LE(26) & 0x3FFF, h: buf.readUInt16LE(28) & 0x3FFF };
+    }
+    return null;
+  }
+  function srcDims(src) {
+    if (/^data:image\//.test(src)) {
+      var b64 = src.split(',')[1] || '';
+      try { return dims(Buffer.from(b64.slice(0, 2048), 'base64')); } catch (e) { return null; }
+    }
+    if (/^https?:/.test(src) || src.indexOf('/') !== 0) return null;
+    var p = path.join(ROOT, decodeURIComponent(src.split(/[?#]/)[0]));
+    try { return dims(fs.readFileSync(p)); } catch (e) { return null; }
+  }
+  var pages = fs.readdirSync(ROOT).filter(function (f) { return /\.html$/.test(f); })
+    .map(function (f) { return f; });
+  ['journal', 'locations'].forEach(function (dir) {
+    var full = path.join(ROOT, dir);
+    if (!fs.existsSync(full)) return;
+    (function walk(d, rel) {
+      fs.readdirSync(d).forEach(function (f) {
+        var fp = path.join(d, f);
+        if (fs.statSync(fp).isDirectory()) walk(fp, rel + '/' + f);
+        else if (/\.html$/.test(f)) pages.push(rel + '/' + f);
+      });
+    })(full, dir);
+  });
+  var injected = 0, files = 0;
+  pages.forEach(function (rel) {
+    var fp = path.join(ROOT, rel);
+    var html = fs.readFileSync(fp, 'utf8');
+    var changed = false;
+    html = html.replace(/<img\b[^>]*>/g, function (tag) {
+      if (/\bwidth\s*=/.test(tag)) return tag;
+      var m = tag.match(/\bsrc\s*=\s*"([^"]+)"/) || tag.match(/\bsrc\s*=\s*'([^']+)'/);
+      if (!m) return tag;
+      var d = srcDims(m[1]);
+      if (!d || !d.w || !d.h) return tag;
+      changed = true; injected++;
+      return tag.replace(/<img\b/, '<img width="' + d.w + '" height="' + d.h + '"');
+    });
+    if (changed) { fs.writeFileSync(fp, html); files++; }
+  });
+  console.log('[ok]   CLS width/height injected: ' + injected + ' imgs across ' + files + ' pages');
+})();
+
+// ---------------------------------------------------------------------------
+// 11. inKind partnership popup, frequency-capped.
+// First visit: loads inkind.js once (popup shows), then remembers via
+// localStorage so returning visitors never see it again. A footer link
+// ("inKind Rewards") lets anyone reopen it on demand. Idempotent.
+// ---------------------------------------------------------------------------
+(function () {
+  var LOADER = '<!--INKIND:START--><script>(function(){function load(){if(document.getElementById(\'inkind-js\'))return;var s=document.createElement(\'script\');s.id=\'inkind-js\';s.src=\'https://inkindscript.com/inkind.js\';s.async=true;document.head.appendChild(s);}try{if(!localStorage.getItem(\'ud_inkind_seen\')){localStorage.setItem(\'ud_inkind_seen\',\'1\');load();}}catch(e){load();}window.udShowInkind=function(ev){if(ev&&ev.preventDefault)ev.preventDefault();try{localStorage.removeItem(\'ud_inkind_seen\');}catch(e){}if(document.getElementById(\'inkind-js\')){location.reload();}else{try{localStorage.setItem(\'ud_inkind_seen\',\'1\');}catch(e){}load();}return false;};})();</script><!--INKIND:END-->';
+  var PLAIN = /\s*<script src="https:\/\/inkindscript\.com\/inkind\.js" async><\/script>/g;
+  var FOOTER_LI = '<li><a href="#" onclick="return udShowInkind(event)">inKind Rewards</a></li>';
+  var pages = fs.readdirSync(ROOT).filter(function (f) { return /\.html$/.test(f); });
+  ['journal', 'locations'].forEach(function (dir) {
+    var full = path.join(ROOT, dir);
+    if (!fs.existsSync(full)) return;
+    (function walk(d, rel) {
+      fs.readdirSync(d).forEach(function (f) {
+        var fp = path.join(d, f);
+        if (fs.statSync(fp).isDirectory()) walk(fp, rel + '/' + f);
+        else if (/\.html$/.test(f)) pages.push(rel + '/' + f);
+      });
+    })(full, dir);
+  });
+  var added = 0, links = 0;
+  pages.forEach(function (rel) {
+    var fp = path.join(ROOT, rel);
+    var html = fs.readFileSync(fp, 'utf8');
+    var before = html;
+    // migrate: remove old unconditional tag if present
+    html = html.replace(PLAIN, '');
+    // ensure loader
+    if (html.indexOf('INKIND:START') === -1 && html.indexOf('</head>') !== -1) {
+      html = html.replace('</head>', '  ' + LOADER + '\n</head>');
+      added++;
+    }
+    // footer reopen link, right after the FAQ link
+    if (html.indexOf('<li><a href="/faq.html">FAQ</a></li>') !== -1
+      && html.indexOf('>inKind Rewards</a></li>') === -1) {
+      html = html.replace('<li><a href="/faq.html">FAQ</a></li>',
+        '<li><a href="/faq.html">FAQ</a></li>\n          ' + FOOTER_LI);
+      links++;
+    }
+    if (html !== before) fs.writeFileSync(fp, html);
+  });
+  console.log('[ok]   inKind loader on pages (+' + added + '), footer links (+' + links + ')');
+})();
+
 console.log('Build complete.');

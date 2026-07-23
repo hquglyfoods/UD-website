@@ -1,7 +1,7 @@
 ---
 name: Coco Mango
 category: Coco Sips
-photo: /uploads/coco-mango.png
+photo: /uploads/coco-mango.jpg
 description: Creamy coconut milk infused with premium real mango syrup for a
   smooth tropical refreshment.
 best_seller: false

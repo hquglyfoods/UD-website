@@ -1,7 +1,7 @@
 ---
 name: Mango Yogurt Smoothie
 category: Smoothies
-photo: /uploads/mango-yogurt.png
+photo: /uploads/mango-yogurt.jpg
 description: A tropical mango smoothie blended with real fruit for a rich,
   refreshing sip with a creamy yogurt center
 best_seller: false

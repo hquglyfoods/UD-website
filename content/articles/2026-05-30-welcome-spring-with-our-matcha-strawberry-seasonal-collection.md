@@ -2,7 +2,7 @@
 title: Welcome Spring with Our Matcha Strawberry Seasonal Collection
 published_date: 2026-05-29
 category: Menu
-cover: /uploads/menu-website.png
+cover: /uploads/menu-website.jpg
 excerpt: "Inspired by the bright flavors of the season, we’re excited to
   introduce two limited-time creations that bring together the perfect balance
   of premium matcha and sweet strawberry: the Matcha Strawberry Blossom Latte

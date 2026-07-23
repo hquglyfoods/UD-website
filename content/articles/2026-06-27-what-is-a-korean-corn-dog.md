@@ -2,7 +2,7 @@
 title: What Is a Korean Corn Dog?
 published_date: 2026-06-27
 category: Behind the Scenes
-cover: /uploads/chatgpt-image-jun-27-2026-01_33_03-pm.png
+cover: /uploads/chatgpt-image-jun-27-2026-01_33_03-pm.jpg
 excerpt: A Korean corn dog is a street food classic built on a skewered sausage
   or cheese center, hand dipped in batter, coated, and fried to order. Here is
   what makes it different from the American version, and why it went viral.
