@@ -17,7 +17,7 @@
 <meta name="robots" content="index, follow">
 
 <!-- Netlify Identity (so invite tokens work site-wide) -->
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>if(/(invite_token|recovery_token|confirmation_token|email_change_token)=/.test(location.hash))location.replace("/admin/"+location.hash);</script>
 <script>
   (function() {
     if (window.location.hash && (
@@ -621,26 +621,26 @@ nav.nav .nav-order-mobile { display: none !important; }
         <div class="form-row">
           <div class="form-group">
             <label for="first_name" class="form-label">First Name <span class="req">*</span></label>
-            <input class="form-input" type="text" name="first_name" required id="first_name">
+            <input class="form-input" type="text" name="first_name" required id="first_name" maxlength="200">
           </div>
           <div class="form-group">
             <label for="last_name" class="form-label">Last Name <span class="req">*</span></label>
-            <input class="form-input" type="text" name="last_name" required id="last_name">
+            <input class="form-input" type="text" name="last_name" required id="last_name" maxlength="200">
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
             <label for="email" class="form-label">Email <span class="req">*</span></label>
-            <input class="form-input" type="email" name="email" required id="email">
+            <input class="form-input" type="email" name="email" required id="email" maxlength="254">
           </div>
           <div class="form-group">
             <label for="phone" class="form-label">Phone <span class="req">*</span></label>
-            <input class="form-input" type="tel" name="phone" required id="phone">
+            <input class="form-input" type="tel" name="phone" required id="phone" maxlength="30">
           </div>
         </div>
         <div class="form-group">
           <label for="company" class="form-label">Company / Organization</label>
-          <input class="form-input" type="text" name="company" id="company">
+          <input class="form-input" type="text" name="company" id="company" maxlength="150">
         </div>
       </div>
 
@@ -661,7 +661,7 @@ nav.nav .nav-order-mobile { display: none !important; }
 
         <div class="form-group">
           <label for="event_location" class="form-label">Event Location / Address <span class="req">*</span></label>
-          <input class="form-input" type="text" name="event_location" placeholder="Full address including city &amp; state" required id="event_location">
+          <input class="form-input" type="text" name="event_location" placeholder="Full address including city &amp; state" required id="event_location" maxlength="200">
         </div>
 
         <div class="form-row">
@@ -726,12 +726,12 @@ nav.nav .nav-order-mobile { display: none !important; }
 
         <div class="form-group">
           <label for="dietary" class="form-label">Any allergies or dietary restrictions?</label>
-          <input class="form-input" type="text" name="dietary" id="dietary">
+          <input class="form-input" type="text" name="dietary" id="dietary" maxlength="200">
         </div>
 
         <div class="form-group">
           <label for="event_notes" class="form-label">Tell us more about your event</label>
-          <textarea class="form-textarea" name="event_notes" placeholder="Anything else we should know? Setup needs, theme, must-have items, etc." id="event_notes"></textarea>
+          <textarea class="form-textarea" name="event_notes" placeholder="Anything else we should know? Setup needs, theme, must-have items, etc." id="event_notes" maxlength="2000"></textarea>
         </div>
       </div>
 

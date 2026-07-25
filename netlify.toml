@@ -19,16 +19,34 @@
   [headers.values]
     Cache-Control = "public, max-age=300"
 
-# Static images (content-hashed names) can be cached aggressively
+# Content-hashed images: cache aggressively
+[[headers]]
+  for = "/images/extracted/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Named images (replaceable): short cache
 [[headers]]
   for = "/images/*"
   [headers.values]
-    Cache-Control = "public, max-age=31536000"
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/uploads/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+# Admin: never index, never cache
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store"
 
 # Pretty URLs
 [[redirects]]
   from = "/order"
-  to = "https://uglydonutsncorndogs.com/order?utm_source=undefined&utm_content=home&utm_medium=toast_sites&utm_campaign=undefined&utm_term=direct"
+  to = "https://uglydonutsandcorndogsknickerbocker.toast.site/order?showAllLocations=true"
   status = 302
 
 [[redirects]]

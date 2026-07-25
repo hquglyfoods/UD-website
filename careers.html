@@ -17,7 +17,7 @@
 <meta name="robots" content="index, follow">
 
 <!-- Netlify Identity (so invite tokens work site-wide) -->
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>if(/(invite_token|recovery_token|confirmation_token|email_change_token)=/.test(location.hash))location.replace("/admin/"+location.hash);</script>
 <script>
   (function() {
     if (window.location.hash && (
@@ -620,26 +620,26 @@ nav.nav .nav-order-mobile { display: none !important; }
         <div class="form-row">
           <div class="form-group">
             <label for="first_name" class="form-label">First Name <span class="req">*</span></label>
-            <input class="form-input" type="text" name="first_name" required id="first_name">
+            <input class="form-input" type="text" name="first_name" required id="first_name" maxlength="200">
           </div>
           <div class="form-group">
             <label for="last_name" class="form-label">Last Name <span class="req">*</span></label>
-            <input class="form-input" type="text" name="last_name" required id="last_name">
+            <input class="form-input" type="text" name="last_name" required id="last_name" maxlength="200">
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
             <label for="email" class="form-label">Email <span class="req">*</span></label>
-            <input class="form-input" type="email" name="email" required id="email">
+            <input class="form-input" type="email" name="email" required id="email" maxlength="254">
           </div>
           <div class="form-group">
             <label for="phone" class="form-label">Phone <span class="req">*</span></label>
-            <input class="form-input" type="tel" name="phone" required id="phone">
+            <input class="form-input" type="tel" name="phone" required id="phone" maxlength="30">
           </div>
         </div>
         <div class="form-group">
           <label for="city_state" class="form-label">City, State <span class="req">*</span></label>
-          <input class="form-input" type="text" name="city_state" required id="city_state">
+          <input class="form-input" type="text" name="city_state" required id="city_state" maxlength="200">
         </div>
       </div>
 
@@ -730,7 +730,7 @@ nav.nav .nav-order-mobile { display: none !important; }
 
         <div class="form-group">
           <label for="previous_employer" class="form-label">Previous / Current Employer</label>
-          <input class="form-input" type="text" name="previous_employer" id="previous_employer">
+          <input class="form-input" type="text" name="previous_employer" id="previous_employer" maxlength="200">
         </div>
 
         <div class="form-group">
@@ -756,12 +756,12 @@ nav.nav .nav-order-mobile { display: none !important; }
 
         <div class="form-group">
           <label for="why_us" class="form-label">Why do you want to work at Ugly Donuts? <span class="req">*</span></label>
-          <textarea class="form-textarea" name="why_us" required id="why_us"></textarea>
+          <textarea class="form-textarea" name="why_us" required id="why_us" maxlength="2000"></textarea>
         </div>
 
         <div class="form-group">
           <label for="reliability" class="form-label">What makes you a reliable team member? <span class="req">*</span></label>
-          <textarea class="form-textarea" name="reliability" required id="reliability"></textarea>
+          <textarea class="form-textarea" name="reliability" required id="reliability" maxlength="2000"></textarea>
         </div>
       </div>
 

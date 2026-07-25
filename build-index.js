@@ -103,6 +103,11 @@ function parseFrontmatter(text) {
 function escapeHtml(s) {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
+function safeUrl(u) {
+  var s = String(u == null ? '' : u).trim().replace(/[\u0000-\u001F\u007F\s]/g, '');
+  if (!/^(https?:|mailto:|tel:|\/|#|\.\/|\.\.\/)/i.test(s)) return '#';
+  return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
 function attrEscape(s) {
   return escapeHtml(s).replace(/"/g, '&quot;');
 }
@@ -126,7 +131,7 @@ function markdownToHtml(md) {
     text = text.replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>');
     text = text.replace(/(?<!\*)\*([^\*\n]+)\*(?!\*)/g, '<em>$1</em>');
     text = text.replace(/_([^_\n]+)_/g, '<em>$1</em>');
-    text = text.replace(/\[([^\]]+)\]\(([^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+    text = text.replace(/\[([^\]]+)\]\(([^\)]+)\)/g, function (_m, t, u) { return '<a href="' + safeUrl(u) + '" target="_blank" rel="noopener noreferrer">' + t + '</a>'; });
     text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
     return text;
   }
@@ -142,7 +147,7 @@ function markdownToHtml(md) {
     const ol = line.match(/^\d+\.\s+(.+)$/);
     if (ol) { flushPara(); flushQuote(); if (!inList || listType !== 'ol') { flushList(); html += '<ol>\n'; inList = true; listType = 'ol'; } html += '<li>' + processInline(ol[1]) + '</li>\n'; continue; }
     const img = line.match(/^!\[([^\]]*)\]\(([^\)]+)\)\s*$/);
-    if (img) { flushPara(); flushList(); flushQuote(); html += '<img src="' + img[2] + '" alt="' + escapeHtml(img[1]) + '" loading="lazy">\n'; continue; }
+    if (img) { flushPara(); flushList(); flushQuote(); html += '<img src="' + safeUrl(img[2]) + '" alt="' + escapeHtml(img[1]) + '" loading="lazy">\n'; continue; }
     if (line.trim() === '') { flushPara(); flushList(); continue; }
     paraLines.push(line);
   }
@@ -499,8 +504,8 @@ if (fs.existsSync(LPATH)) {
       '<div class="city">' + (d.city || '') + (d.state ? ', ' + d.state : '') + '</div>' +
       '<div class="location-detail-meta">' + meta + '</div>' +
       '<div class="location-detail-actions"><a href="' + storeUrl + '" class="btn btn-outline">Store Details</a>' +
-      '<a href="' + url + '" target="_blank" rel="noopener" class="btn btn-outline">Get Directions</a>' +
-      (d.order_url ? '<a href="' + d.order_url + '" target="_blank" rel="noopener" class="btn btn-primary">Order Online</a>' : '') +
+      '<a href="' + safeUrl(url) + '" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Get Directions</a>' +
+      (d.order_url ? '<a href="' + safeUrl(d.order_url) + '" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Order Online</a>' : '') +
       '</div></div></div>';
   }).join('\n');
 

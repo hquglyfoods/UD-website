@@ -28,7 +28,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FoodEstablishment","name":"Ugly Donuts & Corn Dogs","description":"Premium Korean corn dogs and handmade donuts, made to order.","url":"https://www.uglydonutsncorndogs.com","servesCuisine":["Korean","Korean Street Food","Donuts"],"priceRange":"$$","email":"hq@uglydonutsncorndogs.com"}
 </script>
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>if(/(invite_token|recovery_token|confirmation_token|email_change_token)=/.test(location.hash))location.replace("/admin/"+location.hash);</script>
 <script>
 (function(){if(window.location.hash&&(window.location.hash.indexOf('invite_token=')>-1||window.location.hash.indexOf('recovery_token=')>-1||window.location.hash.indexOf('confirmation_token=')>-1)){window.location.href='/admin/'+window.location.hash;}})();
 </script>
@@ -642,6 +642,11 @@ nav.nav .nav-order-mobile{display:none !important}
     return {data:data, body:m[2].trim()};
   }
   
+  function safeUrl(u){
+    var s=String(u==null?'':u).trim().replace(/[\u0000-\u001F\u007F\s]/g,'');
+    if(!/^(https?:|mailto:|tel:|\/|#|\.\/|\.\.\/)/i.test(s)) return '#';
+    return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
   function escapeHtml(s){
     return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
@@ -674,7 +679,7 @@ nav.nav .nav-order-mobile{display:none !important}
       text = text.replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>');
       text = text.replace(/(?<!\*)\*([^\*\n]+)\*(?!\*)/g, '<em>$1</em>');
       text = text.replace(/_([^_\n]+)_/g, '<em>$1</em>');
-      text = text.replace(/\[([^\]]+)\]\(([^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+      text = text.replace(/\[([^\]]+)\]\(([^\)]+)\)/g, function(_m,t,u){ return '<a href="'+safeUrl(u)+'" target="_blank" rel="noopener noreferrer">'+t+'</a>'; });
       text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
       return text;
     }
@@ -726,7 +731,7 @@ nav.nav .nav-order-mobile{display:none !important}
       var img = line.match(/^!\[([^\]]*)\]\(([^\)]+)\)\s*$/);
       if(img){
         flushPara(); flushList(); flushQuote();
-        html += '<img src="' + img[2] + '" alt="' + escapeHtml(img[1]) + '" loading="lazy">\n';
+        html += '<img src="' + safeUrl(img[2]) + '" alt="' + escapeHtml(img[1]) + '" loading="lazy">\n';
         continue;
       }
       if(line.trim() === ''){

@@ -28,7 +28,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FoodEstablishment","name":"Ugly Donuts & Corn Dogs","description":"Premium Korean corn dogs and handmade donuts, made to order.","url":"https://www.uglydonutsncorndogs.com","servesCuisine":["Korean","Korean Street Food","Donuts"],"priceRange":"$$","email":"hq@uglydonutsncorndogs.com"}
 </script>
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>if(/(invite_token|recovery_token|confirmation_token|email_change_token)=/.test(location.hash))location.replace("/admin/"+location.hash);</script>
 <script>
 (function(){if(window.location.hash&&(window.location.hash.indexOf('invite_token=')>-1||window.location.hash.indexOf('recovery_token=')>-1||window.location.hash.indexOf('confirmation_token=')>-1)){window.location.href='/admin/'+window.location.hash;}})();
 </script>
@@ -518,7 +518,7 @@ nav.nav .nav-order-mobile{display:none !important}
       <div class="article-meta"><span>The Brand</span><span class="sep">&middot;</span><span class="date">June 27, 2026</span><span class="sep">&middot;</span><span class="date">3 min read</span></div><h1 class="article-title">Best Korean Corn Dogs in the American Dream Mall</h1><p class="article-excerpt">Looking for Korean corn dogs at American Dream in East Rutherford, New</p><div class="article-cover"><img width="1600" height="1140" src="/uploads/ad.jpg" alt="Best Korean Corn Dogs in the American Dream Mall"></div><div class="article-body"><p>If you are at American Dream in East Rutherford, New Jersey and looking for Korean corn dogs, you do not have to go far. Our flagship store sits right inside the complex on Level 2, where every corn dog is battered and fried to order and every donut is finished by hand.</p>
 <p>American Dream is one of the largest retail and entertainment complexes in the country, home to Nickelodeon Universe, the DreamWorks Water Park, an indoor ski slope, shopping, and dining. With that much under one roof, a fresh, made to order snack is the perfect way to take a break.</p>
 <h2>Where to find us at American Dream</h2>
-<p>Our store is on the second level of American Dream, at 1 American Dream Way, East Rutherford, NJ. It is an easy stop before or after the theme parks, a day of shopping, or an event at the neighboring MetLife Stadium. For directions and hours, see our <a href="/locations/new-jersey/american-dream" target="_blank" rel="noopener">American Dream store page</a>.</p>
+<p>Our store is on the second level of American Dream, at 1 American Dream Way, East Rutherford, NJ. It is an easy stop before or after the theme parks, a day of shopping, or an event at the neighboring MetLife Stadium. For directions and hours, see our <a href="/locations/new-jersey/american-dream" target="_blank" rel="noopener noreferrer">American Dream store page</a>.</p>
 <p>This is our flagship, which means you will find our widest selection here.</p>
 <h2>What to order</h2>
 <p>If it is your first visit, a few guest favorites are a good place to start:</p>
@@ -528,12 +528,12 @@ nav.nav .nav-order-mobile{display:none !important}
 <li><strong>Original Corn Dog.</strong> The classic, if you want to taste the foundation first.</li>
 <li><strong>Nutella Strawberry Donut.</strong> Our most loved donut, finished by hand.</li>
 </ul>
-<p>Everything is fried in 100 percent avocado oil and made to order, so it reaches you hot and fresh rather than sitting in a case. You can see the full lineup on our <a href="/menu" target="_blank" rel="noopener">menu</a>.</p>
+<p>Everything is fried in 100 percent avocado oil and made to order, so it reaches you hot and fresh rather than sitting in a case. You can see the full lineup on our <a href="/menu" target="_blank" rel="noopener noreferrer">menu</a>.</p>
 <h2>Why it is worth the stop</h2>
 <p>A Korean corn dog is at its best in the first few minutes, when the shell is still crisp and the cheese is still molten. Because we make every order fresh, that is exactly how you get it. It is a small thing that makes a real difference, and it is the reason a quick stop at our counter tends to become a regular one.</p>
 <p>Whether you are visiting American Dream for the day or you live nearby, our flagship is built to give you a warm, fresh, memorable bite in the middle of a big day out.</p>
 <h2>Plan your visit</h2>
-<p>Find hours, the map, and directions on our <a href="/locations/new-jersey/american-dream" target="_blank" rel="noopener">American Dream store page</a>, or see all of our <a href="/locations" target="_blank" rel="noopener">locations</a> across New Jersey, New York, and Texas.</p>
+<p>Find hours, the map, and directions on our <a href="/locations/new-jersey/american-dream" target="_blank" rel="noopener noreferrer">American Dream store page</a>, or see all of our <a href="/locations" target="_blank" rel="noopener noreferrer">locations</a> across New Jersey, New York, and Texas.</p>
 </div>
     </div>
     <div class="article-back">
@@ -648,6 +648,11 @@ nav.nav .nav-order-mobile{display:none !important}
     return {data:data, body:m[2].trim()};
   }
   
+  function safeUrl(u){
+    var s=String(u==null?'':u).trim().replace(/[\u0000-\u001F\u007F\s]/g,'');
+    if(!/^(https?:|mailto:|tel:|\/|#|\.\/|\.\.\/)/i.test(s)) return '#';
+    return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
   function escapeHtml(s){
     return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
@@ -680,7 +685,7 @@ nav.nav .nav-order-mobile{display:none !important}
       text = text.replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>');
       text = text.replace(/(?<!\*)\*([^\*\n]+)\*(?!\*)/g, '<em>$1</em>');
       text = text.replace(/_([^_\n]+)_/g, '<em>$1</em>');
-      text = text.replace(/\[([^\]]+)\]\(([^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+      text = text.replace(/\[([^\]]+)\]\(([^\)]+)\)/g, function(_m,t,u){ return '<a href="'+safeUrl(u)+'" target="_blank" rel="noopener noreferrer">'+t+'</a>'; });
       text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
       return text;
     }
@@ -732,7 +737,7 @@ nav.nav .nav-order-mobile{display:none !important}
       var img = line.match(/^!\[([^\]]*)\]\(([^\)]+)\)\s*$/);
       if(img){
         flushPara(); flushList(); flushQuote();
-        html += '<img src="' + img[2] + '" alt="' + escapeHtml(img[1]) + '" loading="lazy">\n';
+        html += '<img src="' + safeUrl(img[2]) + '" alt="' + escapeHtml(img[1]) + '" loading="lazy">\n';
         continue;
       }
       if(line.trim() === ''){
