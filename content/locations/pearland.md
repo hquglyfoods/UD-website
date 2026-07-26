@@ -7,6 +7,7 @@ store_type: Standalone store
 photo: /uploads/img_0764.jpg
 phone: ""
 maps_url: https://www.google.com/maps/search/Ugly+Donuts+Corn+Dogs+Pearland+Texas
+place_id: ChIJidAdE_6TQIYRzqaJdzyC8RI
 order: 4
 hours: ""
 region_tag: Texas

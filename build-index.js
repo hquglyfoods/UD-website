@@ -919,4 +919,34 @@ console.log('[ok]   FAQ internal links + sitemap entry');
   console.log('[ok]   inKind loader on pages (+' + added + '), footer links (+' + links + ')');
 })();
 
+// ---------------------------------------------------------------------------
+// 12. Store summary JSON for the review/survey page and the QR tool.
+// One compact file so those pages need a single request no matter how many
+// stores exist. Regenerated from the CMS location entries on every build.
+// ---------------------------------------------------------------------------
+(function () {
+  var items = readItems('content/locations').filter(function (it) {
+    return it.data && it.data.name;
+  });
+  var stores = items.map(function (it) {
+    var d = it.data;
+    return {
+      slug: it.slug,
+      name: String(d.name || ''),
+      city: String(d.city || ''),
+      state: String(d.state || ''),
+      stateName: stateName(d.state) || String(d.state || ''),
+      place_id: String(d.place_id || ''),
+      order: Number(d.order || 999)
+    };
+  }).sort(function (a, b) {
+    return a.order - b.order || a.name.localeCompare(b.name);
+  });
+  var out = path.join(ROOT, 'content/locations/_stores.json');
+  fs.writeFileSync(out, JSON.stringify(stores, null, 2));
+  var missing = stores.filter(function (s) { return !s.place_id; }).map(function (s) { return s.slug; });
+  console.log('[ok]   content/locations/_stores.json (' + stores.length + ' stores)'
+    + (missing.length ? ' | no place_id yet: ' + missing.join(', ') : ''));
+})();
+
 console.log('Build complete.');

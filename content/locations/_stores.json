@@ -1,0 +1,38 @@
+[
+  {
+    "slug": "american-dream",
+    "name": "American Dream",
+    "city": "East Rutherford",
+    "state": "NJ",
+    "stateName": "New Jersey",
+    "place_id": "ChIJ8cHY9gn5wokRjny0A9BezeE",
+    "order": 1
+  },
+  {
+    "slug": "bushwick",
+    "name": "Bushwick",
+    "city": "Brooklyn",
+    "state": "NY",
+    "stateName": "New York",
+    "place_id": "ChIJiwt9oI9dwokRMr1aQdLl0cY",
+    "order": 2
+  },
+  {
+    "slug": "forest-hills",
+    "name": "Forest Hills",
+    "city": "Queens",
+    "state": "NY",
+    "stateName": "New York",
+    "place_id": "ChIJ7-WGBHNfwokRwfOqB99JBD0",
+    "order": 3
+  },
+  {
+    "slug": "pearland",
+    "name": "Pearland",
+    "city": "Pearland",
+    "state": "TX",
+    "stateName": "Texas",
+    "place_id": "ChIJidAdE_6TQIYRzqaJdzyC8RI",
+    "order": 4
+  }
+]

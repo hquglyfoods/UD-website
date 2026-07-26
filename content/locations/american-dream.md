@@ -7,6 +7,7 @@ store_type: Mall, Level 2
 photo: /uploads/kakaotalk_20260414_160519096.jpg
 phone: ""
 maps_url: https://www.google.com/maps/search/Ugly+Donuts+Corn+Dogs+American+Dream+Mall
+place_id: ChIJ8cHY9gn5wokRjny0A9BezeE
 order: 1
 hours: ""
 region_tag: Flagship

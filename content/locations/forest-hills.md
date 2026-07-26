@@ -7,6 +7,7 @@ store_type: Standalone store
 photo: /uploads/forest-hills.jpg
 phone: ""
 maps_url: https://www.google.com/maps/search/Ugly+Donuts+Corn+Dogs+Forest+Hills+Queens
+place_id: ChIJ7-WGBHNfwokRwfOqB99JBD0
 order: 3
 hours: ""
 region_tag: New York

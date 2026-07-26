@@ -11,9 +11,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#F5EFE3">
-<title>Share Your Visit | Ugly Donuts &amp; Corn Dogs</title>
-<link rel="canonical" href="https://www.uglydonutsncorndogs.com/review">
-<meta name="description" content="Tell us about your visit to Ugly Donuts and Corn Dogs. A quick 30 second survey with a monthly gift card drawing.">
+<title>Survey QR Codes</title>
+
+<meta name="description" content="Internal tool: download the review survey QR code for each store.">
 
 <!-- Netlify Identity (so invite tokens work site-wide) -->
 <script>if(/(invite_token|recovery_token|confirmation_token|email_change_token)=/.test(location.hash))location.replace("/admin/"+location.hash);</script>
@@ -541,9 +541,9 @@ nav.nav .nav-order-mobile { display: none !important; }
 <!--AUTO-SEO:START-->
 <meta property="og:site_name" content="Ugly Donuts &amp; Corn Dogs">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://www.uglydonutsncorndogs.com/review">
-<meta property="og:title" content="Share Your Visit | Ugly Donuts &amp; Corn Dogs">
-<meta property="og:description" content="A quick 30 second survey with a monthly gift card drawing.">
+<meta property="og:url" content="https://www.uglydonutsncorndogs.com/contact">
+<meta property="og:title" content="Contact · Ugly Donuts &amp; Corn Dogs">
+<meta property="og:description" content="Get in touch with Ugly Donuts & Corn Dogs. Questions, feedback, press, partnerships.">
 <meta property="og:image" content="https://www.uglydonutsncorndogs.com/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -554,40 +554,16 @@ nav.nav .nav-order-mobile { display: none !important; }
 <!--AUTO-SEO:END-->
   <!--INKIND:START--><script>(function(){function load(){if(document.getElementById('inkind-js'))return;var s=document.createElement('script');s.id='inkind-js';s.src='https://inkindscript.com/inkind.js';s.async=true;document.head.appendChild(s);}try{if(!localStorage.getItem('ud_inkind_seen')){localStorage.setItem('ud_inkind_seen','1');load();}}catch(e){load();}window.udShowInkind=function(ev){if(ev&&ev.preventDefault)ev.preventDefault();try{localStorage.removeItem('ud_inkind_seen');}catch(e){}if(document.getElementById('inkind-js')){location.reload();}else{try{localStorage.setItem('ud_inkind_seen','1');}catch(e){}load();}return false;};})();</script><!--INKIND:END-->
 <style>
-.survey-wrap h2 { margin-top: 8px; }
-.sv-stores { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 18px; }
-.sv-search { margin-top: 16px; }
-.sv-group { grid-column: 1 / -1; margin: 18px 0 -4px; font-family: var(--sans); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(26,36,56,0.55); }
-.sv-group:first-child { margin-top: 6px; }
-.sv-store { text-align: left; border: 1.5px solid rgba(26,36,56,0.18); background: #fff; border-radius: 14px; padding: 18px 16px; cursor: pointer; font: inherit; transition: border-color .15s, transform .15s; }
-.sv-store:hover { border-color: var(--orange); transform: translateY(-2px); }
-.sv-store .n { display: block; font-family: var(--serif); font-size: 19px; color: var(--text-dark); }
-.sv-store .c { display: block; font-size: 13.5px; color: rgba(26,36,56,0.6); margin-top: 4px; }
-.sv-store.sel { border-color: var(--orange); box-shadow: 0 0 0 2px rgba(224,122,58,.25); }
-.sv-q { margin-bottom: 26px; }
-.sv-label { display: block; font-weight: 600; font-size: 15.5px; color: var(--text-dark); margin-bottom: 8px; }
-.sv-hint { font-size: 13.5px; color: rgba(26,36,56,0.6); margin: 0 0 8px; }
-.sv-input, .sv-textarea { width: 100%; border: 1.5px solid rgba(26,36,56,0.22); border-radius: 10px; padding: 12px 14px; font: inherit; font-size: 15.5px; background: #fff; color: var(--text-dark); }
-.sv-textarea { min-height: 110px; resize: vertical; }
-.sv-input:focus, .sv-textarea:focus { outline: none; border-color: var(--orange); }
-.sv-pills { display: flex; flex-wrap: wrap; gap: 10px; }
-.sv-pill { border: 1.5px solid rgba(26,36,56,0.22); background: #fff; border-radius: 999px; padding: 9px 18px; font: inherit; font-size: 14.5px; cursor: pointer; color: var(--text-dark); }
-.sv-pill.sel { background: var(--orange); border-color: var(--orange); color: #fff; }
-.sv-stars { display: flex; gap: 2px; margin-left: -8px; }
-.sv-star { font-size: 32px; line-height: 1; background: none; border: none; cursor: pointer; color: rgba(26,36,56,0.25); padding: 6px 8px; min-width: 46px; min-height: 46px; display: inline-flex; align-items: center; justify-content: center; }
-.sv-star.sel { color: var(--orange); }
-.sv-q.err .sv-input, .sv-q.err .sv-textarea { border-color: #c0392b; }
-.sv-q.err .sv-label::after { content: " *required"; color: #c0392b; font-weight: 400; font-size: 12.5px; }
-.sv-error { color: #c0392b; font-size: 14px; }
-.sv-submit { display: inline-block; background: var(--orange); color: #fff; border: none; border-radius: 999px; padding: 13px 30px; font: inherit; font-size: 15.5px; font-weight: 600; cursor: pointer; margin-top: 4px; }
-.sv-submit:disabled { opacity: .55; cursor: default; }
-.sv-fine { font-size: 12.5px; color: rgba(26,36,56,0.55); margin-top: 12px; }
-.sv-google { border: 1.5px solid rgba(26,36,56,0.15); border-radius: 14px; padding: 22px; margin-top: 26px; background: #fff; }
-.sv-copybox { border: 1px dashed rgba(26,36,56,0.3); border-radius: 10px; padding: 12px 14px; margin: 12px 0; background: rgba(234,191,112,0.08); }
-.sv-copybox p { margin: 0; font-size: 14.5px; white-space: pre-wrap; }
-@media (max-width: 560px) { .sv-stores { grid-template-columns: 1fr; } }
+.qr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 22px; margin-top: 26px; }
+.qr-card { border: 1.5px solid rgba(26,36,56,0.15); border-radius: 14px; padding: 20px; background: #fff; text-align: center; }
+.qr-card h3 { font-family: var(--serif); font-size: 20px; font-weight: 400; margin: 0 0 2px; color: var(--text-dark); }
+.qr-card .city { font-size: 13.5px; color: rgba(26,36,56,0.6); margin-bottom: 14px; }
+.qr-card canvas, .qr-card img { width: 190px; height: 190px; image-rendering: pixelated; display: block; margin: 0 auto 14px; }
+.qr-dl { display: inline-block; background: var(--orange); color: #fff; border: none; border-radius: 999px; padding: 10px 22px; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; }
+.qr-url { font-size: 11.5px; color: rgba(26,36,56,0.5); margin-top: 10px; word-break: break-all; }
+.qr-warn { border: 1.5px dashed rgba(192,57,43,.4); border-radius: 12px; padding: 16px 18px; margin-top: 18px; font-size: 14.5px; color: #a33; background: rgba(192,57,43,.04); }
 </style>
-<meta name="robots" content="noindex, follow">
+<meta name="robots" content="noindex, nofollow">
 </head>
 <body>
 <a href="#main-content" class="skip-to-content">Skip to content</a>
@@ -624,66 +600,20 @@ nav.nav .nav-order-mobile { display: none !important; }
 
 <section class="page-header">
   <div class="container">
-    <div class="eyebrow">Share Your Visit</div>
-    <h1>A bite worth <span class="serif-italic">sharing.</span></h1>
+    <div class="eyebrow">Internal Tool</div>
+    <h1>Survey <span class="serif-italic">QR codes.</span></h1>
     <p class="lede">
-      Tell us how your visit went. It takes about 30 seconds, and it helps our
-      team more than you know.
+      One code per store, generated from the locations you manage in the CMS.
+      Each opens the review survey with that store already selected. Print at
+      1 inch or larger and place them where guests wait for their order.
     </p>
   </div>
 </section>
 
 <section class="form-wrap">
   <div class="container">
-<div class="survey-wrap">
-
-  <div id="step-store" class="sv-step">
-    <h2>Which store did you visit?</h2>
-    <div class="sv-search" id="sv-search" hidden>
-      <label class="sv-label" for="sv-q">Find your store</label>
-      <input class="sv-input" type="search" id="sv-q" placeholder="City, state, or store name" autocomplete="off">
-    </div>
-    <div class="sv-stores" id="sv-stores"></div>
-    <p class="sv-hint" id="sv-none" hidden>No stores match that search.</p>
-  </div>
-
-  <div id="step-form" class="sv-step" hidden>
-    <h2 id="sv-title">Tell us about your visit</h2>
-    <p class="doc-intro" id="sv-intro"></p>
-    <form id="sv-form" novalidate>
-      <div id="sv-questions"></div>
-      <div class="sv-q">
-        <label class="sv-label" for="sv-email">Your email</label>
-        <p class="sv-hint" id="sv-raffle"></p>
-        <input class="sv-input" type="email" id="sv-email" name="email" maxlength="254" required autocomplete="email" placeholder="you@example.com">
-      </div>
-      <p class="sv-error" id="sv-error" role="alert" hidden>Please fill in the highlighted fields.</p>
-      <button type="submit" class="sv-submit" id="sv-submit">Submit</button>
-      <p class="sv-fine">One entry per person per month. Winners are contacted by email.</p>
-    </form>
-  </div>
-
-  <div id="step-done" class="sv-step" hidden>
-    <h2>Thank you! Your entry is in.</h2>
-    <p class="doc-intro">We read every response. Winners are drawn monthly and contacted by email.</p>
-    <div class="sv-google">
-      <h3>Enjoyed your visit? Share it on Google</h3>
-      <p class="sv-hint">Your words help neighbors find us.</p>
-      <div class="sv-copybox" id="sv-copybox" hidden>
-        <p id="sv-copytext"></p>
-      </div>
-      <button type="button" class="sv-submit" id="sv-google-btn">Copy my words &amp; open Google</button>
-      <p class="sv-hint" id="sv-copied" hidden>Copied! Just paste it into the review box.</p>
-    </div>
-  </div>
-
-  <form name="survey" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
-    <input type="text" name="bot-field">
-    <input type="text" name="store">
-    <input type="email" name="email">
-    <textarea name="answers"></textarea>
-  </form>
-</div>
+    <div id="qr-warn" class="qr-warn" hidden></div>
+    <div class="qr-grid" id="qr-grid"></div>
   </div>
 </section>
 
@@ -852,8 +782,7 @@ nav.nav .nav-order-mobile { display: none !important; }
 
 <!-- ============================================================
      UGLY DONUTS COOKIE CONSENT BANNER
-     Paste this block immediately before 
-</body> on every page.
+     Paste this block immediately before </body> on every page.
      Self-contained: own styles + script. No external dependencies.
      Behavior: opt-OUT model. Essential cookies always run.
      Non-essential (analytics/ads) run only if the visitor has not
@@ -961,189 +890,54 @@ nav.nav .nav-order-mobile { display: none !important; }
 </script>
 <!-- ============== END COOKIE CONSENT BANNER ============== -->
 
+<script src="/js/qrcode-generator.js"></script>
 <script>
 (function(){
-  var STORES=[];
-  var CARD_LIMIT=6;
-  var sel=null, answers=[], SURVEY=null;
-  var $=function(id){return document.getElementById(id);};
+  var SITE='https://www.uglydonutsncorndogs.com';
+  var grid=document.getElementById('qr-grid');
+  var warn=document.getElementById('qr-warn');
 
-  function pick(st, card){
-    sel=st;
-    var cs=document.querySelectorAll('.sv-store');
-    for(var i=0;i<cs.length;i++) cs[i].classList.remove('sel');
-    if(card) card.classList.add('sel');
-    $('step-form').hidden=false;
-    $('step-form').scrollIntoView({behavior:'smooth', block:'start'});
-  }
-
-  var grid=$('sv-stores');
-
-  function makeCard(st){
-    var b=document.createElement('button');
-    b.type='button'; b.className='sv-store'; b.setAttribute('data-store', st.slug);
-    var n=document.createElement('span'); n.className='n'; n.textContent=st.name;
-    var c=document.createElement('span'); c.className='c';
-    c.textContent=[st.city, st.state].filter(Boolean).join(', ');
-    b.appendChild(n); b.appendChild(c);
-    b.addEventListener('click', function(){ pick(st, b); });
-    return b;
-  }
-
-  function render(list){
-    grid.textContent='';
-    $('sv-none').hidden = list.length>0;
-    if(STORES.length<=CARD_LIMIT){
-      list.forEach(function(st){ grid.appendChild(makeCard(st)); });
-      return;
-    }
-    var groups={}, order=[];
-    list.forEach(function(st){
-      var k=st.stateName||st.state||'Other';
-      if(!groups[k]){ groups[k]=[]; order.push(k); }
-      groups[k].push(st);
-    });
-    order.sort();
-    order.forEach(function(k){
-      var hd=document.createElement('div'); hd.className='sv-group'; hd.textContent=k;
-      grid.appendChild(hd);
-      groups[k].forEach(function(st){ grid.appendChild(makeCard(st)); });
-    });
-  }
-
-  function matches(st, q){
-    if(!q) return true;
-    return (st.name+' '+st.city+' '+st.state+' '+st.stateName).toLowerCase().indexOf(q)>-1;
+  function draw(url){
+    var qr=qrcode(0,'H');
+    qr.addData(url); qr.make();
+    var n=qr.getModuleCount(), scale=8, quiet=4, size=(n+quiet*2)*scale;
+    var c=document.createElement('canvas');
+    c.width=size; c.height=size;
+    var ctx=c.getContext('2d');
+    ctx.fillStyle='#fff'; ctx.fillRect(0,0,size,size);
+    ctx.fillStyle='#000';
+    for(var r=0;r<n;r++) for(var col=0;col<n;col++)
+      if(qr.isDark(r,col)) ctx.fillRect((col+quiet)*scale,(r+quiet)*scale,scale,scale);
+    return c;
   }
 
   fetch('/content/locations/_stores.json').then(function(r){return r.json();}).then(function(list){
-    STORES=list.filter(function(s){ return s.place_id; });
-    if(STORES.length>CARD_LIMIT){
-      $('sv-search').hidden=false;
-      $('sv-q').addEventListener('input', function(){
-        var q=this.value.trim().toLowerCase();
-        render(STORES.filter(function(st){ return matches(st,q); }));
-      });
+    var missing=list.filter(function(s){return !s.place_id;});
+    if(missing.length){
+      warn.textContent='These stores have no Google Place ID yet, so they are hidden from the survey and have no QR code: '
+        + missing.map(function(s){return s.name;}).join(', ')
+        + '. Add the Place ID in the CMS under Store Locations.';
+      warn.hidden=false;
     }
-    render(STORES);
-    preselect();
+    list.filter(function(s){return s.place_id;}).forEach(function(st){
+      var url=SITE+'/review?store='+encodeURIComponent(st.slug);
+      var card=document.createElement('div'); card.className='qr-card';
+      var h3=document.createElement('h3'); h3.textContent=st.name;
+      var city=document.createElement('div'); city.className='city';
+      city.textContent=[st.city, st.state].filter(Boolean).join(', ');
+      var canvas=draw(url);
+      var a=document.createElement('a'); a.className='qr-dl';
+      a.textContent='Download PNG';
+      a.download='ugly-review-qr-'+st.slug+'.png';
+      a.href=canvas.toDataURL('image/png');
+      var u=document.createElement('div'); u.className='qr-url'; u.textContent=url;
+      card.appendChild(h3); card.appendChild(city); card.appendChild(canvas);
+      card.appendChild(a); card.appendChild(u);
+      grid.appendChild(card);
+    });
   }).catch(function(){
-    $('sv-none').textContent='Store list is temporarily unavailable. Please try again later.';
-    $('sv-none').hidden=false;
-  });
-
-  fetch('/content/survey/survey.json').then(function(r){return r.json();}).then(function(cfg){
-    SURVEY=cfg;
-    if(cfg.title) $('sv-title').textContent=cfg.title;
-    if(cfg.intro) $('sv-intro').textContent=cfg.intro;
-    if(cfg.raffle_note) $('sv-raffle').textContent=cfg.raffle_note;
-    var wrap=$('sv-questions');
-    (cfg.questions||[]).forEach(function(q, idx){
-      var box=document.createElement('div'); box.className='sv-q'; box.setAttribute('data-idx', idx);
-      var lab=document.createElement('label'); lab.className='sv-label'; lab.textContent=q.question;
-      box.appendChild(lab);
-      var entry={q:q.question, required:!!q.required, type:q.type, value:''};
-      if(q.type==='short'){
-        var inp=document.createElement('input'); inp.className='sv-input'; inp.maxLength=200;
-        inp.addEventListener('input', function(){ entry.value=inp.value.trim(); });
-        box.appendChild(inp);
-      } else if(q.type==='long'){
-        var ta=document.createElement('textarea'); ta.className='sv-textarea'; ta.maxLength=2000;
-        ta.addEventListener('input', function(){ entry.value=ta.value.trim(); });
-        box.appendChild(ta);
-      } else if(q.type==='stars'){
-        var sdiv=document.createElement('div'); sdiv.className='sv-stars';
-        for(var s=1;s<=5;s++){(function(s){
-          var st=document.createElement('button'); st.type='button'; st.className='sv-star'; st.textContent='\u2605';
-          st.setAttribute('aria-label', s+' out of 5');
-          st.addEventListener('click', function(){
-            entry.value=s+'/5';
-            var all=sdiv.children;
-            for(var k=0;k<all.length;k++) all[k].classList.toggle('sel', k<s);
-          });
-          sdiv.appendChild(st);
-        })(s);}
-        box.appendChild(sdiv);
-      } else if(q.type==='yesno' || q.type==='choice'){
-        var opts = q.type==='yesno' ? ['Yes','No'] : (q.options||[]).map(function(o){return typeof o==='string'?o:(o.choice||'');});
-        var pdiv=document.createElement('div'); pdiv.className='sv-pills';
-        opts.forEach(function(op){
-          var p=document.createElement('button'); p.type='button'; p.className='sv-pill'; p.textContent=op;
-          p.addEventListener('click', function(){
-            entry.value=op;
-            var all=pdiv.children;
-            for(var k=0;k<all.length;k++) all[k].classList.remove('sel');
-            p.classList.add('sel');
-          });
-          pdiv.appendChild(p);
-        });
-        box.appendChild(pdiv);
-      }
-      answers.push(entry);
-      wrap.appendChild(box);
-    });
-  }).catch(function(){ $('sv-intro').textContent='Survey is temporarily unavailable. Please try again later.'; });
-
-  function preselect(){
-    var qs=new URLSearchParams(location.search).get('store');
-    if(!qs) return;
-    STORES.forEach(function(st){
-      if(st.slug===qs){
-        var card=document.querySelector('[data-store="'+st.slug+'"]');
-        pick(st, card);
-      }
-    });
-  }
-
-  $('sv-form').addEventListener('submit', function(ev){
-    ev.preventDefault();
-    var bad=false;
-    var boxes=document.querySelectorAll('#sv-questions .sv-q');
-    answers.forEach(function(a, i){
-      var miss = a.required && !a.value;
-      boxes[i].classList.toggle('err', miss);
-      if(miss) bad=true;
-    });
-    var email=$('sv-email').value.trim();
-    var emailOk=/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
-    $('sv-email').parentElement.classList.toggle('err', !emailOk);
-    if(!emailOk) bad=true;
-    $('sv-error').hidden=!bad;
-    if(bad) return;
-    var lines=answers.map(function(a){ return 'Q: '+a.q+'\nA: '+(a.value||'(no answer)'); });
-    var payload=new URLSearchParams();
-    payload.set('form-name','survey');
-    payload.set('store', sel?sel.name:'(not selected)');
-    payload.set('email', email);
-    payload.set('answers', lines.join('\n\n'));
-    var btn=$('sv-submit'); btn.disabled=true; btn.textContent='Sending...';
-    var ctl=new AbortController(); var to=setTimeout(function(){ctl.abort();},10000);
-    fetch('/', {method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:payload.toString(), signal:ctl.signal})
-      .then(function(r){
-        clearTimeout(to);
-        if(!r.ok) throw new Error('bad status');
-        $('step-form').hidden=true; $('step-store').hidden=true;
-        var freetext=answers.filter(function(a){return (a.type==='short'||a.type==='long') && a.value;}).map(function(a){return a.value;}).join('\n\n');
-        if(freetext){ $('sv-copytext').textContent=freetext; $('sv-copybox').hidden=false; }
-        $('step-done').hidden=false;
-        $('step-done').scrollIntoView({behavior:'smooth', block:'start'});
-      })
-      .catch(function(){
-        clearTimeout(to);
-        btn.disabled=false; btn.textContent='Submit';
-        $('sv-error').textContent='Something went wrong. Please try again.';
-        $('sv-error').hidden=false;
-      });
-  });
-
-  $('sv-google-btn').addEventListener('click', function(){
-    var t=$('sv-copytext').textContent||'';
-    var open=function(){
-      if(sel) window.open('https://search.google.com/local/writereview?placeid='+encodeURIComponent(sel.place_id), '_blank', 'noopener');
-    };
-    if(t && navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(t).then(function(){ $('sv-copied').hidden=false; open(); }, open);
-    } else { open(); }
+    warn.textContent='Could not load the store list. Make sure the site has been deployed after adding stores.';
+    warn.hidden=false;
   });
 })();
 </script>

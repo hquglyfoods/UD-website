@@ -7,6 +7,7 @@ store_type: Standalone store
 photo: /uploads/d65d86f4-0f01-4610-a01a-54a4a851fe23.jpg
 phone: ""
 maps_url: https://www.google.com/maps/search/Ugly+Donuts+Corn+Dogs+Bushwick+Brooklyn
+place_id: ChIJiwt9oI9dwokRMr1aQdLl0cY
 order: 2
 hours: ""
 region_tag: New York

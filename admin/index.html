@@ -10,5 +10,16 @@
 <body>
   <!-- Decap CMS will mount here -->
   <script src="https://unpkg.com/decap-cms@3.15.1/dist/decap-cms.js"></script>
+<script>
+  // Add a "Survey QR Codes" link to the CMS sidebar.
+  if (window.CMS && CMS.registerAdditionalLink) {
+    CMS.registerAdditionalLink({
+      id: 'survey-qr',
+      title: 'Survey QR Codes',
+      data: '/qr.html',
+      options: { iconName: 'page' }
+    });
+  }
+</script>
 </body>
 </html>
