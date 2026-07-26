@@ -850,14 +850,23 @@ console.log('[ok]   FAQ internal links + sitemap entry');
     var fp = path.join(ROOT, rel);
     var html = fs.readFileSync(fp, 'utf8');
     var changed = false;
+    // migrate: earlier builds injected leading width/height attributes,
+    // which distorted images whose CSS fixes only one dimension (e.g. the
+    // nav wordmark). Strip that exact injected pattern first.
+    html = html.replace(/<img width="\d+" height="\d+"/g, function (t) {
+      changed = true;
+      return '<img';
+    });
     html = html.replace(/<img\b[^>]*>/g, function (tag) {
-      if (/\bwidth\s*=/.test(tag)) return tag;
+      if (/\bwidth\s*=/.test(tag) || /aspect-ratio/.test(tag)) return tag;
       var m = tag.match(/\bsrc\s*=\s*"([^"]+)"/) || tag.match(/\bsrc\s*=\s*'([^']+)'/);
       if (!m) return tag;
       var d = srcDims(m[1]);
       if (!d || !d.w || !d.h) return tag;
       changed = true; injected++;
-      return tag.replace(/<img\b/, '<img width="' + d.w + '" height="' + d.h + '"');
+      var ar = 'aspect-ratio:' + d.w + '/' + d.h;
+      if (/\bstyle\s*=\s*"/.test(tag)) return tag.replace(/\bstyle\s*=\s*"/, 'style="' + ar + ';');
+      return tag.replace(/<img\b/, '<img style="' + ar + '"');
     });
     if (changed) { fs.writeFileSync(fp, html); files++; }
   });
