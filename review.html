@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png?v=2">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png?v=2">
+<link rel="shortcut icon" href="/images/favicon/favicon.ico?v=2">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#F5EFE3">
+<title>Share Your Visit | Ugly Donuts &amp; Corn Dogs</title>
+<link rel="canonical" href="https://www.uglydonutsncorndogs.com/review">
+<meta name="description" content="Tell us about your visit to Ugly Donuts and Corn Dogs. Quick 30 second survey with a monthly gift card drawing.">
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Arapey:ital@0;1&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-cream: #F5EFE3;
+  --bg-cream-deep: #EDE5D3;
+  --bg-navy: #091018;
+  --bg-navy-deep: #05090F;
+  --bg-black: #050810;
+  --orange: #B8470C;
+  --orange-light: #CE5512;
+  --text-dark: #1A2438;
+  --text-light: #F5EFE3;
+  --serif: 'Arapey', Georgia, serif;
+  --sans: 'Quicksand', sans-serif;
+  --hand: 'Caveat', cursive;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--bg-cream);
+  color: var(--text-dark);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+.skip-to-content{position:absolute;left:-9999px;top:0;z-index:9999;background:var(--bg-navy);color:#fff;padding:12px 20px;border-radius:0 0 8px 0;font-size:14px;text-decoration:none}
+.skip-to-content:focus{left:0}
+
+/* NAV */
+.nav { position: sticky; top: 0; z-index: 1000; background: var(--bg-cream); border-bottom: 1px solid rgba(26,36,56,0.08); display: flex; align-items: center; justify-content: space-between; padding: 14px 32px; }
+.nav-left { display: flex; align-items: center; gap: 28px; }
+.nav-link { font-size: 14px; font-weight: 500; letter-spacing: 0.04em; color: var(--text-dark); text-decoration: none; text-transform: uppercase; background: none; border: none; cursor: pointer; font-family: var(--sans); }
+.nav-link:hover { color: var(--orange); }
+.nav-more { position: relative; }
+.nav-more-btn { display: inline-flex; align-items: center; gap: 4px; }
+.nav-more-arrow { font-size: 10px; }
+.nav-more-menu { position: absolute; top: 130%; left: 0; background: var(--bg-cream); border: 1px solid rgba(26,36,56,0.1); border-radius: 8px; padding: 8px 0; min-width: 160px; opacity: 0; visibility: hidden; transition: opacity 0.2s, visibility 0.2s; box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
+.nav-more:hover .nav-more-menu, .nav-more:focus-within .nav-more-menu { opacity: 1; visibility: visible; }
+.nav-more-link { display: block; padding: 9px 20px; font-size: 13px; font-weight: 500; letter-spacing: 0.04em; color: var(--text-dark); text-decoration: none; text-transform: uppercase; }
+.nav-more-link:hover { color: var(--orange); background: rgba(184,71,12,0.05); }
+.nav-center { position: absolute; left: 50%; transform: translateX(-50%); }
+.nav-wordmark img { height: 38px; display: block; }
+.wordmark-dark-img { display: none; }
+.nav-right { display: flex; align-items: center; }
+.nav-cta { font-size: 13px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #fff; background: var(--orange); padding: 11px 22px; border-radius: 40px; text-decoration: none; transition: background 0.2s; }
+.nav-cta:hover { background: var(--orange-light); }
+.nav-order-mobile { display: none; }
+.nav-toggle { display: none; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-dark); }
+
+/* DOC HEADER */
+.doc-hero { background: var(--bg-navy); color: var(--text-light); padding: 72px 0 56px; }
+.doc-hero .eyebrow { font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange-light); margin-bottom: 16px; }
+.doc-hero h1 { font-family: var(--serif); font-size: clamp(38px, 6vw, 62px); font-weight: 400; line-height: 1.05; margin-bottom: 18px; }
+.doc-hero .updated { font-size: 14px; color: rgba(245,239,227,0.6); letter-spacing: 0.02em; }
+
+/* DOC BODY */
+.doc-wrap { display: grid; grid-template-columns: 240px 1fr; gap: 56px; max-width: 1080px; margin: 0 auto; padding: 56px 20px 88px; }
+.doc-toc { position: sticky; top: 90px; align-self: start; }
+.doc-toc h2 { font-family: var(--sans); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; }
+.doc-toc a { display: block; font-size: 14px; color: rgba(26,36,56,0.7); text-decoration: none; padding: 6px 0; line-height: 1.4; border-left: 2px solid transparent; padding-left: 12px; transition: color 0.15s, border-color 0.15s; }
+.doc-toc a:hover { color: var(--orange); border-left-color: var(--orange); }
+.doc-content { max-width: 720px; }
+.doc-intro { font-size: 18px; line-height: 1.75; color: rgba(26,36,56,0.85); margin-bottom: 40px; padding-bottom: 32px; border-bottom: 1px solid rgba(26,36,56,0.1); }
+.doc-content section { margin-bottom: 44px; scroll-margin-top: 90px; }
+.doc-content h2 { font-family: var(--serif); font-size: 28px; font-weight: 400; color: var(--text-dark); margin-bottom: 18px; line-height: 1.2; }
+.doc-content h3 { font-family: var(--sans); font-size: 16px; font-weight: 600; color: var(--text-dark); margin: 24px 0 10px; }
+.doc-content p { font-size: 16px; color: rgba(26,36,56,0.82); margin-bottom: 16px; }
+.doc-content ul { list-style: none; margin: 0 0 16px; padding: 0; }
+.doc-content li { font-size: 16px; color: rgba(26,36,56,0.82); padding-left: 22px; position: relative; margin-bottom: 10px; }
+.doc-content li::before { content: ''; position: absolute; left: 4px; top: 11px; width: 6px; height: 6px; border-radius: 50%; background: var(--orange); }
+.doc-content a { color: var(--orange); text-decoration: underline; text-underline-offset: 2px; }
+.doc-content a:hover { color: var(--orange-light); }
+.doc-content strong { font-weight: 600; color: var(--text-dark); }
+.doc-table { width: 100%; border-collapse: collapse; margin: 8px 0 20px; font-size: 15px; }
+.doc-table th, .doc-table td { text-align: left; padding: 12px 14px; border-bottom: 1px solid rgba(26,36,56,0.12); vertical-align: top; color: rgba(26,36,56,0.82); }
+.doc-table th { font-weight: 600; color: var(--text-dark); background: rgba(26,36,56,0.03); }
+.doc-callout { background: var(--bg-cream-deep); border-left: 3px solid var(--orange); padding: 18px 22px; border-radius: 0 8px 8px 0; margin: 8px 0 20px; }
+.doc-callout p { margin: 0; font-size: 15px; }
+.doc-note { font-size: 13px; color: rgba(26,36,56,0.5); font-style: italic; margin-top: 32px; padding-top: 20px; border-top: 1px solid rgba(26,36,56,0.1); }
+
+/* FOOTER */
+.section-black { background: var(--bg-black); color: var(--text-light); }
+.footer { padding: 64px 0 36px; }
+.footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 40px; align-items: start; }
+.footer-col { padding-top: 56px; }
+.footer-wordmark img { height: 42px; margin-bottom: 18px; }
+.footer-tagline { font-size: 14px; color: rgba(245,239,227,0.6); line-height: 1.7; max-width: 320px; }
+.footer-col h3 { font-family: var(--sans); font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange-light); margin-bottom: 16px; }
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: 11px; }
+.footer-col a { font-size: 14px; color: rgba(245,239,227,0.7); text-decoration: none; }
+.footer-col a:hover { color: var(--text-light); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 56px; padding-top: 28px; border-top: 1px solid rgba(245,239,227,0.12); font-size: 13px; color: rgba(245,239,227,0.5); }
+
+@media (max-width: 880px) {
+  .nav-left { display: none; }
+  .nav-toggle { display: block; }
+  .nav.open .nav-left { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-cream); padding: 24px 20px; border-bottom: 1px solid rgba(26,36,56,0.08); box-shadow: 0 12px 24px rgba(9,16,24,0.06); }
+  .nav.open .nav-more { position: static; width: 100%; }
+  .nav.open .nav-more-menu { position: static; opacity: 1; visibility: visible; box-shadow: none; border: none; padding: 4px 0 0; min-width: 0; background: none; }
+  .nav-center { position: static; transform: none; }
+  .nav-right { display: none; }
+  .nav-order-mobile { display: inline-block; font-size: 13px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #fff; background: var(--orange); padding: 9px 18px; border-radius: 40px; text-decoration: none; }
+  .nav { padding: 12px 20px; }
+  .doc-wrap { grid-template-columns: 1fr; gap: 0; }
+  .doc-toc { display: none; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .footer-col { padding-top: 0; }
+  .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+}
+</style>
+<!--AUTO-SEO:START-->
+<meta property="og:site_name" content="Ugly Donuts &amp; Corn Dogs">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.uglydonutsncorndogs.com/review">
+<meta property="og:title" content="Share Your Visit | Ugly Donuts &amp; Corn Dogs">
+<meta property="og:description" content="Quick 30 second survey with a monthly gift card drawing.">
+<meta property="og:image" content="https://www.uglydonutsncorndogs.com/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FAQ · Korean Corn Dogs &amp; Donuts · Ugly Donuts &amp; Corn Dogs">
+<meta name="twitter:description" content="Answers to common questions about Ugly Donuts &amp; Corn Dogs: what a Korean corn dog is, why our donuts are made to order, our use of avocado oil, catering, and locations.">
+<meta name="twitter:image" content="https://www.uglydonutsncorndogs.com/og-image.jpg">
+<!--AUTO-SEO:END-->
+  <!--INKIND:START--><script>(function(){function load(){if(document.getElementById('inkind-js'))return;var s=document.createElement('script');s.id='inkind-js';s.src='https://inkindscript.com/inkind.js';s.async=true;document.head.appendChild(s);}try{if(!localStorage.getItem('ud_inkind_seen')){localStorage.setItem('ud_inkind_seen','1');load();}}catch(e){load();}window.udShowInkind=function(ev){if(ev&&ev.preventDefault)ev.preventDefault();try{localStorage.removeItem('ud_inkind_seen');}catch(e){}if(document.getElementById('inkind-js')){location.reload();}else{try{localStorage.setItem('ud_inkind_seen','1');}catch(e){}load();}return false;};})();</script><!--INKIND:END-->
+<meta name="robots" content="noindex, follow">
+<style>
+.survey-wrap h2 { margin-top: 8px; }
+.sv-stores { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 18px; }
+.sv-store { text-align: left; border: 1.5px solid rgba(26,36,56,0.18); background: #fff; border-radius: 14px; padding: 18px 16px; cursor: pointer; font: inherit; transition: border-color .15s, transform .15s; }
+.sv-store:hover { border-color: var(--orange); transform: translateY(-2px); }
+.sv-store .n { display: block; font-family: var(--serif); font-size: 19px; color: var(--text-dark); }
+.sv-store .c { display: block; font-size: 13.5px; color: rgba(26,36,56,0.6); margin-top: 4px; }
+.sv-store.sel { border-color: var(--orange); box-shadow: 0 0 0 2px rgba(224,122,58,.25); }
+.sv-q { margin-bottom: 26px; }
+.sv-label { display: block; font-weight: 600; font-size: 15.5px; color: var(--text-dark); margin-bottom: 8px; }
+.sv-hint { font-size: 13.5px; color: rgba(26,36,56,0.6); margin: 0 0 8px; }
+.sv-input, .sv-textarea { width: 100%; border: 1.5px solid rgba(26,36,56,0.22); border-radius: 10px; padding: 12px 14px; font: inherit; font-size: 15.5px; background: #fff; color: var(--text-dark); }
+.sv-textarea { min-height: 110px; resize: vertical; }
+.sv-input:focus, .sv-textarea:focus { outline: none; border-color: var(--orange); }
+.sv-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+.sv-pill { border: 1.5px solid rgba(26,36,56,0.22); background: #fff; border-radius: 999px; padding: 9px 18px; font: inherit; font-size: 14.5px; cursor: pointer; color: var(--text-dark); }
+.sv-pill.sel { background: var(--orange); border-color: var(--orange); color: #fff; }
+.sv-stars { display: flex; gap: 6px; }
+.sv-star { font-size: 30px; line-height: 1; background: none; border: none; cursor: pointer; color: rgba(26,36,56,0.25); padding: 2px; }
+.sv-star.sel { color: var(--orange); }
+.sv-q.err .sv-input, .sv-q.err .sv-textarea { border-color: #c0392b; }
+.sv-q.err .sv-label::after { content: " *required"; color: #c0392b; font-weight: 400; font-size: 12.5px; }
+.sv-error { color: #c0392b; font-size: 14px; }
+.sv-submit { display: inline-block; background: var(--orange); color: #fff; border: none; border-radius: 999px; padding: 13px 30px; font: inherit; font-size: 15.5px; font-weight: 600; cursor: pointer; margin-top: 4px; }
+.sv-submit:disabled { opacity: .55; cursor: default; }
+.sv-fine { font-size: 12.5px; color: rgba(26,36,56,0.55); margin-top: 12px; }
+.sv-google { border: 1.5px solid rgba(26,36,56,0.15); border-radius: 14px; padding: 22px; margin-top: 26px; background: #fff; }
+.sv-copybox { border: 1px dashed rgba(26,36,56,0.3); border-radius: 10px; padding: 12px 14px; margin: 12px 0; background: rgba(234,191,112,0.08); }
+.sv-copybox p { margin: 0; font-size: 14.5px; white-space: pre-wrap; }
+@media (max-width: 560px) { .sv-stores { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-to-content">Skip to content</a>
+<nav class="nav" id="nav">
+  <div class="nav-left">
+    <a href="/menu.html" class="nav-link">Menu</a>
+    <a href="/story.html" class="nav-link">Our Story</a>
+    <a href="/locations.html" class="nav-link">Locations</a>
+    <a href="/journal.html" class="nav-link">Journal</a>
+    <div class="nav-more">
+      <button class="nav-link nav-more-btn" type="button" aria-expanded="false" aria-haspopup="true">More <span class="nav-more-arrow">&#9662;</span></button>
+      <div class="nav-more-menu">
+        <a href="/catering.html" class="nav-more-link">Catering</a>
+        <a href="/careers.html" class="nav-more-link">Careers</a>
+        <a href="https://uglydonutsncorndogsfranchise.com/" target="_blank" rel="noopener" class="nav-more-link">Franchise</a>
+        <a href="/contact.html" class="nav-more-link">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div class="nav-center">
+    <a href="/" class="nav-wordmark">
+      <img width="1376" height="1376" src="/images/wordmark-light.png" alt="Ugly Donuts &amp; Corn Dogs" class="wordmark-light-img">
+    </a>
+  </div>
+  <div class="nav-right">
+    <a href="https://uglydonutsandcorndogsknickerbocker.toast.site/order?showAllLocations=true" class="nav-cta">Order Online</a>
+  </div>
+  <a href="https://uglydonutsandcorndogsknickerbocker.toast.site/order?showAllLocations=true" class="nav-order-mobile">Order</a>
+  <button class="nav-toggle" aria-label="Open menu">&#9776;</button>
+</nav>
+
+<main id="main-content">
+<header class="doc-hero">
+  <div class="container">
+    <p class="eyebrow">Help</p>
+    <h1>Share your visit</h1>
+    <p class="updated">Korean corn dogs, handmade donuts, freshness, catering, and locations.</p>
+  </div>
+</header>
+
+<div class="doc-wrap">
+  <aside class="doc-toc">
+    <h2>On this page</h2>
+    <a href="#what-is">What is a Korean corn dog?</a>
+    <a href="#different">What makes Ugly Donuts' Korean corn dogs different?</a>
+    <a href="#made-to-order">Why are your donuts made to order?</a>
+    <a href="#fresh">Are your donuts made fresh?</a>
+    <a href="#avocado-oil">Why do you use 100 percent avocado oil?</a>
+    <a href="#catering">Do you offer catering?</a>
+    <a href="#locations">Where are your locations?</a>
+    <a href="#popular">What are your most popular items?</a>
+    <a href="#franchise">Can I open an Ugly Donuts franchise?</a>
+  </aside>
+
+  <article class="doc-content survey-wrap">
+
+  <div id="step-store" class="sv-step">
+    <h2>Which store did you visit?</h2>
+    <div class="sv-stores" id="sv-stores"></div>
+  </div>
+
+  <div id="step-form" class="sv-step" hidden>
+    <h2 id="sv-title">Tell us about your visit</h2>
+    <p class="doc-intro" id="sv-intro"></p>
+    <form id="sv-form" novalidate>
+      <div id="sv-questions"></div>
+      <div class="sv-q">
+        <label class="sv-label" for="sv-email">Your email</label>
+        <p class="sv-hint" id="sv-raffle"></p>
+        <input class="sv-input" type="email" id="sv-email" name="email" maxlength="254" required autocomplete="email" placeholder="you@example.com">
+      </div>
+      <p class="sv-error" id="sv-error" role="alert" hidden>Please fill in the highlighted fields.</p>
+      <button type="submit" class="sv-submit" id="sv-submit">Submit</button>
+      <p class="sv-fine">One entry per person per month. Winners are contacted by email.</p>
+    </form>
+  </div>
+
+  <div id="step-done" class="sv-step" hidden>
+    <h2>Thank you! Your entry is in.</h2>
+    <p class="doc-intro">We read every response. Winners are drawn monthly and contacted by email.</p>
+    <div class="sv-google">
+      <h3>Enjoyed your visit? Share it on Google</h3>
+      <p class="sv-hint">Your words help neighbors find us.</p>
+      <div class="sv-copybox" id="sv-copybox" hidden>
+        <p id="sv-copytext"></p>
+      </div>
+      <button type="button" class="sv-submit" id="sv-google-btn">Copy my words &amp; open Google</button>
+      <p class="sv-hint" id="sv-copied" hidden>Copied! Just paste it into the review box.</p>
+    </div>
+  </div>
+
+  <form name="survey" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input type="text" name="bot-field">
+    <input type="text" name="store">
+    <input type="email" name="email">
+    <textarea name="answers"></textarea>
+  </form>
+</article>
+</div>
+</main>
+
+<footer class="footer section-black">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <div class="footer-wordmark">
+            <img width="1376" height="1376" src="/images/wordmark-light.png" alt="Ugly Donuts &amp; Corn Dogs">
+          </div>
+          <p class="footer-tagline">
+            Premium Korean corn dogs and handmade donuts. Made to order. Fried in 100% avocado oil.
+          </p>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h3>Visit</h3>
+        <ul>
+          <li><a href="/locations.html">Locations</a></li>
+          <li><a href="/menu.html">Menu</a></li>
+          <li><a href="https://uglydonutsandcorndogsknickerbocker.toast.site/order?showAllLocations=true">Order Online</a></li>
+          <li><a href="/catering.html">Catering</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Brand</h3>
+        <ul>
+          <li><a href="/story.html">Our Story</a></li>
+          <li><a href="/journal.html">Journal</a></li>
+          <li><a href="/faq.html">FAQ</a></li>
+          <li><a href="#" onclick="return udShowInkind(event)">inKind Rewards</a></li>
+          <li><a href="/careers.html">Careers</a></li>
+          <li><a href="https://uglydonutsncorndogsfranchise.com/" target="_blank" rel="noopener">Franchise</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="/privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="/terms-of-service.html">Terms of Service</a></li>
+          <li><a href="/refund-policy.html">Refund &amp; Orders</a></li>
+          <li><a href="/accessibility.html">Accessibility</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Ugly Donuts &amp; Corn Dogs. All rights reserved.</span>
+      <span>Belleville, NJ. USA.</span>
+    </div>
+  </div>
+</footer>
+<script>
+(function(){
+  var nav = document.getElementById('nav');
+  if(!nav){return;}
+  var t = document.querySelector('.nav-toggle');
+  if(t){ t.addEventListener('click', function(){ nav.classList.toggle('open'); }); }
+})();
+</script>
+<!-- ============================================================
+     UGLY DONUTS COOKIE CONSENT BANNER
+     Paste this block immediately before </body> on every page.
+     Self-contained: own styles + script. No external dependencies.
+     Behavior: opt-OUT model. Essential cookies always run.
+     Non-essential (analytics/ads) run only if the visitor has not
+     opted out AND has not sent a Global Privacy Control (GPC) signal.
+     ============================================================ -->
+<div id="ud-cookie-banner" class="ud-cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie notice" hidden>
+  <div class="ud-cookie-inner">
+    <p class="ud-cookie-text">
+      We use cookies to run this site and, with your permission, to measure how it is used so we can make it better. You can accept analytics cookies or continue with only the essentials. Learn more in our <a href="/privacy-policy.html">Privacy Policy</a>.
+    </p>
+    <div class="ud-cookie-actions">
+      <button type="button" class="ud-cookie-btn ud-cookie-decline" id="ud-cookie-decline">Essentials only</button>
+      <button type="button" class="ud-cookie-btn ud-cookie-accept" id="ud-cookie-accept">Accept analytics</button>
+    </div>
+  </div>
+</div>
+
+<style>
+.ud-cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:9998;background:var(--bg-navy,#091018);color:var(--text-light,#F5EFE3);box-shadow:0 -8px 32px rgba(0,0,0,0.25);font-family:var(--sans,'Quicksand',sans-serif)}
+.ud-cookie-banner[hidden]{display:none}
+.ud-cookie-inner{max-width:1280px;margin:0 auto;padding:20px 24px;display:flex;align-items:center;gap:28px;flex-wrap:wrap;justify-content:space-between}
+.ud-cookie-text{font-size:14px;line-height:1.65;color:rgba(245,239,227,0.85);margin:0;max-width:760px}
+.ud-cookie-text a{color:var(--orange-light,#CE5512);text-decoration:underline;text-underline-offset:2px}
+.ud-cookie-text a:hover{color:#fff}
+.ud-cookie-actions{display:flex;gap:12px;flex-shrink:0}
+.ud-cookie-btn{font-family:var(--sans,'Quicksand',sans-serif);font-size:13px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;padding:11px 22px;border-radius:40px;border:none;cursor:pointer;transition:background 0.2s,border-color 0.2s,color 0.2s}
+.ud-cookie-decline{background:transparent;color:rgba(245,239,227,0.9);border:1px solid rgba(245,239,227,0.4)}
+.ud-cookie-decline:hover{border-color:rgba(245,239,227,0.9);color:#fff}
+.ud-cookie-accept{background:var(--orange,#B8470C);color:#fff}
+.ud-cookie-accept:hover{background:var(--orange-light,#CE5512)}
+@media (max-width:720px){
+  .ud-cookie-inner{flex-direction:column;align-items:stretch;gap:16px;padding:18px 20px}
+  .ud-cookie-actions{justify-content:stretch}
+  .ud-cookie-btn{flex:1;text-align:center}
+}
+</style>
+
+<script>
+(function(){
+  var STORE_KEY = 'ud_cookie_consent'; // values: 'accepted' | 'declined'
+  var banner = document.getElementById('ud-cookie-banner');
+  if(!banner){return;}
+
+  // Read a stored choice from a first-party cookie.
+  function getStored(){
+    var match = document.cookie.match(/(?:^|;\s*)ud_cookie_consent=([^;]+)/);
+    return match ? decodeURIComponent(match[1]) : null;
+  }
+  // Persist the visitor's choice for one year.
+  function setStored(value){
+    var d = new Date();
+    d.setFullYear(d.getFullYear() + 1);
+    document.cookie = STORE_KEY + '=' + encodeURIComponent(value) +
+      ';expires=' + d.toUTCString() + ';path=/;SameSite=Lax';
+  }
+
+  // Respect Global Privacy Control. If the browser signals GPC,
+  // treat it as an opt-out and do not load non-essential cookies.
+  var gpc = (navigator && navigator.globalPrivacyControl === true);
+
+  // Placeholder for loading analytics/marketing scripts.
+  // Only called when the visitor has affirmatively accepted and GPC is off.
+  function enableNonEssential(){
+    if(gpc){return;}
+    // TODO: initialize Google Analytics / Meta Pixel here, e.g.:
+    // gtag('consent','update',{analytics_storage:'granted'});
+    // window._udAnalyticsEnabled = true;
+  }
+
+  var choice = getStored();
+
+  if(gpc){
+    // GPC present: honor it silently, do not load non-essential, hide banner.
+    banner.hidden = true;
+    return;
+  }
+
+  if(choice === 'accepted'){
+    enableNonEssential();
+    banner.hidden = true;
+  } else if(choice === 'declined'){
+    banner.hidden = true;
+  } else {
+    // No choice yet and no GPC: show the banner.
+    banner.hidden = false;
+  }
+
+  var acceptBtn = document.getElementById('ud-cookie-accept');
+  var declineBtn = document.getElementById('ud-cookie-decline');
+
+  if(acceptBtn){
+    acceptBtn.addEventListener('click', function(){
+      setStored('accepted');
+      enableNonEssential();
+      banner.hidden = true;
+    });
+  }
+  if(declineBtn){
+    declineBtn.addEventListener('click', function(){
+      setStored('declined');
+      banner.hidden = true;
+    });
+  }
+})();
+</script>
+<!-- ============== END COOKIE CONSENT BANNER ============== -->
+
+<script>
+(function(){
+  var STORES=[
+    {id:'american-dream', name:'American Dream', city:'East Rutherford, NJ', pid:'ChIJ8cHY9gn5wokRjny0A9BezeE'},
+    {id:'bushwick', name:'Bushwick', city:'Brooklyn, NY', pid:'ChIJiwt9oI9dwokRMr1aQdLl0cY'},
+    {id:'forest-hills', name:'Forest Hills', city:'Queens, NY', pid:'ChIJ7-WGBHNfwokRwfOqB99JBD0'},
+    {id:'pearland', name:'Pearland', city:'Pearland, TX', pid:'ChIJidAdE_6TQIYRzqaJdzyC8RI'}
+  ];
+  var sel=null, answers=[], SURVEY=null;
+  var $=function(id){return document.getElementById(id);};
+
+  function pick(st, card){
+    sel=st;
+    var cs=document.querySelectorAll('.sv-store');
+    for(var i=0;i<cs.length;i++) cs[i].classList.remove('sel');
+    if(card) card.classList.add('sel');
+    $('step-form').hidden=false;
+    $('step-form').scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  var grid=$('sv-stores');
+  STORES.forEach(function(st){
+    var b=document.createElement('button');
+    b.type='button'; b.className='sv-store'; b.setAttribute('data-store', st.id);
+    var n=document.createElement('span'); n.className='n'; n.textContent=st.name;
+    var c=document.createElement('span'); c.className='c'; c.textContent=st.city;
+    b.appendChild(n); b.appendChild(c);
+    b.addEventListener('click', function(){ pick(st, b); });
+    grid.appendChild(b);
+  });
+
+  fetch('/content/survey/survey.json').then(function(r){return r.json();}).then(function(cfg){
+    SURVEY=cfg;
+    if(cfg.title) $('sv-title').textContent=cfg.title;
+    if(cfg.intro) $('sv-intro').textContent=cfg.intro;
+    if(cfg.raffle_note) $('sv-raffle').textContent=cfg.raffle_note;
+    var wrap=$('sv-questions');
+    (cfg.questions||[]).forEach(function(q, idx){
+      var box=document.createElement('div'); box.className='sv-q'; box.setAttribute('data-idx', idx);
+      var lab=document.createElement('label'); lab.className='sv-label'; lab.textContent=q.question;
+      box.appendChild(lab);
+      var entry={q:q.question, required:!!q.required, type:q.type, value:''};
+      if(q.type==='short'){
+        var inp=document.createElement('input'); inp.className='sv-input'; inp.maxLength=200;
+        inp.addEventListener('input', function(){ entry.value=inp.value.trim(); });
+        box.appendChild(inp);
+      } else if(q.type==='long'){
+        var ta=document.createElement('textarea'); ta.className='sv-textarea'; ta.maxLength=2000;
+        ta.addEventListener('input', function(){ entry.value=ta.value.trim(); });
+        box.appendChild(ta);
+      } else if(q.type==='stars'){
+        var sdiv=document.createElement('div'); sdiv.className='sv-stars';
+        for(var s=1;s<=5;s++){(function(s){
+          var st=document.createElement('button'); st.type='button'; st.className='sv-star'; st.textContent='\u2605';
+          st.setAttribute('aria-label', s+' out of 5');
+          st.addEventListener('click', function(){
+            entry.value=s+'/5';
+            var all=sdiv.children;
+            for(var k=0;k<all.length;k++) all[k].classList.toggle('sel', k<s);
+          });
+          sdiv.appendChild(st);
+        })(s);}
+        box.appendChild(sdiv);
+      } else if(q.type==='yesno' || q.type==='choice'){
+        var opts = q.type==='yesno' ? ['Yes','No'] : (q.options||[]).map(function(o){return typeof o==='string'?o:(o.choice||'');});
+        var pdiv=document.createElement('div'); pdiv.className='sv-pills';
+        opts.forEach(function(op){
+          var p=document.createElement('button'); p.type='button'; p.className='sv-pill'; p.textContent=op;
+          p.addEventListener('click', function(){
+            entry.value=op;
+            var all=pdiv.children;
+            for(var k=0;k<all.length;k++) all[k].classList.remove('sel');
+            p.classList.add('sel');
+          });
+          pdiv.appendChild(p);
+        });
+        box.appendChild(pdiv);
+      }
+      answers.push(entry);
+      wrap.appendChild(box);
+    });
+  }).catch(function(){ $('sv-intro').textContent='Survey is temporarily unavailable. Please try again later.'; });
+
+  var qs=new URLSearchParams(location.search).get('store');
+  if(qs){ STORES.forEach(function(st){ if(st.id===qs){
+    var card=document.querySelector('[data-store="'+st.id+'"]');
+    pick(st, card);
+  }});}
+
+  $('sv-form').addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var bad=false;
+    var boxes=document.querySelectorAll('#sv-questions .sv-q');
+    answers.forEach(function(a, i){
+      var miss = a.required && !a.value;
+      boxes[i].classList.toggle('err', miss);
+      if(miss) bad=true;
+    });
+    var email=$('sv-email').value.trim();
+    var emailOk=/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
+    $('sv-email').parentElement.classList.toggle('err', !emailOk);
+    if(!emailOk) bad=true;
+    $('sv-error').hidden=!bad;
+    if(bad) return;
+    var lines=answers.map(function(a){ return 'Q: '+a.q+'\nA: '+(a.value||'(no answer)'); });
+    var payload=new URLSearchParams();
+    payload.set('form-name','survey');
+    payload.set('store', sel?sel.name:'(not selected)');
+    payload.set('email', email);
+    payload.set('answers', lines.join('\n\n'));
+    var btn=$('sv-submit'); btn.disabled=true; btn.textContent='Sending...';
+    var ctl=new AbortController(); var to=setTimeout(function(){ctl.abort();},10000);
+    fetch('/', {method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:payload.toString(), signal:ctl.signal})
+      .then(function(r){
+        clearTimeout(to);
+        if(!r.ok) throw new Error('bad status');
+        $('step-form').hidden=true; $('step-store').hidden=true;
+        var freetext=answers.filter(function(a){return (a.type==='short'||a.type==='long') && a.value;}).map(function(a){return a.value;}).join('\n\n');
+        if(freetext){ $('sv-copytext').textContent=freetext; $('sv-copybox').hidden=false; }
+        $('step-done').hidden=false;
+        $('step-done').scrollIntoView({behavior:'smooth', block:'start'});
+      })
+      .catch(function(){
+        clearTimeout(to);
+        btn.disabled=false; btn.textContent='Submit';
+        $('sv-error').textContent='Something went wrong. Please try again.';
+        $('sv-error').hidden=false;
+      });
+  });
+
+  $('sv-google-btn').addEventListener('click', function(){
+    var t=$('sv-copytext').textContent||'';
+    var open=function(){
+      if(sel) window.open('https://search.google.com/local/writereview?placeid='+encodeURIComponent(sel.pid), '_blank', 'noopener');
+    };
+    if(t && navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(t).then(function(){ $('sv-copied').hidden=false; open(); }, open);
+    } else { open(); }
+  });
+})();
+</script>
+</body>
+</html>

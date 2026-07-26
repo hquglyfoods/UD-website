@@ -146,3 +146,34 @@ collections:
         widget: "string"
         required: false
         hint: "Toast Online Ordering URL for this location (e.g., https://uglydonutsncorndogs.com/order?utm_source=...&utm_term=american_dream)"
+
+  # ----------------------------------------
+  # SURVEY - review funnel questions (edit freely)
+  # ----------------------------------------
+  - name: "survey"
+    label: "Survey"
+    files:
+      - name: "survey_settings"
+        label: "Survey Questions"
+        file: "content/survey/survey.json"
+        fields:
+          - { label: "Page Title", name: "title", widget: "string", default: "Tell us about your visit" }
+          - { label: "Intro Text", name: "intro", widget: "text", required: false, hint: "Short line under the title" }
+          - { label: "Raffle Note", name: "raffle_note", widget: "string", required: false, hint: "e.g. Enter your email for a chance to win a $50 gift card. Drawn monthly." }
+          - label: "Questions"
+            name: "questions"
+            widget: "list"
+            summary: "{{fields.question}}"
+            fields:
+              - { label: "Question", name: "question", widget: "string" }
+              - label: "Answer Type"
+                name: "type"
+                widget: "select"
+                options:
+                  - { label: "Short answer (one line)", value: "short" }
+                  - { label: "Long answer (paragraph)", value: "long" }
+                  - { label: "Multiple choice", value: "choice" }
+                  - { label: "Star rating (1-5)", value: "stars" }
+                  - { label: "Yes / No", value: "yesno" }
+              - { label: "Choices (for Multiple choice only)", name: "options", widget: "list", required: false, field: { label: "Choice", name: "choice", widget: "string" } }
+              - { label: "Required", name: "required", widget: "boolean", default: true }

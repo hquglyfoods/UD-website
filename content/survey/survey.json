@@ -1,0 +1,22 @@
+{
+  "title": "Tell us about your visit",
+  "intro": "It takes 30 seconds. Your feedback goes straight to our team.",
+  "raffle_note": "Enter your email for a chance to win a $50 gift card. One winner drawn monthly.",
+  "questions": [
+    {
+      "question": "What did you order?",
+      "type": "short",
+      "required": true
+    },
+    {
+      "question": "How was your experience?",
+      "type": "stars",
+      "required": true
+    },
+    {
+      "question": "Anything we could do better?",
+      "type": "long",
+      "required": false
+    }
+  ]
+}
