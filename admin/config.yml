@@ -2,7 +2,8 @@
 # Defines what content the team can manage through /admin
 
 backend:
-  name: git-gateway
+  name: github
+  repo: hquglyfoods/uglydonutswebsite
   branch: main
 
 # Where uploaded media files are stored

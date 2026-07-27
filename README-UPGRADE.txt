@@ -1,46 +1,45 @@
-Ugly Donuts website upgrade v10 (light zip, no uploads folder)
-===============================================================
-THE ACTUAL CAUSE OF THE LOGIN TROUBLE
+Ugly Donuts website upgrade v11: new CMS login
+================================================
+The login mechanism has been replaced rather than patched.
 
-admin/config.yml had the site address written as
-  site_url:    https://uglydonutswebsite.netlify.app
-  display_url: https://uglydonutswebsite.netlify.app
-  logo_url:    https://uglydonutswebsite.netlify.app/og-image.jpg
+BEFORE: Decap CMS -> Netlify Identity -> Git Gateway -> GitHub.
+Two brokers sat between the editor and the repository. Both held
+credentials that expire, and when either one went stale the CMS looked
+signed in while every save failed ("Requires authentication",
+"API rate limit exceeded").
 
-That is the address shown in the top right of the CMS, and where logout
-sent you. The CMS was told it lives on the netlify.app address while it
-actually runs on uglydonutsncorndogs.com, so sign-ins were made against
-one address and checked against the other. Earlier attempts cleared
-browser values, which was treating a symptom. This release fixes the
-configuration itself.
+NOW: Decap CMS -> GitHub. One hop, no brokers.
+Sign-in is a single "Login with GitHub" button. Nothing to invite,
+nothing to expire, no password stored anywhere. Whoever has write access
+to the repository can edit the site.
 
-THE FIXES
-1) admin/config.yml now points at https://www.uglydonutsncorndogs.com.
-2) netlify.toml sends every request for uglydonutswebsite.netlify.app to
-   the custom domain with a permanent redirect. One address, one login,
-   one set of pages in search results. The two addresses can no longer
-   drift apart.
-3) The sign-in check no longer guesses. It asks Identity whether the
-   stored session can still be refreshed: refreshed successfully means
-   signed in, refused means the session is cleared and the sign-in form
-   appears. No more silent half-signed-in state.
-4) README's broken admin address corrected.
+WHAT WAS REMOVED
+- Netlify Identity widget (deleted, including the copy in js/)
+- Git Gateway (no longer referenced anywhere)
+- The custom email/password form and every workaround added around it
+- Identity invite-token scripts that were sitting on 21 public pages
 
-ALSO IN THIS RELEASE (from earlier work)
-- Identity script served from our own site, so a blocked third-party
-  script can no longer break the login button.
-- /admin has an email and password form built into the page. Your email
-  is remembered; the cursor lands in the password box. The password is
-  never stored by the site.
-- "Email me a reset link" on the login screen.
-- /admin/?relogin forces a fresh sign-in at any time.
+SETUP: three steps, once
+1) Register a GitHub OAuth App
+   https://github.com/settings/developers -> New OAuth App
+     Application name:          Ugly Donuts CMS
+     Homepage URL:              https://www.uglydonutsncorndogs.com
+     Authorization callback URL: https://api.netlify.com/auth/done
+   Create it, copy the Client ID, then "Generate a new client secret"
+   and copy that too.
 
-HOW TO APPLY
-Drag the uglydonutswebsite folder over your local repo (overwrite),
-commit and push. Wait for the deploy, then open /admin/ and reload with
-Ctrl+Shift+R.
+2) Give the keys to Netlify
+   Netlify -> your site -> Site configuration -> Access control -> OAuth
+   -> Install provider -> GitHub -> paste Client ID and Client Secret
+   -> Save.
 
-HOW TO KNOW IT WORKED
-The address in the top right of the CMS reads uglydonutsncorndogs.com,
-not netlify.app. Logging out returns you to the same site, and saving a
-Journal entry works.
+3) Deploy this zip, then open /admin and click "Login with GitHub".
+
+ADDING AN EDITOR LATER
+GitHub -> repository -> Settings -> Collaborators -> add their GitHub
+account with write access. They then sign in at /admin the same way.
+Deborah will need a GitHub account for this.
+
+OPTIONAL CLEANUP
+Netlify Identity and Git Gateway can now be turned off in the Netlify
+dashboard. Nothing on the site uses them.

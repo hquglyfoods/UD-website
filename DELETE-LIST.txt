@@ -41,4 +41,3 @@ uploads/sweet-potato-corn-dog.png
 uploads/taro-cloud.png
 uploads/tropical-bloom.png
 uploads/ugly-nutella.png
-config.yml

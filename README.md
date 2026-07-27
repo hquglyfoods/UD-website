@@ -4,7 +4,10 @@ The main consumer website at `uglydonutsncorndogs.com`.
 
 ## How to add content (no code required)
 
-1. Go to **`https://www.uglydonutsncorndogs.com/admin`** (or your live URL + `/admin`)
+1. Go to **`https://www.uglydonutsncorndogs.com/admin`**
+2. Click **Login with GitHub** and authorize. Anyone with write access to
+   the `hquglyfoods/uglydonutswebsite` repository can edit the site, so a
+   new editor is added by inviting them as a collaborator on GitHub.
 2. Log in with your invited email
 3. Pick what you want to manage:
    - **Menu Items** — add/edit/remove corn dogs, donuts, beverages
