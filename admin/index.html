@@ -108,6 +108,25 @@
     // cleared, and /admin/?relogin always forces the sign-in form.
     var STALE_AFTER = 7 * 24 * 60 * 60 * 1000;
 
+    // The Identity widget remembers a site URL in localStorage. If that value
+    // points at a different origin than the page we are on (for example the
+    // raw netlify.app address while the CMS runs on the custom domain), the
+    // login succeeds against the wrong site and the CMS never accepts it,
+    // leaving the login dialog on screen forever. Drop it when it disagrees.
+    (function fixSiteURL() {
+      var stored = null;
+      try { stored = localStorage.getItem('netlifySiteURL'); } catch (e) { return; }
+      if (!stored) return;
+      var sameOrigin = false;
+      try {
+        sameOrigin = new URL(stored, window.location.href).origin === window.location.origin;
+      } catch (e) { sameOrigin = false; }
+      if (!sameOrigin) {
+        try { localStorage.removeItem('netlifySiteURL'); } catch (e) {}
+        try { localStorage.removeItem('gotrue.user'); } catch (e) {}
+      }
+    })();
+
     function clearSession() {
       try { localStorage.removeItem('gotrue.user'); } catch (e) {}
       try { if (window.netlifyIdentity && netlifyIdentity.logout) netlifyIdentity.logout(); } catch (e) {}
@@ -131,9 +150,23 @@
       return false;
     }
 
-    function decide() { panel.hidden = loggedIn(); }
+    // If the CMS itself is showing its own login screen, our form must be
+    // visible on top of it, whatever the stored session claims. This covers
+    // a session that expired recently: the browser still holds a token, but
+    // the CMS cannot use it, and without this check the page would sit on
+    // the old "Login with Netlify Identity" button with no way in.
+    function cmsShowingLogin() {
+      var root = document.getElementById('nc-root') || document.body;
+      var text = root ? (root.innerText || '') : '';
+      return text.indexOf('Login with Netlify Identity') !== -1;
+    }
+
+    function decide() {
+      panel.hidden = loggedIn() && !cmsShowingLogin();
+    }
     decide();
-    setTimeout(decide, 600);
+    var watch = setInterval(decide, 500);
+    setTimeout(function () { clearInterval(watch); decide(); }, 12000);
 
     function saveSession(token, user) {
       var entry = {};
