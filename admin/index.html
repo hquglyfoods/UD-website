@@ -12,6 +12,29 @@
     browsers or content blockers, and when that happens the CMS login
     button silently does nothing.
   -->
+  <!--
+    Runs BEFORE the widget loads. The Identity widget remembers a site URL
+    in localStorage and reads it the moment it starts. If that value points
+    at another origin (the raw netlify.app address while the CMS runs on the
+    custom domain) every login is made against the wrong site, the CMS never
+    accepts it, and the widget writes the value straight back. Clearing it
+    after the widget has started is too late, so it happens here first.
+  -->
+  <script>
+  (function () {
+    try {
+      var stored = localStorage.getItem('netlifySiteURL');
+      if (!stored) return;
+      var same = false;
+      try { same = new URL(stored, window.location.href).origin === window.location.origin; } catch (e) {}
+      if (!same) {
+        localStorage.removeItem('netlifySiteURL');
+        localStorage.removeItem('gotrue.user');
+      }
+    } catch (e) {}
+  })();
+  </script>
+
   <script src="/js/netlify-identity-widget.js"></script>
 
   <style>
@@ -108,24 +131,6 @@
     // cleared, and /admin/?relogin always forces the sign-in form.
     var STALE_AFTER = 7 * 24 * 60 * 60 * 1000;
 
-    // The Identity widget remembers a site URL in localStorage. If that value
-    // points at a different origin than the page we are on (for example the
-    // raw netlify.app address while the CMS runs on the custom domain), the
-    // login succeeds against the wrong site and the CMS never accepts it,
-    // leaving the login dialog on screen forever. Drop it when it disagrees.
-    (function fixSiteURL() {
-      var stored = null;
-      try { stored = localStorage.getItem('netlifySiteURL'); } catch (e) { return; }
-      if (!stored) return;
-      var sameOrigin = false;
-      try {
-        sameOrigin = new URL(stored, window.location.href).origin === window.location.origin;
-      } catch (e) { sameOrigin = false; }
-      if (!sameOrigin) {
-        try { localStorage.removeItem('netlifySiteURL'); } catch (e) {}
-        try { localStorage.removeItem('gotrue.user'); } catch (e) {}
-      }
-    })();
 
     function clearSession() {
       try { localStorage.removeItem('gotrue.user'); } catch (e) {}
