@@ -1,35 +1,33 @@
-Ugly Donuts website upgrade v8 (light zip, no uploads folder)
-==============================================================
-Everything from v7.1, plus the survey page now scales with the brand.
+Ugly Donuts website upgrade v9.1 (light zip, no uploads folder)
+================================================================
+Everything from v8, plus the CMS login fix.
 
-1) STORES COME FROM THE CMS
-   The survey no longer has stores hardcoded. The build generates
-   content/locations/_stores.json from your Store Locations entries,
-   and the survey reads that. Open a new store in the CMS and it
-   appears in the survey automatically. No code changes needed.
-   New CMS field: Store Locations > Google Place ID.
-   (The 4 existing stores already have theirs filled in.)
-   A store with no Place ID is skipped safely, and the QR page tells
-   you which ones are missing it.
+WHY LOGIN KEPT FAILING
+The login popup came from a script hosted on identity.netlify.com.
+When a phone blocks that third-party script, the button does nothing.
+And an old expired session stays in the browser, so the CMS looks
+signed in while every GitHub request goes out unauthenticated. That is
+what produced the "API rate limit exceeded" message.
 
-2) THE LIST ADAPTS AS YOU GROW
-   6 stores or fewer: simple cards, exactly as it looks today.
-   7 or more: stores are grouped by state and a search box appears
-   (matches store name, city, state). Verified with a simulated
-   20-store, 4-state setup.
-
-3) QR CODES INSIDE THE CMS
-   A new "Survey QR Codes" link appears in the CMS sidebar. It opens
-   /qr.html, which shows a QR code for every store you have entered,
-   with a Download PNG button for each. Open a store, get its QR.
-   The QR library is vendored in js/ (MIT, no dependencies, no CDN).
-   Verified by decoding a generated QR back to its URL.
+WHAT CHANGED
+1) The Identity script is now served from our own site (js/), so there
+   is no third-party script to block.
+2) /admin has a plain email and password form built into the page.
+   No popup. Same on phone and desktop.
+3) Your email is remembered after the first sign-in and filled in
+   automatically, with the cursor already in the password box. The
+   password itself is never stored by the site; the phone's own
+   password manager can fill it (autocomplete is set up for that).
+4) "Email me a reset link" is on the login screen if the password is
+   forgotten.
+5) A session expired for more than 7 days is cleared automatically, so
+   you get the login form instead of silent errors.
+6) /admin/?relogin always forces a fresh sign-in. Worth bookmarking.
 
 HOW TO APPLY
 Drag the uglydonutswebsite folder over your local repo (overwrite),
 commit and push. Nothing to delete.
 
-WHEN YOU ADD A STORE LATER
-1) CMS > Store Locations > New. Fill in the Google Place ID.
-2) Publish. After the deploy finishes, the store shows up in the
-   survey, and its QR is waiting under Survey QR Codes.
+AFTER DEPLOY
+Open /admin/?relogin, sign in once with email and password. From then
+on only the password is needed.
