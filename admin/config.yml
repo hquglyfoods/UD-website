@@ -10,9 +10,9 @@ media_folder: "uploads"
 public_folder: "/uploads"
 
 # Site URL for previews
-site_url: https://uglydonutswebsite.netlify.app
-display_url: https://uglydonutswebsite.netlify.app
-logo_url: https://uglydonutswebsite.netlify.app/og-image.jpg
+site_url: https://www.uglydonutsncorndogs.com
+display_url: https://www.uglydonutsncorndogs.com
+logo_url: https://www.uglydonutsncorndogs.com/og-image.jpg
 
 # ============================================================
 # COLLECTIONS

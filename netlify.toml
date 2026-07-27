@@ -44,6 +44,16 @@
     Cache-Control = "no-store"
 
 # Pretty URLs
+# The site answers on two addresses: the custom domain and the raw
+# netlify.app subdomain. Two addresses mean two separate logins, two
+# separate sessions, and duplicate pages in search results. Everything is
+# sent to the custom domain so only one address is ever in use.
+[[redirects]]
+  from = "https://uglydonutswebsite.netlify.app/*"
+  to = "https://www.uglydonutsncorndogs.com/:splat"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/order"
   to = "https://uglydonutsandcorndogsknickerbocker.toast.site/order?showAllLocations=true"

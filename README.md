@@ -4,7 +4,7 @@ The main consumer website at `uglydonutsncorndogs.com`.
 
 ## How to add content (no code required)
 
-1. Go to **`https://uglydonutsweb사이트.netlify.app/admin`** (or your live URL + `/admin`)
+1. Go to **`https://www.uglydonutsncorndogs.com/admin`** (or your live URL + `/admin`)
 2. Log in with your invited email
 3. Pick what you want to manage:
    - **Menu Items** — add/edit/remove corn dogs, donuts, beverages

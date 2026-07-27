@@ -117,7 +117,10 @@
     var panel = document.getElementById('ud-login');
     var msg = document.getElementById('ud-msg');
     var btn = document.getElementById('ud-submit');
+    var emailEl = document.getElementById('ud-email');
+    var passEl = document.getElementById('ud-pass');
     var IDENTITY = window.location.origin + '/.netlify/identity';
+    var settled = false;
 
     function say(text, kind) {
       msg.textContent = text;
@@ -125,53 +128,71 @@
       msg.hidden = !text;
     }
 
-    // A stale session is worse than no session: the CMS looks logged in but
-    // every GitHub request goes out unauthenticated and fails with a rate
-    // limit error. So a session that has been expired for a long time is
-    // cleared, and /admin/?relogin always forces the sign-in form.
-    var STALE_AFTER = 7 * 24 * 60 * 60 * 1000;
-
-
     function clearSession() {
       try { localStorage.removeItem('gotrue.user'); } catch (e) {}
-      try { if (window.netlifyIdentity && netlifyIdentity.logout) netlifyIdentity.logout(); } catch (e) {}
     }
 
-    function loggedIn() {
-      if (/[?&]relogin\b/.test(window.location.search)) { clearSession(); return false; }
+    function show() {
+      settled = true;
+      panel.hidden = false;
+      var last = null;
+      try { last = localStorage.getItem('ud.lastEmail'); } catch (e) {}
+      if (last && !emailEl.value) emailEl.value = last;
+      setTimeout(function () { (emailEl.value ? passEl : emailEl).focus(); }, 120);
+    }
+
+    function hide() { settled = true; panel.hidden = true; }
+
+    // A stored session is only trustworthy if the server still honours it.
+    // Asking Identity directly gives the same answer every time, whether or
+    // not the widget has finished starting up. A token that merely looks
+    // present can be dead, which is what left the CMS showing a signed-in
+    // shell while every save failed with "Requires authentication".
+    function verifyStored() {
       var raw = null;
       try { raw = localStorage.getItem('gotrue.user'); } catch (e) {}
-      if (raw) {
-        try {
-          var u = JSON.parse(raw);
-          var exp = u && u.token && u.token.expires_at;
-          if (exp && Date.now() - exp > STALE_AFTER) { clearSession(); return false; }
-          if (u && u.token && u.token.access_token) return true;
-        } catch (e) { clearSession(); return false; }
-      }
-      try {
-        if (window.netlifyIdentity && netlifyIdentity.currentUser && netlifyIdentity.currentUser()) return true;
-      } catch (e) {}
-      return false;
+      if (!raw) { show(); return; }
+
+      var stored;
+      try { stored = JSON.parse(raw); } catch (e) { clearSession(); show(); return; }
+      var tok = stored && stored.token;
+      if (!tok || !tok.access_token) { clearSession(); show(); return; }
+
+      // Still inside its lifetime: nothing to prove.
+      if (tok.expires_at && Date.now() < tok.expires_at - 60000) { hide(); return; }
+
+      if (!tok.refresh_token) { clearSession(); show(); return; }
+      fetch(IDENTITY + '/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'grant_type=refresh_token&refresh_token=' + encodeURIComponent(tok.refresh_token)
+      }).then(function (r) {
+        if (!r.ok) throw new Error('refresh rejected');
+        return r.json();
+      }).then(function (fresh) {
+        if (!fresh || !fresh.access_token) throw new Error('no token');
+        fresh.expires_at = Date.now() + (Number(fresh.expires_in || 3600) * 1000);
+        if (!fresh.refresh_token) fresh.refresh_token = tok.refresh_token;
+        stored.token = fresh;
+        try { localStorage.setItem('gotrue.user', JSON.stringify(stored)); } catch (e) {}
+        hide();
+      }).catch(function () {
+        clearSession();
+        show();
+      });
     }
 
-    // If the CMS itself is showing its own login screen, our form must be
-    // visible on top of it, whatever the stored session claims. This covers
-    // a session that expired recently: the browser still holds a token, but
-    // the CMS cannot use it, and without this check the page would sit on
-    // the old "Login with Netlify Identity" button with no way in.
-    function cmsShowingLogin() {
-      var root = document.getElementById('nc-root') || document.body;
-      var text = root ? (root.innerText || '') : '';
-      return text.indexOf('Login with Netlify Identity') !== -1;
+    if (/[?&]relogin\b/.test(window.location.search)) {
+      clearSession();
+      show();
+    } else {
+      verifyStored();
     }
 
-    function decide() {
-      panel.hidden = loggedIn() && !cmsShowingLogin();
+    if (window.netlifyIdentity && window.netlifyIdentity.on) {
+      window.netlifyIdentity.on('login', hide);
+      window.netlifyIdentity.on('logout', show);
     }
-    decide();
-    var watch = setInterval(decide, 500);
-    setTimeout(function () { clearInterval(watch); decide(); }, 12000);
 
     function saveSession(token, user) {
       var entry = {};
@@ -204,8 +225,8 @@
     }
 
     function signIn() {
-      var email = document.getElementById('ud-email').value.trim();
-      var password = document.getElementById('ud-pass').value;
+      var email = emailEl.value.trim();
+      var password = passEl.value;
       if (!email || !password) { say('Enter your email and password.', 'err'); return; }
 
       btn.disabled = true;
@@ -214,20 +235,14 @@
 
       var viaWidget = null;
       try {
-        if (window.netlifyIdentity && netlifyIdentity.gotrue && netlifyIdentity.gotrue.login) {
-          viaWidget = netlifyIdentity.gotrue.login(email, password, true);
+        if (window.netlifyIdentity && window.netlifyIdentity.gotrue && window.netlifyIdentity.gotrue.login) {
+          viaWidget = window.netlifyIdentity.gotrue.login(email, password, true);
         }
       } catch (e) { viaWidget = null; }
 
-      var attempt = viaWidget || directLogin(email, password);
-
-      attempt.then(function () {
-        // Remember the email only. The password is never stored; the
-        // browser's own password manager can fill it via autocomplete.
+      (viaWidget || directLogin(email, password)).then(function () {
         try { localStorage.setItem('ud.lastEmail', email); } catch (e) {}
         say('Signed in. Loading the content manager...', 'ok');
-        // Drop ?relogin on the way in, otherwise the reload would clear the
-        // session we just created and bounce back to this form.
         window.location.replace(window.location.pathname);
       }).catch(function (err) {
         btn.disabled = false;
@@ -238,31 +253,13 @@
       });
     }
 
-    // Prefill the last email used so only the password is needed.
-    (function prefill() {
-      var emailEl = document.getElementById('ud-email');
-      var passEl = document.getElementById('ud-pass');
-      var last = null;
-      try { last = localStorage.getItem('ud.lastEmail'); } catch (e) {}
-      if (last) {
-        emailEl.value = last;
-        if (!panel.hidden) setTimeout(function () { passEl.focus(); }, 120);
-      } else if (!panel.hidden) {
-        setTimeout(function () { emailEl.focus(); }, 120);
-      }
-    })();
-
     btn.addEventListener('click', signIn);
-    document.getElementById('ud-email').addEventListener('keydown', function (ev) {
-      if (ev.key === 'Enter') document.getElementById('ud-pass').focus();
-    });
-    document.getElementById('ud-pass').addEventListener('keydown', function (ev) {
-      if (ev.key === 'Enter') signIn();
-    });
+    emailEl.addEventListener('keydown', function (ev) { if (ev.key === 'Enter') passEl.focus(); });
+    passEl.addEventListener('keydown', function (ev) { if (ev.key === 'Enter') signIn(); });
 
     document.getElementById('ud-reset').addEventListener('click', function (ev) {
       ev.preventDefault();
-      var email = document.getElementById('ud-email').value.trim();
+      var email = emailEl.value.trim();
       if (!email) { say('Enter your email above first, then tap the reset link.', 'err'); return; }
       fetch(IDENTITY + '/recover', {
         method: 'POST',
@@ -277,7 +274,7 @@
 
     document.getElementById('ud-popup').addEventListener('click', function (ev) {
       ev.preventDefault();
-      if (window.netlifyIdentity && netlifyIdentity.open) netlifyIdentity.open('login');
+      if (window.netlifyIdentity && window.netlifyIdentity.open) window.netlifyIdentity.open('login');
       else say('The standard login is unavailable right now. Use the form above.', 'err');
     });
 
