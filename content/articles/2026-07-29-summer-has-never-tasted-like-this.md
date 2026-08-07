@@ -11,7 +11,7 @@ At Ugly Donuts & Corn Dogs, every seasonal menu starts with a simple question:
 
 *“What flavor reminds us of this season?”*
 
-This summer, the answer came almost immediately—sweet corn.
+This summer, the answer came almost immediately: sweet corn.
 
 It’s one of the ingredients that connects cultures around the world. Whether it’s enjoyed at a summer festival, transformed into a creamy Korean café drink, or served as Mexican street corn, sweet corn has a way of bringing people together.
 
@@ -31,13 +31,13 @@ Our Sweet Corn Cream Donut begins with a soft, handcrafted donut filled with sil
 
 #### Corn Cream Latte
 
-Sweet corn and coffee may sound unexpected—but that’s exactly what makes this drink so memorable.
+Sweet corn and coffee may sound unexpected, but that’s exactly what makes this drink so memorable.
 
 Our Corn Cream Latte layers smooth espresso and milk with a velvety sweet corn cream before finishing it with freeze-dried corn. The result is a balanced drink that’s creamy, subtly sweet, and unlike any latte you’ve had before.
 
 ### Inspired by Summer. Crafted Fresh.
 
-Seasonal menus are more than introducing something new—they’re an opportunity to explore flavors that people may not expect.
+Seasonal menus are more than introducing something new. They’re an opportunity to explore flavors that people may not expect.
 
 This year’s collection celebrates the versatility of sweet corn, transforming it into a dessert, a specialty beverage, and a savory street food experience. Each item is prepared fresh to order using the same care and craftsmanship that goes into everything we serve.
 

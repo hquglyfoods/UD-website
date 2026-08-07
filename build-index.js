@@ -791,8 +791,9 @@ console.log('[ok]   FAQ internal links + sitemap entry');
 // srcs (/uploads/..., /images/...) and inline data: URIs. External URLs and
 // unreadable files are skipped silently.
 // ---------------------------------------------------------------------------
-(function () {
-  function dims(buf) {
+// Shared by step 10 (inject into static HTML) and step 10b (emit a map for the
+// client-side card renderers). Keep one implementation: two would drift.
+function imgDims(buf) {
     if (!buf || buf.length < 24) return null;
     // PNG
     if (buf[0] === 0x89 && buf[1] === 0x50) {
@@ -828,16 +829,19 @@ console.log('[ok]   FAQ internal links + sitemap entry');
       if (fmt === 'VP8 ') return { w: buf.readUInt16LE(26) & 0x3FFF, h: buf.readUInt16LE(28) & 0x3FFF };
     }
     return null;
-  }
-  function srcDims(src) {
+}
+function imgSrcDims(src) {
     if (/^data:image\//.test(src)) {
       var b64 = src.split(',')[1] || '';
-      try { return dims(Buffer.from(b64.slice(0, 2048), 'base64')); } catch (e) { return null; }
+      try { return imgDims(Buffer.from(b64.slice(0, 2048), 'base64')); } catch (e) { return null; }
     }
     if (/^https?:/.test(src) || src.indexOf('/') !== 0) return null;
     var p = path.join(ROOT, decodeURIComponent(src.split(/[?#]/)[0]));
-    try { return dims(fs.readFileSync(p)); } catch (e) { return null; }
-  }
+    try { return imgDims(fs.readFileSync(p)); } catch (e) { return null; }
+}
+
+(function () {
+  var srcDims = imgSrcDims;
   var pages = fs.readdirSync(ROOT).filter(function (f) { return /\.html$/.test(f); })
     .map(function (f) { return f; });
   ['journal', 'locations'].forEach(function (dir) {
@@ -877,6 +881,42 @@ console.log('[ok]   FAQ internal links + sitemap entry');
     if (changed) { fs.writeFileSync(fp, html); files++; }
   });
   console.log('[ok]   CLS width/height injected: ' + injected + ' imgs across ' + files + ' pages');
+})();
+
+// ---------------------------------------------------------------------------
+// 10b. CLS for client-rendered cards.
+// Step 10 only sizes <img> tags that sit in the shipped HTML. But index.html,
+// menu.html, journal.html and locations.html all re-render their card grids at
+// runtime (filter, search, "load more"), and grid.innerHTML = ... throws away
+// every aspect-ratio step 10 injected. The rendered DOM therefore had no sizing
+// at all: measured live on 2026-08-07, 54 of 57 images on menu.html.
+// So publish the dimensions the build already knows as a JSON map and let the
+// client card builders read it. Only content images are listed, to keep the
+// blob small. See arAttr() in those pages.
+// ---------------------------------------------------------------------------
+(function () {
+  const AR_PAGES = ['index.html', 'menu.html', 'journal.html', 'locations.html'];
+  const map = {};
+  ['content/menu', 'content/articles', 'content/locations'].forEach(function (dir) {
+    if (!fs.existsSync(path.join(ROOT, dir))) return;
+    readItems(dir).forEach(function (it) {
+      [it.data && it.data.photo, it.data && it.data.cover].forEach(function (src) {
+        if (!src || map[src]) return;
+        const d = imgSrcDims(src);
+        if (d && d.w && d.h) map[src] = d.w + '/' + d.h;
+      });
+    });
+  });
+  const payload = '<script type="application/json" id="img-ar">' + JSON.stringify(map) + '<\/script>';
+  let pages = 0;
+  AR_PAGES.forEach(function (f) {
+    const fp = path.join(ROOT, f);
+    if (!fs.existsSync(fp)) return;
+    const html = fs.readFileSync(fp, 'utf8');
+    const out = injectBetween(html, '<!--AUTO-IMG-AR:START-->', '<!--AUTO-IMG-AR:END-->', payload);
+    if (out !== html) { fs.writeFileSync(fp, out); pages++; }
+  });
+  console.log('[ok]   client CLS map: ' + Object.keys(map).length + ' images, ' + pages + ' pages updated');
 })();
 
 // ---------------------------------------------------------------------------
