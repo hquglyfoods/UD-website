@@ -86,6 +86,12 @@ function stateName(abbr) { const s = US_STATES[(abbr || '').toUpperCase()]; retu
 /* ===================== shared helpers ===================== */
 
 function parseFrontmatter(text) {
+  // Normalize line endings first. The key/value regex below ends in (.*)$ and
+  // JS `.` never matches \r, so on a CRLF checkout every frontmatter line fails
+  // to parse, the item loses its title, and the article silently vanishes from
+  // the build. Netlify builds on Linux and never saw this; a Windows clone does.
+  // Mirrors article.html parseFrontmatter.
+  text = String(text).replace(/\r\n?/g, '\n');
   const m = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
   if (!m) return { data: {}, body: text };
   const data = {};

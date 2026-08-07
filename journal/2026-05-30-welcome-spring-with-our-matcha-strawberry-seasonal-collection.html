@@ -628,6 +628,10 @@ nav.nav .nav-order-mobile{display:none !important}
   }
   
   function parseFrontmatter(text){
+    // Normalize line endings first: (.*)$ below never matches a trailing \r,
+    // so a CRLF source file would parse to an empty frontmatter.
+    // Mirrors build-index.js parseFrontmatter.
+    text = String(text).replace(/\r\n?/g, '\n');
     var m = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
     if(!m) return {data:{}, body:text};
     var data = {};
