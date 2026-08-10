@@ -399,6 +399,11 @@ nav.nav .nav-order-mobile{display:none !important}
 .journal-page-card-meta .sep{color:var(--text-dark-mute);margin:0 8px}
 .journal-page-card h3{font-family:var(--serif);font-weight:500;font-size:1.4rem;line-height:1.3;margin-bottom:12px;color:var(--text-dark);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .journal-page-card p{font-size:14px;color:var(--text-dark-soft);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+    /* Reserve the full clamped line box for title and excerpt so cards in the same
+       row end level. The grid is align-items:start, so without this a 1-line title
+       or a 2-line excerpt leaves its card short and the row bottoms go ragged.
+       Only needed while cards sit side by side; below 600px the grid is 1 column. */
+    @media(min-width:601px){.journal-page-card h3{min-height:2.6em}.journal-page-card p{min-height:4.8em}}
 .journal-empty-page{text-align:center;padding:80px 32px;max-width:560px;margin:0 auto}
 .journal-empty-page p{font-size:16px;color:var(--text-dark-soft);line-height:1.7}
 
