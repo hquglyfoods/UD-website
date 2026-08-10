@@ -612,17 +612,36 @@ nav.nav .nav-order-mobile{display:none !important}
     var m = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
     if(!m) return {data:{}, body:text};
     var data = {};
+    var key = null, raw = '', sep = ' ', open = false;
+    function flush(){
+      if(key === null) return;
+      var val = raw.trim().replace(/^["']|["']$/g, '');
+      if(val === 'true') val = true;
+      else if(val === 'false') val = false;
+      data[key] = val;
+      key = null; raw = ''; sep = ' '; open = false;
+    }
     var lines = m[1].split('\n');
     for(var i=0; i<lines.length; i++){
       var line = lines[i];
       var kv = line.match(/^([a-z_]+):\s*(.*)$/i);
-      if(!kv) continue;
-      var key = kv[1].trim();
-      var val = kv[2].trim().replace(/^["']|["']$/g, '');
-      if(val === 'true') val = true;
-      else if(val === 'false') val = false;
-      data[key] = val;
+      if(kv){
+        flush();
+        key = kv[1].trim();
+        raw = kv[2].trim();
+        var blk = raw.match(/^([|>])[-+0-9]*$/);
+        if(blk){ sep = blk[1] === '|' ? '\n' : ' '; raw = ''; open = true; }
+        else open = raw !== '';
+        continue;
+      }
+      // Continuation of a multi-line value. Decap CMS wraps long text fields
+      // onto indented lines and YAML folds those breaks into single spaces.
+      // Reading only the first line cut every excerpt/description mid-sentence.
+      // Guarded by `open` so a nested mapping (empty parent value) is still
+      // skipped rather than swallowed as text.
+      if(open && /^\s+\S/.test(line)) raw += (raw === '' ? '' : sep) + line.trim();
     }
+    flush();
     return {data:data, body:m[2].trim()};
   }
   

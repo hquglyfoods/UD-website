@@ -95,14 +95,34 @@ function parseFrontmatter(text) {
   const m = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
   if (!m) return { data: {}, body: text };
   const data = {};
-  m[1].split('\n').forEach(function (line) {
-    const kv = line.match(/^([a-z_]+):\s*(.*)$/i);
-    if (!kv) return;
-    let val = kv[2].trim().replace(/^["']|["']$/g, '');
+  let key = null, raw = '', sep = ' ', open = false;
+  function flush() {
+    if (key === null) return;
+    let val = raw.trim().replace(/^["']|["']$/g, '');
     if (val === 'true') val = true;
     else if (val === 'false') val = false;
-    data[kv[1].trim()] = val;
+    data[key] = val;
+    key = null; raw = ''; sep = ' '; open = false;
+  }
+  m[1].split('\n').forEach(function (line) {
+    const kv = line.match(/^([a-z_]+):\s*(.*)$/i);
+    if (kv) {
+      flush();
+      key = kv[1].trim();
+      raw = kv[2].trim();
+      const blk = raw.match(/^([|>])[-+0-9]*$/);
+      if (blk) { sep = blk[1] === '|' ? '\n' : ' '; raw = ''; open = true; }
+      else open = raw !== '';
+      return;
+    }
+    // Continuation of a multi-line value. Decap CMS wraps long text fields
+    // onto indented lines and YAML folds those breaks into single spaces.
+    // Reading only the first line cut every excerpt/description mid-sentence.
+    // Guarded by `open` so a nested mapping (empty parent value) is still
+    // skipped rather than swallowed as text.
+    if (open && /^\s+\S/.test(line)) raw += (raw === '' ? '' : sep) + line.trim();
   });
+  flush();
   return { data: data, body: m[2].trim() };
 }
 
