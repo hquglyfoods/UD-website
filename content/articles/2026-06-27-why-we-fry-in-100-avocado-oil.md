@@ -41,4 +41,6 @@ For us, the oil is not a place to cut corners. It is part of the same standard t
 
 The effect of good oil is hard to describe and easy to taste. The cleaner finish, the lighter feel, the way the flavor comes through: it is the kind of thing you notice without quite naming it.
 
+For the short version, with the smoke point numbers and the questions guests ask us most, see [why we fry in 100% avocado oil](/avocado-oil).
+
 See what we are frying fresh on our [menu](/menu), or find your nearest shop on our [locations](/locations) page.

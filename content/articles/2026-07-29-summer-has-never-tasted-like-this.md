@@ -2,7 +2,7 @@
 title: Summer Has Never Tasted Like This
 published_date: 2026-07-28
 category: Menu
-cover: /uploads/corn-cream-website.png
+cover: /uploads/corn-cream-website.jpg
 excerpt: The summer ingredients that connects cultures around the world.
 read_time: 4 min read
 draft: false

@@ -16,6 +16,11 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://www.uglydonutsncorndogs.com/avocado-oil</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://www.uglydonutsncorndogs.com/story</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -66,67 +71,67 @@
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://www.uglydonutsncorndogs.com/faq.html</loc>
+    <loc>https://www.uglydonutsncorndogs.com/faq</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 <!--AUTO-ARTICLES:START-->
   <url>
-    <loc>https://www.uglydonutsncorndogs.com/journal/2026-07-29-summer-has-never-tasted-like-this.html</loc>
+    <loc>https://www.uglydonutsncorndogs.com/journal/2026-07-29-summer-has-never-tasted-like-this</loc>
     <lastmod>2026-07-28</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://www.uglydonutsncorndogs.com/journal/2026-06-27-best-korean-corn-dogs-near-american-dream-mall.html</loc>
+    <loc>https://www.uglydonutsncorndogs.com/journal/2026-06-27-best-korean-corn-dogs-near-american-dream-mall</loc>
     <lastmod>2026-06-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://www.uglydonutsncorndogs.com/journal/2026-06-27-made-to-order-vs-pre-made-donuts-why-fresh-matters.html</loc>
+    <loc>https://www.uglydonutsncorndogs.com/journal/2026-06-27-made-to-order-vs-pre-made-donuts-why-fresh-matters</loc>
     <lastmod>2026-06-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://www.uglydonutsncorndogs.com/journal/2026-06-27-the-history-of-korean-corn-dogs-from-korea-to-america.html</loc>
+    <loc>https://www.uglydonutsncorndogs.com/journal/2026-06-27-the-history-of-korean-corn-dogs-from-korea-to-america</loc>
     <lastmod>2026-06-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://www.uglydonutsncorndogs.com/journal/2026-06-27-what-is-a-korean-corn-dog.html</loc>
+    <loc>https://www.uglydonutsncorndogs.com/journal/2026-06-27-what-is-a-korean-corn-dog</loc>
     <lastmod>2026-06-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://www.uglydonutsncorndogs.com/journal/2026-06-27-why-we-fry-in-100-avocado-oil.html</loc>
+    <loc>https://www.uglydonutsncorndogs.com/journal/2026-06-27-why-we-fry-in-100-avocado-oil</loc>
     <lastmod>2026-06-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://www.uglydonutsncorndogs.com/journal/2026-05-30-welcome-spring-with-our-matcha-strawberry-seasonal-collection.html</loc>
+    <loc>https://www.uglydonutsncorndogs.com/journal/2026-05-30-welcome-spring-with-our-matcha-strawberry-seasonal-collection</loc>
     <lastmod>2026-05-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://www.uglydonutsncorndogs.com/journal/2026-05-24-meet-the-viral-hit-the-dubai-chocolate-donut.html</loc>
+    <loc>https://www.uglydonutsncorndogs.com/journal/2026-05-24-meet-the-viral-hit-the-dubai-chocolate-donut</loc>
     <lastmod>2026-05-23</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://www.uglydonutsncorndogs.com/journal/2026-05-24-warning-this-corn-dog-is-seriously-addictive.html</loc>
+    <loc>https://www.uglydonutsncorndogs.com/journal/2026-05-24-warning-this-corn-dog-is-seriously-addictive</loc>
     <lastmod>2026-05-23</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://www.uglydonutsncorndogs.com/journal/2026-05-21-a-taste-of-love-korean-corn-dogs.html</loc>
+    <loc>https://www.uglydonutsncorndogs.com/journal/2026-05-21-a-taste-of-love-korean-corn-dogs</loc>
     <lastmod>2026-05-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
@@ -135,22 +140,22 @@
 
   <!--AUTO-LOC-PAGES:START-->
   <url>
-    <loc>https://www.uglydonutsncorndogs.com/locations/new-jersey/american-dream.html</loc>
+    <loc>https://www.uglydonutsncorndogs.com/locations/new-jersey/american-dream</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.uglydonutsncorndogs.com/locations/new-york/bushwick.html</loc>
+    <loc>https://www.uglydonutsncorndogs.com/locations/new-york/bushwick</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.uglydonutsncorndogs.com/locations/new-york/forest-hills.html</loc>
+    <loc>https://www.uglydonutsncorndogs.com/locations/new-york/forest-hills</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.uglydonutsncorndogs.com/locations/texas/pearland.html</loc>
+    <loc>https://www.uglydonutsncorndogs.com/locations/texas/pearland</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
