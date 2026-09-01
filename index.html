@@ -375,6 +375,84 @@ nav.nav .nav-order-mobile{display:none !important}
 
 .skip-to-content{position:absolute;left:-9999px;top:0;z-index:9999;background:var(--bg-navy,#091018);color:#fff;padding:12px 20px;border-radius:0 0 8px 0;font-size:14px;text-decoration:none}
 .skip-to-content:focus{left:0}
+
+/* ===================== scroll cinema (2026-08-11) ===================== */
+.hero-cine{position:relative;height:100svh;min-height:560px;overflow:hidden;background:var(--bg-black)}
+.hero-cine-media{position:absolute;inset:0;will-change:transform}
+.hero-cine-media img{width:100%;height:100%;object-fit:cover;object-position:67% 57%;transform:scale(1.05)}
+.hero-cine-veil{position:absolute;inset:0;background:linear-gradient(105deg,rgba(5,8,16,0.82) 0%,rgba(5,8,16,0.5) 45%,rgba(5,8,16,0.15) 100%)}
+/* The hero dips to the reel's own black on the way out and the reel fades up from
+   it, so the join between the two shots reads as a dissolve, not a seam. */
+.hero-cine::after{content:'';position:absolute;left:0;right:0;bottom:0;height:26%;z-index:3;pointer-events:none;background:linear-gradient(180deg,rgba(5,8,16,0),var(--bg-black))}
+.hero-cine-dip{position:absolute;inset:0;z-index:5;background:var(--bg-black);opacity:0;pointer-events:none}
+.hero-cine-inner{position:relative;z-index:2;height:100%;display:flex;align-items:center}
+.hero-cine .hero-eyebrow{color:var(--orange-on-dark);margin-bottom:22px}
+.hero-cine h1{font-family:var(--serif);font-weight:400;color:#fff;margin:0 0 24px;font-size:clamp(52px,9vw,124px);line-height:0.96;letter-spacing:-0.015em;max-width:12ch}
+.hero-cine h1 .serif-italic{color:var(--orange-on-dark)}
+.hero-cine .hero-sub{color:var(--text-light-soft);font-size:clamp(15px,1.5vw,19px);max-width:44ch;margin:0 0 34px;line-height:1.6}
+.hero-cine .btn-outline{border:1px solid rgba(255,255,255,0.4);color:#fff;background:none}
+.hero-cine .btn-outline:hover{background:rgba(255,255,255,0.1)}
+.cine-cue{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:10px;font-size:9.5px;letter-spacing:0.28em;text-transform:uppercase;color:rgba(255,255,255,0.7)}
+.cine-cue i{display:block;width:1px;height:44px;background:linear-gradient(rgba(255,255,255,0.7),transparent);animation:cineCue 2.1s var(--ease) infinite}
+@keyframes cineCue{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+.reel{position:relative;background:var(--bg-black)}
+.reel-stage{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--bg-black)}
+.reel-stage::before{content:'';position:absolute;left:0;right:0;top:0;height:18%;z-index:2;pointer-events:none;background:linear-gradient(180deg,var(--bg-black),rgba(5,8,16,0))}
+/* Fade-in is a black overlay the script clears, never opacity on the stage: if the
+   script fails the reel stays visible instead of vanishing. */
+.reel-in{position:absolute;inset:0;z-index:4;background:var(--bg-black);opacity:0;pointer-events:none}
+.reel-shot{position:absolute;inset:0;opacity:0;transition:opacity 1s var(--ease)}
+.reel-shot.on{opacity:1}
+.reel-shot img{width:100%;height:100%;object-fit:cover;transform:scale(1.02);transition:transform 6s linear;will-change:transform}
+.reel-shot.on img{transform:scale(1.13)}
+.reel-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,8,16,0.55),rgba(5,8,16,0.25) 40%,rgba(5,8,16,0.85))}
+.reel-copy{position:absolute;inset:0;z-index:3}
+.reel-copy .container{position:absolute;top:0;bottom:0;left:50%;transform:translateX(-50%);width:100%}
+.reel-line{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 32px;opacity:0;transform:translateY(26px);transition:opacity 0.32s var(--ease),transform 0.32s var(--ease);pointer-events:none}
+/* Leaving is quick and arriving waits for it, or both headlines sit on top of each
+   other for most of the crossfade. */
+.reel-line.on{opacity:1;transform:none;transition:opacity 0.6s var(--ease) 0.3s,transform 0.75s var(--ease) 0.3s}
+.reel-line .n{font-size:11px;font-weight:700;letter-spacing:0.24em;text-transform:uppercase;color:var(--orange-on-dark);margin-bottom:16px}
+.reel-line h2{font-family:var(--serif);font-weight:400;color:#fff;margin:0 0 16px;font-size:clamp(40px,7vw,92px);line-height:1;letter-spacing:-0.015em}
+.reel-line p{color:var(--text-light-soft);max-width:42ch;font-size:clamp(14px,1.4vw,17px);line-height:1.65;margin:0}
+.reel-rail{position:absolute;left:32px;bottom:44px;z-index:5;display:flex;gap:8px}
+.reel-rail b{display:block;width:34px;height:2px;background:rgba(255,255,255,0.25);overflow:hidden}
+.reel-rail b i{display:block;height:100%;width:0;background:var(--orange-on-dark);transition:width 0.35s linear}
+
+/* These photos are about 2.4:1 and a phone screen is 0.46:1, so filling it edge to
+   edge throws away most of the frame. On phones the photo takes a band across the
+   top and the copy sits below it on the black the band fades into. */
+@media(max-width:700px){
+  .hero-cine-media{height:54svh;bottom:auto}
+  .hero-cine-media img{transform:scale(1.03)}
+  .hero-cine-veil{background:linear-gradient(180deg,rgba(5,8,16,0.1) 0%,rgba(5,8,16,0.28) 38%,var(--bg-black) 54%,var(--bg-black) 100%)}
+  .hero-cine::after{display:none}
+  .hero-cine-inner{align-items:flex-end}
+  .hero-cine-inner .container{padding-bottom:92px}
+  .hero-cine h1{max-width:none;font-size:clamp(44px,13vw,64px)}
+  .cine-cue{display:none}
+  .reel-shot{inset:0 0 auto 0;height:54svh}
+  .reel-shot.on img{transform:scale(1.07)}
+  .reel-veil{background:linear-gradient(180deg,rgba(5,8,16,0.12) 0%,rgba(5,8,16,0.3) 40%,var(--bg-black) 54%,var(--bg-black) 100%)}
+  .reel-stage::before{display:none}
+  .reel-copy{align-items:flex-end}
+  .reel-line{justify-content:flex-end;padding-bottom:92px}
+  .reel-line h2{font-size:clamp(38px,11vw,56px)}
+  .reel-rail{left:20px;bottom:28px}
+}
+
+/* Motion is decoration; with it turned off the reel becomes three stacked shots. */
+@media(prefers-reduced-motion:reduce){
+  .hero-cine-dip{display:none}
+  .reel-stage{position:static;height:auto}
+  .reel-shot{position:relative;opacity:1;height:60svh}
+  .reel-shot img{transform:none}
+  .reel-copy{position:static}
+  .reel-copy .container{position:static;transform:none}
+  .reel-line{position:relative;inset:auto;opacity:1;transform:none;padding:36px 32px}
+  .cine-cue{display:none}
+}
 </style>
 <!--AUTO-SEO:START-->
 <meta property="og:site_name" content="Ugly Donuts &amp; Corn Dogs">
@@ -431,31 +509,47 @@ nav.nav .nav-order-mobile{display:none !important}
 <main id="main-content">
 
 <!-- HERO -->
-<section class="hero section-cream" id="top">
-  <!-- 슬라이드쇼 배경 -->
-  <div class="hero-slideshow" id="hero-slideshow">
-    <div class="hero-slide is-active slide-hotcheetos" style="background-image:url('/images/hero/01-hot-cheetos.png')"></div>
-    <div class="hero-slide slide-donuts" style="background-image:url('/images/hero/02-donuts.png')"></div>
-    <div class="hero-slide slide-cheesepull" style="background-image:url('/images/hero/03-cheese-pull.png')"></div>
-    <div class="hero-slide slide-midnight" style="background-image:url('/images/hero/04-midnight-lemonade.png')"></div>
-    <!-- 그라데이션 오버레이 (왼쪽 어둡게 - 텍스트 가독성) -->
-    <div class="hero-overlay"></div>
+<section class="hero-cine" id="top">
+  <div class="hero-cine-media" data-par="0.28">
+    <img style="aspect-ratio:1967/800" src="/images/hero/01-hot-cheetos.png" alt="A Hot Cheetos Korean corn dog, freshly fried" fetchpriority="high">
   </div>
-  <!-- 텍스트 (왼쪽) -->
-  <div class="container">
-    <div class="hero-text">
-      <div class="hero-eyebrow eyebrow fade-up in">Korean Corn Dogs &middot; Handmade Donuts</div>
-      <h1 class="fade-up in delay-1">
-        A bite <span class="serif-italic">to remember.</span>
-      </h1>
-      <p class="hero-sub fade-up in delay-2">
-        Premium Korean corn dogs and handmade donuts. Made to order. Fried in 100% avocado oil.
-      </p>
-      <div class="hero-actions fade-up in delay-3">
-        <a href="https://uglydonutsandcorndogsknickerbocker.toast.site/order?showAllLocations=true" class="btn btn-primary btn-arrow">Order Online</a>
-        <a href="/menu.html" class="btn btn-outline">View Menu</a>
+  <div class="hero-cine-veil"></div>
+  <div class="hero-cine-dip" id="heroDip"></div>
+  <div class="hero-cine-inner">
+    <div class="container">
+      <div class="hero-text">
+        <div class="hero-eyebrow eyebrow fade-up in">Korean Corn Dogs &middot; Handmade Donuts</div>
+        <h1 class="fade-up in delay-1">A bite <span class="serif-italic">to remember.</span></h1>
+        <p class="hero-sub fade-up in delay-2">Premium Korean corn dogs and handmade donuts. Made to order. Fried in 100% avocado oil.</p>
+        <div class="hero-actions fade-up in delay-3">
+          <a href="https://uglydonutsandcorndogsknickerbocker.toast.site/order?showAllLocations=true" class="btn btn-primary btn-arrow">Order Online</a>
+          <a href="/menu" class="btn btn-outline">View Menu</a>
+        </div>
       </div>
     </div>
+  </div>
+  <div class="cine-cue"><i></i>Scroll</div>
+</section>
+
+<!-- THE REEL: one pinned stage, three beats. Each photo appears once on the page. -->
+<section class="reel" id="reel">
+  <div class="reel-stage">
+    <div class="reel-shot on"><img src="/images/hero/03-cheese-pull.png" style="aspect-ratio:1774/887;object-position:44% 51%" alt="Cheese stretching from a Korean corn dog pulled apart by hand"></div>
+    <div class="reel-shot"><img src="/images/hero/02-donuts.png" style="aspect-ratio:1731/909;object-position:72% 59%" alt="A stack of handmade filled donuts"></div>
+    <div class="reel-shot"><img src="/images/hero/04-midnight-lemonade.png" style="aspect-ratio:1961/802;object-position:74% 54%" alt="Midnight Lemonade, a layered sparkling drink"></div>
+    <div class="reel-veil"></div>
+    <div class="reel-in" id="reelIn"></div>
+    <div class="reel-copy">
+      <div class="container">
+        <div class="reel-line on"><div class="n">At the counter</div><h2>Made to order.</h2>
+          <p>Nothing sits in a warming case. Every corn dog is battered and every donut finished after you ask for it.</p></div>
+        <div class="reel-line"><div class="n">Every morning</div><h2>Never pre&#8209;made.</h2>
+          <p>We mix fresh dough every morning, in every store. By hand, from scratch. No powders, no pre-mixed bases.</p></div>
+        <div class="reel-line"><div class="n">Behind the bar</div><h2>Made in&#8209;house.</h2>
+          <p>Signature refreshers and bubble tea, built in the store, alongside everything else we make by hand.</p></div>
+      </div>
+    </div>
+    <div class="reel-rail" id="reelRail"><b><i></i></b><b><i></i></b><b><i></i></b></div>
   </div>
 </section>
 
@@ -1006,6 +1100,60 @@ nav.nav .nav-order-mobile{display:none !important}
     slides[current].classList.add('is-active');
   }, 5000);
 })();
+
+/* ---------- scroll cinema (2026-08-11) ---------- */
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var dip = document.getElementById('heroDip');
+  var reel = document.getElementById('reel');
+  var reelIn = document.getElementById('reelIn');
+  if (!reel || !dip) return;
+  var shots = reel.querySelectorAll('.reel-shot');
+  var lines = reel.querySelectorAll('.reel-line');
+  var bars = document.querySelectorAll('#reelRail b i');
+  var beats = shots.length, active = 0, ticking = false;
+  var clamp = function(v){ return v < 0 ? 0 : v > 1 ? 1 : v; };
+
+  /* One screen of scroll per beat. */
+  var sizeReel = function(){ reel.style.height = (beats * 100) + 'svh'; };
+  sizeReel();
+
+  function frame(){
+    ticking = false;
+    var y = window.scrollY || window.pageYOffset, vh = window.innerHeight;
+
+    dip.style.opacity = clamp(y / (vh * 0.85)).toFixed(3);
+
+    var pars = document.querySelectorAll('[data-par]');
+    for (var i = 0; i < pars.length; i++){
+      var el = pars[i], r = el.getBoundingClientRect();
+      if (r.bottom < -200 || r.top > vh + 200) continue;
+      var mid = (r.top + r.height / 2 - vh / 2) / vh;
+      el.style.transform = 'translate3d(0,' + (mid * parseFloat(el.getAttribute('data-par')) * 100).toFixed(2) + 'px,0)';
+    }
+
+    var rt = reel.getBoundingClientRect();
+    reelIn.style.opacity = clamp(rt.top / (vh * 0.8)).toFixed(3);
+    if (rt.top <= 0 && rt.bottom >= vh){
+      var p = (-rt.top) / (reel.offsetHeight - vh);
+      var idx = Math.min(beats - 1, Math.floor(p * beats));
+      var within = p * beats - idx;
+      for (var b = 0; b < beats; b++){
+        bars[b].style.width = (b < idx ? 100 : b === idx ? Math.round(within * 100) : 0) + '%';
+      }
+      if (idx !== active){
+        shots[active].classList.remove('on'); lines[active].classList.remove('on');
+        shots[idx].classList.add('on');       lines[idx].classList.add('on');
+        active = idx;
+      }
+    }
+  }
+  function onScroll(){ if (!ticking){ ticking = true; requestAnimationFrame(frame); } }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function(){ sizeReel(); onScroll(); }, { passive: true });
+  frame();
+})();
+
 </script>
 <!-- ============================================================
      UGLY DONUTS COOKIE CONSENT BANNER
