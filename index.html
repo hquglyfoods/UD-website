@@ -377,7 +377,7 @@ nav.nav .nav-order-mobile{display:none !important}
 .skip-to-content:focus{left:0}
 
 /* ===================== scroll cinema (2026-08-11) ===================== */
-.hero-cine{position:relative;height:100svh;min-height:560px;overflow:hidden;background:var(--bg-black)}
+.hero-cine{position:relative;height:100dvh;min-height:560px;overflow:hidden;background:var(--bg-black)}
 .hero-cine-media{position:absolute;inset:0;will-change:transform}
 .hero-cine-media img{width:100%;height:100%;object-fit:cover;object-position:67% 57%;transform:scale(1.05)}
 .hero-cine-veil{position:absolute;inset:0;background:linear-gradient(105deg,rgba(5,8,16,0.82) 0%,rgba(5,8,16,0.5) 45%,rgba(5,8,16,0.15) 100%)}
@@ -397,7 +397,7 @@ nav.nav .nav-order-mobile{display:none !important}
 @keyframes cineCue{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
 .reel{position:relative;background:var(--bg-black)}
-.reel-stage{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--bg-black)}
+.reel-stage{position:sticky;top:0;height:100dvh;overflow:hidden;background:var(--bg-black)}
 .reel-stage::before{content:'';position:absolute;left:0;right:0;top:0;height:18%;z-index:2;pointer-events:none;background:linear-gradient(180deg,var(--bg-black),rgba(5,8,16,0))}
 /* Fade-in is a black overlay the script clears, never opacity on the stage: if the
    script fails the reel stays visible instead of vanishing. */
@@ -424,7 +424,7 @@ nav.nav .nav-order-mobile{display:none !important}
    edge throws away most of the frame. On phones the photo takes a band across the
    top and the copy sits below it on the black the band fades into. */
 @media(max-width:700px){
-  .hero-cine-media{height:54svh;bottom:auto}
+  .hero-cine-media{height:54%;bottom:auto}
   .hero-cine-media img{transform:scale(1.03)}
   .hero-cine-veil{background:linear-gradient(180deg,rgba(5,8,16,0.1) 0%,rgba(5,8,16,0.28) 38%,var(--bg-black) 54%,var(--bg-black) 100%)}
   .hero-cine::after{display:none}
@@ -432,7 +432,7 @@ nav.nav .nav-order-mobile{display:none !important}
   .hero-cine-inner .container{padding-bottom:92px}
   .hero-cine h1{max-width:none;font-size:clamp(44px,13vw,64px)}
   .cine-cue{display:none}
-  .reel-shot{inset:0 0 auto 0;height:54svh}
+  .reel-shot{inset:0 0 auto 0;height:54%}
   .reel-shot.on img{transform:scale(1.07)}
   .reel-veil{background:linear-gradient(180deg,rgba(5,8,16,0.12) 0%,rgba(5,8,16,0.3) 40%,var(--bg-black) 54%,var(--bg-black) 100%)}
   .reel-stage::before{display:none}
@@ -1125,7 +1125,9 @@ nav.nav .nav-order-mobile{display:none !important}
     lastH = stageH(); lastW = window.innerWidth;
     /* One full screen of scroll per beat: the pinned span is height minus one
        stage, so the section needs beats + 1 stages to give each beat a screen. */
-    reel.style.height = ((beats + 1) * lastH) + 'px';
+    /* beats + 2 stages: one per beat, plus a trailing one so the last shot
+       holds for a screen instead of unpinning the instant it arrives. */
+    reel.style.height = ((beats + 2) * lastH) + 'px';
   }
   sizeReel();
 
@@ -1148,8 +1150,10 @@ nav.nav .nav-order-mobile{display:none !important}
     var rt = reel.getBoundingClientRect();
     reelIn.style.opacity = clamp(rt.top / (sh * 0.8)).toFixed(3);
     if (rt.top <= 0 && rt.bottom >= sh){
-      var span = reel.offsetHeight - sh;
-      var p = span > 0 ? (-rt.top) / span : 0;
+      /* Progress runs over the beats only. The trailing stage is a hold on the
+         last shot, so clamp rather than letting p run past 1. */
+      var span = beats * sh;
+      var p = span > 0 ? clamp((-rt.top) / span) : 0;
       var idx = Math.min(beats - 1, Math.floor(p * beats));
       var within = p * beats - idx;
       for (var b = 0; b < beats; b++){
