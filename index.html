@@ -397,6 +397,12 @@ nav.nav .nav-order-mobile{display:none !important}
 @keyframes cineCue{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
 .reel{position:relative;background:var(--bg-black)}
+/* Snap markers sit at each beat boundary. They are 1px and invisible; only their
+   snap position matters. scroll-snap-stop:always stops a fling at the first one
+   it meets, so however hard you swipe you land on the next beat and not past it. */
+html{scroll-snap-type:y proximity}
+.reel-snap{position:absolute;left:0;width:1px;height:1px;pointer-events:none;visibility:hidden;
+  scroll-snap-align:start;scroll-snap-stop:always}
 .reel-stage{position:sticky;top:0;height:100dvh;overflow:hidden;background:var(--bg-black)}
 .reel-stage::before{content:'';position:absolute;left:0;right:0;top:0;height:18%;z-index:2;pointer-events:none;background:linear-gradient(180deg,var(--bg-black),rgba(5,8,16,0))}
 /* Fade-in is a black overlay the script clears, never opacity on the stage: if the
@@ -533,6 +539,7 @@ nav.nav .nav-order-mobile{display:none !important}
 
 <!-- THE REEL: one pinned stage, three beats. Each photo appears once on the page. -->
 <section class="reel" id="reel">
+  <i class="reel-snap" aria-hidden="true"></i><i class="reel-snap" aria-hidden="true"></i><i class="reel-snap" aria-hidden="true"></i><i class="reel-snap" aria-hidden="true"></i>
   <div class="reel-stage">
     <div class="reel-shot on"><img src="/images/hero/03-cheese-pull.png" style="aspect-ratio:1774/887;object-position:44% 51%" alt="Cheese stretching from a Korean corn dog pulled apart by hand"></div>
     <div class="reel-shot"><img src="/images/hero/02-donuts.png" style="aspect-ratio:1731/909;object-position:72% 59%" alt="A stack of handmade filled donuts"></div>
@@ -1115,6 +1122,7 @@ nav.nav .nav-order-mobile{display:none !important}
   var clamp = function(v){ return v < 0 ? 0 : v > 1 ? 1 : v; };
   var hero = document.querySelector('.hero-cine');
   var stage = reel.querySelector('.reel-stage');
+  var snaps = reel.querySelectorAll('.reel-snap');
 
   /* Everything measures off the stage. Sizing the section in svh while the maths
      read window.innerHeight made the two disagree by the height of a phone's
@@ -1128,6 +1136,12 @@ nav.nav .nav-order-mobile{display:none !important}
     /* beats + 2 stages: one per beat, plus a trailing one so the last shot
        holds for a screen instead of unpinning the instant it arrives. */
     reel.style.height = ((beats + 2) * lastH) + 'px';
+    /* A marker at the start of each beat, plus one where the pin releases, so
+       the exit is deliberate too. */
+    var stops = [], i;
+    for (i = 0; i < beats; i++) stops.push(i * lastH);
+    stops.push((beats + 1) * lastH);
+    for (i = 0; i < snaps.length; i++) snaps[i].style.top = (stops[i] || 0) + 'px';
   }
   sizeReel();
 
