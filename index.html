@@ -453,6 +453,28 @@ nav.nav .nav-order-mobile{display:none !important}
   .reel-line{position:relative;inset:auto;opacity:1;transform:none;padding:36px 32px}
   .cine-cue{display:none}
 }
+
+/* ---- per-shot framing and motion (team feedback, 2026-08-11) ---- */
+.reel-shot img.shot-cheese{object-position:44% 51%}
+.reel-shot img.shot-donut{object-position:72% 59%}
+.reel-shot img.shot-lemon{object-position:74% 54%}
+/* The cheese pull travels left to right instead of pushing in, so the stretch
+   reads as motion rather than a zoom. scale gives it room to move. */
+.reel-shot img.shot-cheese{transform:scale(1.1) translateX(-4%)}
+.reel-shot.on img.shot-cheese{transform:scale(1.1) translateX(4%)}
+@media(max-width:700px){
+  /* Photos take more of the phone screen. The copy now overlaps the lower part
+     of the band, so the veil turns solid earlier to keep it legible. */
+  .hero-cine-media{height:62%}
+  .hero-cine-veil{background:linear-gradient(180deg,rgba(5,8,16,0.06) 0%,rgba(5,8,16,0.2) 34%,rgba(5,8,16,0.72) 50%,var(--bg-black) 63%,var(--bg-black) 100%)}
+  .reel-shot{height:68%}
+  .reel-veil{background:linear-gradient(180deg,rgba(5,8,16,0.08) 0%,rgba(5,8,16,0.22) 44%,rgba(5,8,16,0.78) 60%,var(--bg-black) 69%,var(--bg-black) 100%)}
+  /* Glass on the left: the frame is anchored to the photo's right edge, which
+     puts the drink at roughly a fifth of the way in. */
+  .reel-shot img.shot-lemon{object-position:100% 54%}
+  .reel-shot img.shot-cheese{transform:scale(1.08) translateX(-3%)}
+  .reel-shot.on img.shot-cheese{transform:scale(1.08) translateX(3%)}
+}
 </style>
 <!--AUTO-SEO:START-->
 <meta property="og:site_name" content="Ugly Donuts &amp; Corn Dogs">
@@ -534,9 +556,9 @@ nav.nav .nav-order-mobile{display:none !important}
 <!-- THE REEL: one pinned stage, three beats. Each photo appears once on the page. -->
 <section class="reel" id="reel">
   <div class="reel-stage">
-    <div class="reel-shot on"><img src="/images/hero/03-cheese-pull.png" style="aspect-ratio:1774/887;object-position:44% 51%" alt="Cheese stretching from a Korean corn dog pulled apart by hand"></div>
-    <div class="reel-shot"><img src="/images/hero/02-donuts.png" style="aspect-ratio:1731/909;object-position:72% 59%" alt="A stack of handmade filled donuts"></div>
-    <div class="reel-shot"><img src="/images/hero/04-midnight-lemonade.png" style="aspect-ratio:1961/802;object-position:74% 54%" alt="Midnight Lemonade, a layered sparkling drink"></div>
+    <div class="reel-shot on"><img src="/images/hero/03-cheese-pull.png" style="aspect-ratio:1774/887" class="shot-cheese" alt="Cheese stretching from a Korean corn dog pulled apart by hand"></div>
+    <div class="reel-shot"><img src="/images/hero/02-donuts.png" style="aspect-ratio:1731/909" class="shot-donut" alt="A stack of handmade filled donuts"></div>
+    <div class="reel-shot"><img src="/images/hero/04-midnight-lemonade.png" style="aspect-ratio:1961/802" class="shot-lemon" alt="Midnight Lemonade, a layered sparkling drink"></div>
     <div class="reel-veil"></div>
     <div class="reel-in" id="reelIn"></div>
     <div class="reel-copy">
@@ -544,7 +566,7 @@ nav.nav .nav-order-mobile{display:none !important}
         <div class="reel-line on"><div class="n">At the counter</div><h2>Made to order.</h2>
           <p>Nothing sits in a warming case. Every corn dog is battered and every donut finished after you ask for it.</p></div>
         <div class="reel-line"><div class="n">Every morning</div><h2>Never pre&#8209;made.</h2>
-          <p>We mix fresh dough every morning, in every store. By hand, from scratch. No powders, no pre-mixed bases.</p></div>
+          <p>We mix fresh dough every morning, in every store. By hand, from scratch.</p></div>
         <div class="reel-line"><div class="n">Behind the bar</div><h2>Made in&#8209;house.</h2>
           <p>Signature refreshers and bubble tea, built in the store, alongside everything else we make by hand.</p></div>
       </div>
@@ -669,30 +691,6 @@ nav.nav .nav-order-mobile{display:none !important}
 </section>
 
 <!-- CRAFT -->
-<section class="craft section-cream-warm">
-  <div class="container">
-    <div class="craft-grid">
-      <div class="craft-image fade-up">
-        <img style="aspect-ratio:1344/896" src="/images/extracted/fc058ce7706d.jpg" alt="A Korean corn dog with fresh ingredients">
-      </div>
-      <div class="craft-text">
-        <div class="eyebrow fade-up">The Craft</div>
-        <h2 class="fade-up delay-1">
-          Simple ingredients. <span class="serif-italic">Honest work.</span>
-        </h2>
-        <p class="fade-up delay-2">
-          We mix fresh dough every morning, in every store. By hand, from scratch.
-          No shortcuts, no powders, no pre-mixed bases.
-        </p>
-        <p class="fade-up delay-2">
-          Every corn dog is hand-rolled and battered. Every donut shaped by hand.
-          Every order is fried fresh in <a href="/avocado-oil">100% avocado oil</a>, the moment you order,
-          never in the soybean or canola blends most fryers run on.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- BEST SELLERS -->
 <section class="menu-section section-cream" id="menu">
@@ -760,24 +758,6 @@ nav.nav .nav-order-mobile{display:none !important}
 </section>
 
 <!-- JOURNAL -->
-<section class="journal-section" id="journal">
-  <div class="container">
-    <div class="journal-head">
-      <div class="eyebrow fade-up">The Journal</div>
-      <h2 class="fade-up delay-1">From the kitchen.</h2>
-      <p class="fade-up delay-2">Notes from inside our stores and our process.</p>
-    </div>
-    <div class="journal-empty fade-up" id="journal-empty" style="display:none"></div>
-    <div class="journal-grid" id="journal-grid"><!--AUTO-HOME-JOURNAL:START-->
-<a href="/journal/2026-07-29-summer-has-never-tasted-like-this" class="journal-card"><div class="journal-card-photo"><img style="aspect-ratio:2160/1540" src="/uploads/corn-cream-website.jpg" alt="Summer Has Never Tasted Like This" loading="lazy"></div><div class="journal-card-meta">Menu<span class="sep">&middot;</span>4 min read</div><h3>Summer Has Never Tasted Like This</h3><p>The summer ingredients that connects cultures around the world.</p></a>
-<a href="/journal/2026-06-27-best-korean-corn-dogs-near-american-dream-mall" class="journal-card"><div class="journal-card-photo"><img style="aspect-ratio:1600/1140" src="/uploads/ad.jpg" alt="Best Korean Corn Dogs in the American Dream Mall" loading="lazy"></div><div class="journal-card-meta">The Brand<span class="sep">&middot;</span>3 min read</div><h3>Best Korean Corn Dogs in the American Dream Mall</h3><p>Looking for Korean corn dogs at American Dream in East Rutherford, New Jersey? Here is where to find them, what to order, and what makes them worth the stop.</p></a>
-<a href="/journal/2026-06-27-made-to-order-vs-pre-made-donuts-why-fresh-matters" class="journal-card"><div class="journal-card-photo"><img style="aspect-ratio:1536/1024" src="/uploads/chatgpt-image-jun-27-2026-01_58_00-pm.jpg" alt="Made-to-Order vs Pre-Made Donuts: Why Fresh Matters" loading="lazy"></div><div class="journal-card-meta">Behind the Scenes<span class="sep">&middot;</span>3 min read</div><h3>Made-to-Order vs Pre-Made Donuts: Why Fresh Matters</h3><p>Most donuts you buy were made hours earlier and have been sitting in a case. Made-to-order donuts are finished the moment you order. Here is why that difference changes everything about how a donut tastes.</p></a>
-<!--AUTO-HOME-JOURNAL:END--></div>
-    <div class="section-cta" id="journal-see-all">
-      <a href="/journal.html" class="btn btn-outline btn-arrow">See All Articles</a>
-    </div>
-  </div>
-</section>
 
 <!-- FRANCHISE -->
 <section class="franchise section-black" id="franchise">
@@ -1024,6 +1004,7 @@ nav.nav .nav-order-mobile{display:none !important}
   });
 
   loadJson('/content/articles/_index.json').then(function(files){
+    if(!document.getElementById('journal-grid')) return;   /* section removed from home */
     if(!files || !files.length) return;
     return Promise.all(files.map(function(f){return loadMd('/content/articles/'+f);})).then(function(items){
       items = items.filter(function(i){return i && i.data && i.data.title && !i.data.draft;});
