@@ -460,8 +460,14 @@ nav.nav .nav-order-mobile{display:none !important}
 .reel-shot img.shot-lemon{object-position:74% 54%}
 /* The cheese pull travels left to right instead of pushing in, so the stretch
    reads as motion rather than a zoom. scale gives it room to move. */
-.reel-shot img.shot-cheese{transform:scale(1.1) translateX(-4%)}
-.reel-shot.on img.shot-cheese{transform:scale(1.1) translateX(4%)}
+/* Opens on the whole stretch, hand and all, then drifts and pushes in toward the
+   corn dog on the right. object-position is animatable, so the frame itself
+   travels; the zoom is anchored right so the push lands on the corn dog. */
+.reel-shot img.shot-cheese{object-position:4% 51%;transform-origin:82% 50%;transform:scale(1);transition:transform 6s linear,object-position 6s linear}
+.reel-shot.on img.shot-cheese{object-position:92% 51%;transform:scale(1.12)}
+/* The lemonade photo is exactly band-height, so a centred zoom trims the lemon
+   off the top. Growing from the top edge keeps it in frame. */
+.reel-shot img.shot-lemon{transform-origin:50% 0%}
 @media(max-width:700px){
   /* Photos take more of the phone screen. The copy now overlaps the lower part
      of the band, so the veil turns solid earlier to keep it legible. */
@@ -472,8 +478,10 @@ nav.nav .nav-order-mobile{display:none !important}
   /* Glass on the left: the frame is anchored to the photo's right edge, which
      puts the drink at roughly a fifth of the way in. */
   .reel-shot img.shot-lemon{object-position:100% 54%}
-  .reel-shot img.shot-cheese{transform:scale(1.08) translateX(-3%)}
-  .reel-shot.on img.shot-cheese{transform:scale(1.08) translateX(3%)}
+  /* Only a third of this photo fits a phone band, so start on the hand at the
+     far left and travel to the corn dog. */
+  .reel-shot img.shot-cheese{object-position:0% 51%;transform:scale(1)}
+  .reel-shot.on img.shot-cheese{object-position:88% 51%;transform:scale(1.1)}
 }
 </style>
 <!--AUTO-SEO:START-->
@@ -556,14 +564,14 @@ nav.nav .nav-order-mobile{display:none !important}
 <!-- THE REEL: one pinned stage, three beats. Each photo appears once on the page. -->
 <section class="reel" id="reel">
   <div class="reel-stage">
-    <div class="reel-shot on"><img src="/images/hero/03-cheese-pull.png" style="aspect-ratio:1774/887" class="shot-cheese" alt="Cheese stretching from a Korean corn dog pulled apart by hand"></div>
+    <div class="reel-shot"><img src="/images/hero/03-cheese-pull.png" style="aspect-ratio:1774/887" class="shot-cheese" alt="Cheese stretching from a Korean corn dog pulled apart by hand"></div>
     <div class="reel-shot"><img src="/images/hero/02-donuts.png" style="aspect-ratio:1731/909" class="shot-donut" alt="A stack of handmade filled donuts"></div>
     <div class="reel-shot"><img src="/images/hero/04-midnight-lemonade.png" style="aspect-ratio:1961/802" class="shot-lemon" alt="Midnight Lemonade, a layered sparkling drink"></div>
     <div class="reel-veil"></div>
     <div class="reel-in" id="reelIn"></div>
     <div class="reel-copy">
       <div class="container">
-        <div class="reel-line on"><div class="n">At the counter</div><h2>Made to order.</h2>
+        <div class="reel-line"><div class="n">At the counter</div><h2>Made to order.</h2>
           <p>Nothing sits in a warming case. Every corn dog is battered and every donut finished after you ask for it.</p></div>
         <div class="reel-line"><div class="n">Every morning</div><h2>Never pre&#8209;made.</h2>
           <p>We mix fresh dough every morning, in every store. By hand, from scratch.</p></div>
@@ -1092,7 +1100,7 @@ nav.nav .nav-order-mobile{display:none !important}
   var shots = reel.querySelectorAll('.reel-shot');
   var lines = reel.querySelectorAll('.reel-line');
   var bars = document.querySelectorAll('#reelRail b i');
-  var beats = shots.length, active = 0, ticking = false;
+  var beats = shots.length, active = 0, ticking = false, lit = false;
   var clamp = function(v){ return v < 0 ? 0 : v > 1 ? 1 : v; };
   var hero = document.querySelector('.hero-cine');
   var stage = reel.querySelector('.reel-stage');
@@ -1131,6 +1139,7 @@ nav.nav .nav-order-mobile{display:none !important}
     var rt = reel.getBoundingClientRect();
     reelIn.style.opacity = clamp(rt.top / (sh * 0.8)).toFixed(3);
     if (rt.top <= 0 && rt.bottom >= sh){
+      if (!lit){ lit = true; shots[active].classList.add('on'); lines[active].classList.add('on'); }
       /* Progress runs over the beats only. The trailing stage is a hold on the
          last shot, so clamp rather than letting p run past 1. */
       var span = beats * sh;
