@@ -1317,6 +1317,47 @@ nav.nav .nav-order-mobile{display:none !important}
       }
       tctx.putImageData(tdata, 0, 0);
     }
+    /* The bubbles already in the photo. Each is a real bright speck in the
+       drink; now and then one lifts off, drifts up a little and fades, while a
+       soft patch of the surrounding colour covers the spot it left, and a
+       moment later a speck forms there again. Nothing new is added. */
+    var SPECKS = [[1468,317],[1495,309],[1541,305],[1470,383],[1410,389],[1462,356],[1490,411],[1491,332],[1463,505],[1530,525],[1500,470]];
+    var specks = [];
+    function speckSetup(){
+      var src = document.createElement('canvas'); src.width = W; src.height = H;
+      var sc = src.getContext('2d'); sc.drawImage(img, 0, 0, W, H);
+      /* a small round, soft-edged crop of the photo centred on a point */
+      function soft(cx, cy, R){
+        var c = document.createElement('canvas'), q = c.getContext('2d'), g;
+        c.width = c.height = R * 2 + 1;
+        q.drawImage(src, cx - R, cy - R, R * 2 + 1, R * 2 + 1, 0, 0, R * 2 + 1, R * 2 + 1);
+        g = q.createRadialGradient(R, R, 0, R, R, R); g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(0.45, 'rgba(0,0,0,1)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+        q.globalCompositeOperation = 'destination-in'; q.fillStyle = g; q.fillRect(0, 0, c.width, c.height);
+        return c;
+      }
+      for (var k = 0; k < SPECKS.length; k++){
+        var x = Math.round(SPECKS[k][0] * sx), y = Math.round(SPECKS[k][1] * sy), R = Math.round(7 * sx);
+        /* the speck itself, and a piece of the texture just beside it that
+           hides the spot while the speck is away */
+        specks.push({ x: x, y: y, R: R, tile: soft(x, y, R), cover: soft(x + Math.round(R * 2.6), y + Math.round(R * 0.4), R), T: 8 + (k * 1.7) % 5, ph: (k * 2.9) % 8 });
+      }
+    }
+    function drawSpecks(t){
+      var k, s, u, rise, a, cover, x, y;
+      for (k = 0; k < specks.length; k++){
+        s = specks[k]; u = (t + s.ph) % s.T;              /* seconds into this speck's cycle */
+        if (u > 4.2) continue;                            /* resting: the photo shows it as is */
+        rise = u < 3 ? u / 3 : 1;                         /* 0..1 over three seconds */
+        cover = u < 0.4 ? u / 0.4 : u > 3.2 ? 1 - (u - 3.2) / 1 : 1;   /* the patch fades in, then out as the speck re-forms */
+        if (cover > 0){ ctx.globalAlpha = Math.min(1, cover); ctx.drawImage(s.cover, s.x - s.R, s.y - s.R); }
+        if (u < 3){
+          a = rise < 0.75 ? 1 : 1 - (rise - 0.75) / 0.25;   /* fades near the top of its little climb */
+          x = s.x + Math.sin(t * 1.3 + s.ph) * 1.2 * sx; y = s.y - rise * 40 * sy;
+          ctx.globalAlpha = a; ctx.drawImage(s.tile, x - s.R, y - s.R);
+        }
+        ctx.globalAlpha = 1;
+      }
+    }
     function cut(m, cx, cy, rx, ry, feather){
       m.save(); m.translate(cx * sx, cy * sy); m.scale(rx * sx, ry * sy);
       var g = m.createRadialGradient(0, 0, 0, 0, 0, 1);
@@ -1335,6 +1376,7 @@ nav.nav .nav-order-mobile{display:none !important}
       /* the glass and the flower are left alone */
       cut(m, 1515, 380, 215, 300, 0.3);
       cut(m, 1640, 612, 140, 62, 0.4);
+      speckSetup();
       ready = true; frame(0);
       cv.classList.add('ready');
       cv.__frame = frame;                                 /* test hook */
@@ -1366,6 +1408,7 @@ nav.nav .nav-order-mobile{display:none !important}
       ctx.globalCompositeOperation = 'overlay'; ctx.drawImage(light, 0, 0);
       ctx.globalCompositeOperation = 'soft-light'; ctx.drawImage(light, 0, 0);
       ctx.globalCompositeOperation = 'source-over';
+      drawSpecks(t);
     }
     function play(){
       stop(); if (!setup()) return;
