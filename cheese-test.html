@@ -1518,7 +1518,7 @@ nav.nav .nav-order-mobile{display:none !important}
     };
   })();
   var donut = (function(){
-    var dv = vid(document.getElementById('donutVid'), '/images/reel/donut/donut-still-' + SMALL + '.mp4?v=' + (SMALL === 1200 ? '287b0a65' : '793fb9fd'));
+    var dv = vid(document.getElementById('donutVid'), '/images/reel/donut/donut-still-' + SMALL + '.mp4?v=' + (SMALL === 1200 ? '96b432d0' : '8780057c'));
     if (!dv) return { play: function(){}, stop: function(){}, reset: function(){}, start: function(d){ if (d) d(); } };
     dv.addEventListener('loadeddata', function(){ dv.classList.add('show'); });
     return { play: function(){ playFrom0(dv); }, stop: function(){ try { dv.pause(); } catch (e) {} }, reset: function(){ try { dv.pause(); dv.currentTime = 0; } catch (e) {} }, start: function(d){ if (d) d(); } };
