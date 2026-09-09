@@ -1502,7 +1502,7 @@ nav.nav .nav-order-mobile{display:none !important}
   function playFrom0(el){ if (!el) return; try { el.pause(); el.currentTime = 0; var p = el.play(); if (p && p.catch) p.catch(function(){}); } catch (e) {} }
   var SMALL = window.innerWidth <= 700 ? 1200 : 1600;
   var cheese = (function(){
-    var vo = vid(document.getElementById('cheeseOpen'), '/images/reel/cheese/open-' + SMALL + '.mp4?v=' + (SMALL === 1200 ? '78b7611b' : 'b40aa1e2'));
+    var vo = vid(document.getElementById('cheeseOpen'), '/images/reel/cheese/smooth-' + SMALL + '.mp4?v=' + (SMALL === 1200 ? '0a4ce557' : '0d7031ac'));
     if (!vo) return { play: function(){}, reset: function(){}, start: function(d){ if (d) d(); } };
     vo.addEventListener('loadeddata', function(){ vo.classList.add('show'); });
     return {
@@ -1512,7 +1512,7 @@ nav.nav .nav-order-mobile{display:none !important}
     };
   })();
   var donut = (function(){
-    var dv = vid(document.getElementById('donutVid'), '/images/reel/donut/donut-' + SMALL + '.mp4?v=' + (SMALL === 1200 ? '630d1053' : '691e3215'));
+    var dv = vid(document.getElementById('donutVid'), '/images/reel/donut/donut-still-' + SMALL + '.mp4?v=' + (SMALL === 1200 ? '2498c37f' : '5e2b1d69'));
     if (!dv) return { play: function(){}, stop: function(){}, reset: function(){}, start: function(d){ if (d) d(); } };
     dv.addEventListener('loadeddata', function(){ dv.classList.add('show'); });
     return { play: function(){ playFrom0(dv); }, stop: function(){ try { dv.pause(); } catch (e) {} }, reset: function(){ try { dv.pause(); dv.currentTime = 0; } catch (e) {} }, start: function(d){ if (d) d(); } };
