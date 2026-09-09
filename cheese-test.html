@@ -508,8 +508,12 @@ nav.nav .nav-order-mobile{display:none !important}
      the strand grows to the right, so a slow drift right keeps it in view. */
   /* Shown whole, the strip is shorter than the band; centred, the space above
      and below it splits evenly instead of piling up under the copy. */
-  .reel-shot :is(img,video).shot-cheese{object-fit:contain;object-position:50% 50%}
-  .reel-shot.on :is(img,video).shot-cheese{object-position:50% 50%}
+  /* Filling the band edge to edge, at the tallest band that still keeps both
+     corn dog pieces (12.6%..91.2% of the frame) inside the crop. The band sits
+     under the fixed nav instead of behind it. */
+  .reel-shot:has(.shot-cheese){top:83px;height:calc(100vw * 0.6)}
+  .reel-shot :is(img,video).shot-cheese{object-fit:cover;object-position:52% 50%}
+  .reel-shot.on :is(img,video).shot-cheese{object-position:52% 50%}
   /* The fixed nav is 83px tall and covered the lemon slices. The lemonade
      starts below it and is shown a little smaller than the band, so the lemon
      on top and the coloured light on the counter both fit on the screen. */
@@ -601,7 +605,7 @@ nav.nav .nav-order-mobile{display:none !important}
 <section class="reel" id="reel">
   <div class="reel-stage">
     <div class="reel-shot"><img src="/images/reel/cheese/poster.jpg?v=f5011435" style="aspect-ratio:2/1" class="shot-cheese" alt="Cheese stretching from a Korean corn dog pulled apart by hand"><video class="shot-cheese" id="cheeseOpen" muted playsinline preload="auto" aria-hidden="true"></video></div>
-    <div class="reel-shot"><img src="/images/hero/02-donuts.png" style="aspect-ratio:1731/909" class="shot-donut" alt="A stack of handmade filled donuts"><video class="shot-donut" id="donutVid" muted playsinline preload="auto" aria-hidden="true"></video></div>
+    <div class="reel-shot"><img src="/images/hero/02-donuts.png" style="aspect-ratio:1731/909" class="shot-donut" alt="A stack of handmade filled donuts"><canvas class="shot-donut" id="donutSag" aria-hidden="true"></canvas></div>
     <div class="reel-shot"><img src="/images/hero/04-midnight-lemonade.png" style="aspect-ratio:1961/802" class="shot-lemon" alt="Midnight Lemonade, a layered sparkling drink"><canvas class="shot-lemon" id="lemonSeq" width="1600" height="654" aria-hidden="true"></canvas></div>
     <div class="reel-veil"></div>
     <div class="reel-in" id="reelIn"></div>
@@ -1511,15 +1515,73 @@ nav.nav .nav-order-mobile{display:none !important}
       start: function(d){ if (d) d(); }
     };
   })();
-  var donut = (function(){
-    var dv = vid(document.getElementById('donutVid'), '/images/reel/donut/donut-' + SMALL + '.mp4?v=' + (SMALL === 1200 ? 'd9453131' : '7c2eec83'));
-    if (!dv) return { play: function(){}, stop: function(){}, draw: function(){}, start: function(d){ if (d) d(); } };
-    dv.addEventListener('loadeddata', function(){ dv.classList.add('show'); });
-    return { play: function(){ playFrom0(dv); }, stop: function(){ try { dv.pause(); } catch (e) {} }, draw: function(){}, start: function(d){ if (d) d(); } };
-  })();
+  /* ---- donuts: the fillings sag ----
+     The photo itself, with each filling's lower part redrawn in thin columns
+     that are stretched downward by an amount that grows over six seconds and
+     then holds. The stretch is bell-shaped across the filling, biggest where
+     the filling hangs lowest and zero at the crust, so it reads as a thick
+     cream slowly giving way rather than a picture being pulled. Amounts are
+     per filling: chocolate hazelnut most, pistachio seven tenths of that,
+     passionfruit a tenth, strawberry almost none. */
+  function makeSag(id){
+    var cv = document.getElementById(id);
+    var none = { play: function(){}, stop: function(){}, reset: function(){}, start: function(d){ if (d) d(); } };
+    if (!cv || !cv.getContext) return none;
+    var img = cv.parentNode.querySelector('img'), ctx = cv.getContext('2d');
+    var W = 0, H = 0, sx = 1, sy = 1, ready = false, timer = null, t0 = 0, held = 0;
+    /* photo-pixel boxes: x0..x1 across the filling, y0..y1 the part that
+       stretches (upper edge stays put), cx where it hangs lowest, hw the half
+       width of the bell, amp the full sag in pixels */
+    var FILL = [
+      { x0: 1060, x1: 1520, y0: 430, y1: 502, cx: 1250, hw: 190, amp: 26 },   /* chocolate hazelnut */
+      { x0: 1040, x1: 1500, y0: 615, y1: 682, cx: 1235, hw: 185, amp: 18 },   /* pistachio */
+      { x0: 1050, x1: 1520, y0: 790, y1: 832, cx: 1260, hw: 190, amp: 2.6 },  /* passionfruit */
+      { x0: 1060, x1: 1490, y0: 270, y1: 306, cx: 1250, hw: 180, amp: 1 }     /* strawberry */
+    ];
+    function setup(){
+      if (ready || !img.naturalWidth) return ready;
+      W = cv.width = img.naturalWidth; H = cv.height = img.naturalHeight;
+      sx = W / 1731; sy = H / 909;
+      ready = true; frame(0); cv.classList.add('ready');
+      cv.__frame = frame;                                 /* test hook */
+      return true;
+    }
+    function ease(u){ return u <= 0 ? 0 : u >= 1 ? 1 : u * u * (3 - 2 * u); }
+    function frame(t){
+      var k = ease(t / 6), f, i, x, u, sag, x0, x1, y0, hgt, step = Math.max(1, Math.round(2 * sx));
+      ctx.drawImage(img, 0, 0, W, H);
+      for (i = 0; i < FILL.length; i++){
+        f = FILL[i]; x0 = Math.round(f.x0 * sx); x1 = Math.round(f.x1 * sx); y0 = Math.round(f.y0 * sy); hgt = Math.round((f.y1 - f.y0) * sy);
+        for (x = x0; x < x1; x += step){
+          u = (x / sx - f.cx) / f.hw;
+          sag = k * f.amp * sy * Math.exp(-u * u * 2.4);
+          if (sag < 0.15) continue;
+          ctx.drawImage(img, x, y0, step, hgt, x, y0, step, hgt + sag);
+        }
+      }
+    }
+    function play(){
+      stop(); if (!setup()) return;
+      t0 = 0;
+      function tick(ts){
+        if (!t0) t0 = ts;
+        var t = (ts - t0) / 1000;
+        frame(t);
+        if (t < 6.2) timer = requestAnimationFrame(tick); else timer = null;
+      }
+      timer = requestAnimationFrame(tick);
+    }
+    function stop(){ if (timer){ cancelAnimationFrame(timer); timer = null; } }
+    function start(done){
+      if (img.complete) setup(); else img.addEventListener('load', setup);
+      if (done) done();
+    }
+    return { play: play, stop: stop, reset: function(){ stop(); if (ready) frame(0); }, start: start };
+  }
+  var donut = makeSag('donutSag');
   var lemon  = makeShimmer('lemonSeq');
-  function enter(s){ if (s === 0) cheese.play(); if (s === 1) donut.play('once'); if (s === 2) lemon.play('swing'); }
-  function leave(s){ if (s === 1){ donut.stop(); donut.draw(0); } if (s === 2) lemon.stop(); }
+  function enter(s){ if (s === 0) cheese.play(); if (s === 1) donut.play(); if (s === 2) lemon.play('swing'); }
+  function leave(s){ if (s === 1) donut.reset(); if (s === 2) lemon.stop(); }
   function loadAll(){ cheese.start(function(){ donut.start(function(){ lemon.start(); }); }); }
   var kick = function(){ setTimeout(loadAll, 300); };
   if (document.readyState === 'complete') kick(); else window.addEventListener('load', kick);
