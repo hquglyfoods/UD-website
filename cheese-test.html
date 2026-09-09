@@ -489,8 +489,11 @@ nav.nav .nav-order-mobile{display:none !important}
 .reel-shot :is(canvas,video){position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity 0.3s}
 .reel-shot canvas.ready,.reel-shot video.show{opacity:1}
 /* The stretch is the motion now, so the pan goes and only a slow push stays. */
-.reel-shot :is(img,canvas,video).shot-cheese{object-position:50% 50%;transform:none;transition:none}
-.reel-shot.on :is(img,canvas,video).shot-cheese{object-position:50% 50%;transform:none}
+/* The pull only reads if both halves stay on screen, so this one is shown
+   whole rather than cropped to fill. The band is black, so the space above and
+   below it just reads as letterboxing. */
+.reel-shot :is(img,video).shot-cheese{object-fit:contain;object-position:50% 50%;transform:none;transition:none}
+.reel-shot.on :is(img,video).shot-cheese{object-position:50% 50%;transform:none}
 @media(min-width:701px){
   /* Desktop framing follows the phone: the stack sits whole at the right edge,
      and the glass moves to the left. The photo has no lettering, so it is
@@ -503,8 +506,10 @@ nav.nav .nav-order-mobile{display:none !important}
 @media(max-width:700px){
   /* A phone band shows the middle third: the join sits just left of centre and
      the strand grows to the right, so a slow drift right keeps it in view. */
-  .reel-shot :is(img,canvas,video).shot-cheese{object-position:48% 50%;transform:none;transition:none}
-  .reel-shot.on :is(img,canvas,video).shot-cheese{object-position:48% 50%;transform:none}
+  /* Shown whole, the strip is much shorter than the band, so it sits high in it
+     rather than floating in the middle with a gap under the nav. */
+  .reel-shot :is(img,video).shot-cheese{object-fit:contain;object-position:50% 25%}
+  .reel-shot.on :is(img,video).shot-cheese{object-position:50% 25%}
   /* The fixed nav is 83px tall and covered the lemon slices. The lemonade
      starts below it and is shown a little smaller than the band, so the lemon
      on top and the coloured light on the counter both fit on the screen. */
@@ -1314,12 +1319,20 @@ nav.nav .nav-order-mobile{display:none !important}
       }
       tctx.putImageData(tdata, 0, 0);
     }
-    /* The bubbles already in the photo. Each is a real bright speck in the
-       drink; now and then one lifts off, drifts up a little and fades, while a
-       soft patch of the surrounding colour covers the spot it left, and a
-       moment later a speck forms there again. Nothing new is added. */
-    var SPECKS = [[1468,317],[1495,309],[1541,305],[1470,383],[1410,389],[1462,356],[1490,411],[1491,332],[1463,505],[1530,525],[1500,470]];
-    var specks = [];
+    /* The bubbles already in the photo. Each listed point is a real bright
+       speck in the drink. Now and then one lifts off, drifts up and fades while
+       a patch of the liquid beside it covers the spot it left, and a moment
+       later it forms again. A second, larger set borrows those same specks as
+       stencils and sends them up through the rest of the glass, each at its own
+       speed and moment, so the drink reads as gently carbonated. Nothing is
+       invented: every bubble on screen is a piece of the original photograph. */
+    var SPECKS = [[1482,302],[1407,286],[1518,263],[1503,301],[1500,259],[1437,258],[1503,273],[1468,317],
+                  [1436,273],[1425,284],[1452,274],[1541,305],[1504,316],[1606,260],[1570,290],[1470,383],
+                  [1602,296],[1406,264],[1531,271],[1484,271]];
+    var specks = [], extras = [];
+    /* the inside of the glass, in photo pixels; it narrows a little going down */
+    function wallL(y){ return 1404 + (y - 260) * 0.03; }
+    function wallR(y){ return 1616 - (y - 260) * 0.05; }
     function speckSetup(){
       var src = document.createElement('canvas'); src.width = W; src.height = H;
       var sc = src.getContext('2d'); sc.drawImage(img, 0, 0, W, H);
@@ -1332,15 +1345,55 @@ nav.nav .nav-order-mobile{display:none !important}
         q.globalCompositeOperation = 'destination-in'; q.fillStyle = g; q.fillRect(0, 0, c.width, c.height);
         return c;
       }
-      for (var k = 0; k < SPECKS.length; k++){
-        var x = Math.round(SPECKS[k][0] * sx), y = Math.round(SPECKS[k][1] * sy), R = Math.round(7 * sx);
-        /* the speck itself, and a piece of the texture just beside it that
-           hides the spot while the speck is away */
-        specks.push({ x: x, y: y, R: R, tile: soft(x, y, R), cover: soft(x + Math.round(R * 2.6), y + Math.round(R * 0.4), R), T: 8 + (k * 1.7) % 5, ph: (k * 2.9) % 8 });
+      /* just the bright part of a speck, as a stencil: how much each pixel
+         stands out from the liquid around it becomes its opacity, so it can be
+         laid anywhere in the drink without carrying a disc of the wrong colour */
+      function highlight(cx, cy, R){
+        var n = R * 2 + 1, id = sc.getImageData(cx - R, cy - R, n, n), d = id.data;
+        var base = 0, cnt = 0, x, y, i, dist, l;
+        for (y = 0; y < n; y++) for (x = 0; x < n; x++){
+          dist = Math.sqrt((x - R) * (x - R) + (y - R) * (y - R));
+          if (dist < R * 0.7 || dist > R) continue;
+          i = (y * n + x) * 4; base += (d[i] + d[i + 1] + d[i + 2]) / 3; cnt++;
+        }
+        base = cnt ? base / cnt : 0;
+        for (y = 0; y < n; y++) for (x = 0; x < n; x++){
+          i = (y * n + x) * 4;
+          dist = Math.sqrt((x - R) * (x - R) + (y - R) * (y - R));
+          l = (d[i] + d[i + 1] + d[i + 2]) / 3;
+          var a = (l - base) / 70;
+          if (dist > R) a = 0; else if (dist > R * 0.7) a *= (R - dist) / (R * 0.3);
+          d[i + 3] = a <= 0 ? 0 : (a > 1 ? 255 : Math.round(a * 255));
+        }
+        var c = document.createElement('canvas'); c.width = c.height = n;
+        c.getContext('2d').putImageData(id, 0, 0);
+        return c;
+      }
+      var k, x, y, R = Math.round(7 * sx);
+      for (k = 0; k < SPECKS.length; k++){
+        x = Math.round(SPECKS[k][0] * sx); y = Math.round(SPECKS[k][1] * sy);
+        specks.push({ x: x, y: y, R: R, tile: soft(x, y, R),
+                      cover: soft(x + Math.round(R * 2.6), y + Math.round(R * 0.4), R),
+                      T: 8 + (k * 1.7) % 5, ph: (k * 2.9) % 8 });
+      }
+      /* borrowed bubbles: fixed pseudo-random so every visit looks the same */
+      var seed = 20260909, rnd = function(){ seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+      for (k = 0; k < 16; k++){
+        var py = 300 + rnd() * 235;                     /* where it starts, photo pixels */
+        var px = wallL(py) + 12 + rnd() * (wallR(py) - wallL(py) - 24);
+        /* stencil cut from whichever real speck sits closest in height, so its
+           grain matches that part of the drink */
+        var best = 0, bd = 1e9;
+        for (var j = 0; j < SPECKS.length; j++){ var dd = Math.abs(SPECKS[j][1] - py); if (dd < bd){ bd = dd; best = j; } }
+        var HR = Math.round((4 + rnd() * 4) * sx);
+        extras.push({ x: px * sx, y: py * sy, spr: highlight(Math.round(SPECKS[best][0] * sx), Math.round(SPECKS[best][1] * sy), HR),
+                      R: HR, rise: (30 + rnd() * 55) * sy, dur: 2.6 + rnd() * 3.4,
+                      T: 7 + rnd() * 9, ph: rnd() * 16, wob: (0.6 + rnd() * 1.8) * sx, sp: 0.8 + rnd() * 1.4,
+                      a: 0.45 + rnd() * 0.35 });
       }
     }
     function drawSpecks(t){
-      var k, s, u, rise, a, cover, x, y;
+      var k, s, u, rise, a, cover, x, y, e;
       for (k = 0; k < specks.length; k++){
         s = specks[k]; u = (t + s.ph) % s.T;              /* seconds into this speck's cycle */
         if (u > 4.2) continue;                            /* resting: the photo shows it as is */
@@ -1354,6 +1407,17 @@ nav.nav .nav-order-mobile{display:none !important}
         }
         ctx.globalAlpha = 1;
       }
+      for (k = 0; k < extras.length; k++){
+        e = extras[k]; u = (t + e.ph) % e.T;
+        if (u > e.dur) continue;
+        rise = u / e.dur;
+        a = e.a * (rise < 0.12 ? rise / 0.12 : rise > 0.7 ? (1 - rise) / 0.3 : 1);
+        if (a <= 0) continue;
+        x = e.x + Math.sin(t * e.sp + e.ph) * e.wob;
+        y = e.y - rise * e.rise;
+        ctx.globalAlpha = a; ctx.drawImage(e.spr, x - e.R, y - e.R);
+      }
+      ctx.globalAlpha = 1;
     }
     function cut(m, cx, cy, rx, ry, feather){
       m.save(); m.translate(cx * sx, cy * sy); m.scale(rx * sx, ry * sy);
