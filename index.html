@@ -600,7 +600,7 @@ nav.nav .nav-order-mobile{display:none !important}
 <section class="reel" id="reel">
   <div class="reel-stage">
     <div class="reel-shot"><img src="/images/reel/cheese/poster.jpg?v=f5011435" style="aspect-ratio:2/1" class="shot-cheese" alt="Cheese stretching from a Korean corn dog pulled apart by hand"><video class="shot-cheese" id="cheeseOpen" muted playsinline preload="auto" aria-hidden="true"></video></div>
-    <div class="reel-shot"><img src="/images/hero/02-donuts.png" style="aspect-ratio:1731/909" class="shot-donut" alt="A stack of handmade filled donuts"><video class="shot-donut" id="donutVid" muted playsinline preload="auto" aria-hidden="true"></video></div>
+    <div class="reel-shot"><img src="/images/reel/donut/plate.jpg?v=0e3ff700" style="aspect-ratio:1731/909" class="shot-donut" alt="A stack of handmade filled donuts"><video class="shot-donut" id="donutVid" muted playsinline preload="auto" aria-hidden="true"></video></div>
     <div class="reel-shot"><img src="/images/hero/04-midnight-lemonade.png" style="aspect-ratio:1961/802" class="shot-lemon" alt="Midnight Lemonade, a layered sparkling drink"><canvas class="shot-lemon" id="lemonSeq" width="1600" height="654" aria-hidden="true"></canvas></div>
     <div class="reel-veil"></div>
     <div class="reel-in" id="reelIn"></div>
@@ -1402,7 +1402,7 @@ nav.nav .nav-order-mobile{display:none !important}
       for (k = 0; k < specks.length; k++){
         s = specks[k]; u = (t + s.ph) % s.T;              /* seconds into this speck's cycle */
         if (u > 4.2) continue;                            /* resting: the photo shows it as is */
-        rise = u < 3 ? u / 3 : 1;                         /* 0..1 over three seconds */
+        rise = u < 3 ? Math.pow(u / 3, 1.7) : 1;          /* 0..1 over three seconds, speeding up toward the surface */
         cover = u < 0.4 ? u / 0.4 : u > 3.2 ? 1 - (u - 3.2) / 1 : 1;   /* the patch fades in, then out as the speck re-forms */
         if (cover > 0){ ctx.globalAlpha = Math.min(1, cover); ctx.drawImage(s.cover, s.x - s.R, s.y - s.R); }
         if (u < 3){
@@ -1415,7 +1415,7 @@ nav.nav .nav-order-mobile{display:none !important}
       for (k = 0; k < extras.length; k++){
         e = extras[k]; u = (t + e.ph) % e.T;
         if (u > e.dur) continue;
-        rise = u / e.dur;
+        rise = Math.pow(u / e.dur, 1.7);                   /* slow start, faster near the top, as real bubbles do */
         a = e.a * (rise < 0.12 ? rise / 0.12 : rise > 0.7 ? (1 - rise) / 0.3 : 1);
         if (a <= 0) continue;
         x = e.x + Math.sin(t * e.sp + e.ph) * e.wob;
@@ -1507,7 +1507,7 @@ nav.nav .nav-order-mobile{display:none !important}
   function playFrom0(el){ if (!el) return; try { el.pause(); el.currentTime = 0; var p = el.play(); if (p && p.catch) p.catch(function(){}); } catch (e) {} }
   var SMALL = window.innerWidth <= 700 ? 1200 : 1600;
   var cheese = (function(){
-    var vo = vid(document.getElementById('cheeseOpen'), '/images/reel/cheese/open-' + SMALL + '.mp4?v=' + (SMALL === 1200 ? '78b7611b' : 'b40aa1e2'));
+    var vo = vid(document.getElementById('cheeseOpen'), '/images/reel/cheese/open-' + SMALL + '.mp4?v=' + (SMALL === 1200 ? '0a4ce557' : '0d7031ac'));
     if (!vo) return { play: function(){}, reset: function(){}, start: function(d){ if (d) d(); } };
     vo.addEventListener('loadeddata', function(){ vo.classList.add('show'); });
     return {
@@ -1517,7 +1517,7 @@ nav.nav .nav-order-mobile{display:none !important}
     };
   })();
   var donut = (function(){
-    var dv = vid(document.getElementById('donutVid'), '/images/reel/donut/donut-' + SMALL + '.mp4?v=' + (SMALL === 1200 ? '630d1053' : '691e3215'));
+    var dv = vid(document.getElementById('donutVid'), '/images/reel/donut/donut-' + SMALL + '.mp4?v=' + (SMALL === 1200 ? '96b432d0' : '8780057c'));
     if (!dv) return { play: function(){}, stop: function(){}, reset: function(){}, start: function(d){ if (d) d(); } };
     dv.addEventListener('loadeddata', function(){ dv.classList.add('show'); });
     return { play: function(){ playFrom0(dv); }, stop: function(){ try { dv.pause(); } catch (e) {} }, reset: function(){ try { dv.pause(); dv.currentTime = 0; } catch (e) {} }, start: function(d){ if (d) d(); } };
@@ -1538,27 +1538,51 @@ nav.nav .nav-order-mobile{display:none !important}
      reel actually fills the screen. */
   var LOCK = 700, lockUntil = 0;
   function beatTop(i){ return reel.offsetTop + i * stageH(); }
+  function reelEnd(){ return reel.offsetTop + reel.offsetHeight; }
   function pinned(){
     var rt = reel.getBoundingClientRect();
     return rt.top <= 1 && rt.bottom >= stageH() - 1;
   }
-  /* An upward gesture on the first beat and a downward one on the last are left
-     to the browser, so entering and leaving the reel always feels normal and the
-     page cannot trap the reader. */
-  function isExit(dir){ return (dir < 0 && active <= 0) || (dir > 0 && active >= beats - 1); }
-  function go(i){
-    i = i < 0 ? 0 : i > beats - 1 ? beats - 1 : i;
+  /* Which stepped zone the reader is in: the hero above the reel, the reel
+     itself, the strip just under it, or free-scrolling page further down. */
+  function zone(){
+    var y = window.scrollY || window.pageYOffset;
+    if (pinned()) return 'reel';
+    if (y < reel.offsetTop - 1) return 'above';
+    if (y > beatTop(beats - 1) && y <= reelEnd() + stageH() * 0.25) return 'below';
+    return 'free';
+  }
+  /* A gesture in a zone that is stepped in that direction is taken over. */
+  function stepped(z, dir){
+    return z === 'reel' || (z === 'above' && dir > 0) || (z === 'below' && dir < 0);
+  }
+  function goTo(top){
     lockUntil = Date.now() + LOCK;
-    window.scrollTo({ top: beatTop(i), behavior: 'smooth' });
+    window.scrollTo({ top: top, behavior: 'smooth' });
+  }
+  function go(i){ goTo(beatTop(i < 0 ? 0 : i > beats - 1 ? beats - 1 : i)); }
+  /* The current beat is read off the scroll position itself, not off the
+     frame loop, so a gesture that lands between frames still steps correctly. */
+  function beatAt(){
+    var y = window.scrollY || window.pageYOffset, i = Math.round((y - reel.offsetTop) / stageH());
+    return i < 0 ? 0 : i > beats - 1 ? beats - 1 : i;
+  }
+  function step(z, dir){
+    var cur = beatAt();
+    if (z === 'above') go(0);
+    else if (z === 'below') go(beats - 1);
+    else if (dir > 0 && cur >= beats - 1) goTo(reelEnd());         /* out the bottom: next section's top */
+    else if (dir < 0 && cur <= 0) goTo(0);                          /* out the top: back to the hero */
+    else go(cur + dir);
   }
 
   window.addEventListener('wheel', function(e){
-    if (!pinned() || Math.abs(e.deltaY) < 2) return;
-    var dir = e.deltaY > 0 ? 1 : -1;
-    if (isExit(dir)) return;
+    if (Math.abs(e.deltaY) < 2) return;
+    var dir = e.deltaY > 0 ? 1 : -1, z = zone();
+    if (!stepped(z, dir)) return;
     e.preventDefault();                       /* swallow the momentum */
     if (Date.now() < lockUntil) return;
-    go(active + dir);
+    step(z, dir);
   }, { passive: false });
 
   var touchY = 0, touchDir = 0;
@@ -1566,28 +1590,30 @@ nav.nav .nav-order-mobile{display:none !important}
     touchY = e.touches[0].clientY; touchDir = 0;
   }, { passive: true });
   window.addEventListener('touchmove', function(e){
-    if (!pinned()) return;
     var dy = touchY - e.touches[0].clientY;
     if (Math.abs(dy) > 6) touchDir = dy > 0 ? 1 : -1;
-    if (touchDir && isExit(touchDir)) return;
+    if (!touchDir || !stepped(zone(), touchDir)) return;
     e.preventDefault();
   }, { passive: false });
   window.addEventListener('touchend', function(){
-    if (!pinned() || !touchDir || isExit(touchDir)) return;
+    if (!touchDir) return;
+    var z = zone();
+    if (!stepped(z, touchDir)) return;
     if (Date.now() < lockUntil) return;
-    go(active + touchDir);
+    step(z, touchDir);
   }, { passive: true });
 
   /* Keyboard gets the same one-beat step, so the reel stays operable without a
      pointer instead of being something only a mouse can get through. */
   window.addEventListener('keydown', function(e){
-    if (!pinned()) return;
     var dir = (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') ? 1
             : (e.key === 'ArrowUp' || e.key === 'PageUp') ? -1 : 0;
-    if (!dir || isExit(dir)) return;
+    if (!dir) return;
+    var z = zone();
+    if (!stepped(z, dir)) return;
     e.preventDefault();
     if (Date.now() < lockUntil) return;
-    go(active + dir);
+    step(z, dir);
   });
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', function(){
