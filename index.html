@@ -404,8 +404,8 @@ nav.nav .nav-order-mobile{display:none !important}
 .reel-in{position:absolute;inset:0;z-index:4;background:var(--bg-black);opacity:0;pointer-events:none}
 .reel-shot{position:absolute;inset:0;opacity:0;transition:opacity 1s var(--ease)}
 .reel-shot.on{opacity:1}
-.reel-shot img{width:100%;height:100%;object-fit:cover;transform:scale(1.02);transition:transform 6s linear;will-change:transform}
-.reel-shot.on img{transform:scale(1.13)}
+.reel-shot :is(img,canvas,video){width:100%;height:100%;object-fit:cover;transform:scale(1.02);transition:transform 6s linear;will-change:transform}
+.reel-shot.on :is(img,canvas,video){transform:scale(1.13)}
 .reel-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,8,16,0.55),rgba(5,8,16,0.25) 40%,rgba(5,8,16,0.85))}
 .reel-copy{position:absolute;inset:0;z-index:3}
 .reel-copy .container{position:absolute;top:0;bottom:0;left:50%;transform:translateX(-50%);width:100%}
@@ -433,7 +433,7 @@ nav.nav .nav-order-mobile{display:none !important}
   .hero-cine h1{max-width:none;font-size:clamp(44px,13vw,64px)}
   .cine-cue{display:none}
   .reel-shot{inset:0 0 auto 0;height:54%}
-  .reel-shot.on img{transform:scale(1.07)}
+  .reel-shot.on :is(img,canvas,video){transform:scale(1.07)}
   .reel-veil{background:linear-gradient(180deg,rgba(5,8,16,0.12) 0%,rgba(5,8,16,0.3) 40%,var(--bg-black) 54%,var(--bg-black) 100%)}
   .reel-stage::before{display:none}
   .reel-copy{align-items:flex-end}
@@ -447,7 +447,7 @@ nav.nav .nav-order-mobile{display:none !important}
   .hero-cine-dip{display:none}
   .reel-stage{position:static;height:auto}
   .reel-shot{position:relative;opacity:1;height:60svh}
-  .reel-shot img{transform:none}
+  .reel-shot :is(img,canvas,video){transform:none}
   .reel-copy{position:static}
   .reel-copy .container{position:static;transform:none}
   .reel-line{position:relative;inset:auto;opacity:1;transform:none;padding:36px 32px}
@@ -455,19 +455,19 @@ nav.nav .nav-order-mobile{display:none !important}
 }
 
 /* ---- per-shot framing and motion (team feedback, 2026-08-11) ---- */
-.reel-shot img.shot-cheese{object-position:44% 51%}
-.reel-shot img.shot-donut{object-position:72% 59%}
-.reel-shot img.shot-lemon{object-position:74% 54%}
+.reel-shot :is(img,canvas,video).shot-cheese{object-position:44% 51%}
+.reel-shot :is(img,canvas,video).shot-donut{object-position:72% 59%}
+.reel-shot :is(img,canvas,video).shot-lemon{object-position:74% 54%}
 /* The cheese pull travels left to right instead of pushing in, so the stretch
    reads as motion rather than a zoom. scale gives it room to move. */
 /* Opens on the whole stretch, hand and all, then drifts and pushes in toward the
    corn dog on the right. object-position is animatable, so the frame itself
    travels; the zoom is anchored right so the push lands on the corn dog. */
-.reel-shot img.shot-cheese{object-position:4% 51%;transform-origin:82% 50%;transform:scale(1);transition:transform 6s linear,object-position 6s linear}
-.reel-shot.on img.shot-cheese{object-position:92% 51%;transform:scale(1.12)}
+.reel-shot :is(img,canvas,video).shot-cheese{object-position:4% 51%;transform-origin:82% 50%;transform:scale(1);transition:transform 6s linear,object-position 6s linear}
+.reel-shot.on :is(img,canvas,video).shot-cheese{object-position:92% 51%;transform:scale(1.12)}
 /* The lemonade photo is exactly band-height, so a centred zoom trims the lemon
    off the top. Growing from the top edge keeps it in frame. */
-.reel-shot img.shot-lemon{transform-origin:50% 0%}
+.reel-shot :is(img,canvas,video).shot-lemon{transform-origin:50% 0%}
 @media(max-width:700px){
   /* Photos take more of the phone screen. The copy now overlaps the lower part
      of the band, so the veil turns solid earlier to keep it legible. */
@@ -477,11 +477,46 @@ nav.nav .nav-order-mobile{display:none !important}
   .reel-veil{background:linear-gradient(180deg,rgba(5,8,16,0.08) 0%,rgba(5,8,16,0.22) 44%,rgba(5,8,16,0.78) 60%,var(--bg-black) 69%,var(--bg-black) 100%)}
   /* Glass on the left: the frame is anchored to the photo's right edge, which
      puts the drink at roughly a fifth of the way in. */
-  .reel-shot img.shot-lemon{object-position:100% 54%}
+  .reel-shot :is(img,canvas,video).shot-lemon{object-position:100% 54%}
   /* Only a third of this photo fits a phone band, so start on the hand at the
      far left and travel to the corn dog. */
-  .reel-shot img.shot-cheese{object-position:0% 51%;transform:scale(1)}
-  .reel-shot.on img.shot-cheese{object-position:88% 51%;transform:scale(1.1)}
+  .reel-shot :is(img,canvas,video).shot-cheese{object-position:0% 51%;transform:scale(1)}
+  .reel-shot.on :is(img,canvas,video).shot-cheese{object-position:88% 51%;transform:scale(1.1)}
+}
+
+/* ---- living photos (2026-09-08) ---- */
+.reel-shot :is(canvas,video){position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity 0.3s}
+.reel-shot canvas.ready,.reel-shot video.show{opacity:1}
+/* The stretch is the motion now, so the pan goes and only a slow push stays. */
+/* The pull only reads if both halves stay on screen, so this one is shown
+   whole rather than cropped to fill. The band is black, so the space above and
+   below it just reads as letterboxing. */
+.reel-shot :is(img,video).shot-cheese{object-position:50% 50%;transform:none;transition:none}
+.reel-shot.on :is(img,video).shot-cheese{object-position:50% 50%;transform:none}
+@media(min-width:701px){
+  /* Desktop framing follows the phone: the stack sits whole at the right edge,
+     and the glass moves to the left. The photo has no lettering, so it is
+     mirrored rather than zoomed, which keeps it sharp. Its copy goes right. */
+  .reel-shot :is(img,canvas,video).shot-donut{object-position:100% 59%}
+  .reel-shot :is(img,canvas,video).shot-lemon{object-position:100% 54%;transform:scaleX(-1) scale(1.02)}
+  .reel-shot.on :is(img,canvas,video).shot-lemon{transform:scaleX(-1) scale(1.13)}
+  .reel-line.r{align-items:flex-end;text-align:right}
+}
+@media(max-width:700px){
+  /* A phone band shows the middle third: the join sits just left of centre and
+     the strand grows to the right, so a slow drift right keeps it in view. */
+  /* Shown whole, the strip is shorter than the band; centred, the space above
+     and below it splits evenly instead of piling up under the copy. */
+  .reel-shot :is(img,video).shot-cheese{object-position:48% 50%;transform:none;transition:none}
+  .reel-shot.on :is(img,video).shot-cheese{object-position:48% 50%;transform:none}
+  /* The fixed nav is 83px tall and covered the lemon slices. The lemonade
+     starts below it and is shown a little smaller than the band, so the lemon
+     on top and the coloured light on the counter both fit on the screen. */
+  .reel-shot img.shot-lemon{margin-top:83px;height:calc((100% - 83px) * 0.8)}
+  .reel-shot canvas.shot-lemon{top:83px;height:calc((100% - 83px) * 0.8)}
+  /* The darkening for the copy starts a little lower, so the bottom of each
+     photo, where the lemonade's reflection sits, is not lost in it. */
+  .reel-veil{background:linear-gradient(180deg,rgba(5,8,16,0.08) 0%,rgba(5,8,16,0.16) 50%,rgba(5,8,16,0.7) 62%,var(--bg-black) 69%,var(--bg-black) 100%)}
 }
 </style>
 <!--AUTO-SEO:START-->
@@ -564,9 +599,9 @@ nav.nav .nav-order-mobile{display:none !important}
 <!-- THE REEL: one pinned stage, three beats. Each photo appears once on the page. -->
 <section class="reel" id="reel">
   <div class="reel-stage">
-    <div class="reel-shot"><img src="/images/hero/03-cheese-pull.png" style="aspect-ratio:1774/887" class="shot-cheese" alt="Cheese stretching from a Korean corn dog pulled apart by hand"></div>
-    <div class="reel-shot"><img src="/images/hero/02-donuts.png" style="aspect-ratio:1731/909" class="shot-donut" alt="A stack of handmade filled donuts"></div>
-    <div class="reel-shot"><img src="/images/hero/04-midnight-lemonade.png" style="aspect-ratio:1961/802" class="shot-lemon" alt="Midnight Lemonade, a layered sparkling drink"></div>
+    <div class="reel-shot"><img src="/images/reel/cheese/poster.jpg?v=f5011435" style="aspect-ratio:2/1" class="shot-cheese" alt="Cheese stretching from a Korean corn dog pulled apart by hand"><video class="shot-cheese" id="cheeseOpen" muted playsinline preload="auto" aria-hidden="true"></video></div>
+    <div class="reel-shot"><img src="/images/hero/02-donuts.png" style="aspect-ratio:1731/909" class="shot-donut" alt="A stack of handmade filled donuts"><video class="shot-donut" id="donutVid" muted playsinline preload="auto" aria-hidden="true"></video></div>
+    <div class="reel-shot"><img src="/images/hero/04-midnight-lemonade.png" style="aspect-ratio:1961/802" class="shot-lemon" alt="Midnight Lemonade, a layered sparkling drink"><canvas class="shot-lemon" id="lemonSeq" width="1600" height="654" aria-hidden="true"></canvas></div>
     <div class="reel-veil"></div>
     <div class="reel-in" id="reelIn"></div>
     <div class="reel-copy">
@@ -575,7 +610,7 @@ nav.nav .nav-order-mobile{display:none !important}
           <p>Nothing sits in a warming case. Every corn dog is battered and every donut finished after you ask for it.</p></div>
         <div class="reel-line"><div class="n">Every morning</div><h2>Never pre&#8209;made.</h2>
           <p>We mix fresh dough every morning, in every store. By hand, from scratch.</p></div>
-        <div class="reel-line"><div class="n">Behind the bar</div><h2>Made in&#8209;house.</h2>
+        <div class="reel-line r"><div class="n">Behind the bar</div><h2>Made in&#8209;house.</h2>
           <p>Signature refreshers and bubble tea, built in the store, alongside everything else we make by hand.</p></div>
       </div>
     </div>
@@ -1100,7 +1135,9 @@ nav.nav .nav-order-mobile{display:none !important}
   var shots = reel.querySelectorAll('.reel-shot');
   var lines = reel.querySelectorAll('.reel-line');
   var bars = document.querySelectorAll('#reelRail b i');
-  var beats = shots.length, active = 0, ticking = false, lit = false;
+  /* One beat per shot. The cheese pull plays its clip whenever its beat lights. */
+  var BEAT_SHOT = [0, 1, 2], BEAT_LINE = [0, 1, 2];
+  var beats = BEAT_SHOT.length, active = 0, ticking = false, lit = false;
   var clamp = function(v){ return v < 0 ? 0 : v > 1 ? 1 : v; };
   var hero = document.querySelector('.hero-cine');
   var stage = reel.querySelector('.reel-stage');
@@ -1139,7 +1176,7 @@ nav.nav .nav-order-mobile{display:none !important}
     var rt = reel.getBoundingClientRect();
     reelIn.style.opacity = clamp(rt.top / (sh * 0.8)).toFixed(3);
     if (rt.top <= 0 && rt.bottom >= sh){
-      if (!lit){ lit = true; shots[active].classList.add('on'); lines[active].classList.add('on'); }
+      if (!lit){ lit = true; shots[BEAT_SHOT[active]].classList.add('on'); lines[BEAT_LINE[active]].classList.add('on'); enter(BEAT_SHOT[active]); }
       /* Progress runs over the beats only. The trailing stage is a hold on the
          last shot, so clamp rather than letting p run past 1. */
       var span = beats * sh;
@@ -1150,12 +1187,343 @@ nav.nav .nav-order-mobile{display:none !important}
         bars[b].style.width = (b < idx ? 100 : b === idx ? Math.round(within * 100) : 0) + '%';
       }
       if (idx !== active){
-        shots[active].classList.remove('on'); lines[active].classList.remove('on');
-        shots[idx].classList.add('on');       lines[idx].classList.add('on');
+        var sa = BEAT_SHOT[active], si = BEAT_SHOT[idx], la = BEAT_LINE[active], li = BEAT_LINE[idx];
+        if (sa !== si){ shots[sa].classList.remove('on'); shots[si].classList.add('on'); leave(sa); enter(si); }
+        if (la !== li){ lines[la].classList.remove('on'); lines[li].classList.add('on'); }
         active = idx;
       }
+    } else if (rt.top > 0){
+      cheese.reset();
     }
   }
+
+  /* ---- living photos ----
+     Each shot has a canvas over its photo and a run of WebP frames. Frames load
+     coarse-to-fine so an early scrub has something to show, and the three runs
+     load one after another, cheese first. */
+  function makeSeq(id, name, N, ratio, fps){
+    var cv = document.getElementById(id);
+    var none = { draw: function(){}, play: function(){}, stop: function(){}, start: function(d){ if (d) d(); } };
+    if (!cv || !cv.getContext) return none;
+    var ctx = cv.getContext('2d');
+    var small = window.innerWidth <= 700;
+    var W = small ? 1200 : 1600, H = Math.round(W / ratio / 2) * 2;
+    var dir = '/images/reel/' + name + '/' + W + '/';
+    cv.width = W; cv.height = H;
+    var imgs = new Array(N), started = false, timer = null;
+    var cur = 0, target = 0, drawnA = -1, drawnB = -1, drawnK = -1, tweening = false, lastTs = 0;
+    function nearest(i, step){ var j = i; while (j >= 0 && j < N && !imgs[j]) j += step; return (j >= 0 && j < N) ? j : -1; }
+    /* Draws a fractional position as a blend of the two frames around it, so
+       the motion stays smooth however fast or slowly it is moved through. */
+    function render(){
+      var f = cur * (N - 1), a = Math.floor(f), b = Math.min(N - 1, a + 1), k = f - a;
+      var ia = nearest(a, -1), ib = nearest(b, 1);
+      if (ia < 0 && ib < 0) return;
+      if (ia < 0) ia = ib; if (ib < 0) ib = ia;
+      if (ia === drawnA && ib === drawnB && Math.abs(k - drawnK) < 0.01) return;
+      ctx.globalAlpha = 1; ctx.drawImage(imgs[ia], 0, 0, W, H);
+      if (ib !== ia && k > 0.01){ ctx.globalAlpha = k; ctx.drawImage(imgs[ib], 0, 0, W, H); ctx.globalAlpha = 1; }
+      drawnA = ia; drawnB = ib; drawnK = k;
+      if (!cv.classList.contains('ready')) cv.classList.add('ready');
+    }
+    /* The shown position eases toward the scroll position instead of jumping
+       with it: a flick still lands on the same frame, it just gets there in a
+       smooth glide rather than a stutter. */
+    function tween(ts){
+      var dt = lastTs ? Math.min(0.05, (ts - lastTs) / 1000) : 0.016; lastTs = ts;
+      var d = target - cur;
+      if (Math.abs(d) < 0.001){ cur = target; render(); tweening = false; lastTs = 0; return; }
+      cur += d * (1 - Math.exp(-dt * 5));
+      render();
+      requestAnimationFrame(tween);
+    }
+    function draw(t){ target = clamp(t); if (!tweening){ tweening = true; requestAnimationFrame(tween); } }
+    function load(i, done){
+      var im = new Image();
+      im.onload = function(){
+        /* the canvas takes the frames' exact size, so object-fit crops it like the photo */
+        if (cv.width !== im.naturalWidth || cv.height !== im.naturalHeight){ W = cv.width = im.naturalWidth; H = cv.height = im.naturalHeight; drawnA = -1; }
+        imgs[i] = im; drawnA = -1; render(); done();
+      };
+      im.onerror = done;
+      im.src = dir + 'c' + (i < 10 ? '00' + i : i < 100 ? '0' + i : i) + '.webp';
+    }
+    function start(all){
+      if (started){ if (all) all(); return; } started = true;
+      var order = [], step, i;
+      for (step = 16; step >= 1; step = step >> 1) for (i = 0; i < N; i += step) if (order.indexOf(i) < 0) order.push(i);
+      var k = 0, inflight = 0, finished = 0;
+      function next(){
+        while (inflight < 4 && k < order.length){ inflight++; load(order[k++], function(){ inflight--; finished++; if (finished === N && all) all(); else next(); }); }
+      }
+      next();
+    }
+    /* Time-based playback at the run's own frame rate, blended between frames.
+       'once' runs forward and holds; 'swing' runs back and forth. */
+    function play(mode){
+      stop(); tweening = false;
+      var t0 = 0, L = N - 1;
+      function tick(ts){
+        if (!t0) t0 = ts;
+        var f = (ts - t0) / 1000 * fps;
+        if (mode === 'once'){ if (f >= L){ cur = target = 1; render(); timer = null; return; } cur = f / L; }
+        else { var c = Math.floor(f / L) % 2, r = f % L; cur = (c ? L - r : r) / L; }
+        target = cur; render();
+        timer = requestAnimationFrame(tick);
+      }
+      timer = requestAnimationFrame(tick);
+    }
+    function stop(){ if (timer){ cancelAnimationFrame(timer); timer = null; } }
+    return { draw: draw, play: play, stop: stop, start: start };
+  }
+  /* The lemonade is not a frame run. The photo stays exactly as it is and only
+     the coloured light on the counter below the glass wavers, drawn live: the
+     floor band is redrawn in thin rows, each nudged sideways by a few slow
+     waves, then blended back through a soft mask so nothing else moves. */
+  function makeShimmer(id){
+    var cv = document.getElementById(id);
+    var none = { draw: function(){}, play: function(){}, stop: function(){}, start: function(d){ if (d) d(); } };
+    if (!cv || !cv.getContext) return none;
+    var img = cv.parentNode.querySelector('img'), ctx = cv.getContext('2d');
+    var off = document.createElement('canvas'), octx = off.getContext('2d');
+    var light = document.createElement('canvas'), lctx = light.getContext('2d');
+    var mask = null, W = 0, H = 0, sx = 1, sy = 1, timer = null, ready = false;
+    /* The light itself: a small tile of bright, slowly wandering ridges, the
+       pattern sunlight makes through moving water. Computed at low resolution
+       and stretched over the floor, so it stays cheap on a phone. */
+    var TW = 320, TH = 160, tex = document.createElement('canvas'), tctx = tex.getContext('2d'), tdata = null;
+    tex.width = TW; tex.height = TH;
+    function ridge(u, v, t, f, p){
+      /* thin bright lines where three slow waves cancel: the look of sunlight
+         through a rippling surface. f sets the cell size, p the phase. */
+      var a = Math.sin(u * f + t * 0.55 + p + 1.7 * Math.sin(v * f * 0.7 - t * 0.42));
+      var b = Math.sin(v * f * 0.9 - t * 0.47 + 1.7 * Math.sin(u * f * 0.8 + t * 0.36 + p));
+      var c = Math.sin((u * f * 0.6 - v * f * 0.45) + t * 0.3);
+      var s = (a + b + c) / 3, i = 1 - Math.abs(s) * 3.4;
+      return i < 0 ? 0 : i * i * i * i;
+    }
+    function caustics(t){
+      if (!tdata) tdata = tctx.createImageData(TW, TH);
+      var d = tdata.data, x, y, u, v, i, k = 0;
+      for (y = 0; y < TH; y++){
+        v = y / TH;
+        for (x = 0; x < TW; x++){
+          u = x / TW * 2;                              /* the floor is twice as wide as tall */
+          /* a coarse net and a finer one inside it */
+          i = ridge(u, v, t, 15, 0) * 0.75 + ridge(u, v, t * 1.3, 31, 2.1) * 0.55;
+          if (i > 1) i = 1;
+          d[k] = 255; d[k + 1] = 250; d[k + 2] = 240; d[k + 3] = (i * 255) | 0;
+          k += 4;
+        }
+      }
+      tctx.putImageData(tdata, 0, 0);
+    }
+    /* The bubbles already in the photo. Each listed point is a real bright
+       speck in the drink. Now and then one lifts off, drifts up and fades while
+       a patch of the liquid beside it covers the spot it left, and a moment
+       later it forms again. A second, larger set borrows those same specks as
+       stencils and sends them up through the rest of the glass, each at its own
+       speed and moment, so the drink reads as gently carbonated. Nothing is
+       invented: every bubble on screen is a piece of the original photograph. */
+    var SPECKS = [[1482,302],[1407,286],[1518,263],[1503,301],[1500,259],[1437,258],[1503,273],[1468,317],
+                  [1436,273],[1425,284],[1452,274],[1541,305],[1504,316],[1606,260],[1570,290],[1470,383],
+                  [1602,296],[1406,264],[1531,271],[1484,271]];
+    var specks = [], extras = [];
+    /* the inside of the glass, in photo pixels; it narrows a little going down */
+    function wallL(y){ return 1404 + (y - 260) * 0.03; }
+    function wallR(y){ return 1616 - (y - 260) * 0.05; }
+    function speckSetup(){
+      var src = document.createElement('canvas'); src.width = W; src.height = H;
+      var sc = src.getContext('2d'); sc.drawImage(img, 0, 0, W, H);
+      /* a small round, soft-edged crop of the photo centred on a point */
+      function soft(cx, cy, R){
+        var c = document.createElement('canvas'), q = c.getContext('2d'), g;
+        c.width = c.height = R * 2 + 1;
+        q.drawImage(src, cx - R, cy - R, R * 2 + 1, R * 2 + 1, 0, 0, R * 2 + 1, R * 2 + 1);
+        g = q.createRadialGradient(R, R, 0, R, R, R); g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(0.45, 'rgba(0,0,0,1)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+        q.globalCompositeOperation = 'destination-in'; q.fillStyle = g; q.fillRect(0, 0, c.width, c.height);
+        return c;
+      }
+      /* just the bright part of a speck, as a stencil: how much each pixel
+         stands out from the liquid around it becomes its opacity, so it can be
+         laid anywhere in the drink without carrying a disc of the wrong colour */
+      function highlight(cx, cy, R){
+        var n = R * 2 + 1, id = sc.getImageData(cx - R, cy - R, n, n), d = id.data;
+        var base = 0, cnt = 0, x, y, i, dist, l;
+        for (y = 0; y < n; y++) for (x = 0; x < n; x++){
+          dist = Math.sqrt((x - R) * (x - R) + (y - R) * (y - R));
+          if (dist < R * 0.7 || dist > R) continue;
+          i = (y * n + x) * 4; base += (d[i] + d[i + 1] + d[i + 2]) / 3; cnt++;
+        }
+        base = cnt ? base / cnt : 0;
+        for (y = 0; y < n; y++) for (x = 0; x < n; x++){
+          i = (y * n + x) * 4;
+          dist = Math.sqrt((x - R) * (x - R) + (y - R) * (y - R));
+          l = (d[i] + d[i + 1] + d[i + 2]) / 3;
+          var a = (l - base) / 70;
+          if (dist > R) a = 0; else if (dist > R * 0.7) a *= (R - dist) / (R * 0.3);
+          d[i + 3] = a <= 0 ? 0 : (a > 1 ? 255 : Math.round(a * 255));
+        }
+        var c = document.createElement('canvas'); c.width = c.height = n;
+        c.getContext('2d').putImageData(id, 0, 0);
+        return c;
+      }
+      var k, x, y, R = Math.round(7 * sx);
+      for (k = 0; k < SPECKS.length; k++){
+        x = Math.round(SPECKS[k][0] * sx); y = Math.round(SPECKS[k][1] * sy);
+        specks.push({ x: x, y: y, R: R, tile: soft(x, y, R),
+                      cover: soft(x + Math.round(R * 2.6), y + Math.round(R * 0.4), R),
+                      T: 8 + (k * 1.7) % 5, ph: (k * 2.9) % 8 });
+      }
+      /* borrowed bubbles: fixed pseudo-random so every visit looks the same */
+      var seed = 20260909, rnd = function(){ seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+      for (k = 0; k < 16; k++){
+        var py = 300 + rnd() * 235;                     /* where it starts, photo pixels */
+        var px = wallL(py) + 12 + rnd() * (wallR(py) - wallL(py) - 24);
+        /* stencil cut from whichever real speck sits closest in height, so its
+           grain matches that part of the drink */
+        var best = 0, bd = 1e9;
+        for (var j = 0; j < SPECKS.length; j++){ var dd = Math.abs(SPECKS[j][1] - py); if (dd < bd){ bd = dd; best = j; } }
+        var HR = Math.round((4 + rnd() * 4) * sx);
+        extras.push({ x: px * sx, y: py * sy, spr: highlight(Math.round(SPECKS[best][0] * sx), Math.round(SPECKS[best][1] * sy), HR),
+                      R: HR, rise: (30 + rnd() * 55) * sy, dur: 2.6 + rnd() * 3.4,
+                      T: 7 + rnd() * 9, ph: rnd() * 16, wob: (0.6 + rnd() * 1.8) * sx, sp: 0.8 + rnd() * 1.4,
+                      a: 0.45 + rnd() * 0.35 });
+      }
+    }
+    function drawSpecks(t){
+      var k, s, u, rise, a, cover, x, y, e;
+      for (k = 0; k < specks.length; k++){
+        s = specks[k]; u = (t + s.ph) % s.T;              /* seconds into this speck's cycle */
+        if (u > 4.2) continue;                            /* resting: the photo shows it as is */
+        rise = u < 3 ? u / 3 : 1;                         /* 0..1 over three seconds */
+        cover = u < 0.4 ? u / 0.4 : u > 3.2 ? 1 - (u - 3.2) / 1 : 1;   /* the patch fades in, then out as the speck re-forms */
+        if (cover > 0){ ctx.globalAlpha = Math.min(1, cover); ctx.drawImage(s.cover, s.x - s.R, s.y - s.R); }
+        if (u < 3){
+          a = rise < 0.75 ? 1 : 1 - (rise - 0.75) / 0.25;   /* fades near the top of its little climb */
+          x = s.x + Math.sin(t * 1.3 + s.ph) * 1.2 * sx; y = s.y - rise * 40 * sy;
+          ctx.globalAlpha = a; ctx.drawImage(s.tile, x - s.R, y - s.R);
+        }
+        ctx.globalAlpha = 1;
+      }
+      for (k = 0; k < extras.length; k++){
+        e = extras[k]; u = (t + e.ph) % e.T;
+        if (u > e.dur) continue;
+        rise = u / e.dur;
+        a = e.a * (rise < 0.12 ? rise / 0.12 : rise > 0.7 ? (1 - rise) / 0.3 : 1);
+        if (a <= 0) continue;
+        x = e.x + Math.sin(t * e.sp + e.ph) * e.wob;
+        y = e.y - rise * e.rise;
+        ctx.globalAlpha = a; ctx.drawImage(e.spr, x - e.R, y - e.R);
+      }
+      ctx.globalAlpha = 1;
+    }
+    function cut(m, cx, cy, rx, ry, feather){
+      m.save(); m.translate(cx * sx, cy * sy); m.scale(rx * sx, ry * sy);
+      var g = m.createRadialGradient(0, 0, 0, 0, 0, 1);
+      g.addColorStop(1 - feather, 'rgba(0,0,0,1)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+      m.globalCompositeOperation = 'destination-out'; m.fillStyle = g; m.fillRect(-1, -1, 2, 2); m.restore();
+    }
+    function setup(){
+      if (ready || !img.naturalWidth) return ready;
+      W = cv.width = off.width = light.width = img.naturalWidth; H = cv.height = off.height = light.height = img.naturalHeight;
+      sx = W / 1961; sy = H / 802;                       /* the photo's own pixel grid */
+      mask = document.createElement('canvas'); mask.width = W; mask.height = H;
+      var m = mask.getContext('2d'), g;
+      /* the floor: everything below the wall's edge, fading in over it */
+      g = m.createLinearGradient(0, 395 * sy, 0, 480 * sy); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,1)');
+      m.fillStyle = g; m.fillRect(0, 395 * sy, W, H - 395 * sy);
+      /* the glass and the flower are left alone */
+      cut(m, 1515, 380, 215, 300, 0.3);
+      cut(m, 1640, 612, 140, 62, 0.4);
+      speckSetup();
+      ready = true; frame(0);
+      cv.classList.add('ready');
+      cv.__frame = frame;                                 /* test hook */
+      return true;
+    }
+    function frame(t){
+      var X0 = Math.floor(1280 * sx), Y0 = Math.floor(640 * sy), step = 2, y, dx;
+      octx.globalCompositeOperation = 'source-over';
+      octx.clearRect(0, 0, W, H);
+      /* the coloured reflection under the glass wavers a little */
+      for (y = Y0; y < H; y += step){
+        dx = (3 * Math.sin(y * 0.05 + t * 1.1) + 2 * Math.sin(y * 0.12 - t * 0.8) + 1.5 * Math.sin(y * 0.02 + t * 0.45)) * sx;
+        octx.drawImage(img, X0, y, W - X0, step, X0 + dx, y, W - X0, step);
+      }
+      octx.globalCompositeOperation = 'destination-in'; octx.drawImage(mask, 0, 0); octx.globalCompositeOperation = 'source-over';
+      /* the dancing light, laid over the whole floor. A second, larger copy
+         drifting sideways breaks up the repeat. Blended as overlay so it lives
+         on the lit stone and stays out of the dark corners. */
+      caustics(t);
+      lctx.globalCompositeOperation = 'source-over';
+      lctx.clearRect(0, 0, W, H);
+      lctx.globalAlpha = 0.5;  lctx.drawImage(tex, 0, 395 * sy, W, H - 395 * sy);
+      lctx.globalAlpha = 0.28; lctx.drawImage(tex, -0.3 * W + (t * 6 % (0.3 * W)), 395 * sy, W * 1.6, H - 395 * sy);
+      lctx.globalAlpha = 1;
+      lctx.globalCompositeOperation = 'destination-in'; lctx.drawImage(mask, 0, 0);
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.drawImage(img, 0, 0, W, H);
+      ctx.drawImage(off, 0, 0);
+      ctx.globalCompositeOperation = 'overlay'; ctx.drawImage(light, 0, 0);
+      ctx.globalCompositeOperation = 'soft-light'; ctx.drawImage(light, 0, 0);
+      ctx.globalCompositeOperation = 'source-over';
+      drawSpecks(t);
+    }
+    function play(){
+      stop(); if (!setup()) return;
+      var t0 = 0, last = 0;
+      function tick(ts){
+        if (!t0) t0 = ts;
+        if (ts - last >= 1000 / 24){ last = ts; frame((ts - t0) / 1000); }
+        timer = requestAnimationFrame(tick);
+      }
+      timer = requestAnimationFrame(tick);
+    }
+    function stop(){ if (timer){ cancelAnimationFrame(timer); timer = null; } }
+    function start(done){
+      if (img.complete) setup(); else img.addEventListener('load', setup);
+      if (done) done();
+    }
+    return { draw: function(){}, play: play, stop: stop, start: start };
+  }
+  /* ---- video players ----
+     The cheese pull and the donuts are short H.264 clips the browser decodes
+     in hardware, so they run at full frame rate with no stutter. The cheese
+     has two clips, one opening and one closing, and a swipe picks which plays;
+     the donuts play once when their beat lights and hold their last frame. */
+  function vid(el, src){
+    if (!el) return null;
+    el.src = src; el.muted = true; el.setAttribute('muted', '');
+    try { el.load(); } catch (e) {}
+    return el;
+  }
+  function playFrom0(el){ if (!el) return; try { el.pause(); el.currentTime = 0; var p = el.play(); if (p && p.catch) p.catch(function(){}); } catch (e) {} }
+  var SMALL = window.innerWidth <= 700 ? 1200 : 1600;
+  var cheese = (function(){
+    var vo = vid(document.getElementById('cheeseOpen'), '/images/reel/cheese/open-' + SMALL + '.mp4?v=' + (SMALL === 1200 ? '78b7611b' : 'b40aa1e2'));
+    if (!vo) return { play: function(){}, reset: function(){}, start: function(d){ if (d) d(); } };
+    vo.addEventListener('loadeddata', function(){ vo.classList.add('show'); });
+    return {
+      play: function(){ playFrom0(vo); },
+      reset: function(){ try { vo.pause(); vo.currentTime = 0; } catch (e) {} },
+      start: function(d){ if (d) d(); }
+    };
+  })();
+  var donut = (function(){
+    var dv = vid(document.getElementById('donutVid'), '/images/reel/donut/donut-' + SMALL + '.mp4?v=' + (SMALL === 1200 ? '630d1053' : '691e3215'));
+    if (!dv) return { play: function(){}, stop: function(){}, reset: function(){}, start: function(d){ if (d) d(); } };
+    dv.addEventListener('loadeddata', function(){ dv.classList.add('show'); });
+    return { play: function(){ playFrom0(dv); }, stop: function(){ try { dv.pause(); } catch (e) {} }, reset: function(){ try { dv.pause(); dv.currentTime = 0; } catch (e) {} }, start: function(d){ if (d) d(); } };
+  })();
+  var lemon  = makeShimmer('lemonSeq');
+  function enter(s){ if (s === 0) cheese.play(); if (s === 1) donut.play(); if (s === 2) lemon.play('swing'); }
+  function leave(s){ if (s === 1) donut.reset(); if (s === 2) lemon.stop(); }
+  function loadAll(){ cheese.start(function(){ donut.start(function(){ lemon.start(); }); }); }
+  var kick = function(){ setTimeout(loadAll, 300); };
+  if (document.readyState === 'complete') kick(); else window.addEventListener('load', kick);
+  window.addEventListener('scroll', loadAll, { passive: true, once: true });
+  window.addEventListener('touchstart', loadAll, { passive: true, once: true });
   function onScroll(){ if (!ticking){ ticking = true; requestAnimationFrame(frame); } }
 
   /* ---- one gesture, one beat ----
