@@ -405,8 +405,8 @@ nav.nav .nav-order-mobile{display:none !important}
 .reel-in{position:absolute;inset:0;z-index:4;background:var(--bg-black);opacity:0;pointer-events:none}
 .reel-shot{position:absolute;inset:0;opacity:0;transition:opacity 1s var(--ease)}
 .reel-shot.on{opacity:1}
-.reel-shot :is(img,canvas){width:100%;height:100%;object-fit:cover;transform:scale(1.02);transition:transform 6s linear;will-change:transform}
-.reel-shot.on :is(img,canvas){transform:scale(1.13)}
+.reel-shot :is(img,canvas,video){width:100%;height:100%;object-fit:cover;transform:scale(1.02);transition:transform 6s linear;will-change:transform}
+.reel-shot.on :is(img,canvas,video){transform:scale(1.13)}
 .reel-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,8,16,0.55),rgba(5,8,16,0.25) 40%,rgba(5,8,16,0.85))}
 .reel-copy{position:absolute;inset:0;z-index:3}
 .reel-copy .container{position:absolute;top:0;bottom:0;left:50%;transform:translateX(-50%);width:100%}
@@ -434,7 +434,7 @@ nav.nav .nav-order-mobile{display:none !important}
   .hero-cine h1{max-width:none;font-size:clamp(44px,13vw,64px)}
   .cine-cue{display:none}
   .reel-shot{inset:0 0 auto 0;height:54%}
-  .reel-shot.on :is(img,canvas){transform:scale(1.07)}
+  .reel-shot.on :is(img,canvas,video){transform:scale(1.07)}
   .reel-veil{background:linear-gradient(180deg,rgba(5,8,16,0.12) 0%,rgba(5,8,16,0.3) 40%,var(--bg-black) 54%,var(--bg-black) 100%)}
   .reel-stage::before{display:none}
   .reel-copy{align-items:flex-end}
@@ -448,7 +448,7 @@ nav.nav .nav-order-mobile{display:none !important}
   .hero-cine-dip{display:none}
   .reel-stage{position:static;height:auto}
   .reel-shot{position:relative;opacity:1;height:60svh}
-  .reel-shot :is(img,canvas){transform:none}
+  .reel-shot :is(img,canvas,video){transform:none}
   .reel-copy{position:static}
   .reel-copy .container{position:static;transform:none}
   .reel-line{position:relative;inset:auto;opacity:1;transform:none;padding:36px 32px}
@@ -456,19 +456,19 @@ nav.nav .nav-order-mobile{display:none !important}
 }
 
 /* ---- per-shot framing and motion (team feedback, 2026-08-11) ---- */
-.reel-shot :is(img,canvas).shot-cheese{object-position:44% 51%}
-.reel-shot :is(img,canvas).shot-donut{object-position:72% 59%}
-.reel-shot :is(img,canvas).shot-lemon{object-position:74% 54%}
+.reel-shot :is(img,canvas,video).shot-cheese{object-position:44% 51%}
+.reel-shot :is(img,canvas,video).shot-donut{object-position:72% 59%}
+.reel-shot :is(img,canvas,video).shot-lemon{object-position:74% 54%}
 /* The cheese pull travels left to right instead of pushing in, so the stretch
    reads as motion rather than a zoom. scale gives it room to move. */
 /* Opens on the whole stretch, hand and all, then drifts and pushes in toward the
    corn dog on the right. object-position is animatable, so the frame itself
    travels; the zoom is anchored right so the push lands on the corn dog. */
-.reel-shot :is(img,canvas).shot-cheese{object-position:4% 51%;transform-origin:82% 50%;transform:scale(1);transition:transform 6s linear,object-position 6s linear}
-.reel-shot.on :is(img,canvas).shot-cheese{object-position:92% 51%;transform:scale(1.12)}
+.reel-shot :is(img,canvas,video).shot-cheese{object-position:4% 51%;transform-origin:82% 50%;transform:scale(1);transition:transform 6s linear,object-position 6s linear}
+.reel-shot.on :is(img,canvas,video).shot-cheese{object-position:92% 51%;transform:scale(1.12)}
 /* The lemonade photo is exactly band-height, so a centred zoom trims the lemon
    off the top. Growing from the top edge keeps it in frame. */
-.reel-shot :is(img,canvas).shot-lemon{transform-origin:50% 0%}
+.reel-shot :is(img,canvas,video).shot-lemon{transform-origin:50% 0%}
 @media(max-width:700px){
   /* Photos take more of the phone screen. The copy now overlaps the lower part
      of the band, so the veil turns solid earlier to keep it legible. */
@@ -478,33 +478,33 @@ nav.nav .nav-order-mobile{display:none !important}
   .reel-veil{background:linear-gradient(180deg,rgba(5,8,16,0.08) 0%,rgba(5,8,16,0.22) 44%,rgba(5,8,16,0.78) 60%,var(--bg-black) 69%,var(--bg-black) 100%)}
   /* Glass on the left: the frame is anchored to the photo's right edge, which
      puts the drink at roughly a fifth of the way in. */
-  .reel-shot :is(img,canvas).shot-lemon{object-position:100% 54%}
+  .reel-shot :is(img,canvas,video).shot-lemon{object-position:100% 54%}
   /* Only a third of this photo fits a phone band, so start on the hand at the
      far left and travel to the corn dog. */
-  .reel-shot :is(img,canvas).shot-cheese{object-position:0% 51%;transform:scale(1)}
-  .reel-shot.on :is(img,canvas).shot-cheese{object-position:88% 51%;transform:scale(1.1)}
+  .reel-shot :is(img,canvas,video).shot-cheese{object-position:0% 51%;transform:scale(1)}
+  .reel-shot.on :is(img,canvas,video).shot-cheese{object-position:88% 51%;transform:scale(1.1)}
 }
 
 /* ---- living photos (2026-09-08) ---- */
-.reel-shot canvas{position:absolute;inset:0;opacity:0;transition:opacity 0.3s}
-.reel-shot canvas.ready{opacity:1}
+.reel-shot :is(canvas,video){position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity 0.3s}
+.reel-shot canvas.ready,.reel-shot video.show{opacity:1}
 /* The stretch is the motion now, so the pan goes and only a slow push stays. */
-.reel-shot :is(img,canvas).shot-cheese{object-position:50% 50%;transform-origin:50% 50%;transform:scale(1);transition:transform 7s linear}
-.reel-shot.on :is(img,canvas).shot-cheese{object-position:50% 50%;transform:scale(1.06)}
+.reel-shot :is(img,canvas,video).shot-cheese{object-position:50% 50%;transform-origin:50% 50%;transform:scale(1);transition:transform 7s linear}
+.reel-shot.on :is(img,canvas,video).shot-cheese{object-position:50% 50%;transform:scale(1.06)}
 @media(min-width:701px){
   /* Desktop framing follows the phone: the stack sits whole at the right edge,
      and the glass moves to the left. The photo has no lettering, so it is
      mirrored rather than zoomed, which keeps it sharp. Its copy goes right. */
-  .reel-shot :is(img,canvas).shot-donut{object-position:100% 59%}
-  .reel-shot :is(img,canvas).shot-lemon{object-position:100% 54%;transform:scaleX(-1) scale(1.02)}
-  .reel-shot.on :is(img,canvas).shot-lemon{transform:scaleX(-1) scale(1.13)}
+  .reel-shot :is(img,canvas,video).shot-donut{object-position:100% 59%}
+  .reel-shot :is(img,canvas,video).shot-lemon{object-position:100% 54%;transform:scaleX(-1) scale(1.02)}
+  .reel-shot.on :is(img,canvas,video).shot-lemon{transform:scaleX(-1) scale(1.13)}
   .reel-line.r{align-items:flex-end;text-align:right}
 }
 @media(max-width:700px){
   /* A phone band shows the middle third: the join sits just left of centre and
      the strand grows to the right, so a slow drift right keeps it in view. */
-  .reel-shot :is(img,canvas).shot-cheese{object-position:42% 50%;transform:scale(1);transition:transform 7s linear,object-position 7s linear}
-  .reel-shot.on :is(img,canvas).shot-cheese{object-position:56% 50%;transform:scale(1.05)}
+  .reel-shot :is(img,canvas,video).shot-cheese{object-position:42% 50%;transform:scale(1);transition:transform 7s linear,object-position 7s linear}
+  .reel-shot.on :is(img,canvas,video).shot-cheese{object-position:56% 50%;transform:scale(1.05)}
   /* The fixed nav is 83px tall and covered the lemon slices. The lemonade
      starts below it and is shown a little smaller than the band, so the lemon
      on top and the coloured light on the counter both fit on the screen. */
@@ -595,8 +595,8 @@ nav.nav .nav-order-mobile{display:none !important}
 <!-- THE REEL: one pinned stage, three beats. Each photo appears once on the page. -->
 <section class="reel" id="reel">
   <div class="reel-stage">
-    <div class="reel-shot"><img src="/images/reel/cheese/poster.jpg" style="aspect-ratio:2/1" class="shot-cheese" alt="Cheese stretching from a Korean corn dog pulled apart by hand"><canvas class="shot-cheese" id="cheeseSeq" width="1600" height="800" aria-hidden="true"></canvas></div>
-    <div class="reel-shot"><img src="/images/hero/02-donuts.png" style="aspect-ratio:1731/909" class="shot-donut" alt="A stack of handmade filled donuts"><canvas class="shot-donut" id="donutSeq" width="1600" height="840" aria-hidden="true"></canvas></div>
+    <div class="reel-shot"><img src="/images/reel/cheese/poster.jpg" style="aspect-ratio:2/1" class="shot-cheese" alt="Cheese stretching from a Korean corn dog pulled apart by hand"><video class="shot-cheese" id="cheeseOpen" muted playsinline preload="auto" aria-hidden="true"></video><video class="shot-cheese" id="cheeseClose" muted playsinline preload="auto" aria-hidden="true"></video></div>
+    <div class="reel-shot"><img src="/images/hero/02-donuts.png" style="aspect-ratio:1731/909" class="shot-donut" alt="A stack of handmade filled donuts"><video class="shot-donut" id="donutVid" muted playsinline preload="auto" aria-hidden="true"></video></div>
     <div class="reel-shot"><img src="/images/hero/04-midnight-lemonade.png" style="aspect-ratio:1961/802" class="shot-lemon" alt="Midnight Lemonade, a layered sparkling drink"><canvas class="shot-lemon" id="lemonSeq" width="1600" height="654" aria-hidden="true"></canvas></div>
     <div class="reel-veil"></div>
     <div class="reel-in" id="reelIn"></div>
@@ -1317,37 +1317,6 @@ nav.nav .nav-order-mobile{display:none !important}
       }
       tctx.putImageData(tdata, 0, 0);
     }
-    /* Sparkling bubbles: a few dozen specks, one to two pixels across, rising
-       slowly through the drink. Each has its own lane, speed and wobble, fixed
-       by its index, so time alone decides where it is. They fade in near the
-       bottom and out under the ice, and never leave the liquid. */
-    var BUB = [], BNUM = 34;
-    (function(){
-      var r = 7;
-      function rnd(){ r = (r * 16807) % 2147483647; return r / 2147483647; }
-      for (var k = 0; k < BNUM; k++){
-        BUB.push({ x: 1396 + rnd() * 224, sp: 22 + rnd() * 34, off: rnd() * 460, rad: 1.3 + rnd() * 1.5, ph: rnd() * 6.28, wob: 1 + rnd() * 2.5 });
-      }
-    })();
-    function drawBubbles(t){
-      var Y0 = 178, Y1 = 600, span = Y1 - Y0, k, b, y, x, a, rr;
-      ctx.save();
-      ctx.beginPath(); ctx.rect(1388 * sx, 170 * sy, 240 * sx, 432 * sy); ctx.clip();
-      for (k = 0; k < BNUM; k++){
-        b = BUB[k];
-        y = Y1 - ((t * b.sp + b.off) % span);
-        x = b.x + Math.sin(t * 1.4 + b.ph) * b.wob;
-        a = Math.min(1, (Y1 - y) / 40, (y - Y0) / 60) * 0.8;
-        if (a <= 0) continue;
-        rr = b.rad * sx;
-        ctx.globalAlpha = a * 0.55;
-        ctx.fillStyle = '#ffffff';
-        ctx.beginPath(); ctx.arc(x * sx, y * sy, rr, 0, 6.2832); ctx.fill();
-        ctx.globalAlpha = a;
-        ctx.beginPath(); ctx.arc((x - rr * 0.25) * sx, (y - rr * 0.25) * sy, rr * 0.45, 0, 6.2832); ctx.fill();
-      }
-      ctx.restore();
-    }
     function cut(m, cx, cy, rx, ry, feather){
       m.save(); m.translate(cx * sx, cy * sy); m.scale(rx * sx, ry * sy);
       var g = m.createRadialGradient(0, 0, 0, 0, 0, 1);
@@ -1397,7 +1366,6 @@ nav.nav .nav-order-mobile{display:none !important}
       ctx.globalCompositeOperation = 'overlay'; ctx.drawImage(light, 0, 0);
       ctx.globalCompositeOperation = 'soft-light'; ctx.drawImage(light, 0, 0);
       ctx.globalCompositeOperation = 'source-over';
-      drawBubbles(t);
     }
     function play(){
       stop(); if (!setup()) return;
@@ -1416,8 +1384,44 @@ nav.nav .nav-order-mobile{display:none !important}
     }
     return { draw: function(){}, play: play, stop: stop, start: start };
   }
-  var cheese = makeSeq('cheeseSeq', 'cheese', 120, 2, 24);
-  var donut  = makeSeq('donutSeq',  'donut',  40, 1986 / 1044, 12);
+  /* ---- video players ----
+     The cheese pull and the donuts are short H.264 clips the browser decodes
+     in hardware, so they run at full frame rate with no stutter. The cheese
+     has two clips, one opening and one closing, and a swipe picks which plays;
+     the donuts play once when their beat lights and hold their last frame. */
+  function vid(el, src){
+    if (!el) return null;
+    el.src = src; el.muted = true; el.setAttribute('muted', '');
+    try { el.load(); } catch (e) {}
+    return el;
+  }
+  function playFrom0(el){ if (!el) return; try { el.pause(); el.currentTime = 0; var p = el.play(); if (p && p.catch) p.catch(function(){}); } catch (e) {} }
+  var SMALL = window.innerWidth <= 700 ? 1200 : 1600;
+  var cheese = (function(){
+    var vo = vid(document.getElementById('cheeseOpen'),  '/images/reel/cheese/open-'  + SMALL + '.mp4');
+    var vc = vid(document.getElementById('cheeseClose'), '/images/reel/cheese/close-' + SMALL + '.mp4');
+    if (!vo || !vc) return { draw: function(){}, start: function(d){ if (d) d(); } };
+    /* the opening clip's first frame is the closed state, so it is the one
+       shown at rest; the closing clip only comes forward while it plays */
+    vo.addEventListener('loadeddata', function(){ vo.classList.add('show'); });
+    var state = 0;
+    function set(s){
+      if (s === state) return; state = s;
+      if (s){ vc.classList.remove('show'); vo.classList.add('show'); playFrom0(vo); }
+      else  { vo.classList.remove('show'); vc.classList.add('show'); playFrom0(vc); }
+    }
+    /* Scroll progress between the two cheese beats. It opens as soon as the
+       swipe is under way and closes only once most of the way back, so a
+       flick in either direction commits cleanly. */
+    function draw(t){ if (state === 0 && t > 0.2) set(1); else if (state === 1 && t < 0.2) set(0); }
+    return { draw: draw, start: function(d){ if (d) d(); } };
+  })();
+  var donut = (function(){
+    var dv = vid(document.getElementById('donutVid'), '/images/reel/donut/donut-' + SMALL + '.mp4');
+    if (!dv) return { play: function(){}, stop: function(){}, draw: function(){}, start: function(d){ if (d) d(); } };
+    dv.addEventListener('loadeddata', function(){ dv.classList.add('show'); });
+    return { play: function(){ playFrom0(dv); }, stop: function(){ try { dv.pause(); } catch (e) {} }, draw: function(){}, start: function(d){ if (d) d(); } };
+  })();
   var lemon  = makeShimmer('lemonSeq');
   function enter(s){ if (s === 1) donut.play('once'); if (s === 2) lemon.play('swing'); }
   function leave(s){ if (s === 1){ donut.stop(); donut.draw(0); } if (s === 2) lemon.stop(); }
