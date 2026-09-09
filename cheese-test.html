@@ -1138,7 +1138,7 @@ nav.nav .nav-order-mobile{display:none !important}
   var bars = document.querySelectorAll('#reelRail b i');
   /* One beat per shot. The cheese pull plays its clip whenever its beat lights. */
   var BEAT_SHOT = [0, 1, 2], BEAT_LINE = [0, 1, 2];
-  var beats = BEAT_SHOT.length, active = 0, ticking = false, lit = false;
+  var beats = BEAT_SHOT.length, active = 0, ticking = false, lit = false, wasPinned = false;
   var clamp = function(v){ return v < 0 ? 0 : v > 1 ? 1 : v; };
   var hero = document.querySelector('.hero-cine');
   var stage = reel.querySelector('.reel-stage');
@@ -1177,7 +1177,7 @@ nav.nav .nav-order-mobile{display:none !important}
     var rt = reel.getBoundingClientRect();
     reelIn.style.opacity = clamp(rt.top / (sh * 0.8)).toFixed(3);
     if (rt.top <= 0 && rt.bottom >= sh){
-      if (!lit){ lit = true; shots[BEAT_SHOT[active]].classList.add('on'); lines[BEAT_LINE[active]].classList.add('on'); enter(BEAT_SHOT[active]); }
+      if (!lit){ lit = true; wasPinned = true; shots[BEAT_SHOT[active]].classList.add('on'); lines[BEAT_LINE[active]].classList.add('on'); enter(BEAT_SHOT[active]); }
       /* Progress runs over the beats only. The trailing stage is a hold on the
          last shot, so clamp rather than letting p run past 1. */
       var span = beats * sh;
@@ -1187,14 +1187,20 @@ nav.nav .nav-order-mobile{display:none !important}
       for (var b = 0; b < beats; b++){
         bars[b].style.width = (b < idx ? 100 : b === idx ? Math.round(within * 100) : 0) + '%';
       }
+      var entered = false;
       if (idx !== active){
         var sa = BEAT_SHOT[active], si = BEAT_SHOT[idx], la = BEAT_LINE[active], li = BEAT_LINE[idx];
-        if (sa !== si){ shots[sa].classList.remove('on'); shots[si].classList.add('on'); leave(sa); enter(si); }
+        if (sa !== si){ shots[sa].classList.remove('on'); shots[si].classList.add('on'); leave(sa); enter(si); entered = true; }
         if (la !== li){ lines[la].classList.remove('on'); lines[li].classList.add('on'); }
         active = idx;
       }
-    } else if (rt.top > 0){
-      cheese.reset();
+      /* Coming back into the reel from the hero lands on the same beat that was
+         active when the reader left, so the beat number never changes and the
+         clip would not restart. Re-entering the reel counts as an arrival. */
+      if (!wasPinned){ wasPinned = true; if (!entered) enter(BEAT_SHOT[idx]); }
+    } else {
+      wasPinned = false;
+      if (rt.top > 0) cheese.reset();
     }
   }
 
