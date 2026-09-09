@@ -489,8 +489,8 @@ nav.nav .nav-order-mobile{display:none !important}
 .reel-shot :is(canvas,video){position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity 0.3s}
 .reel-shot canvas.ready,.reel-shot video.show{opacity:1}
 /* The stretch is the motion now, so the pan goes and only a slow push stays. */
-.reel-shot :is(img,canvas,video).shot-cheese{object-position:50% 50%;transform-origin:50% 50%;transform:scale(1);transition:transform 7s linear}
-.reel-shot.on :is(img,canvas,video).shot-cheese{object-position:50% 50%;transform:scale(1.06)}
+.reel-shot :is(img,canvas,video).shot-cheese{object-position:50% 50%;transform:none;transition:none}
+.reel-shot.on :is(img,canvas,video).shot-cheese{object-position:50% 50%;transform:none}
 @media(min-width:701px){
   /* Desktop framing follows the phone: the stack sits whole at the right edge,
      and the glass moves to the left. The photo has no lettering, so it is
@@ -503,8 +503,8 @@ nav.nav .nav-order-mobile{display:none !important}
 @media(max-width:700px){
   /* A phone band shows the middle third: the join sits just left of centre and
      the strand grows to the right, so a slow drift right keeps it in view. */
-  .reel-shot :is(img,canvas,video).shot-cheese{object-position:42% 50%;transform:scale(1);transition:transform 7s linear,object-position 7s linear}
-  .reel-shot.on :is(img,canvas,video).shot-cheese{object-position:56% 50%;transform:scale(1.05)}
+  .reel-shot :is(img,canvas,video).shot-cheese{object-position:48% 50%;transform:none;transition:none}
+  .reel-shot.on :is(img,canvas,video).shot-cheese{object-position:48% 50%;transform:none}
   /* The fixed nav is 83px tall and covered the lemon slices. The lemonade
      starts below it and is shown a little smaller than the band, so the lemon
      on top and the coloured light on the counter both fit on the screen. */
@@ -595,7 +595,7 @@ nav.nav .nav-order-mobile{display:none !important}
 <!-- THE REEL: one pinned stage, three beats. Each photo appears once on the page. -->
 <section class="reel" id="reel">
   <div class="reel-stage">
-    <div class="reel-shot"><img src="/images/reel/cheese/poster.jpg" style="aspect-ratio:2/1" class="shot-cheese" alt="Cheese stretching from a Korean corn dog pulled apart by hand"><video class="shot-cheese" id="cheeseOpen" muted playsinline preload="auto" aria-hidden="true"></video><video class="shot-cheese" id="cheeseClose" muted playsinline preload="auto" aria-hidden="true"></video></div>
+    <div class="reel-shot"><img src="/images/reel/cheese/poster.jpg" style="aspect-ratio:2/1" class="shot-cheese" alt="Cheese stretching from a Korean corn dog pulled apart by hand"><video class="shot-cheese" id="cheeseOpen" muted playsinline preload="auto" aria-hidden="true"></video></div>
     <div class="reel-shot"><img src="/images/hero/02-donuts.png" style="aspect-ratio:1731/909" class="shot-donut" alt="A stack of handmade filled donuts"><video class="shot-donut" id="donutVid" muted playsinline preload="auto" aria-hidden="true"></video></div>
     <div class="reel-shot"><img src="/images/hero/04-midnight-lemonade.png" style="aspect-ratio:1961/802" class="shot-lemon" alt="Midnight Lemonade, a layered sparkling drink"><canvas class="shot-lemon" id="lemonSeq" width="1600" height="654" aria-hidden="true"></canvas></div>
     <div class="reel-veil"></div>
@@ -610,7 +610,7 @@ nav.nav .nav-order-mobile{display:none !important}
           <p>Signature refreshers and bubble tea, built in the store, alongside everything else we make by hand.</p></div>
       </div>
     </div>
-    <div class="reel-rail" id="reelRail"><b><i></i></b><b><i></i></b><b><i></i></b><b><i></i></b></div>
+    <div class="reel-rail" id="reelRail"><b><i></i></b><b><i></i></b><b><i></i></b></div>
   </div>
 </section>
 
@@ -1131,9 +1131,8 @@ nav.nav .nav-order-mobile{display:none !important}
   var shots = reel.querySelectorAll('.reel-shot');
   var lines = reel.querySelectorAll('.reel-line');
   var bars = document.querySelectorAll('#reelRail b i');
-  /* Four beats over three shots: the cheese pull takes two, closed then
-     stretched, so one swipe plays the stretch and the next moves on. */
-  var BEAT_SHOT = [0, 0, 1, 2], BEAT_LINE = [0, 0, 1, 2];
+  /* One beat per shot. The cheese pull plays its clip whenever its beat lights. */
+  var BEAT_SHOT = [0, 1, 2], BEAT_LINE = [0, 1, 2];
   var beats = BEAT_SHOT.length, active = 0, ticking = false, lit = false;
   var clamp = function(v){ return v < 0 ? 0 : v > 1 ? 1 : v; };
   var hero = document.querySelector('.hero-cine');
@@ -1189,10 +1188,8 @@ nav.nav .nav-order-mobile{display:none !important}
         if (la !== li){ lines[la].classList.remove('on'); lines[li].classList.add('on'); }
         active = idx;
       }
-      /* Beat 0 -> 1 is the stretch: scroll position picks the frame. */
-      cheese.draw(clamp(p * beats));
     } else if (rt.top > 0){
-      cheese.draw(0);
+      cheese.reset();
     }
   }
 
@@ -1441,23 +1438,14 @@ nav.nav .nav-order-mobile{display:none !important}
   function playFrom0(el){ if (!el) return; try { el.pause(); el.currentTime = 0; var p = el.play(); if (p && p.catch) p.catch(function(){}); } catch (e) {} }
   var SMALL = window.innerWidth <= 700 ? 1200 : 1600;
   var cheese = (function(){
-    var vo = vid(document.getElementById('cheeseOpen'),  '/images/reel/cheese/open-'  + SMALL + '.mp4');
-    var vc = vid(document.getElementById('cheeseClose'), '/images/reel/cheese/close-' + SMALL + '.mp4');
-    if (!vo || !vc) return { draw: function(){}, start: function(d){ if (d) d(); } };
-    /* the opening clip's first frame is the closed state, so it is the one
-       shown at rest; the closing clip only comes forward while it plays */
+    var vo = vid(document.getElementById('cheeseOpen'), '/images/reel/cheese/open-' + SMALL + '.mp4');
+    if (!vo) return { play: function(){}, reset: function(){}, start: function(d){ if (d) d(); } };
     vo.addEventListener('loadeddata', function(){ vo.classList.add('show'); });
-    var state = 0;
-    function set(s){
-      if (s === state) return; state = s;
-      if (s){ vc.classList.remove('show'); vo.classList.add('show'); playFrom0(vo); }
-      else  { vo.classList.remove('show'); vc.classList.add('show'); playFrom0(vc); }
-    }
-    /* Scroll progress between the two cheese beats. It opens as soon as the
-       swipe is under way and closes only once most of the way back, so a
-       flick in either direction commits cleanly. */
-    function draw(t){ if (state === 0 && t > 0.2) set(1); else if (state === 1 && t < 0.2) set(0); }
-    return { draw: draw, start: function(d){ if (d) d(); } };
+    return {
+      play: function(){ playFrom0(vo); },
+      reset: function(){ try { vo.pause(); vo.currentTime = 0; } catch (e) {} },
+      start: function(d){ if (d) d(); }
+    };
   })();
   var donut = (function(){
     var dv = vid(document.getElementById('donutVid'), '/images/reel/donut/donut-' + SMALL + '.mp4');
@@ -1466,7 +1454,7 @@ nav.nav .nav-order-mobile{display:none !important}
     return { play: function(){ playFrom0(dv); }, stop: function(){ try { dv.pause(); } catch (e) {} }, draw: function(){}, start: function(d){ if (d) d(); } };
   })();
   var lemon  = makeShimmer('lemonSeq');
-  function enter(s){ if (s === 1) donut.play('once'); if (s === 2) lemon.play('swing'); }
+  function enter(s){ if (s === 0) cheese.play(); if (s === 1) donut.play('once'); if (s === 2) lemon.play('swing'); }
   function leave(s){ if (s === 1){ donut.stop(); donut.draw(0); } if (s === 2) lemon.stop(); }
   function loadAll(){ cheese.start(function(){ donut.start(function(){ lemon.start(); }); }); }
   var kick = function(){ setTimeout(loadAll, 300); };
