@@ -601,7 +601,7 @@ nav.nav .nav-order-mobile{display:none !important}
 <section class="reel" id="reel">
   <div class="reel-stage">
     <div class="reel-shot"><img src="/images/reel/cheese/poster.jpg?v=f5011435" style="aspect-ratio:2/1" class="shot-cheese" alt="Cheese stretching from a Korean corn dog pulled apart by hand"><video class="shot-cheese" id="cheeseOpen" muted playsinline preload="auto" aria-hidden="true"></video></div>
-    <div class="reel-shot"><img src="/images/hero/02-donuts.png" style="aspect-ratio:1731/909" class="shot-donut" alt="A stack of handmade filled donuts"><video class="shot-donut" id="donutVid" muted playsinline preload="auto" aria-hidden="true"></video></div>
+    <div class="reel-shot"><img src="/images/reel/donut/plate.jpg?v=0e3ff700" style="aspect-ratio:1731/909" class="shot-donut" alt="A stack of handmade filled donuts"><video class="shot-donut" id="donutVid" muted playsinline preload="auto" aria-hidden="true"></video></div>
     <div class="reel-shot"><img src="/images/hero/04-midnight-lemonade.png" style="aspect-ratio:1961/802" class="shot-lemon" alt="Midnight Lemonade, a layered sparkling drink"><canvas class="shot-lemon" id="lemonSeq" width="1600" height="654" aria-hidden="true"></canvas></div>
     <div class="reel-veil"></div>
     <div class="reel-in" id="reelIn"></div>
@@ -1512,7 +1512,7 @@ nav.nav .nav-order-mobile{display:none !important}
     };
   })();
   var donut = (function(){
-    var dv = vid(document.getElementById('donutVid'), '/images/reel/donut/donut-still-' + SMALL + '.mp4?v=' + (SMALL === 1200 ? '2498c37f' : '5e2b1d69'));
+    var dv = vid(document.getElementById('donutVid'), '/images/reel/donut/donut-still-' + SMALL + '.mp4?v=' + (SMALL === 1200 ? 'ae19d08f' : '9e392d90'));
     if (!dv) return { play: function(){}, stop: function(){}, reset: function(){}, start: function(d){ if (d) d(); } };
     dv.addEventListener('loadeddata', function(){ dv.classList.add('show'); });
     return { play: function(){ playFrom0(dv); }, stop: function(){ try { dv.pause(); } catch (e) {} }, reset: function(){ try { dv.pause(); dv.currentTime = 0; } catch (e) {} }, start: function(d){ if (d) d(); } };
