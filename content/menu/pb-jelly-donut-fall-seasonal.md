@@ -1,6 +1,6 @@
 ---
 name: PB & Jelly Donut - Fall Seasonal
-category: Korean Corn Dogs
+category: Donuts
 photo: /uploads/pb-jelly-donut.png
 description: >-
   Delightful peanut cream paired with sliced strawberries and luscious
