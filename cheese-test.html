@@ -526,6 +526,11 @@ nav.nav .nav-order-mobile{display:none !important}
 @media(max-width:700px){
   .reel-shot :is(img,video).shot-avo{object-position:68% 64%}
 }
+
+/* sunlight over the avocado beat: a light layer, not a picture */
+.reel-shot canvas.sun{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 50%;mix-blend-mode:soft-light;opacity:0;transition:opacity 1.2s;pointer-events:none}
+.reel-shot canvas.sun.ready{opacity:1}
+@media(max-width:700px){ .reel-shot canvas.sun{object-position:68% 64%} }
 </style>
 <!--AUTO-SEO:START-->
 <meta property="og:site_name" content="Ugly Donuts &amp; Corn Dogs">
@@ -610,7 +615,7 @@ nav.nav .nav-order-mobile{display:none !important}
     <div class="reel-shot"><img src="/images/reel/cheese/poster.jpg?v=f5011435" style="aspect-ratio:2/1" class="shot-cheese" alt="Cheese stretching from a Korean corn dog pulled apart by hand"><video class="shot-cheese" id="cheeseOpen" muted playsinline preload="auto" aria-hidden="true"></video></div>
     <div class="reel-shot"><img src="/images/reel/donut/plate.jpg?v=0e3ff700" style="aspect-ratio:1731/909" class="shot-donut" alt="A stack of handmade filled donuts"><video class="shot-donut" id="donutVid" muted playsinline preload="auto" aria-hidden="true"></video></div>
     <div class="reel-shot"><img src="/images/hero/04-midnight-lemonade.png" style="aspect-ratio:1961/802" class="shot-lemon" alt="Midnight Lemonade, a layered sparkling drink"><canvas class="shot-lemon" id="lemonSeq" width="1600" height="654" aria-hidden="true"></canvas></div>
-    <div class="reel-shot"><img src="/images/reel/avocado/plate.jpg?v=8e7ab157" style="aspect-ratio:16/9" class="shot-avo" alt="A Korean corn dog, a filled donut, a halved avocado and a bottle of avocado oil"><video class="shot-avo" id="avoVid" muted playsinline preload="auto" aria-hidden="true"></video></div>
+    <div class="reel-shot"><img src="/images/reel/avocado/plate.jpg?v=8e7ab157" style="aspect-ratio:16/9" class="shot-avo" alt="A Korean corn dog, a filled donut, a halved avocado and a bottle of avocado oil"><video class="shot-avo" id="avoVid" muted playsinline preload="auto" aria-hidden="true"></video><canvas class="shot-avo sun" id="avoSun" width="480" height="270" aria-hidden="true"></canvas></div>
     <div class="reel-veil"></div>
     <div class="reel-in" id="reelIn"></div>
     <div class="reel-copy">
@@ -1534,14 +1539,47 @@ nav.nav .nav-order-mobile{display:none !important}
     return { play: function(){ playFrom0(dv); }, stop: function(){ try { dv.pause(); } catch (e) {} }, reset: function(){ try { dv.pause(); dv.currentTime = 0; } catch (e) {} }, start: function(d){ if (d) d(); } };
   })();
   var lemon  = makeShimmer('lemonSeq');
+  /* A beam of window light across the upper left of the scene. Two slow sines
+     move it a few percent and change its strength, so it reads as sun through
+     shifting leaves rather than a lamp. Low resolution on purpose: it is a
+     gradient, and the blur is the point. */
+  var sun = (function(){
+    var cv = document.getElementById('avoSun');
+    if (!cv || !cv.getContext) return { play: function(){}, stop: function(){} };
+    var ctx = cv.getContext('2d'), W = cv.width, H = cv.height, timer = null, t0 = 0;
+    function frame(t){
+      var cx = W * (0.30 + 0.035 * Math.sin(t * 0.37)), cy = H * (0.22 + 0.03 * Math.sin(t * 0.23 + 1.3));
+      var k = 0.62 + 0.20 * Math.sin(t * 0.52) * Math.sin(t * 0.19 + 0.7);
+      ctx.clearRect(0, 0, W, H);
+      ctx.globalCompositeOperation = 'source-over';
+      /* base: a neutral grey so soft-light leaves the photo alone outside the beam */
+      ctx.fillStyle = 'rgb(128,128,128)'; ctx.fillRect(0, 0, W, H);
+      /* the beam, warm, slanting down to the right */
+      ctx.save(); ctx.translate(cx, cy); ctx.rotate(-0.55); ctx.scale(1.8, 1);
+      var g = ctx.createRadialGradient(0, 0, 0, 0, 0, W * 0.42);
+      g.addColorStop(0, 'rgba(255,236,200,' + (0.55 * k).toFixed(3) + ')');
+      g.addColorStop(0.45, 'rgba(255,230,190,' + (0.28 * k).toFixed(3) + ')');
+      g.addColorStop(1, 'rgba(255,230,190,0)');
+      ctx.fillStyle = g; ctx.fillRect(-W, -H, 2 * W, 2 * H); ctx.restore();
+      /* a second, fainter shaft so the light has some shape */
+      ctx.save(); ctx.translate(cx + W * 0.22, cy + H * 0.10); ctx.rotate(-0.55); ctx.scale(2.6, 0.35);
+      var g2 = ctx.createRadialGradient(0, 0, 0, 0, 0, W * 0.30);
+      g2.addColorStop(0, 'rgba(255,240,210,' + (0.35 * k).toFixed(3) + ')'); g2.addColorStop(1, 'rgba(255,240,210,0)');
+      ctx.fillStyle = g2; ctx.fillRect(-W, -H, 2 * W, 2 * H); ctx.restore();
+      cv.classList.add('ready');
+    }
+    function play(){ stop(); t0 = 0; function tick(ts){ if (!t0) t0 = ts; frame((ts - t0) / 1000); timer = requestAnimationFrame(tick); } timer = requestAnimationFrame(tick); }
+    function stop(){ if (timer){ cancelAnimationFrame(timer); timer = null; } }
+    return { play: play, stop: stop };
+  })();
   var avo = (function(){
-    var av = vid(document.getElementById('avoVid'), '/images/reel/avocado/avocado-' + SMALL + '.mp4?v=' + (SMALL === 1200 ? 'c77cc769' : 'd9752b79'));
+    var av = vid(document.getElementById('avoVid'), '/images/reel/avocado/avocado-' + SMALL + '.mp4?v=' + (SMALL === 1200 ? '713e6b54' : '5d7ba7aa'));
     if (!av) return { play: function(){}, reset: function(){} };
     av.addEventListener('loadeddata', function(){ av.classList.add('show'); });
     return { play: function(){ playFrom0(av); }, reset: function(){ try { av.pause(); av.currentTime = 0; } catch (e) {} } };
   })();
-  function enter(s){ if (s === 0) cheese.play(); if (s === 1) donut.play(); if (s === 2) lemon.play('swing'); if (s === 3) avo.play(); }
-  function leave(s){ if (s === 1) donut.reset(); if (s === 2) lemon.stop(); if (s === 3) avo.reset(); }
+  function enter(s){ if (s === 0) cheese.play(); if (s === 1) donut.play(); if (s === 2) lemon.play('swing'); if (s === 3){ avo.play(); sun.play(); } }
+  function leave(s){ if (s === 1) donut.reset(); if (s === 2) lemon.stop(); if (s === 3){ avo.reset(); sun.stop(); } }
   function loadAll(){ cheese.start(function(){ donut.start(function(){ lemon.start(); }); }); }
   var kick = function(){ setTimeout(loadAll, 300); };
   if (document.readyState === 'complete') kick(); else window.addEventListener('load', kick);
