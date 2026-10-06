@@ -523,13 +523,13 @@ nav.nav .nav-order-mobile{display:none !important}
 .reel-shot :is(img,video).shot-avo{object-position:62% 50%;transform:none;transition:none}
 .reel-shot.on :is(img,video).shot-avo{transform:none}
 @media(max-width:700px){
-  .reel-shot :is(img,video).shot-avo{object-position:68% 64%}
+  .reel-shot :is(img,video).shot-avo{object-position:78% 60%}
 }
 
 /* sunlight over the avocado beat: a light layer, not a picture */
 .reel-shot canvas.sun{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 50%;mix-blend-mode:soft-light;opacity:0;transition:opacity 1.2s;pointer-events:none}
 .reel-shot canvas.sun.ready{opacity:1}
-@media(max-width:700px){ .reel-shot canvas.sun{object-position:68% 64%} }
+@media(max-width:700px){ .reel-shot canvas.sun{object-position:78% 60%} }
 </style>
 <!--AUTO-SEO:START-->
 <meta property="og:site_name" content="Ugly Donuts &amp; Corn Dogs">
@@ -614,7 +614,7 @@ nav.nav .nav-order-mobile{display:none !important}
     <div class="reel-shot"><img src="/images/reel/cheese/poster.jpg?v=f5011435" style="aspect-ratio:2/1" class="shot-cheese" alt="Cheese stretching from a Korean corn dog pulled apart by hand"><video class="shot-cheese" id="cheeseOpen" muted playsinline preload="auto" aria-hidden="true"></video></div>
     <div class="reel-shot"><img src="/images/reel/donut/plate.jpg?v=0e3ff700" style="aspect-ratio:1731/909" class="shot-donut" alt="A stack of handmade filled donuts"><video class="shot-donut" id="donutVid" muted playsinline preload="auto" aria-hidden="true"></video></div>
     <div class="reel-shot"><img src="/images/hero/04-midnight-lemonade.png" style="aspect-ratio:1961/802" class="shot-lemon" alt="Midnight Lemonade, a layered sparkling drink"><canvas class="shot-lemon" id="lemonSeq" width="1600" height="654" aria-hidden="true"></canvas></div>
-    <div class="reel-shot"><img src="/images/reel/avocado/plate.jpg?v=8e7ab157" style="aspect-ratio:16/9" class="shot-avo" alt="A Korean corn dog, a filled donut, a halved avocado and a bottle of avocado oil"><video class="shot-avo" id="avoVid" muted playsinline preload="auto" aria-hidden="true"></video><canvas class="shot-avo sun" id="avoSun" width="480" height="270" aria-hidden="true"></canvas></div>
+    <div class="reel-shot"><img src="/images/reel/avocado/plate.jpg?v=82654356" style="aspect-ratio:1672/941" class="shot-avo" alt="A Korean corn dog, a filled donut, a halved avocado and a bottle of avocado oil"><video class="shot-avo" id="avoVid" muted playsinline preload="auto" aria-hidden="true"></video><canvas class="shot-avo sun" id="avoSun" width="480" height="270" aria-hidden="true"></canvas></div>
     <div class="reel-veil"></div>
     <div class="reel-in" id="reelIn"></div>
     <div class="reel-copy">
@@ -1546,25 +1546,55 @@ nav.nav .nav-order-mobile{display:none !important}
     var cv = document.getElementById('avoSun');
     if (!cv || !cv.getContext) return { play: function(){}, stop: function(){} };
     var ctx = cv.getContext('2d'), W = cv.width, H = cv.height, timer = null, t0 = 0;
+    /* a small tile of bright ridges where slow waves cancel: sun off water */
+    var TW = 160, TH = 90, tex = document.createElement('canvas'), tctx = tex.getContext('2d'), tdata = null;
+    tex.width = TW; tex.height = TH;
+    var layer = document.createElement('canvas'), lctx = layer.getContext('2d');
+    layer.width = W; layer.height = H;
+    function ripple(t){
+      if (!tdata) tdata = tctx.createImageData(TW, TH);
+      var d = tdata.data, x, y, u, v, s1, s2, s3, s, i, k = 0;
+      for (y = 0; y < TH; y++){ v = y / TH;
+        for (x = 0; x < TW; x++){ u = x / TW * 1.8;
+          s1 = Math.sin(u * 9 + t * 0.5 + 1.6 * Math.sin(v * 6 - t * 0.38));
+          s2 = Math.sin(v * 8 - t * 0.43 + 1.6 * Math.sin(u * 7 + t * 0.31));
+          s3 = Math.sin((u * 5 - v * 4) + t * 0.27);
+          s = (s1 + s2 + s3) / 3; i = 1 - Math.abs(s) * 3.2; if (i < 0) i = 0; i = i * i * i;
+          d[k] = 255; d[k + 1] = 244; d[k + 2] = 220; d[k + 3] = (i * 255) | 0; k += 4; } }
+      tctx.putImageData(tdata, 0, 0);
+    }
     function frame(t){
       var cx = W * (0.30 + 0.035 * Math.sin(t * 0.37)), cy = H * (0.22 + 0.03 * Math.sin(t * 0.23 + 1.3));
       var k = 0.62 + 0.20 * Math.sin(t * 0.52) * Math.sin(t * 0.19 + 0.7);
       ctx.clearRect(0, 0, W, H);
-      ctx.globalCompositeOperation = 'source-over';
-      /* base: a neutral grey so soft-light leaves the photo alone outside the beam */
+      ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+      /* neutral grey: soft-light leaves the photo alone wherever nothing is drawn */
       ctx.fillStyle = 'rgb(128,128,128)'; ctx.fillRect(0, 0, W, H);
-      /* the beam, warm, slanting down to the right */
+      /* 1. the beam */
       ctx.save(); ctx.translate(cx, cy); ctx.rotate(-0.55); ctx.scale(1.8, 1);
       var g = ctx.createRadialGradient(0, 0, 0, 0, 0, W * 0.42);
       g.addColorStop(0, 'rgba(255,236,200,' + (0.55 * k).toFixed(3) + ')');
       g.addColorStop(0.45, 'rgba(255,230,190,' + (0.28 * k).toFixed(3) + ')');
       g.addColorStop(1, 'rgba(255,230,190,0)');
       ctx.fillStyle = g; ctx.fillRect(-W, -H, 2 * W, 2 * H); ctx.restore();
-      /* a second, fainter shaft so the light has some shape */
-      ctx.save(); ctx.translate(cx + W * 0.22, cy + H * 0.10); ctx.rotate(-0.55); ctx.scale(2.6, 0.35);
-      var g2 = ctx.createRadialGradient(0, 0, 0, 0, 0, W * 0.30);
-      g2.addColorStop(0, 'rgba(255,240,210,' + (0.35 * k).toFixed(3) + ')'); g2.addColorStop(1, 'rgba(255,240,210,0)');
-      ctx.fillStyle = g2; ctx.fillRect(-W, -H, 2 * W, 2 * H); ctx.restore();
+      /* 2. the shimmer: painted on its own layer, faded out away from the lit
+         upper-left with a soft window, then laid over the beam */
+      ripple(t);
+      lctx.globalCompositeOperation = 'source-over'; lctx.globalAlpha = 1;
+      lctx.clearRect(0, 0, W, H);
+      lctx.drawImage(tex, -W * 0.1 + (t * 3 % (W * 0.2)), -H * 0.05, W * 1.3, H * 0.9);
+      var win = lctx.createRadialGradient(W * 0.32, H * 0.28, 0, W * 0.32, H * 0.28, W * 0.55);
+      win.addColorStop(0, 'rgba(0,0,0,1)'); win.addColorStop(0.55, 'rgba(0,0,0,0.6)'); win.addColorStop(1, 'rgba(0,0,0,0)');
+      lctx.globalCompositeOperation = 'destination-in'; lctx.fillStyle = win; lctx.fillRect(0, 0, W, H);
+      ctx.globalAlpha = 0.34 * k; ctx.drawImage(layer, 0, 0); ctx.globalAlpha = 1;
+      /* 3. a soft glow on the bottle so the oil reads bright and clear */
+      ctx.save(); ctx.translate(W * 0.81, H * 0.30); ctx.scale(0.55, 1.15);
+      var gb = ctx.createRadialGradient(0, 0, 0, 0, 0, H * 0.34);
+      var kb = 0.5 + 0.12 * Math.sin(t * 0.61 + 2.0);
+      gb.addColorStop(0, 'rgba(255,246,205,' + (0.42 * kb).toFixed(3) + ')');
+      gb.addColorStop(0.5, 'rgba(255,240,190,' + (0.18 * kb).toFixed(3) + ')');
+      gb.addColorStop(1, 'rgba(255,240,190,0)');
+      ctx.fillStyle = gb; ctx.fillRect(-W, -H, 2 * W, 2 * H); ctx.restore();
       cv.classList.add('ready');
     }
     function play(){ stop(); t0 = 0; function tick(ts){ if (!t0) t0 = ts; frame((ts - t0) / 1000); timer = requestAnimationFrame(tick); } timer = requestAnimationFrame(tick); }
@@ -1572,7 +1602,7 @@ nav.nav .nav-order-mobile{display:none !important}
     return { play: play, stop: stop };
   })();
   var avo = (function(){
-    var av = vid(document.getElementById('avoVid'), '/images/reel/avocado/avocado-' + SMALL + '.mp4?v=' + (SMALL === 1200 ? 'e3d5d736' : '004e6a5a'));
+    var av = vid(document.getElementById('avoVid'), '/images/reel/avocado/avocado-' + SMALL + '.mp4?v=' + (SMALL === 1200 ? 'c81226b9' : 'c3d572b5'));
     if (!av) return { play: function(){}, reset: function(){} };
     av.addEventListener('loadeddata', function(){ av.classList.add('show'); });
     return { play: function(){ playFrom0(av); }, reset: function(){ try { av.pause(); av.currentTime = 0; } catch (e) {} } };
