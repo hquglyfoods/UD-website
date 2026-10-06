@@ -626,8 +626,8 @@ nav.nav .nav-order-mobile{display:none !important}
           <p>We mix fresh dough every morning, in every store. By hand, from scratch.</p></div>
         <div class="reel-line r"><div class="n">Behind the bar</div><h2>Made in&#8209;house.</h2>
           <p>Signature refreshers and bubble tea, built in the store, alongside everything else we make by hand.</p></div>
-        <div class="reel-line"><div class="n">100% avocado oil</div><h2>Fried in avocado oil. Only.</h2>
-          <p>Every corn dog and every donut, every store. As far as we know, no other Korean corn dog brand in the U.S. does it.</p></div>
+        <div class="reel-line"><div class="n">100% avocado oil</div><h2>America&#8217;s first avocado&#8209;oil donut &amp; corn dog brand.</h2>
+          <p>Every corn dog and every donut, in every store, fried in 100% avocado oil. Nothing else. Ever.</p></div>
       </div>
     </div>
     <div class="reel-rail" id="reelRail"><b><i></i></b><b><i></i></b><b><i></i></b><b><i></i></b></div>
@@ -1573,7 +1573,7 @@ nav.nav .nav-order-mobile{display:none !important}
     return { play: play, stop: stop };
   })();
   var avo = (function(){
-    var av = vid(document.getElementById('avoVid'), '/images/reel/avocado/avocado-' + SMALL + '.mp4?v=' + (SMALL === 1200 ? '713e6b54' : '5d7ba7aa'));
+    var av = vid(document.getElementById('avoVid'), '/images/reel/avocado/avocado-' + SMALL + '.mp4?v=' + (SMALL === 1200 ? 'e3d5d736' : '004e6a5a'));
     if (!av) return { play: function(){}, reset: function(){} };
     av.addEventListener('loadeddata', function(){ av.classList.add('show'); });
     return { play: function(){ playFrom0(av); }, reset: function(){ try { av.pause(); av.currentTime = 0; } catch (e) {} } };
