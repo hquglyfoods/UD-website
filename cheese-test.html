@@ -568,7 +568,7 @@ nav.nav .nav-order-mobile{display:none !important}
         <a href="/catering.html" class="nav-more-link">Catering</a>
         <a href="/review" class="nav-more-link">Share Your Visit</a>
         <a href="/careers.html" class="nav-more-link">Careers</a>
-        <a href="https://uglydonutsncorndogsfranchise.com/" target="_blank" rel="noopener" class="nav-more-link">Franchise</a>
+        <a href="https://franchise.uglydonutsncorndogs.com/" target="_blank" rel="noopener" class="nav-more-link">Franchise</a>
         <a href="/contact.html" class="nav-more-link">Contact</a>
       </div>
     </div>
@@ -829,7 +829,7 @@ nav.nav .nav-order-mobile{display:none !important}
         and the position is right for you, we would like to talk.
       </p>
       <div class="franchise-actions fade-up delay-3">
-        <a href="https://uglydonutsncorndogsfranchise.com/" target="_blank" rel="noopener" class="btn btn-primary btn-arrow">Apply Now</a>
+        <a href="https://franchise.uglydonutsncorndogs.com/" target="_blank" rel="noopener" class="btn btn-primary btn-arrow">Apply Now</a>
         <a href="https://franchise.uglydonutsncorndogs.com" target="_blank" rel="noopener" class="btn btn-outline-light">Learn More</a>
       </div>
     </div>
@@ -868,7 +868,7 @@ nav.nav .nav-order-mobile{display:none !important}
           <li><a href="/faq.html">FAQ</a></li>
           <li><a href="#" onclick="return udShowInkind(event)">inKind Rewards</a></li>
           <li><a href="/careers.html">Careers</a></li>
-          <li><a href="https://uglydonutsncorndogsfranchise.com/" target="_blank" rel="noopener">Franchise</a></li>
+          <li><a href="https://franchise.uglydonutsncorndogs.com/" target="_blank" rel="noopener">Franchise</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -1516,27 +1516,36 @@ nav.nav .nav-order-mobile{display:none !important}
      the donuts play once when their beat lights and hold their last frame. */
   function vid(el, src){
     if (!el) return null;
-    el.src = src; el.muted = true; el.setAttribute('muted', '');
-    try { el.load(); } catch (e) {}
+    el.muted = true; el.setAttribute('muted', '');
+    el._src = src;                       /* fetched by warm(), not at page load */
     return el;
   }
-  function playFrom0(el){ if (!el) return; try { el.pause(); el.currentTime = 0; var p = el.play(); if (p && p.catch) p.catch(function(){}); } catch (e) {} }
+  /* The clips are a few MB each, so none is fetched until it is about to be
+     needed: the first once the page has loaded, the others when the reader
+     reaches the reel. Until a clip arrives its still photo is on screen. */
+  function warm(el){
+    if (!el || el._warm) return;
+    el._warm = true; el.src = el._src;
+    try { el.load(); } catch (e) {}
+  }
+  function playFrom0(el){ if (!el) return; warm(el); try { el.pause(); el.currentTime = 0; var p = el.play(); if (p && p.catch) p.catch(function(){}); } catch (e) {} }
   var SMALL = window.innerWidth <= 700 ? 1200 : 1600;
   var cheese = (function(){
     var vo = vid(document.getElementById('cheeseOpen'), '/images/reel/cheese/smooth-' + SMALL + '.mp4?v=' + (SMALL === 1200 ? '0a4ce557' : '0d7031ac'));
-    if (!vo) return { play: function(){}, reset: function(){}, start: function(d){ if (d) d(); } };
+    if (!vo) return { play: function(){}, reset: function(){}, warm: function(){}, start: function(d){ if (d) d(); } };
     vo.addEventListener('loadeddata', function(){ vo.classList.add('show'); });
     return {
       play: function(){ playFrom0(vo); },
       reset: function(){ try { vo.pause(); vo.currentTime = 0; } catch (e) {} },
-      start: function(d){ if (d) d(); }
+      warm: function(){ warm(vo); },
+      start: function(d){ warm(vo); if (d) d(); }
     };
   })();
   var donut = (function(){
     var dv = vid(document.getElementById('donutVid'), '/images/reel/donut/donut-still-' + SMALL + '.mp4?v=' + (SMALL === 1200 ? '96b432d0' : '8780057c'));
-    if (!dv) return { play: function(){}, stop: function(){}, reset: function(){}, start: function(d){ if (d) d(); } };
+    if (!dv) return { play: function(){}, stop: function(){}, reset: function(){}, warm: function(){}, start: function(d){ if (d) d(); } };
     dv.addEventListener('loadeddata', function(){ dv.classList.add('show'); });
-    return { play: function(){ playFrom0(dv); }, stop: function(){ try { dv.pause(); } catch (e) {} }, reset: function(){ try { dv.pause(); dv.currentTime = 0; } catch (e) {} }, start: function(d){ if (d) d(); } };
+    return { play: function(){ playFrom0(dv); }, stop: function(){ try { dv.pause(); } catch (e) {} }, reset: function(){ try { dv.pause(); dv.currentTime = 0; } catch (e) {} }, warm: function(){ warm(dv); }, start: function(d){ if (d) d(); } };
   })();
   var lemon  = makeShimmer('lemonSeq');
   /* A beam of window light across the upper left of the scene. Two slow sines
@@ -1604,11 +1613,11 @@ nav.nav .nav-order-mobile{display:none !important}
   })();
   var avo = (function(){
     var av = vid(document.getElementById('avoVid'), '/images/reel/avocado/avocado-' + SMALL + '.mp4?v=' + (SMALL === 1200 ? 'c81226b9' : 'c3d572b5'));
-    if (!av) return { play: function(){}, reset: function(){} };
+    if (!av) return { play: function(){}, reset: function(){}, warm: function(){} };
     av.addEventListener('loadeddata', function(){ av.classList.add('show'); });
-    return { play: function(){ playFrom0(av); }, reset: function(){ try { av.pause(); av.currentTime = 0; } catch (e) {} } };
+    return { play: function(){ playFrom0(av); }, reset: function(){ try { av.pause(); av.currentTime = 0; } catch (e) {} }, warm: function(){ warm(av); } };
   })();
-  function enter(s){ if (s === 0) cheese.play(); if (s === 1) donut.play(); if (s === 2) lemon.play('swing'); if (s === 3){ avo.play(); sun.play(); } }
+  function enter(s){ if (s === 0){ cheese.play(); donut.warm(); avo.warm(); } if (s === 1){ donut.play(); avo.warm(); } if (s === 2) lemon.play('swing'); if (s === 3){ avo.play(); sun.play(); } }
   function leave(s){ if (s === 1) donut.reset(); if (s === 2) lemon.stop(); if (s === 3){ avo.reset(); sun.stop(); } }
   function loadAll(){ cheese.start(function(){ donut.start(function(){ lemon.start(); }); }); }
   var kick = function(){ setTimeout(loadAll, 300); };

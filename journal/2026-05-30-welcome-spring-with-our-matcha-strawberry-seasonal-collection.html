@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#F5EFE3">
 <title>Welcome Spring with Our Matcha Strawberry Seasonal Collection · Ugly Donuts &amp; Corn Dogs</title>
-<meta name="description" content="Inspired by the bright flavors of the season, we’re excited to introduce two limited-time creations that bring together the perfect balance of premium matcha and sweet strawberry: the Matcha Strawberry Blossom Latte and the Strawberry Matcha Donut.">
+<meta name="description" content="Inspired by the bright flavors of the season, we’re excited to introduce two limited-time creations that bring together the perfect balance of premium…">
 <meta name="keywords" content="Korean corn dog, premium corn dogs, handmade donuts, Hot Cheetos corn dog, avocado oil">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://www.uglydonutsncorndogs.com/journal/2026-05-30-welcome-spring-with-our-matcha-strawberry-seasonal-collection">
@@ -490,7 +490,7 @@ nav.nav .nav-order-mobile{display:none !important}
         <a href="/catering.html" class="nav-more-link">Catering</a>
         <a href="/review" class="nav-more-link">Share Your Visit</a>
         <a href="/careers.html" class="nav-more-link">Careers</a>
-        <a href="https://uglydonutsncorndogsfranchise.com/" target="_blank" rel="noopener" class="nav-more-link">Franchise</a>
+        <a href="https://franchise.uglydonutsncorndogs.com/" target="_blank" rel="noopener" class="nav-more-link">Franchise</a>
         <a href="/contact.html" class="nav-more-link">Contact</a>
       </div>
     </div>
@@ -517,7 +517,7 @@ nav.nav .nav-order-mobile{display:none !important}
 <section class="article-page">
   <div class="container">
     <div id="article-content" data-prerendered="true">
-      <div class="article-meta"><span>Menu</span><span class="sep">&middot;</span><span class="date">May 29, 2026</span><span class="sep">&middot;</span><span class="date">3 min read</span></div><h1 class="article-title">Welcome Spring with Our Matcha Strawberry Seasonal Collection</h1><p class="article-excerpt">Inspired by the bright flavors of the season, we’re excited to introduce two limited-time creations that bring together the perfect balance of premium matcha and sweet strawberry: the Matcha Strawberry Blossom Latte and the Strawberry Matcha Donut.</p><div class="article-cover"><img style="aspect-ratio:1600/1140" src="/uploads/menu-website.jpg" alt="Welcome Spring with Our Matcha Strawberry Seasonal Collection"></div><div class="article-body"><p>Spring is a season of fresh starts, vibrant colors, and simple moments worth savoring. Inspired by the bright flavors of the season, we’re excited to introduce two limited-time creations that bring together the perfect balance of premium matcha and sweet strawberry: the Matcha Strawberry Blossom Latte and the Strawberry Matcha Donut.</p>
+      <div class="article-meta"><span>Menu</span><span class="sep">&middot;</span><span class="date">May 29, 2026</span><span class="sep">&middot;</span><span class="date">3 min read</span></div><h1 class="article-title">Welcome Spring with Our Matcha Strawberry Seasonal Collection</h1><p class="article-excerpt">Inspired by the bright flavors of the season, we’re excited to introduce two limited-time creations that bring together the perfect balance of premium matcha and sweet strawberry: the Matcha Strawberry Blossom Latte and the Strawberry Matcha Donut.</p><div class="article-cover"><img style="aspect-ratio:1600/1140" src="/.netlify/images?url=%2Fuploads%2Fmenu-website.jpg&w=1200" alt="Welcome Spring with Our Matcha Strawberry Seasonal Collection"></div><div class="article-body"><p>Spring is a season of fresh starts, vibrant colors, and simple moments worth savoring. Inspired by the bright flavors of the season, we’re excited to introduce two limited-time creations that bring together the perfect balance of premium matcha and sweet strawberry: the Matcha Strawberry Blossom Latte and the Strawberry Matcha Donut.</p>
 <p>Crafted with quality ingredients and made to celebrate the arrival of warmer days, this seasonal collection is available for a limited time at Ugly Donuts &amp; Corn Dogs.</p>
 <h2>Matcha Strawberry Blossom Latte</h2>
 <p>Our Matcha Strawberry Blossom Latte starts with ceremonial-grade matcha, considered the highest quality matcha available and prized for its vibrant color, smooth texture, and rich, naturally complex flavor.</p>
@@ -571,7 +571,7 @@ nav.nav .nav-order-mobile{display:none !important}
           <li><a href="/faq.html">FAQ</a></li>
           <li><a href="#" onclick="return udShowInkind(event)">inKind Rewards</a></li>
           <li><a href="/careers.html">Careers</a></li>
-          <li><a href="https://uglydonutsncorndogsfranchise.com/" target="_blank" rel="noopener">Franchise</a></li>
+          <li><a href="https://franchise.uglydonutsncorndogs.com/" target="_blank" rel="noopener">Franchise</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -628,6 +628,13 @@ nav.nav .nav-order-mobile{display:none !important}
     return params.get('slug');
   }
   
+  // Netlify's image CDN resizes and re-encodes on the fly, so a 2 MB CMS upload
+  // reaches a phone as ~100 KB. Mirrors imgUrl() in build-index.js: keep identical.
+  function imgUrl(src, w){
+    src = String(src == null ? '' : src);
+    if (!/^\/(uploads|images)\/.*\.(png|jpe?g|webp|gif)$/i.test(src.split(/[?#]/)[0])) return src;
+    return '/.netlify/images?url=' + encodeURIComponent(src) + '&w=' + (w || 800);
+  }
   function parseFrontmatter(text){
     // Normalize line endings first: (.*)$ below never matches a trailing \r,
     // so a CRLF source file would parse to an empty frontmatter.
@@ -808,7 +815,7 @@ nav.nav .nav-order-mobile{display:none !important}
       
       if(d.title) document.title = d.title + ' · Ugly Donuts & Corn Dogs';
       
-      var cover = d.cover ? '<div class="article-cover"><img src="' + d.cover + '" alt="' + (d.title||'') + '"></div>' : '';
+      var cover = d.cover ? '<div class="article-cover"><img src="' + imgUrl(d.cover, 1200) + '" alt="' + (d.title||'') + '"></div>' : '';
       var dateStr = formatDate(d.published_date);
       var category = d.category || 'Journal';
       var readTime = d.read_time || '';

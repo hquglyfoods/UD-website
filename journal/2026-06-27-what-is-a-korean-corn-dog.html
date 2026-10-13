@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#F5EFE3">
 <title>What Is a Korean Corn Dog? · Ugly Donuts &amp; Corn Dogs</title>
-<meta name="description" content="A Korean corn dog is a street food classic built on a skewered sausage or cheese center, hand dipped in batter, coated, and fried to order. Here is what makes it different from the American version, and why it went viral.">
+<meta name="description" content="A Korean corn dog is a street food classic built on a skewered sausage or cheese center, hand dipped in batter, coated, and fried to order. Here is what…">
 <meta name="keywords" content="Korean corn dog, premium corn dogs, handmade donuts, Hot Cheetos corn dog, avocado oil">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://www.uglydonutsncorndogs.com/journal/2026-06-27-what-is-a-korean-corn-dog">
@@ -490,7 +490,7 @@ nav.nav .nav-order-mobile{display:none !important}
         <a href="/catering.html" class="nav-more-link">Catering</a>
         <a href="/review" class="nav-more-link">Share Your Visit</a>
         <a href="/careers.html" class="nav-more-link">Careers</a>
-        <a href="https://uglydonutsncorndogsfranchise.com/" target="_blank" rel="noopener" class="nav-more-link">Franchise</a>
+        <a href="https://franchise.uglydonutsncorndogs.com/" target="_blank" rel="noopener" class="nav-more-link">Franchise</a>
         <a href="/contact.html" class="nav-more-link">Contact</a>
       </div>
     </div>
@@ -517,7 +517,7 @@ nav.nav .nav-order-mobile{display:none !important}
 <section class="article-page">
   <div class="container">
     <div id="article-content" data-prerendered="true">
-      <div class="article-meta"><span>Behind the Scenes</span><span class="sep">&middot;</span><span class="date">June 27, 2026</span><span class="sep">&middot;</span><span class="date">5 min read</span></div><h1 class="article-title">What Is a Korean Corn Dog?</h1><p class="article-excerpt">A Korean corn dog is a street food classic built on a skewered sausage or cheese center, hand dipped in batter, coated, and fried to order. Here is what makes it different from the American version, and why it went viral.</p><div class="article-cover"><img style="aspect-ratio:1024/1536" src="/uploads/chatgpt-image-jun-27-2026-01_33_03-pm.jpg" alt="What Is a Korean Corn Dog?"></div><div class="article-body"><p>A Korean corn dog is a street food snack built around a skewered center of sausage, cheese, or both, hand dipped in a light batter, rolled in a crunchy coating, and fried until golden. It is served hot on a stick, usually finished with a dusting of sugar and a drizzle of sauce. If you have seen the long, crisp, cheese pulling videos online, that is a Korean corn dog.</p>
+      <div class="article-meta"><span>Behind the Scenes</span><span class="sep">&middot;</span><span class="date">June 27, 2026</span><span class="sep">&middot;</span><span class="date">5 min read</span></div><h1 class="article-title">What Is a Korean Corn Dog?</h1><p class="article-excerpt">A Korean corn dog is a street food classic built on a skewered sausage or cheese center, hand dipped in batter, coated, and fried to order. Here is what makes it different from the American version, and why it went viral.</p><div class="article-cover"><img style="aspect-ratio:1024/1536" src="/.netlify/images?url=%2Fuploads%2Fchatgpt-image-jun-27-2026-01_33_03-pm.jpg&w=1200" alt="What Is a Korean Corn Dog?"></div><div class="article-body"><p>A Korean corn dog is a street food snack built around a skewered center of sausage, cheese, or both, hand dipped in a light batter, rolled in a crunchy coating, and fried until golden. It is served hot on a stick, usually finished with a dusting of sugar and a drizzle of sauce. If you have seen the long, crisp, cheese pulling videos online, that is a Korean corn dog.</p>
 <p>It looks simple, but almost every part of it is different from the American corn dog most people grew up with. Those differences are the reason it has become one of the most loved street foods in the world.</p>
 <h2>How a Korean corn dog is different from an American corn dog</h2>
 <p>The American corn dog is a hot dog dipped in a sweet cornmeal batter and deep fried. It is one flavor, one texture, start to finish.</p>
@@ -585,7 +585,7 @@ nav.nav .nav-order-mobile{display:none !important}
           <li><a href="/faq.html">FAQ</a></li>
           <li><a href="#" onclick="return udShowInkind(event)">inKind Rewards</a></li>
           <li><a href="/careers.html">Careers</a></li>
-          <li><a href="https://uglydonutsncorndogsfranchise.com/" target="_blank" rel="noopener">Franchise</a></li>
+          <li><a href="https://franchise.uglydonutsncorndogs.com/" target="_blank" rel="noopener">Franchise</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -642,6 +642,13 @@ nav.nav .nav-order-mobile{display:none !important}
     return params.get('slug');
   }
   
+  // Netlify's image CDN resizes and re-encodes on the fly, so a 2 MB CMS upload
+  // reaches a phone as ~100 KB. Mirrors imgUrl() in build-index.js: keep identical.
+  function imgUrl(src, w){
+    src = String(src == null ? '' : src);
+    if (!/^\/(uploads|images)\/.*\.(png|jpe?g|webp|gif)$/i.test(src.split(/[?#]/)[0])) return src;
+    return '/.netlify/images?url=' + encodeURIComponent(src) + '&w=' + (w || 800);
+  }
   function parseFrontmatter(text){
     // Normalize line endings first: (.*)$ below never matches a trailing \r,
     // so a CRLF source file would parse to an empty frontmatter.
@@ -822,7 +829,7 @@ nav.nav .nav-order-mobile{display:none !important}
       
       if(d.title) document.title = d.title + ' · Ugly Donuts & Corn Dogs';
       
-      var cover = d.cover ? '<div class="article-cover"><img src="' + d.cover + '" alt="' + (d.title||'') + '"></div>' : '';
+      var cover = d.cover ? '<div class="article-cover"><img src="' + imgUrl(d.cover, 1200) + '" alt="' + (d.title||'') + '"></div>' : '';
       var dateStr = formatDate(d.published_date);
       var category = d.category || 'Journal';
       var readTime = d.read_time || '';

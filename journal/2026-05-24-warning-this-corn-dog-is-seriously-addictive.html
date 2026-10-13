@@ -490,7 +490,7 @@ nav.nav .nav-order-mobile{display:none !important}
         <a href="/catering.html" class="nav-more-link">Catering</a>
         <a href="/review" class="nav-more-link">Share Your Visit</a>
         <a href="/careers.html" class="nav-more-link">Careers</a>
-        <a href="https://uglydonutsncorndogsfranchise.com/" target="_blank" rel="noopener" class="nav-more-link">Franchise</a>
+        <a href="https://franchise.uglydonutsncorndogs.com/" target="_blank" rel="noopener" class="nav-more-link">Franchise</a>
         <a href="/contact.html" class="nav-more-link">Contact</a>
       </div>
     </div>
@@ -517,7 +517,7 @@ nav.nav .nav-order-mobile{display:none !important}
 <section class="article-page">
   <div class="container">
     <div id="article-content" data-prerendered="true">
-      <div class="article-meta"><span>Menu</span><span class="sep">&middot;</span><span class="date">May 23, 2026</span><span class="sep">&middot;</span><span class="date">1 min read</span></div><h1 class="article-title">Warning: This Corn Dog Is Seriously Addictive</h1><p class="article-excerpt">The bold, fiery, cheese-covered showstopper that’s become our best-selling corn dog.</p><div class="article-cover"><img style="aspect-ratio:1600/1140" src="/uploads/2.jpg" alt="Warning: This Corn Dog Is Seriously Addictive"></div><div class="article-body"><p>At Ugly Donuts &amp; Corn Dogs, we’re not here to play it safe—and nothing proves that more than our Hot Cheetos Corn Dog. This is the bold, fiery, cheese-covered showstopper that’s become our best-selling corn dog (and for good reason).</p>
+      <div class="article-meta"><span>Menu</span><span class="sep">&middot;</span><span class="date">May 23, 2026</span><span class="sep">&middot;</span><span class="date">1 min read</span></div><h1 class="article-title">Warning: This Corn Dog Is Seriously Addictive</h1><p class="article-excerpt">The bold, fiery, cheese-covered showstopper that’s become our best-selling corn dog.</p><div class="article-cover"><img style="aspect-ratio:1600/1140" src="/.netlify/images?url=%2Fuploads%2F2.jpg&w=1200" alt="Warning: This Corn Dog Is Seriously Addictive"></div><div class="article-body"><p>At Ugly Donuts &amp; Corn Dogs, we’re not here to play it safe—and nothing proves that more than our Hot Cheetos Corn Dog. This is the bold, fiery, cheese-covered showstopper that’s become our best-selling corn dog (and for good reason).</p>
 <p>We start with a classic Ugly Corn Dog—crispy on the outside, juicy on the inside. Then things get wild. We smother it in warm, melty cheese sauce and roll it in crushed Flamin' Hot Cheetos for that electric red crunch and signature kick. It’s messy. It’s loud. It’s totally addictive.</p>
 <p>Fans can’t get enough of the contrast: the creamy cheese against the spicy crunch, all wrapped around a perfectly fried corn dog. It’s the kind of over-the-top bite that lights up social feeds and cravings alike.</p>
 <p>Whether you’re a Hot Cheetos lover, a heat-seeker, or just here for the cheese pull, this one delivers on every level.</p>
@@ -562,7 +562,7 @@ nav.nav .nav-order-mobile{display:none !important}
           <li><a href="/faq.html">FAQ</a></li>
           <li><a href="#" onclick="return udShowInkind(event)">inKind Rewards</a></li>
           <li><a href="/careers.html">Careers</a></li>
-          <li><a href="https://uglydonutsncorndogsfranchise.com/" target="_blank" rel="noopener">Franchise</a></li>
+          <li><a href="https://franchise.uglydonutsncorndogs.com/" target="_blank" rel="noopener">Franchise</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -619,6 +619,13 @@ nav.nav .nav-order-mobile{display:none !important}
     return params.get('slug');
   }
   
+  // Netlify's image CDN resizes and re-encodes on the fly, so a 2 MB CMS upload
+  // reaches a phone as ~100 KB. Mirrors imgUrl() in build-index.js: keep identical.
+  function imgUrl(src, w){
+    src = String(src == null ? '' : src);
+    if (!/^\/(uploads|images)\/.*\.(png|jpe?g|webp|gif)$/i.test(src.split(/[?#]/)[0])) return src;
+    return '/.netlify/images?url=' + encodeURIComponent(src) + '&w=' + (w || 800);
+  }
   function parseFrontmatter(text){
     // Normalize line endings first: (.*)$ below never matches a trailing \r,
     // so a CRLF source file would parse to an empty frontmatter.
@@ -799,7 +806,7 @@ nav.nav .nav-order-mobile{display:none !important}
       
       if(d.title) document.title = d.title + ' · Ugly Donuts & Corn Dogs';
       
-      var cover = d.cover ? '<div class="article-cover"><img src="' + d.cover + '" alt="' + (d.title||'') + '"></div>' : '';
+      var cover = d.cover ? '<div class="article-cover"><img src="' + imgUrl(d.cover, 1200) + '" alt="' + (d.title||'') + '"></div>' : '';
       var dateStr = formatDate(d.published_date);
       var category = d.category || 'Journal';
       var readTime = d.read_time || '';
