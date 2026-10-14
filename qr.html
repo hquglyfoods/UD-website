@@ -563,6 +563,12 @@ nav.nav .nav-order-mobile { display: none !important; }
 .qr-warn { border: 1.5px dashed rgba(192,57,43,.4); border-radius: 12px; padding: 16px 18px; margin-top: 18px; font-size: 14.5px; color: #a33; background: rgba(192,57,43,.04); }
 </style>
 <meta name="robots" content="noindex, nofollow">
+<style id="touch-fx">
+/* Touch feel: no grey/blue tap flash, no double-tap-zoom delay on controls, light press feedback on touch screens only. Invisible at rest. */
+html{-webkit-tap-highlight-color:transparent}
+a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-action:manipulation}
+@media (hover:none){button:not(:disabled):active,a:active,[role=button]:active{opacity:.72}}
+</style>
 </head>
 <body>
 <a href="#main-content" class="skip-to-content">Skip to content</a>
