@@ -54,6 +54,12 @@
   status = 301
   force = true
 
+# Browsers and crawlers ask for the icon at the site root; serve the real file there.
+[[redirects]]
+  from = "/favicon.ico"
+  to = "/images/favicon/favicon.ico"
+  status = 200
+
 [[redirects]]
   from = "/order"
   to = "https://uglydonutsandcorndogsknickerbocker.toast.site/order?showAllLocations=true"

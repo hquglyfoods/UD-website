@@ -71,6 +71,15 @@ function imgUrl(src, w) {
   if (!/^\/(uploads|images)\/.*\.(png|jpe?g|webp|gif)$/i.test(src.split(/[?#]/)[0])) return src;
   return '/.netlify/images?url=' + encodeURIComponent(src) + '&w=' + (w || 800);
 }
+// Search results cut a description at roughly 155 characters, so trim at a
+// word boundary rather than let Google cut mid-word. Tags are stripped first.
+function metaDesc(s, max) {
+  max = max || 155;
+  s = String(s == null ? '' : s).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  if (s.length <= max) return s;
+  var cut = s.slice(0, max - 1), sp = cut.lastIndexOf(' ');
+  return (sp > max * 0.6 ? cut.slice(0, sp) : cut).replace(/[\s,;:.\-–—]+$/, '') + '…';
+}
 function glob_html() {
   return fs.readdirSync(ROOT).filter(function (f) { return f.endsWith('.html') && f !== 'cookie-banner-snippet.html'; });
 }
@@ -341,7 +350,7 @@ if (fs.existsSync(APATH)) {
     page = page.replace('<title>Journal · Ugly Donuts &amp; Corn Dogs</title>',
       '<title>' + attrEscape(d.title || 'Journal') + ' · Ugly Donuts &amp; Corn Dogs</title>');
     page = page.replace('<meta name="description" content="Stories from the Ugly Donuts kitchen and beyond.">',
-      '<meta name="description" content="' + attrEscape(d.excerpt || '') + '">');
+      '<meta name="description" content="' + attrEscape(metaDesc(d.excerpt || '')) + '">');
     page = page.replace('<link rel="canonical" href="https://www.uglydonutsncorndogs.com/article.html">',
       '<link rel="canonical" href="' + url + '">');
     page = page.replace('<meta property="og:type" content="website">', '<meta property="og:type" content="article">\n<meta property="og:site_name" content="Ugly Donuts &amp; Corn Dogs">');
@@ -762,18 +771,22 @@ console.log('[ok]   FAQ internal links + sitemap entry');
 
   function fillShell(o) {
     let h = shell;
-    h = h.replace(/<title>[\s\S]*?<\/title>/, '<title>' + o.title + '</title>');
-    h = h.replace(/<link rel="canonical" href="[^"]*">/, '<link rel="canonical" href="' + o.canonical + '">');
-    h = h.replace(/<meta name="description" content="[^"]*">/, '<meta name="description" content="' + attrEscape(o.description) + '">');
+    // Every replacement takes a function, not a string: in a string replacement
+    // "$$" means one "$" and "$1"/"$&" are back-references, so the schema's
+    // priceRange "$$" shipped as "$" and any "$" in content could be mangled.
+    const lit = function (s) { return function () { return s; }; };
+    h = h.replace(/<title>[\s\S]*?<\/title>/, lit('<title>' + o.title + '</title>'));
+    h = h.replace(/<link rel="canonical" href="[^"]*">/, lit('<link rel="canonical" href="' + o.canonical + '">'));
+    h = h.replace(/<meta name="description" content="[^"]*">/, lit('<meta name="description" content="' + attrEscape(o.description) + '">'));
     h = stripSocial(h);
     h = injectBetween(h, '<!--AUTO-SEO:START-->', '<!--AUTO-SEO:END-->', socialBlock({ title: o.title, canonical: o.canonical, description: attrEscape(o.description) }, 'website'), '</head>');
     h = h.replace(/<script type="application\/ld\+json">[^<]*"FAQPage"[^<]*<\/script>\s*/, '');
-    h = h.replace('</head>', o.schema.map(jsonLd).join('\n') + '\n</head>');
+    h = h.replace('</head>', lit(o.schema.map(jsonLd).join('\n') + '\n</head>'));
     h = h.replace(/<header class="doc-hero">[\s\S]*?<\/header>/,
-      '<header class="doc-hero">\n  <div class="container">\n    <p class="eyebrow">' + o.eyebrow + '</p>\n    <h1>' + o.h1 + '</h1>\n    <p class="updated">' + o.sub + '</p>\n  </div>\n</header>');
+      lit('<header class="doc-hero">\n  <div class="container">\n    <p class="eyebrow">' + o.eyebrow + '</p>\n    <h1>' + o.h1 + '</h1>\n    <p class="updated">' + o.sub + '</p>\n  </div>\n</header>'));
     const toc = (o.toc || []).map(function (t) { return '    <a href="#' + t[0] + '">' + t[1] + '</a>'; }).join('\n');
-    h = h.replace(/(<aside class="doc-toc">\s*<h2>On this page<\/h2>)[\s\S]*?(<\/aside>)/, '$1\n' + toc + '\n  $2');
-    h = h.replace(/(<article class="doc-content">)[\s\S]*?(<\/article>)/, '$1\n' + o.content + '\n  $2');
+    h = h.replace(/(<aside class="doc-toc">\s*<h2>On this page<\/h2>)[\s\S]*?(<\/aside>)/, function (m, a, b) { return a + '\n' + toc + '\n  ' + b; });
+    h = h.replace(/(<article class="doc-content">)[\s\S]*?(<\/article>)/, function (m, a, b) { return a + '\n' + o.content + '\n  ' + b; });
     return h;
   }
 
@@ -855,7 +868,8 @@ console.log('[ok]   FAQ internal links + sitemap entry');
     const page = fillShell({
       title: (d.name || '') + ' | Korean Corn Dogs &amp; Donuts in ' + escapeHtml(d.city || sn) + ' | Ugly Donuts',
       canonical: canonical,
-      description: 'Looking for Korean corn dogs near you in ' + (d.city || sn) + '? Ugly Donuts & Corn Dogs is at ' + (d.address || (d.city + ', ' + sn)) + '. Battered and fried to order in 100% avocado oil, plus handmade donuts.',
+      // Under 155 characters even with the longest address, so search results show it whole.
+      description: metaDesc('Ugly Donuts & Corn Dogs, ' + (d.address || ((d.city || sn) + ', ' + sn)) + '. Korean corn dogs and handmade donuts, fried to order in 100% avocado oil.'),
       eyebrow: '<a href="/locations.html">Locations</a> · <a href="' + hubPath(ss) + '">' + escapeHtml(sn) + '</a>',
       h1: escapeHtml(d.name || ''),
       sub: escapeHtml(cityState),
