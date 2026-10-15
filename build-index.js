@@ -62,6 +62,15 @@ function socialBlock(m, ogType) {
   ].join('\n') + '\n';
 }
 function jsonLd(obj) { return '<script type="application/ld+json">' + JSON.stringify(obj) + '</script>'; }
+// Netlify's image CDN resizes and re-encodes on the fly (webp/avif by Accept
+// header), so a 2 MB CMS upload reaches a phone as ~100 KB. Only local raster
+// files go through it; everything else is returned untouched. Mirrors the
+// imgUrl() in index/menu/journal/locations/article.html: keep them identical.
+function imgUrl(src, w) {
+  src = String(src == null ? '' : src);
+  if (!/^\/(uploads|images)\/.*\.(png|jpe?g|webp|gif)$/i.test(src.split(/[?#]/)[0])) return src;
+  return '/.netlify/images?url=' + encodeURIComponent(src) + '&w=' + (w || 800);
+}
 function glob_html() {
   return fs.readdirSync(ROOT).filter(function (f) { return f.endsWith('.html') && f !== 'cookie-banner-snippet.html'; });
 }
@@ -304,7 +313,7 @@ if (fs.existsSync(APATH)) {
     const d = it.data;
     const url = SITE + articleUrlPath(it.slug);
     const bodyHtml = markdownToHtml(it.body || '');
-    const cover = d.cover ? '<div class="article-cover"><img src="' + d.cover + '" alt="' + attrEscape(d.title || '') + '"></div>' : '';
+    const cover = d.cover ? '<div class="article-cover"><img src="' + imgUrl(d.cover, 1200) + '" alt="' + attrEscape(d.title || '') + '"></div>' : '';
     const dateStr = formatDate(d.published_date);
     const metaParts = ['<span>' + (d.category || 'Journal') + '</span>'];
     if (dateStr) metaParts.push('<span class="sep">&middot;</span><span class="date">' + dateStr + '</span>');
@@ -370,7 +379,7 @@ if (fs.existsSync(JPATH)) {
   let html = fs.readFileSync(JPATH, 'utf8');
   const cards = articles.map(function (it) {
     const d = it.data;
-    const coverImg = d.cover ? '<img src="' + d.cover + '" alt="' + attrEscape(d.title || '') + '" loading="lazy">' : '';
+    const coverImg = d.cover ? '<img src="' + imgUrl(d.cover, 800) + '" alt="' + attrEscape(d.title || '') + '" loading="lazy">' : '';
     return '<a href="' + articleUrlPath(it.slug) + '" class="journal-page-card">' +
       '<div class="journal-page-card-photo">' + coverImg + '</div>' +
       '<div class="journal-page-card-meta">' + (d.category || 'Journal') +
@@ -435,7 +444,7 @@ if (fs.existsSync(JPATH)) {
   const pick = (best.length ? best : menu).slice(0, 4);
   const menuCards = pick.map(function (it) {
     const d = it.data;
-    const photo = d.photo ? '<img src="' + d.photo + '" alt="' + attrEscape(d.name || '') + '" loading="lazy">' : '';
+    const photo = d.photo ? '<img src="' + imgUrl(d.photo, 640) + '" alt="' + attrEscape(d.name || '') + '" loading="lazy">' : '';
     return '<a href="/menu.html" class="menu-card"><div class="menu-card-photo">' + photo + '</div>' +
       '<div class="menu-card-cat">' + escapeHtml(d.category || '') + '</div>' +
       '<h4 class="menu-card-name">' + escapeHtml(d.name || '') + '</h4>' +
@@ -445,7 +454,7 @@ if (fs.existsSync(JPATH)) {
   const jpick = articles.slice(0, 3);
   const journalCards = jpick.map(function (it) {
     const d = it.data;
-    const cover = d.cover ? '<img src="' + d.cover + '" alt="' + attrEscape(d.title || '') + '" loading="lazy">' : '';
+    const cover = d.cover ? '<img src="' + imgUrl(d.cover, 800) + '" alt="' + attrEscape(d.title || '') + '" loading="lazy">' : '';
     return '<a href="' + articleUrlPath(it.slug) + '" class="journal-card"><div class="journal-card-photo">' + cover + '</div>' +
       '<div class="journal-card-meta">' + escapeHtml(d.category || 'Journal') + '<span class="sep">&middot;</span>' + escapeHtml(d.read_time || '3 min read') + '</div>' +
       '<h3>' + escapeHtml(d.title || '') + '</h3><p>' + escapeHtml(d.excerpt || '') + '</p></a>';
@@ -487,7 +496,7 @@ if (fs.existsSync(MPATH)) {
   });
   function menuCard(it) {
     const d = it.data;
-    const photo = d.photo ? '<img src="' + d.photo + '" alt="' + attrEscape(d.name || '') + '" loading="lazy">' : '';
+    const photo = d.photo ? '<img src="' + imgUrl(d.photo, 400) + '" alt="' + attrEscape(d.name || '') + '" loading="lazy">' : '';
     return '<div class="menu-card"><div class="menu-card-text"><h4 class="menu-card-name">' + (d.name || '') + '</h4>' +
       '<p class="menu-card-desc">' + (d.description || '') + '</p></div>' +
       '<div class="menu-card-photo">' + photo + '</div></div>';
@@ -544,7 +553,7 @@ if (fs.existsSync(LPATH)) {
     const storeUrl = '/locations/' + stateSlug(d.state) + '/' + it.slug + '.html';
     const tag = d.store_type === 'Flagship' ? 'Flagship' : (d.state === 'NY' ? 'New York' : d.state === 'TX' ? 'Texas' : d.state === 'NJ' ? 'New Jersey' : (d.state || ''));
     const url = d.maps_url || ('https://www.google.com/maps/search/Ugly+Donuts+Corn+Dogs+' + encodeURIComponent((d.name || '') + ' ' + (d.city || '')));
-    const photo = d.photo ? '<img src="' + d.photo + '" alt="' + attrEscape(d.name || '') + '">' : '<div class="location-detail-photo-placeholder">' + (d.name || '') + '</div>';
+    const photo = d.photo ? '<img src="' + imgUrl(d.photo, 1200) + '" alt="' + attrEscape(d.name || '') + '">' : '<div class="location-detail-photo-placeholder">' + (d.name || '') + '</div>';
     let meta = '<div><strong>Type</strong>' + (d.store_type || '') + '</div>';
     if (d.address) meta += '<div><strong>Address</strong>' + d.address + '</div>';
     if (d.phone) meta += '<div><strong>Phone</strong>' + d.phone + '</div>';
@@ -966,6 +975,9 @@ function imgSrcDims(src) {
       var b64 = src.split(',')[1] || '';
       try { return imgDims(Buffer.from(b64.slice(0, 2048), 'base64')); } catch (e) { return null; }
     }
+    // An image-CDN URL is measured on the file it wraps; the ratio is the same.
+    var cdn = src.match(/^\/\.netlify\/images\?(?:[^#]*&)?url=([^&#]+)/);
+    if (cdn) src = decodeURIComponent(cdn[1]);
     if (/^https?:/.test(src) || src.indexOf('/') !== 0) return null;
     var p = path.join(ROOT, decodeURIComponent(src.split(/[?#]/)[0]));
     try { return imgDims(fs.readFileSync(p)); } catch (e) { return null; }
