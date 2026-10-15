@@ -556,6 +556,20 @@ html{-webkit-tap-highlight-color:transparent}
 a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-action:manipulation}
 @media (hover:none){button:not(:disabled):active,a:active,[role=button]:active{opacity:.72}}
 </style>
+<style id="ud-mobile-a11y">
+/* Mobile tap targets >= 44px and text >= 12px (audit 2026-10-14). Same look, bigger touch area. */
+@media (max-width:900px){
+  .nav-toggle{min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+  nav.nav .nav-order-mobile{min-height:44px;font-size:12px !important;padding-top:0;padding-bottom:0;position:relative}
+  .menu-tab{min-height:44px}
+  .lightbox-close{min-width:44px;min-height:44px}
+  .footer-col a,.footer-legal-links a,.footer-bottom a{display:inline-block;padding:13px 0;min-width:44px}
+  input[type=checkbox],input[type=radio]{width:22px;height:22px}
+  label:has(> input[type=checkbox]),label:has(> input[type=radio]){min-height:44px;display:flex;align-items:center;gap:10px}
+  .nav-link,.nav-more-link,.nav-cta,.nav-more-arrow,.eyebrow,.hero-eyebrow,.btn,.pillar-title,.menu-card-cat,.loc-card-tag,.menu-tab,.heritage-intro,.n,.footer h3,.footer span,.footer a{font-size:12px !important}
+  .menu-page-grid .menu-card-desc,.menu-card-desc{font-size:12.5px !important}
+}
+</style>
 </head>
 <body>
 <a href="#main-content" class="skip-to-content">Skip to content</a>
@@ -594,7 +608,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
 <!-- HERO -->
 <section class="hero-cine" id="top">
   <div class="hero-cine-media" data-par="0.28">
-    <img style="aspect-ratio:1967/800" src="/images/hero/01-hot-cheetos.png" alt="A Hot Cheetos Korean corn dog, freshly fried" fetchpriority="high">
+    <img style="aspect-ratio:1967/800" src="/.netlify/images?url=%2Fimages%2Fhero%2F01-hot-cheetos.png&w=1200" alt="A Hot Cheetos Korean corn dog, freshly fried" fetchpriority="high">
   </div>
   <div class="hero-cine-veil"></div>
   <div class="hero-cine-dip" id="heroDip"></div>
@@ -617,10 +631,10 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
 <!-- THE REEL: one pinned stage, three beats. Each photo appears once on the page. -->
 <section class="reel" id="reel">
   <div class="reel-stage">
-    <div class="reel-shot"><img src="/images/reel/cheese/poster.jpg?v=f5011435" style="aspect-ratio:2/1" class="shot-cheese" alt="Cheese stretching from a Korean corn dog pulled apart by hand"><video class="shot-cheese" id="cheeseOpen" muted playsinline preload="auto" aria-hidden="true"></video></div>
-    <div class="reel-shot"><img src="/images/reel/donut/plate.jpg?v=0e3ff700" style="aspect-ratio:1731/909" class="shot-donut" alt="A stack of handmade filled donuts"><video class="shot-donut" id="donutVid" muted playsinline preload="auto" aria-hidden="true"></video></div>
-    <div class="reel-shot"><img src="/images/hero/04-midnight-lemonade.png" style="aspect-ratio:1961/802" class="shot-lemon" alt="Midnight Lemonade, a layered sparkling drink"><canvas class="shot-lemon" id="lemonSeq" width="1600" height="654" aria-hidden="true"></canvas></div>
-    <div class="reel-shot"><img src="/images/reel/avocado/plate.jpg?v=82654356" style="aspect-ratio:1672/941" class="shot-avo" alt="A Korean corn dog, a filled donut, a halved avocado and a bottle of avocado oil"><video class="shot-avo" id="avoVid" muted playsinline preload="auto" aria-hidden="true"></video><canvas class="shot-avo sun" id="avoSun" width="480" height="270" aria-hidden="true"></canvas></div>
+    <div class="reel-shot"><img src="/.netlify/images?url=%2Fimages%2Freel%2Fcheese%2Fposter.jpg&w=1200&v=f5011435" style="aspect-ratio:2/1" class="shot-cheese" alt="Cheese stretching from a Korean corn dog pulled apart by hand"><video class="shot-cheese" id="cheeseOpen" muted playsinline preload="auto" aria-hidden="true"></video></div>
+    <div class="reel-shot"><img src="/.netlify/images?url=%2Fimages%2Freel%2Fdonut%2Fplate.jpg&w=1200&v=0e3ff700" style="aspect-ratio:1731/909" class="shot-donut" alt="A stack of handmade filled donuts"><video class="shot-donut" id="donutVid" muted playsinline preload="auto" aria-hidden="true"></video></div>
+    <div class="reel-shot"><img src="/.netlify/images?url=%2Fimages%2Fhero%2F04-midnight-lemonade.png&w=1200" style="aspect-ratio:1961/802" class="shot-lemon" alt="Midnight Lemonade, a layered sparkling drink"><canvas class="shot-lemon" id="lemonSeq" width="1600" height="654" aria-hidden="true"></canvas></div>
+    <div class="reel-shot"><img src="/.netlify/images?url=%2Fimages%2Freel%2Favocado%2Fplate.jpg&w=1200&v=82654356" style="aspect-ratio:1672/941" class="shot-avo" alt="A Korean corn dog, a filled donut, a halved avocado and a bottle of avocado oil"><video class="shot-avo" id="avoVid" muted playsinline preload="auto" aria-hidden="true"></video><canvas class="shot-avo sun" id="avoSun" width="480" height="270" aria-hidden="true"></canvas></div>
     <div class="reel-veil"></div>
     <div class="reel-in" id="reelIn"></div>
     <div class="reel-copy">
@@ -695,7 +709,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
   <div class="container">
     <div class="cat-grid">
       <a href="/menu.html#cat-donut" class="cat-card fade-up">
-        <img style="aspect-ratio:1344/896" src="/images/extracted/5714bb067177.jpg" alt="Handmade donuts">
+        <img style="aspect-ratio:1344/896" src="/.netlify/images?url=%2Fimages%2Fextracted%2F5714bb067177.jpg&w=1000" alt="Handmade donuts">
         <div class="cat-card-content">
           <div class="cat-card-title">Donuts</div>
           <div class="cat-card-desc">Handmade, filled with real ingredients.</div>
@@ -703,7 +717,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
         </div>
       </a>
       <a href="/menu.html#cat-corn-dog" class="cat-card fade-up delay-1">
-        <img style="aspect-ratio:1372/896" src="/images/extracted/e476dac4585e.jpg" alt="Korean corn dogs">
+        <img style="aspect-ratio:1372/896" src="/.netlify/images?url=%2Fimages%2Fextracted%2Fe476dac4585e.jpg&w=1000" alt="Korean corn dogs">
         <div class="cat-card-content">
           <div class="cat-card-title">K-Corn Dogs</div>
           <div class="cat-card-desc">Your choice of fillings, hand-rolled.</div>
@@ -711,7 +725,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
         </div>
       </a>
       <a href="/menu.html#cat-beverage" class="cat-card fade-up delay-2">
-        <img style="aspect-ratio:1086/1448" src="/images/pink-strawberry-lemonade.png" alt="Pink Strawberry Lemonade">
+        <img style="aspect-ratio:1086/1448" src="/.netlify/images?url=%2Fimages%2Fpink-strawberry-lemonade.png&w=800" alt="Pink Strawberry Lemonade">
         <div class="cat-card-content">
           <div class="cat-card-title">Drinks</div>
           <div class="cat-card-desc">Signature refreshers and bubble tea.</div>
@@ -1743,7 +1757,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
 <div id="ud-cookie-banner" class="ud-cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie notice" hidden>
   <div class="ud-cookie-inner">
     <p class="ud-cookie-text">
-      We use cookies to run this site and, with your permission, to measure how it is used so we can make it better. You can accept analytics cookies or continue with only the essentials. Learn more in our <a href="/privacy-policy.html">Privacy Policy</a>.
+      <span class="ud-ck-long">We use cookies to run this site and, with your permission, to measure how it is used so we can make it better. You can accept analytics cookies or continue with only the essentials. Learn more in our </span><span class="ud-ck-short">We use cookies; analytics only if you allow. </span><a href="/privacy-policy.html">Privacy Policy</a>.
     </p>
     <div class="ud-cookie-actions">
       <button type="button" class="ud-cookie-btn ud-cookie-decline" id="ud-cookie-decline">Essentials only</button>
@@ -1765,10 +1779,15 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
 .ud-cookie-decline:hover{border-color:rgba(245,239,227,0.9);color:#fff}
 .ud-cookie-accept{background:var(--orange,#B8470C);color:#fff}
 .ud-cookie-accept:hover{background:var(--orange-light,#CE5512)}
+.ud-ck-short{display:none}
+/* Phones: a slim bar (about 1/8 of the screen, not 1/3) so the hero stays visible. */
 @media (max-width:720px){
-  .ud-cookie-inner{flex-direction:column;align-items:stretch;gap:16px;padding:18px 20px}
-  .ud-cookie-actions{justify-content:stretch}
-  .ud-cookie-btn{flex:1;text-align:center}
+  .ud-cookie-inner{flex-direction:column;align-items:stretch;gap:8px;padding:10px 14px calc(10px + env(safe-area-inset-bottom))}
+  .ud-ck-long{display:none}.ud-ck-short{display:inline}
+  .ud-cookie-text{font-size:13px;line-height:1.4}
+  .ud-cookie-text a{display:inline-block;padding:4px 0}
+  .ud-cookie-actions{justify-content:stretch;gap:8px}
+  .ud-cookie-btn{flex:1;text-align:center;min-height:44px;padding:8px 12px;font-size:12px}
 }
 </style>
 
