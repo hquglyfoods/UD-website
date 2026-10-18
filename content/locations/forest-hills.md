@@ -2,7 +2,7 @@
 name: Forest Hills
 city: Queens
 state: NY
-address: 71-11 Austin St, Forest Hills, NY, 11372
+address: 71-11 Austin St, Forest Hills, NY, 11375
 store_type: Standalone store
 photo: /uploads/forest-hills.jpg
 phone: ""
