@@ -101,6 +101,42 @@ const US_STATES = {
 function stateSlug(abbr) { const s = US_STATES[(abbr || '').toUpperCase()]; return s ? s[0] : (abbr || '').toLowerCase().replace(/[^a-z0-9]+/g, '-'); }
 function stateName(abbr) { const s = US_STATES[(abbr || '').toUpperCase()]; return s ? s[1] : (abbr || ''); }
 
+/* GEO 2026-10-27: shared store schema helpers so the locations page and the
+   store pages describe each store as the same entity (one @id per store). */
+const ORG_ID = SITE + '/#org';
+function storeId(it) { return SITE + '/locations/' + stateSlug(it.data.state) + '/' + it.slug + '#restaurant'; }
+// "71-11 Austin St, Forest Hills, NY 11375" -> street / locality / region / postal code.
+// The CMS keeps one free-text address field; city stays as the display name (e.g. Queens).
+function storeAddress(d) {
+  const parts = String(d.address || '').split(',').map(function (x) { return x.trim(); }).filter(Boolean);
+  let street = d.address || '', locality = d.city || '', region = d.state || '', postal = '';
+  if (parts.length >= 3) {
+    street = parts[0].replace(/\b(ave|st|rd|blvd|dr)\b\.?$/i, function (w) { return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase().replace(/\.$/, ''); });
+    locality = parts[1];
+    const tail = parts.slice(2).join(' ');
+    const m = tail.match(/\b([A-Z]{2})\b\s*(\d{5})?/);
+    if (m) { region = m[1]; if (m[2]) postal = m[2]; }
+    const z = tail.match(/\b(\d{5})\b/); if (z) postal = z[1];
+  }
+  const lvl = String(d.store_type || '').match(/Level\s*\d+/i);
+  if (lvl && street.indexOf(lvl[0]) === -1) street += ', ' + lvl[0];
+  const a = { '@type': 'PostalAddress', streetAddress: street, addressLocality: locality, addressRegion: region };
+  if (postal) a.postalCode = postal;
+  a.addressCountry = 'US';
+  return a;
+}
+// Human-readable address for the page body: "398 Knickerbocker Ave, Brooklyn, NY 11237".
+function storeAddressText(d) {
+  const a = storeAddress(d);
+  if (!d.address) return '';
+  return a.streetAddress + ', ' + a.addressLocality + ', ' + a.addressRegion + (a.postalCode ? ' ' + a.postalCode : '');
+}
+function e164(phone) { const n = String(phone || '').replace(/\D/g, ''); return n.length === 10 ? '+1-' + n.slice(0, 3) + '-' + n.slice(3, 6) + '-' + n.slice(6) : String(phone || ''); }
+function orderAction(url) {
+  return { '@type': 'OrderAction', target: { '@type': 'EntryPoint', urlTemplate: url, actionPlatform: ['https://schema.org/DesktopWebPlatform', 'https://schema.org/MobileWebPlatform'] }, deliveryMethod: 'http://purl.org/goodrelations/v1#DeliveryModePickUp' };
+}
+const STORE_CUISINE = ['Hot Donuts', 'Korean Corn Dogs', 'Donuts', 'Korean'];
+
 /* ===================== shared helpers ===================== */
 
 function parseFrontmatter(text) {
@@ -564,8 +600,8 @@ if (fs.existsSync(LPATH)) {
     const url = d.maps_url || ('https://www.google.com/maps/search/Ugly+Donuts+Corn+Dogs+' + encodeURIComponent((d.name || '') + ' ' + (d.city || '')));
     const photo = d.photo ? '<img src="' + imgUrl(d.photo, 1200) + '" alt="' + attrEscape(d.name || '') + '">' : '<div class="location-detail-photo-placeholder">' + (d.name || '') + '</div>';
     let meta = '<div><strong>Type</strong>' + (d.store_type || '') + '</div>';
-    if (d.address) meta += '<div><strong>Address</strong>' + d.address + '</div>';
-    if (d.phone) meta += '<div><strong>Phone</strong>' + d.phone + '</div>';
+    if (d.address) meta += '<div><strong>Address</strong>' + escapeHtml(storeAddressText(d)) + '</div>';
+    if (d.phone) meta += '<div><strong>Phone</strong><a href="tel:' + e164(d.phone).replace(/-/g, '') + '">' + escapeHtml(String(d.phone)) + '</a></div>';
     if (d.hours) meta += '<div><strong>Hours</strong>' + String(d.hours).replace(/\n/g, '<br>') + '</div>';
     return '<div class="location-detail"><div class="location-detail-photo">' + photo + '</div>' +
       '<div class="location-detail-info"><div class="tag">' + tag + '</div><h2><a href="' + storeUrl + '">' + (d.name || '') + '</a></h2>' +
@@ -588,20 +624,22 @@ if (fs.existsSync(LPATH)) {
   const dept = items.map(function (it) {
     const d = it.data;
     const r = {
-      '@type': 'Restaurant', name: 'Ugly Donuts & Corn Dogs - ' + (d.name || ''),
-      servesCuisine: ['Korean Corn Dogs', 'Donuts'], priceRange: '$$', url: SITE + '/locations',
-      address: { '@type': 'PostalAddress', streetAddress: d.address || '', addressLocality: d.city || '', addressRegion: d.state || '', addressCountry: 'US' }
+      '@type': 'Restaurant', '@id': storeId(it), name: 'Ugly Donuts & Corn Dogs ' + (d.name || ''),
+      servesCuisine: STORE_CUISINE, priceRange: '$$', url: SITE + '/locations/' + stateSlug(d.state) + '/' + it.slug,
+      hasMenu: SITE + '/menu', address: storeAddress(d), parentOrganization: { '@id': ORG_ID }
     };
+    if (d.phone) r.telephone = e164(d.phone);
     if (d.photo) r.image = SITE + d.photo;
-    if (d.maps_url) r.hasMap = d.maps_url;
-    if (d.order_url) r.potentialAction = { '@type': 'OrderAction', target: d.order_url };
+    if (d.place_id) r.hasMap = 'https://www.google.com/maps/place/?q=place_id:' + d.place_id;
+    else if (d.maps_url) r.hasMap = d.maps_url;
+    if (d.order_url) r.potentialAction = orderAction(d.order_url);
     return r;
   });
   const restLd = {
-    '@context': 'https://schema.org', '@type': 'Restaurant', name: 'Ugly Donuts & Corn Dogs',
-    description: 'Premium Korean corn dogs and fresh handmade donuts, made to order. Fried in 100% avocado oil.',
-    url: SITE, servesCuisine: ['Korean', 'Korean Street Food', 'Korean Corn Dogs', 'Donuts'],
-    priceRange: '$$', email: 'hq@uglydonutsncorndogs.com', image: OG_IMAGE, department: dept
+    '@context': 'https://schema.org', '@type': 'Organization', '@id': ORG_ID, name: 'Ugly Donuts & Corn Dogs',
+    alternateName: ['어글리', 'Ugly Donuts'],
+    description: 'Hot donuts and premium Korean corn dogs, made to order and fried in 100% avocado oil.',
+    url: SITE + '/', email: 'hq@uglydonutsncorndogs.com', image: OG_IMAGE, department: dept
   };
   if (html.indexOf('<!--AUTO-LOC-SCHEMA:START-->') === -1) {
     html = html.replace(/<script type="application\/ld\+json">[^<]*"department"[^<]*<\/script>\s*/, '');
@@ -627,6 +665,79 @@ if (fs.existsSync(SPATH)) {
   fs.writeFileSync(SPATH, xml);
   console.log('[ok]   sitemap.xml (' + articles.length + ' article urls)');
 }
+
+/* ===================== 5b. GEO answer-first blocks (2026-10-27) ===================== */
+/* Visible "quick answer" block under each hero plus matching FAQPage JSON-LD.
+   Copy lives in content/geo/answers.json. Runs before section 6 so the social
+   tags pick up the updated title and description. Franchise copy is excluded. */
+
+const GEO = (function () {
+  try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'content/geo/answers.json'), 'utf8')); }
+  catch (e) { return { pages: {}, stores: {} }; }
+})();
+// Markdown links -> <a>, everything else escaped.
+function geoInline(t) {
+  return String(t).split(/(\[[^\]]+\]\([^)]+\))/).map(function (part) {
+    const m = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (!m) return escapeHtml(part);
+    const ext = /^https?:/.test(m[2]);
+    return '<a href="' + attrEscape(m[2]) + '" class="text-link"' + (ext ? ' target="_blank" rel="noopener noreferrer"' : '') + '>' + escapeHtml(m[1]) + '</a>';
+  }).join('');
+}
+function geoPlain(t) { return String(t).replace(/\[([^\]]+)\]\([^)]+\)/g, '$1'); }
+function geoFaqLd(qa) {
+  return { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: qa.map(function (x) {
+    return { '@type': 'Question', name: geoPlain(x.q), acceptedAnswer: { '@type': 'Answer', text: geoPlain(x.a) } };
+  }) };
+}
+function geoQaHtml(qa, hTag) {
+  return qa.map(function (x) { return '<' + hTag + '>' + escapeHtml(x.q) + '</' + hTag + '>\n<p>' + geoInline(x.a) + '</p>'; }).join('\n');
+}
+const GEO_CSS = '<style>.geo-answer{background:var(--bg-cream,#faf6ef);padding:56px 0;border-bottom:1px solid var(--border-cream,rgba(26,36,56,.08))}' +
+  '.geo-answer .geo-inner{max-width:780px;margin:0 auto;padding:0 24px;color:var(--text-dark,#1a2438)}' +
+  '.geo-answer .eyebrow{margin-bottom:12px}.geo-answer p{font-size:17px;line-height:1.65;margin:0 0 16px}' +
+  '.geo-answer ul{margin:0 0 24px;padding-left:20px}.geo-answer li{font-size:16px;line-height:1.6;margin:4px 0}' +
+  '.geo-answer h2{font-family:var(--serif,Georgia,serif);font-weight:400;font-size:clamp(1.3rem,2.4vw,1.7rem);line-height:1.25;margin:28px 0 10px}' +
+  '.geo-answer .geo-related{font-size:14px;margin-top:24px;opacity:.8}</style>';
+
+(function () {
+  const FILES = { '/': 'index.html', '/locations': 'locations.html', '/menu': 'menu.html', '/avocado-oil': 'avocado-oil.html', '/catering': 'catering.html', '/story': 'story.html' };
+  let n = 0;
+  Object.keys(FILES).forEach(function (route) {
+    const g = GEO.pages[route]; const fp = path.join(ROOT, FILES[route]);
+    if (!g || !fs.existsSync(fp)) return;
+    let html = fs.readFileSync(fp, 'utf8');
+    html = html.replace(/<title>[\s\S]*?<\/title>/, function () { return '<title>' + escapeHtml(g.title) + '</title>'; });
+    html = html.replace(/<meta name="description" content="[^"]*"/, function () { return '<meta name="description" content="' + attrEscape(g.meta) + '"'; });
+    const block = '\n<section class="geo-answer" id="quick-answer" aria-label="Quick answer">' + GEO_CSS + '<div class="geo-inner">\n' +
+      '<div class="eyebrow">Quick answer</div>\n<p>' + geoInline(g.intro) + '</p>\n' +
+      (g.facts.length ? '<ul>' + g.facts.map(function (f) { return '<li>' + geoInline(f) + '</li>'; }).join('') + '</ul>\n' : '') +
+      geoQaHtml(g.qa, 'h2') + '\n' +
+      (g.related.length ? '<p class="geo-related">Related: ' + g.related.map(function (l) { return '<a href="' + attrEscape(l[1]) + '" class="text-link">' + escapeHtml(l[0]) + '</a>'; }).join(' · ') + '</p>\n' : '') +
+      '</div></section>\n';
+    const S = '<!--AUTO-GEO-ANSWER:START-->', E = '<!--AUTO-GEO-ANSWER:END-->';
+    if (html.indexOf(S) === -1) {
+      const h1 = html.indexOf('<h1');
+      if (h1 === -1) return;
+      const ends = ['</section>', '</header>'].map(function (t) { const i = html.indexOf(t, h1); return i === -1 ? Infinity : i + t.length; });
+      const at = Math.min.apply(null, ends);
+      if (at === Infinity) return;
+      html = html.slice(0, at) + '\n' + S + E + html.slice(at);
+    }
+    html = injectBetween(html, S, E, block, null);
+    // Pages that already carry a FAQPage (avocado-oil) keep theirs: one FAQPage per page.
+    const lds = [];
+    const hasFaq = /"@type":\s*"FAQPage"/.test(html.replace(/<!--AUTO-GEO-SCHEMA:START-->[\s\S]*?<!--AUTO-GEO-SCHEMA:END-->/, ''));
+    if (g.qa.length && !hasFaq) lds.push(geoFaqLd(g.qa));
+    if (route === '/story') lds.push({ '@context': 'https://schema.org', '@type': 'AboutPage', '@id': SITE + '/story#page', url: SITE + '/story',
+      name: 'The Ugly Donuts & Corn Dogs Story', inLanguage: 'en-US', isPartOf: { '@id': SITE + '/#website' },
+      about: { '@type': 'Organization', '@id': ORG_ID, name: 'Ugly Donuts & Corn Dogs', alternateName: '어글리', founder: { '@type': 'Person', name: 'John Kim' } } });
+    html = injectBetween(html, '<!--AUTO-GEO-SCHEMA:START-->', '<!--AUTO-GEO-SCHEMA:END-->', '\n' + lds.map(jsonLd).join('\n') + '\n', '</head>');
+    fs.writeFileSync(fp, html);
+    n++;
+  });
+  console.log('[ok]   GEO answer-first blocks on ' + n + ' pages');
+})();
 
 /* ===================== 6. social meta + manifest (all listing pages) ===================== */
 
@@ -704,9 +815,12 @@ console.log('[ok]   social meta + manifest on ' + SEO_PAGES.length + ' pages');
   const fp = path.join(ROOT, 'index.html');
   if (!fs.existsSync(fp)) return;
   let html = fs.readFileSync(fp, 'utf8');
+  const locs = readItems('content/locations').filter(function (it) { return it.data && it.data.name; });
   const org = {
-    '@context': 'https://schema.org', '@type': 'Organization',
-    name: 'Ugly Donuts & Corn Dogs', url: SITE,
+    '@context': 'https://schema.org', '@type': 'Organization', '@id': ORG_ID,
+    name: 'Ugly Donuts & Corn Dogs', alternateName: ['어글리', 'Ugly Donuts'], url: SITE + '/',
+    slogan: "America's first avocado-oil donut & corn dog brand.",
+    description: 'Hot donuts and premium Korean corn dogs, made to order and fried in 100% avocado oil.',
     logo: SITE + '/images/favicon/android-chrome-512x512.png',
     image: OG_IMAGE, email: 'hq@uglydonutsncorndogs.com',
     // Instagram plus every store's Google Places entity. Linking the brand to the
@@ -716,11 +830,24 @@ console.log('[ok]   social meta + manifest on ' + SEO_PAGES.length + ' pages');
       readItems('content/locations')
         .filter(function (it) { return it.data && it.data.place_id; })
         .map(function (it) { return 'https://www.google.com/maps/place/?q=place_id:' + it.data.place_id; })
-    )
+    ),
+    // Each store page carries the full Restaurant node under this same @id.
+    department: locs.map(function (it) { return { '@id': storeId(it) }; })
   };
   // No SearchAction: the site has no site search for it to point at.
-  const web = { '@context': 'https://schema.org', '@type': 'WebSite', name: 'Ugly Donuts & Corn Dogs', url: SITE };
-  const block = '\n' + jsonLd(org) + '\n' + jsonLd(web) + '\n';
+  const web = { '@context': 'https://schema.org', '@type': 'WebSite', '@id': SITE + '/#website', name: 'Ugly Donuts & Corn Dogs', alternateName: '어글리', url: SITE + '/', inLanguage: 'en-US', publisher: { '@id': ORG_ID } };
+  // GEO 2026-10-27: the old hand-written brand-level Restaurant block (no phones,
+  // no ids) is replaced by one node per store, tied to the store pages by @id.
+  html = html.replace(/<script type="application\/ld\+json">\s*\{"@context":"https:\/\/schema.org","@type":"Restaurant","name":"Ugly Donuts & Corn Dogs",[^<]*<\/script>\s*/, '');
+  const stores = { '@context': 'https://schema.org', '@graph': locs.map(function (it) {
+    const d = it.data;
+    const r = { '@type': 'Restaurant', '@id': storeId(it), name: 'Ugly Donuts & Corn Dogs ' + (d.name || ''),
+      url: SITE + '/locations/' + stateSlug(d.state) + '/' + it.slug, servesCuisine: STORE_CUISINE, priceRange: '$$',
+      address: storeAddress(d), parentOrganization: { '@id': ORG_ID } };
+    if (d.phone) r.telephone = e164(d.phone);
+    return r;
+  }) };
+  const block = '\n' + jsonLd(org) + '\n' + jsonLd(web) + '\n' + jsonLd(stores) + '\n';
   html = injectBetween(html, '<!--AUTO-ORG-SCHEMA:START-->', '<!--AUTO-ORG-SCHEMA:END-->', block, '</head>');
   fs.writeFileSync(fp, html);
   console.log('[ok]   Organization + WebSite schema on index.html');
@@ -804,7 +931,7 @@ console.log('[ok]   FAQ internal links + sitemap entry');
     const mapEmbed = '<div style="margin:28px 0;border-radius:14px;overflow:hidden"><iframe loading="lazy" width="100%" height="360" style="border:0;display:block" referrerpolicy="no-referrer-when-downgrade" title="Map of Ugly Donuts ' + attrEscape(d.name || '') + '" src="https://maps.google.com/maps?q=' + encodeURIComponent(d.address || (d.name + ' ' + d.city)) + '&output=embed"></iframe></div>';
 
     let visit = '<section id="visit">\n<h2>Visit us in ' + escapeHtml(d.city || sn) + '</h2>\n';
-    if (d.address) visit += '<p><strong>Address:</strong> ' + escapeHtml(d.address) + '</p>\n';
+    if (d.address) visit += '<p><strong>Address:</strong> ' + escapeHtml(storeAddressText(d)) + '</p>\n';
     if (d.phone) visit += '<p><strong>Phone:</strong> <a href="tel:' + attrEscape(String(d.phone).replace(/[^\d+]/g, '')) + '">' + escapeHtml(String(d.phone)) + '</a></p>\n';
     // Hours are deliberately not hardcoded. They differ per store and change with
     // mall and seasonal schedules, so a number typed in here goes stale silently
@@ -836,18 +963,22 @@ console.log('[ok]   FAQ internal links + sitemap entry');
 
     const note = '<p class="doc-note">Explore the full <a href="/menu">menu</a>, plan an event through <a href="/catering">catering</a>, read our <a href="/story">story</a>, browse the <a href="/journal">Journal</a>, or see all <a href="/locations">locations</a>. Interested in opening one? Learn about <a href="/franchise">franchising</a>.</p>';
 
-    const content = visit + '\n' + bodyHtml + '\n' + popular + '\n' + oil + '\n' + note;
+    const geoStore = (GEO.stores || {})[it.slug];
+    const geoQa = geoStore && geoStore.qa && geoStore.qa.length ? geoStore.qa : null;
+    const questions = geoQa ? '<section id="questions">\n<h2>Questions people ask about this store</h2>\n' + geoQaHtml(geoQa, 'h3') + '\n</section>' : '';
+    const content = visit + '\n' + bodyHtml + '\n' + popular + '\n' + questions + '\n' + oil + '\n' + note;
 
     const restaurant = {
-      '@context': 'https://schema.org', '@type': 'Restaurant',
-      name: 'Ugly Donuts & Corn Dogs - ' + (d.name || ''),
-      url: canonical, servesCuisine: ['Korean', 'Korean Corn Dogs', 'Donuts'], priceRange: '$$',
-      address: { '@type': 'PostalAddress', streetAddress: d.address || '', addressLocality: d.city || '', addressRegion: d.state || '', addressCountry: 'US' },
-      parentOrganization: { '@type': 'Organization', name: 'Ugly Donuts & Corn Dogs', url: SITE }
+      '@context': 'https://schema.org', '@type': 'Restaurant', '@id': storeId(it),
+      name: 'Ugly Donuts & Corn Dogs ' + (d.name || ''),
+      url: canonical, servesCuisine: STORE_CUISINE, priceRange: '$$', hasMenu: SITE + '/menu',
+      address: storeAddress(d),
+      parentOrganization: { '@type': 'Organization', '@id': ORG_ID, name: 'Ugly Donuts & Corn Dogs', url: SITE + '/' }
     };
     if (d.photo) restaurant.image = SITE + d.photo;
-    if (d.maps_url) restaurant.hasMap = d.maps_url;
-    if (d.phone) restaurant.telephone = String(d.phone);
+    if (d.place_id) restaurant.hasMap = 'https://www.google.com/maps/place/?q=place_id:' + d.place_id;
+    else if (d.maps_url) restaurant.hasMap = d.maps_url;
+    if (d.phone) restaurant.telephone = e164(d.phone);
     // Tie the page to the store's Google Places entity. This is the strongest
     // "this website is that place" signal we can give without coordinates, and
     // place_id is already filled in for every store.
@@ -855,7 +986,7 @@ console.log('[ok]   FAQ internal links + sitemap entry');
     if (d.latitude && d.longitude) restaurant.geo = { '@type': 'GeoCoordinates', latitude: Number(d.latitude), longitude: Number(d.longitude) };
     // openingHours is intentionally absent: see the hours note above. Publishing
     // hours we cannot keep current is worse than publishing none.
-    if (d.order_url) restaurant.potentialAction = { '@type': 'OrderAction', target: d.order_url };
+    if (d.order_url) restaurant.potentialAction = orderAction(d.order_url);
     const crumbs = {
       '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Home', item: SITE + '/' },
@@ -866,16 +997,16 @@ console.log('[ok]   FAQ internal links + sitemap entry');
     };
 
     const page = fillShell({
-      title: (d.name || '') + ' | Korean Corn Dogs &amp; Donuts in ' + escapeHtml(d.city || sn) + ' | Ugly Donuts',
+      title: geoStore ? escapeHtml(geoStore.title + ' | Ugly Donuts') : (d.name || '') + ' | Korean Corn Dogs &amp; Donuts in ' + escapeHtml(d.city || sn) + ' | Ugly Donuts',
       canonical: canonical,
       // Under 155 characters even with the longest address, so search results show it whole.
-      description: metaDesc('Ugly Donuts & Corn Dogs, ' + (d.address || ((d.city || sn) + ', ' + sn)) + '. Korean corn dogs and handmade donuts, fried to order in 100% avocado oil.'),
+      description: geoStore ? metaDesc(geoStore.meta) : metaDesc('Ugly Donuts & Corn Dogs, ' + (storeAddressText(d) || ((d.city || sn) + ', ' + sn)) + '. Korean corn dogs and handmade donuts, fried to order in 100% avocado oil.'),
       eyebrow: '<a href="/locations.html">Locations</a> · <a href="' + hubPath(ss) + '">' + escapeHtml(sn) + '</a>',
-      h1: escapeHtml(d.name || ''),
+      h1: escapeHtml(geoStore ? geoStore.h1 : (d.name || '')),
       sub: escapeHtml(cityState),
-      toc: [['visit', 'Visit us'], ['the-neighborhood', 'The neighborhood'], ['parking-and-getting-here', 'Parking'], ['popular', 'Guest favorites'], ['how-we-cook', 'How we cook here']],
+      toc: [['visit', 'Visit us'], ['the-neighborhood', 'The neighborhood'], ['parking-and-getting-here', 'Parking'], ['popular', 'Guest favorites']].concat(geoQa ? [['questions', 'Questions']] : []).concat([['how-we-cook', 'How we cook here']]),
       content: content,
-      schema: [restaurant, crumbs]
+      schema: geoQa ? [restaurant, crumbs, geoFaqLd(geoQa)] : [restaurant, crumbs]
     });
     const outPath = path.join(ROOT, 'locations', ss, it.slug + '.html');
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
@@ -891,7 +1022,7 @@ console.log('[ok]   FAQ internal links + sitemap entry');
     const cards = stores.map(function (it) {
       const d = it.data;
       return '<p><a href="' + storePath(it) + '" class="text-link"><strong>' + escapeHtml(d.name || '') + '</strong></a> · ' +
-        escapeHtml((d.city || '') + (d.state ? ', ' + d.state : '')) + (d.address ? '<br><span style="color:var(--text-dark-soft)">' + escapeHtml(d.address) + '</span>' : '') + '</p>';
+        escapeHtml((d.city || '') + (d.state ? ', ' + d.state : '')) + (d.address ? '<br><span style="color:var(--text-dark-soft)">' + escapeHtml(storeAddressText(d)) + '</span>' : '') + '</p>';
     }).join('\n');
     const content = '<p class="doc-intro">Find Ugly Donuts &amp; Corn Dogs across ' + escapeHtml(sn) + '. Every store batters and fries each Korean corn dog to order and finishes every donut by hand.</p>\n' +
       '<section id="stores">\n<h2>Our ' + escapeHtml(sn) + ' stores</h2>\n' + cards + '\n</section>\n' +

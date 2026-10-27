@@ -1,0 +1,317 @@
+{
+  "_note": "GEO answer-first copy (2026-10-27). Rendered by build-index.js section 10 and store pages. Franchise content intentionally excluded.",
+  "pages": {
+    "/": {
+      "title": "Ugly Donuts & Corn Dogs | Hot Donuts & Korean Corn Dogs",
+      "meta": "America's first avocado-oil donut & corn dog brand.\" Hot donuts and Korean corn dogs made to order at our stores in NY, NJ, and TX.",
+      "intro": "Ugly Donuts & Corn Dogs (어글리) calls itself \"America's first avocado-oil donut & corn dog brand.\" Every corn dog is battered and fried to order, and every hot donut is finished by hand after you order. You can find our stores in [Forest Hills](/locations/new-york/forest-hills), [Bushwick](/locations/new-york/bushwick), [East Rutherford](/locations/new-jersey/american-dream), and [Pearland](/locations/texas/pearland).",
+      "facts": [
+        "Fried in 100% avocado oil.",
+        "Fresh dough is made by hand every morning.",
+        "Signature refreshers and bubble tea made in-house.",
+        "4 stores in New York, New Jersey, and Texas."
+      ],
+      "qa": [
+        {
+          "q": "What makes an Ugly Donuts & Corn Dogs hot donut different?",
+          "a": "An Ugly Donuts & Corn Dogs hot donut, at any of our stores in New York, New Jersey and Texas, is made from fresh dough prepared by hand every morning and finished by hand after you order so it comes to you warm."
+        },
+        {
+          "q": "How does Ugly Donuts & Corn Dogs prepare its Korean corn dogs?",
+          "a": "At our stores in New York, New Jersey and Texas, Ugly Donuts & Corn Dogs batters and fries every Korean corn dog to order in 100% avocado oil instead of letting them sit in a warming case."
+        }
+      ],
+      "related": [
+        [
+          "Menu",
+          "/menu"
+        ],
+        [
+          "Locations",
+          "/locations"
+        ],
+        [
+          "Avocado oil",
+          "/avocado-oil"
+        ],
+        [
+          "Catering",
+          "/catering"
+        ]
+      ]
+    },
+    "/locations": {
+      "title": "Locations | Hot Donuts & Korean Corn Dogs in NY, NJ, TX",
+      "meta": "Find Ugly Donuts & Corn Dogs locations in Forest Hills, Bushwick, East Rutherford, and Pearland. Stop by for fresh hot donuts and Korean corn dogs.",
+      "intro": "Ugly Donuts & Corn Dogs operates 4 stores across New York, New Jersey, and Texas. You can get our made-to-order hot donuts and Korean corn dogs in Forest Hills, Bushwick, East Rutherford, and Pearland. See today's hours on our Google profile.",
+      "facts": [
+        "Forest Hills, NY: 71-11 Austin St, Forest Hills, NY 11375. Phone: (718) 683-8977.",
+        "Bushwick, NY: 398 Knickerbocker Ave, Brooklyn, NY 11237. Phone: (347) 240-1460.",
+        "American Dream, NJ: 1 American Dream Way, East Rutherford, NJ 07073, Level 2. Phone: (201) 596-3727.",
+        "Pearland, TX: 11200 Broadway St, Pearland, TX 77584. Phone: (832) 328-8566."
+      ],
+      "qa": [
+        {
+          "q": "Where can I buy Ugly Donuts & Corn Dogs hot donuts?",
+          "a": "You can buy Ugly Donuts & Corn Dogs hot donuts at our stores in Forest Hills, Bushwick, the American Dream mall in East Rutherford, and Pearland."
+        },
+        {
+          "q": "Which Ugly Donuts & Corn Dogs location has the widest selection?",
+          "a": "The American Dream mall location in East Rutherford is our flagship store and the home of our full menu."
+        }
+      ],
+      "related": [
+        [
+          "Menu",
+          "/menu"
+        ],
+        [
+          "Catering",
+          "/catering"
+        ],
+        [
+          "FAQ",
+          "/faq"
+        ]
+      ]
+    },
+    "/menu": {
+      "title": "Menu | Hot Donuts, Korean Corn Dogs & Boba | Ugly Donuts",
+      "meta": "See the Ugly Donuts & Corn Dogs menu. We serve made-to-order Korean corn dogs, hot donuts, and signature boba drinks. Items vary by location.",
+      "intro": "The Ugly Donuts & Corn Dogs menu features made-to-order Korean corn dogs, handmade hot donuts, and signature drinks made in-house. Our best sellers include the Hot Cheetos Corn Dog, the Potato Corn Dog, and the Nutella Strawberry Donut. Items vary by location.",
+      "facts": [
+        "Korean corn dogs include Original, Hot Cheetos, Potato, and Sweet Potato.",
+        "Hot donuts include Nutella Strawberry, Dubai Chocolate, and Original Ugnut.",
+        "Drinks include Ugly Boba, fruit refreshers, and smoothies.",
+        "All fried items are cooked in 100% avocado oil."
+      ],
+      "qa": [
+        {
+          "q": "What are the most popular hot donuts at Ugly Donuts & Corn Dogs?",
+          "a": "The Nutella Strawberry Donut is a guest favorite at Ugly Donuts & Corn Dogs, alongside our Original Ugnut which is a handmade fresh Korean chewy donut."
+        },
+        {
+          "q": "What kinds of Korean corn dogs does Ugly Donuts & Corn Dogs serve?",
+          "a": "Ugly Donuts & Corn Dogs serves a variety of Korean corn dogs including the Hot Cheetos Corn Dog, Premium Pizza, Buldak, and the Nude corn dog which has no coating."
+        }
+      ],
+      "related": [
+        [
+          "Locations",
+          "/locations"
+        ],
+        [
+          "Avocado oil",
+          "/avocado-oil"
+        ],
+        [
+          "Catering",
+          "/catering"
+        ]
+      ]
+    },
+    "/avocado-oil": {
+      "title": "Avocado Oil Hot Donuts & Corn Dogs | Ugly Donuts",
+      "meta": "Every hot donut and Korean corn dog at Ugly Donuts & Corn Dogs is fried in 100% avocado oil. Here is why we cook that way.",
+      "intro": "Ugly Donuts & Corn Dogs fries every hot donut and Korean corn dog in 100% avocado oil, never the soybean or canola blends most fryers run on. The same oil is used at every Ugly Donuts & Corn Dogs store in New York, New Jersey and Texas.",
+      "facts": [
+        "Every donut and corn dog is fried in 100% avocado oil.",
+        "No soybean or canola blends.",
+        "Corn dogs are battered and fried to order; donuts are finished by hand after you order."
+      ],
+      "qa": [
+        {
+          "q": "Why does Ugly Donuts & Corn Dogs use avocado oil for hot donuts?",
+          "a": "Ugly Donuts & Corn Dogs uses 100% avocado oil for hot donuts and Korean corn dogs instead of the soybean or canola blends most fryers run on."
+        }
+      ],
+      "related": [
+        [
+          "Menu",
+          "/menu"
+        ],
+        [
+          "Locations",
+          "/locations"
+        ],
+        [
+          "FAQ",
+          "/faq"
+        ]
+      ]
+    },
+    "/catering": {
+      "title": "Hot Donut & Corn Dog Catering | Ugly Donuts",
+      "meta": "Book Ugly Donuts & Corn Dogs catering: hot donuts and Korean corn dogs made to order for your event. Send us your date and headcount.",
+      "intro": "Ugly Donuts & Corn Dogs provides catering for events with our signature Korean corn dogs and handmade hot donuts. Contact our team at hq@uglydonutsncorndogs.com to discuss your event.",
+      "facts": [
+        "Email hq@uglydonutsncorndogs.com to start your order."
+      ],
+      "qa": [
+        {
+          "q": "Can I order Ugly Donuts & Corn Dogs hot donuts for an event?",
+          "a": "You can order Ugly Donuts & Corn Dogs hot donuts and Korean corn dogs for your event by contacting our headquarters team."
+        }
+      ],
+      "related": [
+        [
+          "Menu",
+          "/menu"
+        ],
+        [
+          "Locations",
+          "/locations"
+        ],
+        [
+          "Contact",
+          "/contact"
+        ]
+      ]
+    },
+    "/story": {
+      "title": "Our Story | Ugly Donuts & Corn Dogs (어글리)",
+      "meta": "How Ugly Donuts & Corn Dogs (어글리) started serving made-to-order hot donuts and Korean corn dogs fried in avocado oil.",
+      "intro": "Ugly Donuts & Corn Dogs (어글리) was founded by John Kim, who remembers his mother buying him a corn dog in Korea about 30 years ago. The Korean corn dog traces its heritage to the Korean War when American troops shared corn dogs, leading to a Korean version made with rice flour batter and mozzarella. Today, we honor that history by serving fresh Korean corn dogs and handmade hot donuts.",
+      "facts": [
+        "Founded by John Kim.",
+        "Inspired by a childhood memory from Korea about 30 years ago.",
+        "Korean corn dogs use rice flour batter and mozzarella.",
+        "Headquartered in Belleville, NJ."
+      ],
+      "qa": [
+        {
+          "q": "Where did the Ugly Donuts & Corn Dogs hot donut and corn dog concept begin?",
+          "a": "The Ugly Donuts & Corn Dogs concept began with John Kim's childhood memories of Korea and the historical Korean War heritage of American troops sharing corn dogs."
+        }
+      ],
+      "related": [
+        [
+          "Avocado oil",
+          "/avocado-oil"
+        ],
+        [
+          "Locations",
+          "/locations"
+        ]
+      ]
+    }
+  },
+  "stores": {
+    "american-dream": {
+      "title": "Hot Donuts & Korean Corn Dogs at American Dream Mall",
+      "meta": "Ugly Donuts & Corn Dogs serves hot donuts and Korean corn dogs on Level 2 of the American Dream mall in East Rutherford. Fried in 100% avocado oil.",
+      "h1": "Hot Donuts & Korean Corn Dogs at American Dream Mall",
+      "qa": [
+        {
+          "q": "Where can I get a hot donut at American Dream?",
+          "a": "Ugly Donuts & Corn Dogs on Level 2 of American Dream is the place to get a hot donut. This is where the brand began, and we serve donuts fresh and hot, never pulled from a warming case."
+        },
+        {
+          "q": "Where is a Korean corn dog near MetLife Stadium?",
+          "a": "Ugly Donuts & Corn Dogs is located right next to MetLife Stadium inside the American Dream mall. We serve made-to-order Korean corn dogs that are perfect for game-day crowds."
+        },
+        {
+          "q": "What should I order at Ugly Donuts in East Rutherford?",
+          "a": "Ugly Donuts & Corn Dogs at American Dream serves the full menu. Guest favorites are the Hot Cheetos Corn Dog, the Potato Corn Dog, the Original Corn Dog and the Nutella Strawberry Donut. The Dubai Chocolate Donut and the Half Dozen Donuts box are also on the menu."
+        },
+        {
+          "q": "Is there a place at American Dream that fries in avocado oil?",
+          "a": "Yes, Ugly Donuts & Corn Dogs fries every donut and corn dog in 100% avocado oil. We are America's first avocado-oil donut & corn dog brand."
+        },
+        {
+          "q": "Where exactly is Ugly Donuts located inside American Dream?",
+          "a": "Ugly Donuts & Corn Dogs is located on Level 2 of the American Dream mall. We are near Nickelodeon Universe and DreamWorks Water Park."
+        },
+        {
+          "q": "Does the American Dream store do online ordering?",
+          "a": "Yes, you can order Ugly Donuts & Corn Dogs online for pickup at American Dream. Use our [Toast link](https://order.toasttab.com/online/ugly-donuts-and-corndogs-american-dream-mall-1-american-dream-way-a274) to have your hot donuts and Korean corn dogs ready when you arrive."
+        }
+      ]
+    },
+    "bushwick": {
+      "title": "Hot Donuts & Korean Corn Dogs in Bushwick, Brooklyn",
+      "meta": "Ugly Donuts & Corn Dogs makes fresh hot donuts and Korean corn dogs on Knickerbocker Ave in Bushwick. Fried in 100% avocado oil.",
+      "h1": "Hot Donuts & Korean Corn Dogs in Bushwick, Brooklyn",
+      "qa": [
+        {
+          "q": "Where can I get a hot donut near Bushwick?",
+          "a": "Ugly Donuts & Corn Dogs on Knickerbocker Ave is your local spot for a hot donut in Bushwick. We make fresh dough by hand every morning and finish every donut after you order."
+        },
+        {
+          "q": "Where is the best Korean corn dog in Brooklyn?",
+          "a": "Ugly Donuts & Corn Dogs serves Korean corn dogs in Brooklyn. Every corn dog is battered to order and fried in 100% avocado oil, never the soybean or canola blends most fryers run on."
+        },
+        {
+          "q": "What should I order at Ugly Donuts in Bushwick?",
+          "a": "Guest favorites at Ugly Donuts & Corn Dogs in Bushwick are the Hot Cheetos Corn Dog, the Potato Corn Dog and the Nutella Strawberry Donut. The Ugbite Set and Midnight Lemonade are also on the menu."
+        },
+        {
+          "q": "Is Ugly Donuts in Bushwick near the L train?",
+          "a": "Yes, Ugly Donuts & Corn Dogs in Bushwick is easily reachable by the L train. We are located near the neighborhood's popular murals, galleries, and nightlife."
+        },
+        {
+          "q": "Does Ugly Donuts on Knickerbocker Ave do online ordering?",
+          "a": "Yes, you can order Ugly Donuts & Corn Dogs online for pickup in Bushwick. Use our [Toast link](https://order.toasttab.com/online/ugly-donuts-and-corndogs-knickerbocker-398-knickerbocker-ave) to order your hot donuts and Korean corn dogs ahead of time."
+        }
+      ]
+    },
+    "forest-hills": {
+      "title": "Hot Donuts & Korean Corn Dogs in Forest Hills, Queens",
+      "meta": "Ugly Donuts & Corn Dogs serves made-to-order hot donuts and premium Korean corn dogs on Austin St in Forest Hills. Fried in 100% avocado oil.",
+      "h1": "Hot Donuts & Korean Corn Dogs in Forest Hills, Queens",
+      "qa": [
+        {
+          "q": "Where can I get a hot donut near Forest Hills?",
+          "a": "Ugly Donuts & Corn Dogs in Forest Hills is the place to get a hot donut near you. We finish every donut by hand after you order so it comes to you fresh and hot."
+        },
+        {
+          "q": "Who has the best Korean corn dog in Queens?",
+          "a": "Ugly Donuts & Corn Dogs serves premium Korean corn dogs right here in Queens. We batter and fry every corn dog to order in 100% avocado oil."
+        },
+        {
+          "q": "What should I order at Ugly Donuts in Forest Hills?",
+          "a": "Guest favorites at Ugly Donuts & Corn Dogs in Forest Hills are the Hot Cheetos Corn Dog, the Potato Corn Dog and the Nutella Strawberry Donut. The Original Ugnut and Brown Sugar Boba are also on the menu."
+        },
+        {
+          "q": "What is good to eat before a show at Forest Hills Stadium?",
+          "a": "Ugly Donuts & Corn Dogs on Austin Street is near Forest Hills Stadium. A fresh Korean corn dog or a hot donut is a fast, easy snack to grab before a concert."
+        },
+        {
+          "q": "Is Ugly Donuts near the subway on Austin Street?",
+          "a": "Yes, Ugly Donuts & Corn Dogs is located on the main shopping stretch of Austin Street. We are a short walk from the 71st Av / Continental Av subway station."
+        },
+        {
+          "q": "Does the Forest Hills store do online ordering and pickup?",
+          "a": "Yes, you can order Ugly Donuts & Corn Dogs online for pickup in Forest Hills. Use our [Toast online ordering link](https://order.toasttab.com/online/ugly-donuts-and-corndogs-forest-hills-71-11-austin-street) to skip the line."
+        }
+      ]
+    },
+    "pearland": {
+      "title": "Hot Donuts & Korean Corn Dogs in Pearland, TX",
+      "meta": "Ugly Donuts & Corn Dogs serves hot donuts and Korean corn dogs on Broadway St in Pearland, near Pearland Town Center. Fried in 100% avocado oil.",
+      "h1": "Hot Donuts & Korean Corn Dogs in Pearland, Texas",
+      "qa": [
+        {
+          "q": "Where can I get a hot donut in Pearland?",
+          "a": "Ugly Donuts & Corn Dogs on Broadway Street in Pearland serves hot donuts finished by hand after you order, so they come to you fresh and hot."
+        },
+        {
+          "q": "Who serves Korean corn dogs near Pearland Town Center?",
+          "a": "Ugly Donuts & Corn Dogs at 11200 Broadway St is close to Pearland Town Center. We batter and fry every Korean corn dog to order in 100% avocado oil."
+        },
+        {
+          "q": "What should I order at Ugly Donuts in Pearland?",
+          "a": "Guest favorites at our Pearland store are the Hot Cheetos Corn Dog and the Potato Corn Dog, fried fresh the moment you order. See the full [menu](/menu) for donuts, refreshers and boba."
+        },
+        {
+          "q": "Is there parking at Ugly Donuts in Pearland?",
+          "a": "Yes. The Pearland store has convenient parking, with easy access from Broadway Street and nearby State Highway 288."
+        },
+        {
+          "q": "Can I order online for pickup in Pearland?",
+          "a": "Yes, you can order Ugly Donuts & Corn Dogs online for pickup in Pearland through our [Toast ordering page](https://order.toasttab.com/online/ugly-donuts-and-corndogs-pearland-11200-broadway-street-1210)."
+        }
+      ]
+    }
+  }
+}

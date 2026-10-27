@@ -2,10 +2,10 @@
 name: Bushwick
 city: Brooklyn
 state: NY
-address: 398 Knickerbocker ave, Brooklyn, NY, 11237
+address: 398 Knickerbocker Ave, Brooklyn, NY 11237
 store_type: Standalone store
 photo: /uploads/d65d86f4-0f01-4610-a01a-54a4a851fe23.jpg
-phone: ""
+phone: "(347) 240-1460"
 maps_url: https://www.google.com/maps/search/Ugly+Donuts+Corn+Dogs+Bushwick+Brooklyn
 place_id: ChIJiwt9oI9dwokRMr1aQdLl0cY
 order: 2

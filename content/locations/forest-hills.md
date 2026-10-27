@@ -2,10 +2,10 @@
 name: Forest Hills
 city: Queens
 state: NY
-address: 71-11 Austin St, Forest Hills, NY, 11375
+address: 71-11 Austin St, Forest Hills, NY 11375
 store_type: Standalone store
 photo: /uploads/forest-hills.jpg
-phone: ""
+phone: "(718) 683-8977"
 maps_url: https://www.google.com/maps/search/Ugly+Donuts+Corn+Dogs+Forest+Hills+Queens
 place_id: ChIJ7-WGBHNfwokRwfOqB99JBD0
 order: 3
