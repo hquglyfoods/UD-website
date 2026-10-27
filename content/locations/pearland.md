@@ -5,7 +5,7 @@ state: TX
 address: 11200 Broadway St, Pearland, TX 77584
 store_type: Standalone store
 photo: /uploads/img_0764.jpg
-phone: ""
+phone: "(832) 328-8566"
 maps_url: https://www.google.com/maps/search/Ugly+Donuts+Corn+Dogs+Pearland+Texas
 place_id: ChIJidAdE_6TQIYRzqaJdzyC8RI
 order: 4
