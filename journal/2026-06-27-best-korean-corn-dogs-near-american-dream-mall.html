@@ -471,6 +471,26 @@ nav.nav .nav-order-mobile{display:none !important}
 .article-error a{color:var(--orange);border-bottom:1px solid var(--orange)}
 </style>
   <!--INKIND:START--><script>(function(){function load(){if(document.getElementById('inkind-js'))return;var s=document.createElement('script');s.id='inkind-js';s.src='https://inkindscript.com/inkind.js';s.async=true;document.head.appendChild(s);}try{if(!localStorage.getItem('ud_inkind_seen')){localStorage.setItem('ud_inkind_seen','1');load();}}catch(e){load();}window.udShowInkind=function(ev){if(ev&&ev.preventDefault)ev.preventDefault();try{localStorage.removeItem('ud_inkind_seen');}catch(e){}if(document.getElementById('inkind-js')){location.reload();}else{try{localStorage.setItem('ud_inkind_seen','1');}catch(e){}load();}return false;};})();</script><!--INKIND:END-->
+<style id="touch-fx">
+/* Touch feel: no grey/blue tap flash, no double-tap-zoom delay on controls, light press feedback on touch screens only. Invisible at rest. */
+html{-webkit-tap-highlight-color:transparent}
+a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-action:manipulation}
+@media (hover:none){button:not(:disabled):active,a:active,[role=button]:active{opacity:.72}}
+</style>
+<style id="ud-mobile-a11y">
+/* Mobile tap targets >= 44px and text >= 12px (audit 2026-10-14). Same look, bigger touch area. */
+@media (max-width:900px){
+  .nav-toggle{min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+  nav.nav .nav-order-mobile{min-height:44px;font-size:12px !important;padding-top:0;padding-bottom:0;position:relative}
+  .menu-tab{min-height:44px}
+  .lightbox-close{min-width:44px;min-height:44px}
+  .footer-col a,.footer-legal-links a,.footer-bottom a{display:inline-block;padding:13px 0;min-width:44px}
+  input[type=checkbox],input[type=radio]{width:22px;height:22px}
+  label:has(> input[type=checkbox]),label:has(> input[type=radio]){min-height:44px;display:flex;align-items:center;gap:10px}
+  .nav-link,.nav-more-link,.nav-cta,.nav-more-arrow,.eyebrow,.hero-eyebrow,.btn,.pillar-title,.menu-card-cat,.loc-card-tag,.menu-tab,.heritage-intro,.n,.footer h3,.footer span,.footer a{font-size:12px !important}
+  .menu-page-grid .menu-card-desc,.menu-card-desc{font-size:12.5px !important}
+}
+</style>
 <!--AUTO-ARTICLE-JSONLD:START-->
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Best Korean Corn Dogs in the American Dream Mall","description":"Looking for Korean corn dogs at American Dream in East Rutherford, New Jersey? Here is where to find them, what to order, and what makes them worth the stop.","datePublished":"2026-06-27","image":"https://www.uglydonutsncorndogs.com/uploads/ad.jpg","author":{"@type":"Organization","name":"Ugly Donuts & Corn Dogs"},"publisher":{"@type":"Organization","name":"Ugly Donuts & Corn Dogs"},"mainEntityOfPage":"https://www.uglydonutsncorndogs.com/journal/2026-06-27-best-korean-corn-dogs-near-american-dream-mall"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.uglydonutsncorndogs.com/"},{"@type":"ListItem","position":2,"name":"Journal","item":"https://www.uglydonutsncorndogs.com/journal"},{"@type":"ListItem","position":3,"name":"Best Korean Corn Dogs in the American Dream Mall","item":"https://www.uglydonutsncorndogs.com/journal/2026-06-27-best-korean-corn-dogs-near-american-dream-mall"}]}</script>
@@ -854,7 +874,7 @@ nav.nav .nav-order-mobile{display:none !important}
 <div id="ud-cookie-banner" class="ud-cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie notice" hidden>
   <div class="ud-cookie-inner">
     <p class="ud-cookie-text">
-      We use cookies to run this site and, with your permission, to measure how it is used so we can make it better. You can accept analytics cookies or continue with only the essentials. Learn more in our <a href="/privacy-policy.html">Privacy Policy</a>.
+      <span class="ud-ck-long">We use cookies to run this site and, with your permission, to measure how it is used so we can make it better. You can accept analytics cookies or continue with only the essentials. Learn more in our </span><span class="ud-ck-short">We use cookies; analytics only if you allow. </span><a href="/privacy-policy.html">Privacy Policy</a>.
     </p>
     <div class="ud-cookie-actions">
       <button type="button" class="ud-cookie-btn ud-cookie-decline" id="ud-cookie-decline">Essentials only</button>
@@ -876,10 +896,15 @@ nav.nav .nav-order-mobile{display:none !important}
 .ud-cookie-decline:hover{border-color:rgba(245,239,227,0.9);color:#fff}
 .ud-cookie-accept{background:var(--orange,#B8470C);color:#fff}
 .ud-cookie-accept:hover{background:var(--orange-light,#CE5512)}
+.ud-ck-short{display:none}
+/* Phones: a slim bar (about 1/8 of the screen, not 1/3) so the hero stays visible. */
 @media (max-width:720px){
-  .ud-cookie-inner{flex-direction:column;align-items:stretch;gap:16px;padding:18px 20px}
-  .ud-cookie-actions{justify-content:stretch}
-  .ud-cookie-btn{flex:1;text-align:center}
+  .ud-cookie-inner{flex-direction:column;align-items:stretch;gap:8px;padding:10px 14px calc(10px + env(safe-area-inset-bottom))}
+  .ud-ck-long{display:none}.ud-ck-short{display:inline}
+  .ud-cookie-text{font-size:13px;line-height:1.4}
+  .ud-cookie-text a{display:inline-block;padding:4px 0}
+  .ud-cookie-actions{justify-content:stretch;gap:8px}
+  .ud-cookie-btn{flex:1;text-align:center;min-height:44px;padding:8px 12px;font-size:12px}
 }
 </style>
 

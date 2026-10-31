@@ -2,7 +2,7 @@
 title: "Leftover Korean Corn Dog? How to Reheat It So It Stays Crispy"
 published_date: 2026-10-31
 category: Menu
-cover: /uploads/how-to-reheat-a-korean-corn-dog.jpg
+cover: /uploads/real-cover-how-to-reheat-a-korean-corn-dog.jpg
 excerpt: A soggy reheated corn dog is a sad thing. Here is how to bring a leftover Korean corn dog back to crisp in the oven or air fryer, and what to skip.
 read_time: 3 min read
 draft: false

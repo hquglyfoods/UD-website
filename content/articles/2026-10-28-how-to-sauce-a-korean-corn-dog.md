@@ -2,7 +2,7 @@
 title: "Sugar, Ketchup or Both? How to Sauce a Korean Corn Dog"
 published_date: 2026-10-28
 category: Menu
-cover: /uploads/how-to-sauce-a-korean-corn-dog.jpg
+cover: /uploads/real-cover-how-to-sauce-a-korean-corn-dog.jpg
 excerpt: Sugar on a corn dog sounds wrong until you try it. Here is how to finish a Korean corn dog, from the classic sugar roll to ketchup and mustard.
 read_time: 3 min read
 draft: false

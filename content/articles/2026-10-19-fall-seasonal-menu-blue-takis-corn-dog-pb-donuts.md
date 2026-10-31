@@ -2,7 +2,7 @@
 title: Fall Seasonal Menu: The Blue Takis Corn Dog and Two Peanut Butter Donuts
 published_date: 2026-10-19
 category: Menu
-cover: /uploads/fall-seasonal-blue-takis-pb-donuts.jpg
+cover: /uploads/real-cover-fall-seasonal-menu-blue-takis-corn-dog-pb-donuts.jpg
 excerpt: A golden corn dog with bright blue crunch, plus two peanut butter donuts that taste like a lunchbox upgrade. Here is what is on our fall seasonal menu.
 read_time: 3 min read
 draft: false

@@ -2,7 +2,7 @@
 title: "The History of Korean Corn Dogs: From Korea to America"
 published_date: 2026-06-27
 category: The Brand
-cover: /uploads/chatgpt-image-jun-27-2026-01_43_38-pm.jpg
+cover: /uploads/real-cover-the-history-of-korean-corn-dogs-from-korea-to-america.jpg
 excerpt: The Korean corn dog began with an American snack, was reinvented on the
   streets of Korea, and traveled back across the world. Here is the full story
   of how it became a global street food.

@@ -2,7 +2,7 @@
 title: Inside Our Batter: How We Get That Crispy Korean Corn Dog Shell
 published_date: 2026-10-16
 category: Behind the Scenes
-cover: /uploads/inside-our-batter-crispy-shell.jpg
+cover: /uploads/real-cover-inside-our-batter-crispy-korean-corn-dog-shell.jpg
 excerpt: The first bite of a Korean corn dog should crack, then give. Here is
   how our batter, coating, and fry time work together to get that shell right,
   every time.

@@ -2,7 +2,7 @@
 title: "Sausage, Mozzarella or Half and Half? Picking Your Korean Corn Dog Filling"
 published_date: 2026-10-22
 category: Menu
-cover: /uploads/korean-corn-dog-fillings-guide.jpg
+cover: /uploads/real-cover-korean-corn-dog-fillings-guide.jpg
 excerpt: Cheese pull or savory snap? Here is how the three classic Korean corn dog fillings eat, and how to pair each one with a crunchy coating.
 read_time: 3 min read
 draft: false
