@@ -166,9 +166,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent;col
 }
 
 /* ============ BRAND ANCHOR ============ */
-.brand-anchor{padding:140px 0;text-align:center;border-top:1px solid var(--border-cream)}
+.brand-anchor{padding:64px 0;text-align:center;border-top:1px solid var(--border-cream)}
 .brand-anchor-statement{font-family:var(--serif);font-size:clamp(2.4rem,5vw,4.2rem);line-height:1.1;letter-spacing:-0.02em;color:var(--text-dark);margin:0;font-weight:400}
-@media(max-width:600px){.brand-anchor{padding:120px 24px}.brand-anchor-statement{font-size:clamp(2rem,8vw,2.8rem)}}
+@media(max-width:600px){.brand-anchor{padding:48px 24px}.brand-anchor-statement{font-size:clamp(2rem,8vw,2.8rem)}}
 
 /* ============ PILLARS ============ */
 .pillars{padding:96px 0;border-top:1px solid var(--border-cream)}
@@ -1674,7 +1674,11 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
   }
   /* A gesture in a zone that is stepped in that direction is taken over. */
   function stepped(z, dir){
-    return z === 'reel' || (z === 'above' && dir > 0) || (z === 'below' && dir < 0);
+    /* Only step inside the pinned reel. Hero, sections and the reel's own
+       entry/exit scroll natively, so the page never freezes or jumps. */
+    if (z !== 'reel') return false;
+    var cur = beatAt();
+    return !((dir > 0 && cur >= beats - 1) || (dir < 0 && cur <= 0));
   }
   function goTo(top){
     lockUntil = Date.now() + LOCK;

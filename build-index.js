@@ -717,11 +717,11 @@ const GEO_CSS = '<style>.geo-answer{background:var(--bg-cream,#faf6ef);padding:5
       '</div></section>\n';
     const S = '<!--AUTO-GEO-ANSWER:START-->', E = '<!--AUTO-GEO-ANSWER:END-->';
     if (html.indexOf(S) === -1) {
-      const h1 = html.indexOf('<h1');
-      if (h1 === -1) return;
-      const ends = ['</section>', '</header>'].map(function (t) { const i = html.indexOf(t, h1); return i === -1 ? Infinity : i + t.length; });
-      const at = Math.min.apply(null, ends);
-      if (at === Infinity) return;
+      /* Placed just above the footer (not under the hero): still visible,
+         crawlable HTML for AI answers, but out of the first screen. */
+      let at = html.lastIndexOf('</main>');
+      if (at === -1) at = html.lastIndexOf('<footer');
+      if (at === -1) return;
       html = html.slice(0, at) + '\n' + S + E + html.slice(at);
     }
     html = injectBetween(html, S, E, block, null);
