@@ -530,101 +530,173 @@ nav.nav .nav-order-mobile{display:none !important}
 .reel-shot canvas.sun{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 50%;mix-blend-mode:soft-light;opacity:0;transition:opacity 1.2s;pointer-events:none}
 .reel-shot canvas.sun.ready{opacity:1}
 @media(max-width:700px){ .reel-shot canvas.sun{object-position:78% 60%} }
-/* ===================== built in layers (2026-11-09) =====================
-   One donut, pinned, rebuilt by the scroll: whole -> pulled apart -> filled ->
-   stacked. Everything that moves is transform/opacity on a fixed-size stage, so
-   nothing reflows while it plays. */
-.bl{position:relative;height:500vh;height:500svh;background:var(--bg-cream)}
-.bl-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:var(--bg-cream);color:var(--text-dark);transition:color .5s var(--ease)}
-.bl-stage.dark{color:var(--text-light)}
-.bl-inner{position:relative;height:100%;max-width:1280px;margin:0 auto;padding:84px 32px 40px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:center;gap:24px}
-.bl-copy{position:relative;z-index:3;height:340px}
-.bl-eyebrow{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--orange);margin-bottom:22px;transition:color .5s var(--ease)}
-.bl-stage.dark .bl-eyebrow{color:var(--orange-on-dark)}
-.bl-slide{position:absolute;left:0;right:0;top:40px;pointer-events:none}
+/* ===================== built in layers (2026-11-09, v3) =====================
+   One hole-less donut, pinned and rebuilt by the scroll across five beats.
+   The section opens and closes on the same black as the hero and the reel, so
+   it joins both without a seam. Colour changes are a circular wipe from the
+   donut, never a crossfade, so two colours are never averaged into mud.
+   Per frame, only transform / opacity / one clip-path are written. */
+.bl{position:relative;height:600vh;height:600svh;background:var(--bg-black)}
+.bl-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;color:var(--text-light);isolation:isolate}
+.bl-stage.light{color:var(--text-dark)}
+.bl-bg,.bl-wipe{position:absolute;inset:0;z-index:-2;background:var(--bg-black)}
+.bl-wipe{z-index:-1;clip-path:circle(0px at 70% 50%);will-change:clip-path}
+.bl-grain{position:absolute;inset:-50%;z-index:-1;pointer-events:none;opacity:.06;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.bl-inner{position:relative;height:100%;max-width:1440px;margin:0 auto;padding:96px 72px 64px;display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);align-items:center;gap:32px}
+
+/* copy */
+.bl-copy{position:relative;z-index:3;height:min(440px,62vh)}
+.bl-slide{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);pointer-events:none}
 .bl-slide.on{pointer-events:auto}
-.bl-slide h2{font-family:var(--serif);font-weight:400;font-size:clamp(3rem,6.4vw,6rem);line-height:.92;letter-spacing:-.02em;text-transform:uppercase;margin:0 0 22px}
-.bl-slide h2 .ln{display:block;overflow:hidden;padding-bottom:.06em}
-.bl-slide h2 .ln span{display:block;transform:translateY(105%);transition:transform .7s var(--ease)}
-.bl-slide.on h2 .ln span{transform:none;transition-delay:.12s}
-.bl-slide.on h2 .ln + .ln span{transition-delay:.2s}
-.bl-slide p,.bl-slide .bl-ctas{opacity:0;transform:translateY(14px);transition:opacity .45s var(--ease),transform .6s var(--ease)}
-.bl-slide.on p,.bl-slide.on .bl-ctas{opacity:1;transform:none;transition-delay:.28s}
-.bl-slide p{font-size:clamp(15px,1.35vw,17px);line-height:1.6;max-width:38ch;margin:0 0 26px;opacity:0;color:inherit}
-.bl-slide.on p{opacity:.78}
+.bl-kicker{display:flex;align-items:center;gap:14px;font-size:11px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--orange-on-dark);margin-bottom:26px}
+.bl-stage.light .bl-kicker{color:var(--orange)}
+.bl-kicker em{font-style:normal;opacity:.55;letter-spacing:.12em}
+.bl-kicker i{display:block;width:34px;height:1px;background:currentColor;opacity:.6;transform-origin:left;transform:scaleX(0);transition:transform .8s var(--ease)}
+.bl-slide.on .bl-kicker i{transform:none;transition-delay:.15s}
+.bl-kicker,.bl-slide p,.bl-ctas{opacity:0;transform:translateY(14px);transition:opacity .5s var(--ease),transform .7s var(--ease)}
+.bl-slide.on .bl-kicker{opacity:1;transform:none;transition-delay:.05s}
+.bl-slide.on p{opacity:.78;transform:none;transition-delay:.32s}
+.bl-slide.on .bl-ctas{opacity:1;transform:none;transition-delay:.42s}
+.bl-slide h2{font-family:var(--serif);font-weight:400;font-size:clamp(3.4rem,6.4vw,7.8rem);line-height:.9;letter-spacing:-.03em;margin:0 0 28px}
+.bl-slide h2 .ln{display:block;overflow:hidden;padding:0 .04em .08em 0;margin-bottom:-.08em}
+.bl-slide h2 .ln>span{display:block;transform:translateY(110%) rotate(2deg);transform-origin:left bottom;transition:transform .55s cubic-bezier(.55,0,.8,.2)}
+.bl-slide.on h2 .ln>span{transform:none;transition:transform 1s var(--ease) .1s}
+.bl-slide.on h2 .ln+.ln>span{transition-delay:.18s}
+.bl-slide h2 .serif-italic{color:var(--orange-on-dark)}
+.bl-stage.light .bl-slide h2 .serif-italic{color:var(--orange)}
+.bl-slide p{font-size:clamp(15px,1.15vw,18px);line-height:1.65;max-width:36ch;margin:0 0 30px}
 .bl-ctas{display:flex;flex-wrap:wrap;gap:10px}
-.bl-pill{display:inline-flex;align-items:center;gap:10px;padding:13px 22px 13px 24px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;background:var(--text-dark);color:#fff;transition:transform .25s var(--ease),background .25s var(--ease)}
-.bl-pill::after{content:'\2192';transition:transform .25s var(--ease)}
-.bl-pill:hover{transform:translateY(-2px)}
-.bl-pill:hover::after{transform:translateX(3px)}
-.bl-pill.alt{background:transparent;color:inherit;box-shadow:inset 0 0 0 1px currentColor}
-.bl-stage.dark .bl-pill:not(.alt){background:var(--bg-cream);color:var(--text-dark)}
-.bl-pill.hot{background:var(--orange)}
+.bl-pill{display:inline-flex;align-items:center;gap:12px;padding:15px 26px 15px 28px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;background:var(--bg-cream);color:var(--text-dark);transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.bl-stage.light .bl-pill{background:var(--text-dark);color:var(--bg-cream)}
+.bl-pill::after{content:'\2192';transition:transform .3s var(--ease)}
+.bl-pill:hover{transform:translateY(-2px);box-shadow:0 14px 30px -14px rgba(0,0,0,.45)}
+.bl-pill:hover::after{transform:translateX(4px)}
+.bl-pill.hot,.bl-stage.light .bl-pill.hot{background:var(--orange);color:#fff}
+.bl-pill.ghost,.bl-stage.light .bl-pill.ghost{background:transparent;color:inherit;box-shadow:inset 0 0 0 1px currentColor}
 
-.bl-visual{position:relative;height:100%;display:flex;align-items:center;justify-content:center}
-.bl-frame{position:absolute;inset:6% 4% 8% 14%;border:1px solid currentColor;opacity:.14;pointer-events:none}
-.bl-tag{position:absolute;top:calc(6% + 14px);right:calc(4% + 16px);font-size:10px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;opacity:.6}
-.bl-donut{position:relative;width:min(34vw,62vh,470px);aspect-ratio:508/485;will-change:transform}
+/* visual */
+.bl-visual{position:relative;height:100%;display:flex;align-items:center;justify-content:center;padding-right:120px}
+.bl-numeral{position:absolute;right:-2%;top:50%;transform:translateY(-54%);font-family:var(--serif);font-size:clamp(220px,30vw,480px);line-height:1;letter-spacing:-.06em;color:transparent;-webkit-text-stroke:1px currentColor;opacity:.13;pointer-events:none;user-select:none}
+.bl-numeral span{position:absolute;right:0;top:0;opacity:0;transform:translateY(12%);transition:opacity .6s var(--ease),transform .9s var(--ease)}
+.bl-numeral span.on{opacity:1;transform:none}
+.bl-numeral::before{content:'00';visibility:hidden}
+.bl-donut{position:relative;width:min(32vw,54vh,600px);aspect-ratio:2004/1877;will-change:transform,opacity}
+.bl-ground{position:absolute;left:6%;right:6%;bottom:-6%;height:13%;border-radius:50%;background:radial-gradient(closest-side,rgba(20,10,2,.42),rgba(20,10,2,.16) 55%,rgba(20,10,2,0));will-change:transform,opacity}
 .bl-layer{position:absolute;will-change:transform}
-.bl-layer img{display:block;width:100%;height:auto;filter:drop-shadow(0 18px 22px rgba(60,30,10,.16))}
-.bl-l-top{left:.2%;top:0;width:100%;z-index:4}
-.bl-l-berries{left:0;top:18.76%;width:99.8%;z-index:3}
-.bl-l-cream{left:1%;top:35.67%;width:97.44%;z-index:2}
-.bl-l-bottom{left:1.2%;top:54.85%;width:96.65%;z-index:1}
-.bl-shadow{position:absolute;left:8%;right:8%;bottom:-7%;height:12%;border-radius:50%;background:radial-gradient(closest-side,rgba(40,20,5,.32),rgba(40,20,5,0));will-change:transform,opacity}
-.bl-call{position:absolute;top:50%;display:flex;align-items:center;gap:10px;white-space:nowrap;font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;opacity:0;pointer-events:none}
-.bl-call i{display:block;height:1px;width:clamp(28px,5vw,72px);background:currentColor;opacity:.5}
-.bl-call b{display:block;width:6px;height:6px;border-radius:50%;background:var(--orange-on-dark);flex:none}
-.bl-call.r{left:100%;margin-left:-4%}
-.bl-call.l{right:100%;margin-right:-4%;flex-direction:row-reverse}
-.bl-call small{display:block;font-weight:500;letter-spacing:.04em;text-transform:none;font-size:12px;opacity:.7;margin-top:2px}
-
-.bl-real{position:absolute;right:4%;bottom:9%;display:flex;align-items:center;gap:14px;padding:10px 20px 10px 10px;border-radius:100px;background:rgba(255,255,255,.72);backdrop-filter:blur(10px);box-shadow:0 18px 40px -18px rgba(40,20,5,.35);color:var(--text-dark);opacity:0;transform:translateY(16px);transition:opacity .5s var(--ease),transform .6s var(--ease);pointer-events:none}
+.bl-layer img{position:relative;z-index:1;display:block;width:100%;height:auto}
+.bl-l-top{left:0;top:0;width:100%;z-index:4}
+.bl-l-berries{left:1.65%;top:18.59%;width:96.71%;z-index:3}
+.bl-l-cream{left:1.10%;top:34.10%;width:97.80%;z-index:2}
+.bl-l-bottom{left:3.04%;top:44.70%;width:93.91%;z-index:1}
+/* contact shadow / ambient occlusion each layer drops on the one below it */
+.bl-ao{position:absolute;z-index:0;left:5%;right:5%;bottom:-16%;height:40%;border-radius:50%;background:radial-gradient(closest-side,rgba(40,16,2,.55),rgba(40,16,2,.18) 60%,rgba(40,16,2,0));filter:blur(6px);will-change:transform,opacity}
+/* callouts */
+.bl-call{position:absolute;top:46%;z-index:2;display:flex;align-items:center;gap:12px;white-space:nowrap;opacity:0;pointer-events:none}
+.bl-call .num{font-family:var(--serif);font-size:22px;line-height:1;color:var(--orange-on-dark)}
+.bl-stage.light .bl-call .num{color:var(--orange)}
+.bl-call .lead{display:block;width:clamp(36px,4.4vw,88px);height:1px;background:currentColor;opacity:.55;transform-origin:var(--o,left);transform:scaleX(var(--d,0))}
+.bl-call .dot{width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 0 4px rgba(255,255,255,.12);flex:none}
+.bl-call .t{font-size:10.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+.bl-call .t small{display:block;margin-top:5px;font-size:12.5px;line-height:1.35;font-weight:500;letter-spacing:.02em;text-transform:none;opacity:.66;white-space:normal;width:150px}
+.bl-call.l .t small{margin-left:auto}
+.bl-call.r{left:94%;--o:left}
+.bl-call.l{right:94%;flex-direction:row-reverse;text-align:right;--o:right}
+/* floating parts */
+.bl-parts{position:absolute;inset:0;pointer-events:none;z-index:2}
+.bl-part{position:absolute;width:var(--w,64px);will-change:transform,opacity;opacity:0}
+.bl-part img{display:block;width:100%;height:auto;filter:drop-shadow(0 10px 14px rgba(20,8,0,.25))}
+.bl-part.far img{filter:blur(1.6px) drop-shadow(0 8px 10px rgba(20,8,0,.18))}
+.bl-dust{position:absolute;inset:0;pointer-events:none;opacity:0;z-index:2}
+.bl-dust b{position:absolute;width:var(--s,3px);height:var(--s,3px);border-radius:50%;background:#fffaf0;box-shadow:0 0 6px rgba(255,250,240,.6);animation:blDust var(--t,9s) linear infinite;animation-delay:var(--dl,0s)}
+@keyframes blDust{0%{transform:translate3d(0,0,0);opacity:0}15%{opacity:.9}85%{opacity:.7}100%{transform:translate3d(var(--dx,20px),-120px,0);opacity:0}}
+/* real product chip */
+.bl-real{position:absolute;right:2%;bottom:4%;z-index:4;display:flex;align-items:center;gap:14px;padding:9px 22px 9px 9px;border-radius:100px;background:rgba(255,253,248,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 22px 44px -22px rgba(40,20,5,.45),inset 0 0 0 1px rgba(26,36,56,.06);color:var(--text-dark);white-space:nowrap;opacity:0;transform:translateY(18px);transition:opacity .5s var(--ease),transform .7s var(--ease);pointer-events:none}
 .bl-real.on{opacity:1;transform:none;pointer-events:auto}
-.bl-real img{width:58px;height:58px;object-fit:contain;border-radius:50%;background:#F3D9CF}
-.bl-real span{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--orange)}
-.bl-real strong{display:block;font-family:var(--serif);font-weight:400;font-size:18px;line-height:1.1}
+.bl-real img{width:62px;height:62px;object-fit:contain;border-radius:50%;background:radial-gradient(#f6e3d9,#ecd0c2)}
+.bl-real span{display:block;font-size:9.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--orange)}
+.bl-real strong{display:block;font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.15;margin-top:3px}
+/* flavours */
+.bl-flavors{position:absolute;left:0;right:-72px;top:50%;transform:translateY(-50%);pointer-events:none;opacity:0;z-index:3;overflow:hidden;padding:30px 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 9%,#000 88%,transparent)}
+.bl-flavors.on{pointer-events:auto}
+.bl-strip{display:flex;gap:clamp(18px,2.4vw,40px);will-change:transform}
+.bl-fl{flex:none;width:clamp(170px,17vw,330px);text-align:center;color:var(--text-light);will-change:transform}
+.bl-fl .ph{position:relative;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center}
+.bl-fl .ph::before{content:'';position:absolute;inset:10%;border-radius:50%;background:radial-gradient(closest-side,rgba(225,102,26,.22),rgba(225,102,26,0))}
+.bl-fl img{position:relative;max-width:92%;max-height:78%;object-fit:contain;filter:drop-shadow(0 22px 22px rgba(0,0,0,.45))}
+.bl-fl .nm{display:block;font-family:var(--serif);font-size:clamp(18px,1.5vw,24px);line-height:1.15;margin-top:6px}
+.bl-fl .tg{display:block;font-size:9.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--orange-on-dark);margin-top:6px}
+/* rail + progress */
+.bl-rail{position:absolute;right:22px;top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;gap:16px;list-style:none;margin:0;padding:0}
+.bl-rail button{display:flex;align-items:center;justify-content:flex-end;gap:12px;background:none;border:0;padding:2px 0;color:inherit;font:700 10px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;cursor:pointer}
+.bl-rail button .lb{opacity:0;transform:translateX(6px);transition:opacity .3s,transform .4s var(--ease)}
+.bl-rail:not(:hover) button.on .lb{opacity:0!important}
+.bl-rail button .nb{font-family:var(--serif);font-size:13px;letter-spacing:0;opacity:.4;transition:opacity .3s}
+.bl-rail button i{display:block;width:14px;height:1px;background:currentColor;opacity:.35;transition:width .4s var(--ease),opacity .3s}
+.bl-rail button.on .lb{opacity:.9;transform:none}
+.bl-rail button.on .nb{opacity:1}
+.bl-rail button.on i{width:32px;opacity:1}
+.bl-rail button:hover .lb{opacity:.7;transform:none}
+.bl-rail button:focus-visible{outline:1px solid currentColor;outline-offset:4px}
+.bl-progress{position:absolute;left:72px;right:72px;bottom:30px;height:1px;z-index:5}
+.bl-progress::before{content:'';position:absolute;inset:0;background:currentColor;opacity:.16}
+.bl-progress i{position:absolute;left:0;top:0;bottom:0;width:100%;background:var(--orange-on-dark);transform-origin:left;transform:scaleX(0)}
+.bl-progress b{position:absolute;top:-3px;width:1px;height:7px;background:currentColor;opacity:.35}
 
-.bl-dots{position:absolute;right:22px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;z-index:4}
-.bl-dots b{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.25;transition:opacity .3s,transform .3s var(--ease)}
-.bl-dots b.on{opacity:1;transform:scale(1.5)}
-.bl-progress{position:absolute;left:32px;right:32px;bottom:22px;height:1px;background:currentColor;opacity:.12}
-.bl-progress i{position:absolute;left:0;top:0;bottom:0;width:100%;background:var(--orange);transform-origin:left;transform:scaleX(0)}
-
+@media(min-width:1700px){ .bl-inner{padding:110px 96px 72px} .bl-progress{left:96px;right:96px} }
+@media(max-width:1100px) and (min-width:861px){ .bl-inner{padding:92px 48px 56px} .bl-call .t small{display:none} }
 @media(max-width:860px){
-  .bl-inner{grid-template-columns:1fr;grid-template-rows:auto 1fr;padding:94px 20px 28px;gap:0;align-items:stretch}
-  .bl-copy{height:250px}
-  .bl-eyebrow{margin-bottom:10px}
-  .bl-slide{top:24px}
-  .bl-slide h2{font-size:clamp(2.5rem,12vw,3.6rem);margin-bottom:12px}
-  .bl-slide p{font-size:14.5px;margin-bottom:14px;max-width:34ch}
-  .bl-pill{padding:11px 18px 11px 20px;font-size:10px}
-  .bl-donut{width:min(54vw,40vh,330px)}
-  .bl-frame{inset:4% 2% 6% 2%}
-  .bl-tag{top:calc(4% + 10px);right:calc(2% + 12px)}
-  .bl-call{font-size:9px;letter-spacing:.12em}
-  .bl-call small{display:none}
-  .bl-call i{width:16px}
-  .bl-call{white-space:normal;width:24vw;line-height:1.25}
-  .bl-call.r{margin-left:-2%}
-  .bl-call.l{margin-right:-2%;text-align:right}
-  .bl-call i{width:10px}
-  .bl-real{right:50%;transform:translate(50%,16px);bottom:1.5%;padding:8px 18px 8px 8px;white-space:nowrap}
+  .bl-inner{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);padding:92px 22px 40px;gap:0;align-items:stretch}
+  .bl-copy{height:236px}
+  .bl-slide{top:0;transform:none}
+  .bl-kicker{margin-bottom:14px;font-size:10px}
+  .bl-slide h2{font-size:clamp(2.7rem,12.4vw,3.6rem);margin-bottom:14px}
+  .bl-slide p{font-size:14.5px;margin-bottom:16px;max-width:34ch}
+  .bl-pill{padding:12px 18px 12px 20px;font-size:10px}
+  .bl-donut{width:min(74vw,36vh,340px)}
+  .bl-numeral{font-size:62vw;right:-4%;opacity:.09}
+  .bl-call{gap:7px;top:40%}
+  .bl-call .t small,.bl-call .lead{display:none}
+  .bl-call .num{font-size:17px}
+  .bl-call .t{font-size:9px;letter-spacing:.14em}
+  .bl-call.r{left:auto;right:1%}
+  .bl-call.l{right:auto;left:1%}
+  .bl-call{padding:6px 10px;border-radius:12px;background:rgba(5,8,16,.5);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff}
+  .bl-stage.light .bl-call{background:rgba(255,253,248,.7);color:var(--text-dark)}
+  .bl-call .dot{display:none}
+  .bl-part{width:calc(var(--w) * .72)}
+  .bl-part.far,.bl-part.nm{display:none}
+  .bl-rail{display:none}
+  .bl-call.r,.bl-call.l{flex-direction:column;align-items:center;gap:4px;text-align:center}
+  .bl-real{right:50%;bottom:2%;transform:translate(50%,18px);padding:7px 18px 7px 7px}
   .bl-real.on{transform:translate(50%,0)}
-  .bl-real img{width:44px;height:44px}
-  .bl-real strong{font-size:15px}
-  .bl-dots{right:10px}
-  .bl-progress{left:20px;right:20px;bottom:12px}
+  .bl-real img{width:46px;height:46px}
+  .bl-real strong{font-size:16px}
+  .bl-flavors{left:-22px;right:-22px;-webkit-mask-image:none;mask-image:none}
+  .bl-visual{padding-right:0}
+  .bl-fl{width:44vw}
+  .bl-rail{right:8px;gap:12px}
+  .bl-rail button .lb{display:none}
+  .bl-rail button i{width:8px}
+  .bl-rail button.on i{width:16px}
+  .bl-rail button .nb{font-size:11px}
+  .bl-progress{left:22px;right:22px;bottom:18px}
 }
-@media(max-width:860px) and (max-height:700px){ .bl-copy{height:200px} .bl-slide p{display:none} }
+@media(max-width:860px) and (max-height:720px){ .bl-copy{height:200px} .bl-slide p{display:none} }
 @media(prefers-reduced-motion:reduce){
   .bl{height:auto}
-  .bl-stage{position:relative;height:auto;min-height:100svh}
-  .bl-slide{position:relative;top:0;display:none}
-  .bl-slide:last-child{display:block}
-  .bl-slide h2 .ln span,.bl-slide p,.bl-slide .bl-ctas{transform:none;opacity:1}
+  .bl-stage{position:relative;height:auto;min-height:100svh;color:var(--text-dark)}
+  .bl-bg{background:var(--bg-cream-warm)}
+  .bl-wipe,.bl-grain,.bl-parts,.bl-dust,.bl-numeral,.bl-rail,.bl-progress,.bl-flavors{display:none}
+  .bl-slide{position:relative;top:0;transform:none;display:none}
+  .bl-slide[data-i="3"]{display:block}
+  .bl-slide h2 .ln>span,.bl-kicker,.bl-slide p,.bl-ctas,.bl-kicker i{transform:none!important;opacity:1!important}
+  .bl-slide p{opacity:.78!important}
   .bl-copy{height:auto}
+  .bl-stage .bl-pill{background:var(--text-dark);color:var(--bg-cream)}
+  .bl-stage .bl-pill.hot{background:var(--orange);color:#fff}
+  .bl-stage .bl-kicker,.bl-stage .bl-slide h2 .serif-italic{color:var(--orange)}
   .bl-real{opacity:1;transform:none;pointer-events:auto}
+  .bl-inner{min-height:100svh}
 }
 </style>
 <!--AUTO-SEO:START-->
@@ -725,44 +797,56 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
 </section>
 
 <!-- BUILT IN LAYERS: one hole-less donut, pinned and rebuilt by the scroll -->
-<section class="bl" id="built-in-layers" aria-label="Built in layers: inside the PB &amp; Jelly Donut">
+<section class="bl" id="built-in-layers" aria-label="Built in layers: inside an Ugly donut">
   <div class="bl-stage" id="blStage">
+    <div class="bl-bg" id="blBg"></div><div class="bl-wipe" id="blWipe"></div><div class="bl-grain" aria-hidden="true"></div>
     <div class="bl-inner">
       <div class="bl-copy">
-        <div class="bl-eyebrow">Handmade daily &middot; No hole, all filling</div>
-        <div class="bl-slide on">
-          <h2><span class="ln"><span>Built in</span></span><span class="ln"><span>layers.</span></span></h2>
-          <p>Our donuts have no hole. One soft brioche round, split by hand and built to order.</p>
+        <div class="bl-slide on" data-i="0">
+          <div class="bl-kicker"><span>01</span><i></i><em>Handmade daily</em></div>
+          <h2><span class="ln"><span>Built in</span></span><span class="ln"><span><span class="serif-italic">layers.</span></span></span></h2>
+          <p>No hole, all filling. Every Ugly donut starts as one soft brioche round, split by hand and built to order.</p>
           <div class="bl-ctas"><a class="bl-pill" href="/menu">See the donuts</a></div>
         </div>
-        <div class="bl-slide">
-          <h2><span class="ln"><span>Pulled</span></span><span class="ln"><span>apart.</span></span></h2>
-          <p>Four layers, nothing hollow. This is what goes into a PB &amp; Jelly Donut.</p>
+        <div class="bl-slide" data-i="1">
+          <div class="bl-kicker"><span>02</span><i></i><em>Inside the PB &amp; Jelly</em></div>
+          <h2><span class="ln"><span>Pulled</span></span><span class="ln"><span><span class="serif-italic">apart.</span></span></span></h2>
+          <p>Four layers, nothing hollow. Here is everything that goes into one donut.</p>
         </div>
-        <div class="bl-slide">
-          <h2><span class="ln"><span>Filled to</span></span><span class="ln"><span>the edge.</span></span></h2>
-          <p>Whipped peanut cream, then strawberries sliced fresh in the store. Edge to edge, every time.</p>
+        <div class="bl-slide" data-i="2">
+          <div class="bl-kicker"><span>03</span><i></i><em>Filled, not injected</em></div>
+          <h2><span class="ln"><span>Filled to</span></span><span class="ln"><span><span class="serif-italic">the edge.</span></span></span></h2>
+          <p>Whipped peanut cream first, then strawberries sliced fresh in the store. Edge to edge, every time.</p>
         </div>
-        <div class="bl-slide">
-          <h2><span class="ln"><span>Stacked</span></span><span class="ln"><span>to finish.</span></span></h2>
-          <p>A dusted crown on top, finished after you order. Ugly on purpose, warm when it reaches you.</p>
-          <div class="bl-ctas"><a class="bl-pill hot" href="https://uglydonutsandcorndogsknickerbocker.toast.site/order?showAllLocations=true">Order online</a><a class="bl-pill alt" href="/menu">Full menu</a></div>
+        <div class="bl-slide" data-i="3">
+          <div class="bl-kicker"><span>04</span><i></i><em>Finished after you order</em></div>
+          <h2><span class="ln"><span>Stacked</span></span><span class="ln"><span><span class="serif-italic">to finish.</span></span></span></h2>
+          <p>A dusted crown on top, and it is yours. Ugly on purpose, warm when it reaches you.</p>
+          <div class="bl-ctas"><a class="bl-pill hot" href="https://uglydonutsandcorndogsknickerbocker.toast.site/order?showAllLocations=true">Order online</a><a class="bl-pill ghost" href="/menu">Full menu</a></div>
+        </div>
+        <div class="bl-slide" data-i="4">
+          <div class="bl-kicker"><span>05</span><i></i><em>Same shape, every flavor</em></div>
+          <h2><span class="ln"><span>One shape.</span></span><span class="ln"><span><span class="serif-italic">Every filling.</span></span></span></h2>
+          <p>Milk cream, Nutella, Dubai chocolate and more. Always hole-less, always full.</p>
+          <div class="bl-ctas"><a class="bl-pill" href="/menu">Explore the menu</a></div>
         </div>
       </div>
-      <div class="bl-visual">
-        <div class="bl-frame" aria-hidden="true"></div>
-        <div class="bl-tag" aria-hidden="true">No. 01 &mdash; PB &amp; Jelly</div>
-        <div class="bl-donut" id="blDonut" role="img" aria-label="A PB and Jelly Donut: a hole-less brioche donut filled with peanut cream and sliced strawberries, dusted with powdered sugar">
-          <div class="bl-shadow" id="blShadow"></div>
-          <div class="bl-layer bl-l-bottom"><img src="/images/layers/pbj-bottom.webp" width="491" height="219" alt="" decoding="async"><div class="bl-call l"><b></b><i></i><div>Brioche dough<small>Fried in 100% avocado oil</small></div></div></div>
-          <div class="bl-layer bl-l-cream"><img src="/images/layers/pbj-cream.webp" width="495" height="229" alt="" decoding="async"><div class="bl-call r"><b></b><i></i><div>Peanut cream<small>Whipped in-store</small></div></div></div>
-          <div class="bl-layer bl-l-berries"><img src="/images/layers/pbj-berries.webp" width="507" height="216" alt="" decoding="async"><div class="bl-call l"><b></b><i></i><div>Strawberries<small>Sliced fresh, every day</small></div></div></div>
-          <div class="bl-layer bl-l-top"><img src="/images/layers/pbj-top.webp" width="508" height="212" alt="" decoding="async"><div class="bl-call r"><b></b><i></i><div>Dusted crown<small>Powdered sugar, no hole</small></div></div></div>
+      <div class="bl-visual" id="blVisual">
+        <div class="bl-numeral" aria-hidden="true"><span class="on">01</span><span>02</span><span>03</span><span>04</span><span>05</span></div>
+        <div class="bl-dust" id="blDust" aria-hidden="true"><b style="left:46%;top:39%;--s:3px;--t:12s;--dl:-0s;--dx:-31px"></b><b style="left:73%;top:32%;--s:3px;--t:11s;--dl:-0s;--dx:24px"></b><b style="left:32%;top:24%;--s:2px;--t:10s;--dl:-6s;--dx:-32px"></b><b style="left:35%;top:31%;--s:4px;--t:10s;--dl:-0s;--dx:32px"></b><b style="left:20%;top:48%;--s:4px;--t:7s;--dl:-9s;--dx:34px"></b><b style="left:55%;top:26%;--s:2px;--t:7s;--dl:-8s;--dx:-23px"></b><b style="left:42%;top:73%;--s:2px;--t:11s;--dl:-1s;--dx:33px"></b><b style="left:44%;top:91%;--s:2px;--t:7s;--dl:-9s;--dx:33px"></b><b style="left:86%;top:44%;--s:3px;--t:7s;--dl:-8s;--dx:-32px"></b><b style="left:77%;top:27%;--s:4px;--t:8s;--dl:-7s;--dx:28px"></b><b style="left:59%;top:60%;--s:3px;--t:11s;--dl:-7s;--dx:6px"></b><b style="left:43%;top:51%;--s:2px;--t:12s;--dl:-12s;--dx:-9px"></b><b style="left:15%;top:93%;--s:3px;--t:11s;--dl:-7s;--dx:3px"></b><b style="left:62%;top:56%;--s:4px;--t:7s;--dl:-1s;--dx:25px"></b><b style="left:58%;top:41%;--s:3px;--t:8s;--dl:-7s;--dx:13px"></b><b style="left:10%;top:29%;--s:4px;--t:11s;--dl:-12s;--dx:0px"></b><b style="left:48%;top:64%;--s:4px;--t:10s;--dl:-9s;--dx:18px"></b><b style="left:13%;top:31%;--s:3px;--t:10s;--dl:-11s;--dx:-32px"></b><b style="left:12%;top:59%;--s:4px;--t:12s;--dl:-7s;--dx:-4px"></b><b style="left:54%;top:64%;--s:2px;--t:10s;--dl:-5s;--dx:-19px"></b><b style="left:83%;top:34%;--s:3px;--t:7s;--dl:-3s;--dx:-4px"></b><b style="left:21%;top:51%;--s:3px;--t:10s;--dl:-7s;--dx:-30px"></b></div>
+        <div class="bl-donut" id="blDonut" role="img" aria-label="A PB and Jelly Donut: a hole-less brioche donut filled with whipped peanut cream and sliced strawberries, dusted with powdered sugar">
+          <div class="bl-ground" id="blGround"></div>
+          <div class="bl-layer bl-l-bottom"><img src="/images/layers/pbj-bottom-1200.webp" srcset="/images/layers/pbj-bottom-700.webp 700w, /images/layers/pbj-bottom-1200.webp 1200w, /images/layers/pbj-bottom-2000.webp 2000w" sizes="(max-width:860px) 74vw, 38vw" width="1882" height="1038" alt="" decoding="async"><div class="bl-call l"><span class="dot"></span><span class="lead"></span><span class="num">01</span><span class="t">Brioche<small>Hand-mixed dough, fried in 100% avocado oil</small></span></div></div>
+          <div class="bl-layer bl-l-cream"><i class="bl-ao"></i><img src="/images/layers/pbj-cream-1200.webp" srcset="/images/layers/pbj-cream-700.webp 700w, /images/layers/pbj-cream-1200.webp 1200w, /images/layers/pbj-cream-2000.webp 2000w" sizes="(max-width:860px) 74vw, 38vw" width="1960" height="909" alt="" decoding="async"><div class="bl-call r"><span class="dot"></span><span class="lead"></span><span class="num">02</span><span class="t">Peanut cream<small>Whipped in the store, every morning</small></span></div></div>
+          <div class="bl-layer bl-l-berries"><i class="bl-ao"></i><img src="/images/layers/pbj-berries-1200.webp" srcset="/images/layers/pbj-berries-700.webp 700w, /images/layers/pbj-berries-1200.webp 1200w, /images/layers/pbj-berries-2000.webp 2000w" sizes="(max-width:860px) 74vw, 38vw" width="1938" height="972" alt="" decoding="async"><div class="bl-call l"><span class="dot"></span><span class="lead"></span><span class="num">03</span><span class="t">Strawberries<small>Sliced fresh, finished with syrup</small></span></div></div>
+          <div class="bl-layer bl-l-top"><i class="bl-ao"></i><img src="/images/layers/pbj-top-1200.webp" srcset="/images/layers/pbj-top-700.webp 700w, /images/layers/pbj-top-1200.webp 1200w, /images/layers/pbj-top-2000.webp 2000w" sizes="(max-width:860px) 74vw, 38vw" width="2004" height="921" alt="" decoding="async"><div class="bl-call r"><span class="dot"></span><span class="lead"></span><span class="num">04</span><span class="t">The crown<small>Powdered sugar. Still no hole.</small></span></div></div>
         </div>
-        <a class="bl-real" id="blReal" href="/menu"><img src="/images/layers/pbj-real.webp" width="720" height="596" alt="The PB &amp; Jelly Donut as served in our stores" loading="lazy" decoding="async"><div><span>Fall seasonal</span><strong>PB &amp; Jelly Donut</strong></div></a>
+        <div class="bl-parts" id="blParts" aria-hidden="true"><div class="bl-part nm" data-x="6" data-y="8" data-z="1" style="--w:80px;left:6%;top:8%"><img src="/images/layers/sp-berry1.webp" alt="" width="220" height="220" loading="lazy" decoding="async"></div><div class="bl-part " data-x="93" data-y="4" data-z="0.6" style="--w:46px;left:93%;top:4%"><img src="/images/layers/sp-peanut1.webp" alt="" width="220" height="220" loading="lazy" decoding="async"></div><div class="bl-part " data-x="90" data-y="70" data-z="1.2" style="--w:74px;left:90%;top:70%"><img src="/images/layers/sp-berry2.webp" alt="" width="220" height="220" loading="lazy" decoding="async"></div><div class="bl-part " data-x="10" data-y="88" data-z="0.8" style="--w:36px;left:10%;top:88%"><img src="/images/layers/sp-drop.webp" alt="" width="220" height="220" loading="lazy" decoding="async"></div><div class="bl-part far" data-x="64" data-y="92" data-z="0.5" style="--w:40px;left:64%;top:92%"><img src="/images/layers/sp-peanut2.webp" alt="" width="220" height="220" loading="lazy" decoding="async"></div><div class="bl-part far" data-x="12" data-y="36" data-z="0.7" style="--w:36px;left:12%;top:36%"><img src="/images/layers/sp-crumb1.webp" alt="" width="220" height="220" loading="lazy" decoding="async"></div><div class="bl-part far" data-x="22" data-y="94" data-z="0.4" style="--w:44px;left:22%;top:94%"><img src="/images/layers/sp-berry1.webp" alt="" width="220" height="220" loading="lazy" decoding="async"></div></div>
+        <a class="bl-real" id="blReal" href="/menu"><img src="/images/layers/real-pbj.webp" width="640" height="531" alt="The PB &amp; Jelly Donut as served in our stores" loading="lazy" decoding="async"><span><span>In stores now &middot; Fall seasonal</span><strong>PB &amp; Jelly Donut</strong></span></a>
+        <div class="bl-flavors" id="blFlavors"><div class="bl-strip" id="blStrip"><a class="bl-fl" href="/menu"><span class="ph"><img src="/images/layers/real-milk-cream.webp" alt="Milk Cream Donut" loading="lazy" decoding="async"></span><span class="nm">Milk Cream</span><span class="tg">Homemade milk cream</span></a><a class="bl-fl" href="/menu"><span class="ph"><img src="/images/layers/real-nutella.webp" alt="Nutella Donut" loading="lazy" decoding="async"></span><span class="nm">Nutella</span><span class="tg">Hazelnut, edge to edge</span></a><a class="bl-fl" href="/menu"><span class="ph"><img src="/images/layers/real-dubai.webp" alt="Dubai Chocolate Donut" loading="lazy" decoding="async"></span><span class="nm">Dubai Chocolate</span><span class="tg">Pistachio &amp; kataifi</span></a><a class="bl-fl" href="/menu"><span class="ph"><img src="/images/layers/real-strawberry-cc.webp" alt="Strawberry Cream Cheese Donut" loading="lazy" decoding="async"></span><span class="nm">Strawberry Cream Cheese</span><span class="tg">Berry cream cheese</span></a><a class="bl-fl" href="/menu"><span class="ph"><img src="/images/layers/real-pbj.webp" alt="PB &amp; Jelly Donut" loading="lazy" decoding="async"></span><span class="nm">PB &amp; Jelly</span><span class="tg">Fall seasonal</span></a></div></div>
       </div>
     </div>
-    <div class="bl-dots" aria-hidden="true"><b class="on"></b><b></b><b></b><b></b></div>
+    <div class="bl-rail" id="blRail" aria-label="Section steps"><button type="button" class="on"><span class="lb">Built</span><span class="nb">01</span><i></i></button><button type="button"><span class="lb">Apart</span><span class="nb">02</span><i></i></button><button type="button"><span class="lb">Filled</span><span class="nb">03</span><i></i></button><button type="button"><span class="lb">Stacked</span><span class="nb">04</span><i></i></button><button type="button"><span class="lb">Flavors</span><span class="nb">05</span><i></i></button></div>
     <div class="bl-progress" aria-hidden="true"><i id="blBar"></i></div>
   </div>
 </section>
@@ -1890,105 +1974,183 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
 
 </script>
 <script>
-/* ---------- built in layers (2026-11-09) ----------
-   Scroll progress through the pinned section drives one donut through four
-   states. Progress is eased toward the scroll position each frame so a flick
-   still reads as motion, and only transforms/opacity are written. */
+/* ---------- built in layers (2026-11-09, v3) ----------
+   Five beats on one pinned stage. Scroll sets a target progress; the frame
+   loop eases toward it, so a flick still reads as motion. When scrolling
+   rests between beats it settles on the nearest one. */
 (function(){
   var sec = document.getElementById('built-in-layers');
   if (!sec || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var stage = document.getElementById('blStage'), donut = document.getElementById('blDonut');
-  var shadow = document.getElementById('blShadow'), real = document.getElementById('blReal'), bar = document.getElementById('blBar');
-  var slides = sec.querySelectorAll('.bl-slide'), dots = sec.querySelectorAll('.bl-dots b');
-  var L = {
-    top: sec.querySelector('.bl-l-top'), berries: sec.querySelector('.bl-l-berries'),
-    cream: sec.querySelector('.bl-l-cream'), bottom: sec.querySelector('.bl-l-bottom')
-  };
-  var names = ['top', 'berries', 'cream', 'bottom'];
-  var calls = {}; names.forEach(function(n){ calls[n] = L[n].querySelector('.bl-call'); });
-  /* Beat positions along the pinned scroll, 0..1. */
-  var K = [0.04, 0.33, 0.63, 0.93];
-  /* Per beat, per layer: [y in donut heights, rotation deg, x in donut widths, callout opacity] */
-  var S = [
-    { top:[0,0,0,0], berries:[0,0,0,0], cream:[0,0,0,0], bottom:[0,0,0,0] },
-    { top:[-0.44,-5,0.02,1], berries:[-0.15,4,-0.03,1], cream:[0.12,-2,0.025,1], bottom:[0.38,2,-0.01,1] },
-    { top:[-0.40,-7,0.03,0], berries:[0.06,0,0,1], cream:[0.06,0,0,1], bottom:[0.06,0,0,0] },
-    { top:[0,0,0,0], berries:[0,0,0,0], cream:[0,0,0,0], bottom:[0,0,0,0] }
+  var $ = function(id){ return document.getElementById(id); };
+  var stage = $('blStage'), donut = $('blDonut'), ground = $('blGround'), bg = $('blBg'), wipe = $('blWipe');
+  var real = $('blReal'), bar = $('blBar'), dust = $('blDust'), flavors = $('blFlavors'), strip = $('blStrip'), visual = $('blVisual');
+  var slides = sec.querySelectorAll('.bl-slide'), rail = sec.querySelectorAll('.bl-rail button'), nums = sec.querySelectorAll('.bl-numeral span');
+  var fls = strip.querySelectorAll('.bl-fl'), parts = sec.querySelectorAll('.bl-part');
+  var names = ['top', 'berries', 'cream', 'bottom'], L = {}, AO = {}, CALL = {};
+  names.forEach(function(n){ L[n] = sec.querySelector('.bl-l-' + n); AO[n] = L[n].querySelector('.bl-ao'); CALL[n] = L[n].querySelector('.bl-call'); });
+
+  /* beat positions on the pinned scroll; index 0 is the black pre-roll */
+  var P = [0, 0.07, 0.29, 0.51, 0.73, 0.95];
+  /* layer state: [y (donut heights), x (donut widths), rotate deg, scale, callout] */
+  var Z = [0,0,0,1,0];
+  var ST = [
+    { g:[0.9, 0.05, 1], top:Z, berries:Z, cream:Z, bottom:Z, parts:0, dust:0.4 },
+    { g:[1, 0, 1],      top:Z, berries:Z, cream:Z, bottom:Z, parts:0, dust:0 },
+    { g:[0.8, 0.06, 1], top:[-0.46,0.03,-6,1.04,1], berries:[-0.17,-0.04,5,1.01,1], cream:[0.08,0.03,-3,0.99,1], bottom:[0.32,-0.02,3,0.97,1], parts:1, dust:1 },
+    { g:[0.9, 0.1, 1], top:[-0.36,0.05,-9,1.03,0], berries:[0.1,0,0,1,1], cream:[0.1,0,0,1,1], bottom:[0.1,0,0,1,0], parts:0.75, dust:0.5 },
+    { g:[1, 0, 1],      top:Z, berries:Z, cream:Z, bottom:Z, parts:0, dust:0 },
+    { g:[0.62, -0.1, 0], top:Z, berries:Z, cream:Z, bottom:Z, parts:0, dust:0.5 }
   ];
-  /* Which layer moves first in each transition: pulling apart goes top-down,
-     building goes bottom-up, so the stack reads as assembled, not teleported. */
-  var ORDER = [
-    { top:0, berries:1, cream:2, bottom:3 },
-    { bottom:0, cream:1, berries:2, top:3 },
-    { top:0, berries:1, cream:1, bottom:1 }
-  ];
-  var BG = [[245,239,227],[16,22,31],[242,214,201],[239,231,213]];
-  var SCALE = [1, 0.84, 0.92, 1];
+  /* which layer leads each move: apart is top-down, building is bottom-up */
+  var ORDER = [null, {top:0,berries:1,cream:2,bottom:3}, {bottom:0,cream:1,berries:2,top:3}, {top:0,berries:0,cream:0,bottom:0}, null];
+  /* black (joins the hero), cream, navy, blush, warm cream, black (joins the reel) */
+  var BG = ['#050810', '#F5EFE3', '#121A26', '#F3D5C8', '#EFE7D5', '#050810'];
+  var LIGHT = [false, true, false, true, true, false];
+  var DEPTH = { top:1, berries:0.6, cream:0.25, bottom:-0.25 };
+  var PH = { top:0, berries:1.7, cream:3.1, bottom:4.4 };
+
   var clamp = function(v){ return v < 0 ? 0 : v > 1 ? 1 : v; };
   var io = function(t){ return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2; };
-  var back = function(t){ var c = 1.9, c3 = c + 1; return 1 + c3*Math.pow(t - 1, 3) + c*Math.pow(t - 1, 2); };
+  var expo = function(t){ return t >= 1 ? 1 : 1 - Math.pow(2, -10*t); };
+  var back = function(t){ var c = 1.6, c3 = c + 1; return 1 + c3*Math.pow(t - 1, 3) + c*Math.pow(t - 1, 2); };
   var lerp = function(a, b, t){ return a + (b - a) * t; };
 
-  var W = 0, H = 0, span = 1, top0 = 0;
+  var W, H, VW, top0, span, cx, cy, maxR, flipAt = [], stripMax = 0, mobile;
   function measure(){
+    mobile = window.innerWidth <= 860;
     W = donut.offsetWidth; H = donut.offsetHeight;
     top0 = sec.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
     span = Math.max(1, sec.offsetHeight - stage.offsetHeight);
+    var sr = stage.getBoundingClientRect(), dr = donut.getBoundingClientRect(), cr = sec.querySelector('.bl-copy').getBoundingClientRect();
+    /* the wipe grows from the donut; copy flips colour the moment the edge reaches it */
+    cx = dr.left + dr.width/2 - sr.left; cy = dr.top - sr.top + dr.height/2 - (donut.style.transform ? 0 : 0);
+    var far = function(x, y){ return Math.hypot(x - cx, y - cy); };
+    maxR = Math.max(far(0,0), far(sr.width,0), far(0,sr.height), far(sr.width,sr.height)) + 20;
+    var hx = cr.left - sr.left + Math.min(cr.width, 420) * 0.5, hy = cr.top - sr.top + cr.height * (mobile ? 0.35 : 0.5);
+    flipAt = far(hx, hy) / maxR;
+    VW = flavors.offsetWidth; stripMax = Math.max(0, strip.scrollWidth - VW * (mobile ? 0.96 : 0.9));
+    ST[4].g[1] = mobile ? -0.1 : 0;
   }
   function target(){ return clamp(((window.scrollY || window.pageYOffset) - top0) / span); }
+  function segOf(p){ var s = 0; while (s < P.length - 2 && p > P[s + 1]) s++; return s; }
+  /* each move uses the middle of its segment so every beat has a short hold */
+  function local(p, s){ var t = clamp((p - P[s]) / (P[s + 1] - P[s])); return clamp((t - 0.12) / 0.76); }
 
-  var shown = -1, dark = null, p = target(), running = false, last = 0, visible = false;
+  var p = target(), shown = -1, seg = -1, light = null, running = false, last = 0, visible = false;
+  var mx = 0, my = 0, tmx = 0, tmy = 0;
   function render(now){
-    /* where we are between beats */
-    var seg = 0;
-    while (seg < K.length - 2 && p > K[seg + 1]) seg++;
-    var t = clamp((p - K[seg]) / (K[seg + 1] - K[seg]));
-    var a = S[seg], b = S[seg + 1], ord = ORDER[seg];
-    for (var i = 0; i < names.length; i++){
-      var n = names[i], d = ord[n] * 0.12, lt = clamp((t - d) / (1 - 0.36));
-      var e = (seg === 2 && n === 'top') ? back(lt) : io(lt);
-      var y = lerp(a[n][0], b[n][0], e), r = lerp(a[n][1], b[n][1], e), x = lerp(a[n][2], b[n][2], e);
-      L[n].style.transform = 'translate3d(' + (x * W).toFixed(1) + 'px,' + (y * H).toFixed(1) + 'px,0) rotate(' + r.toFixed(2) + 'deg)';
-      calls[n].style.opacity = lerp(a[n][3], b[n][3], clamp(lt * 1.6 - 0.3)).toFixed(3);
+    var s = segOf(p), t = local(p, s), et = io(t), A = ST[s], B = ST[s + 1], ord = ORDER[s];
+    /* layers */
+    var sepSum = 0;
+    for (var i = 0; i < 4; i++){
+      var n = names[i], a = A[n], b = B[n];
+      var d = ord ? ord[n] * 0.1 : 0, lt = clamp((t - d) / 0.7);
+      var e = (s === 3 && n === 'top') ? back(lt) : io(lt);
+      var y = lerp(a[0], b[0], e), x = lerp(a[1], b[1], e), r = lerp(a[2], b[2], e), sc = lerp(a[3], b[3], e);
+      var sep = Math.min(1, Math.abs(y) * 2.2); sepSum += sep;
+      var fl = Math.sin(now / 1300 + PH[n]) * sep * 0.014 * H;
+      var px = mx * DEPTH[n] * (6 + sep * 14), py = my * DEPTH[n] * (4 + sep * 8);
+      L[n].style.transform = 'translate3d(' + (x * W + px).toFixed(1) + 'px,' + (y * H + fl + py).toFixed(1) + 'px,0) rotate(' + (r + mx * DEPTH[n] * sep * 2).toFixed(2) + 'deg) scale(' + sc.toFixed(4) + ')';
+      if (AO[n]){
+        /* closer to the layer below = darker, tighter contact shadow */
+        var below = names[i + 1], yb = lerp(A[below][0], B[below][0], e);
+        var gap = Math.max(0, yb - y);
+        AO[n].style.opacity = clamp(1 - gap * 3.2).toFixed(3);
+        AO[n].style.transform = 'translate3d(0,' + (gap * H * 0.5).toFixed(1) + 'px,0) scale(' + (1 + gap * 0.9).toFixed(3) + ')';
+      }
+      var cv = lerp(a[4], b[4], clamp(lt * 1.5 - 0.35));
+      CALL[n].style.opacity = cv.toFixed(3);
+      CALL[n].style.transform = 'rotate(' + (-(r + mx * DEPTH[n] * sep * 2)).toFixed(2) + 'deg)';
+      CALL[n].style.setProperty('--d', clamp(cv * 1.2 - 0.1).toFixed(3));
     }
-    var et = io(t), sc = lerp(SCALE[seg], SCALE[seg + 1], et);
-    var bob = Math.sin(now / 900) * 0.008 * H;
-    donut.style.transform = 'translate3d(0,' + bob.toFixed(1) + 'px,0) scale(' + sc.toFixed(4) + ')';
-    var spread = Math.abs(lerp(S[seg].bottom[0], S[seg + 1].bottom[0], et));
-    shadow.style.transform = 'translate3d(0,' + (spread * H).toFixed(1) + 'px,0) scale(' + (1 + spread * 0.6).toFixed(3) + ',1)';
-    shadow.style.opacity = (1 - spread * 1.4).toFixed(3);
-    var c = BG[seg].map(function(v, k){ return Math.round(lerp(v, BG[seg + 1][k], et)); });
-    stage.style.backgroundColor = 'rgb(' + c.join(',') + ')';
-    var isDark = (0.299*c[0] + 0.587*c[1] + 0.114*c[2]) < 128;
-    if (isDark !== dark){ dark = isDark; stage.classList.toggle('dark', isDark); }
-    var idx = p < 0.19 ? 0 : p < 0.49 ? 1 : p < 0.79 ? 2 : 3;
+    /* whole donut: scale, lift, fade out into the flavour strip */
+    var g0 = lerp(A.g[0], B.g[0], et), g1 = lerp(A.g[1], B.g[1], et), g2 = lerp(A.g[2], B.g[2], s === 4 ? clamp(et * 1.6) : et);
+    var bob = Math.sin(now / 1700) * 0.006 * H;
+    donut.style.transform = 'translate3d(0,' + (g1 * H + bob).toFixed(1) + 'px,0) scale(' + g0.toFixed(4) + ')';
+    donut.style.opacity = g2.toFixed(3);
+    var spread = sepSum / 4;
+    ground.style.transform = 'translate3d(0,' + (spread * H * 0.32).toFixed(1) + 'px,0) scale(' + (1 + spread * 0.55).toFixed(3) + ',' + (1 + spread * 0.25).toFixed(3) + ')';
+    ground.style.opacity = (1 - spread * 0.55).toFixed(3);
+    /* floating parts drift on their own depth */
+    var pv = lerp(A.parts, B.parts, et);
+    for (var k = 0; k < parts.length; k++){
+      var el = parts[k], z = +el.getAttribute('data-z'), ph = k * 1.3;
+      var dy = (0.5 - p) * z * 160 + Math.sin(now / (1500 + k * 170) + ph) * 10 * z;
+      var dx = Math.cos(now / (1900 + k * 130) + ph) * 8 * z + mx * z * 18;
+      var sx = (1 - pv) * (k % 2 ? 40 : -40);
+      el.style.transform = 'translate3d(' + (dx + sx).toFixed(1) + 'px,' + (dy + (1 - pv) * 40).toFixed(1) + 'px,0) rotate(' + ((p * 220 + k * 47) * (k % 2 ? 1 : -1) * 0.4).toFixed(1) + 'deg) scale(' + (0.6 + pv * 0.4).toFixed(3) + ')';
+      el.style.opacity = pv.toFixed(3);
+    }
+    dust.style.opacity = lerp(A.dust, B.dust, et).toFixed(3);
+    /* flavours */
+    var f = clamp((p - 0.79) / 0.21), fo = clamp((p - 0.8) / 0.08);
+    flavors.style.opacity = fo.toFixed(3);
+    flavors.classList.toggle('on', fo > 0.5);
+    strip.style.transform = 'translate3d(' + (lerp(VW * (mobile ? 0.3 : 0.12), -stripMax, io(f))).toFixed(1) + 'px,0,0)';
+    for (var q = 0; q < fls.length; q++){
+      var ft = clamp(fo * 2.2 - q * 0.22);
+      fls[q].style.transform = 'translate3d(0,' + ((1 - expo(ft)) * 90 + Math.sin(now / 1400 + q) * 5).toFixed(1) + 'px,0)';
+      fls[q].style.opacity = ft.toFixed(3);
+    }
+    /* colour: base is this segment's start, the wipe brings in the next */
+    if (s !== seg){ seg = s; bg.style.background = BG[s]; wipe.style.background = BG[s + 1]; }
+    var wt = expo(clamp(t * 1.15));
+    wipe.style.clipPath = 'circle(' + (wt * maxR).toFixed(1) + 'px at ' + cx.toFixed(1) + 'px ' + cy.toFixed(1) + 'px)';
+    var isLight = wt >= flipAt ? LIGHT[s + 1] : LIGHT[s];
+    if (isLight !== light){ light = isLight; stage.classList.toggle('light', isLight); }
+    /* copy, rail, numeral */
+    var idx = 0, best = 9;
+    for (var j = 1; j < P.length; j++){ var dd = Math.abs(p - P[j]); if (dd < best){ best = dd; idx = j - 1; } }
     if (idx !== shown){
-      if (shown >= 0){ slides[shown].classList.remove('on'); dots[shown].classList.remove('on'); }
-      slides[idx].classList.add('on'); dots[idx].classList.add('on'); shown = idx;
+      if (shown >= 0){ slides[shown].classList.remove('on'); rail[shown].classList.remove('on'); nums[shown].classList.remove('on'); }
+      slides[idx].classList.add('on'); rail[idx].classList.add('on'); nums[idx].classList.add('on'); shown = idx;
       real.classList.toggle('on', idx === 3);
     }
     bar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
   }
   function loop(now){
     var dt = last ? Math.min(64, now - last) : 16; last = now;
-    var goal = target(), k = 1 - Math.exp(-dt / 85);
-    p += (goal - p) * k;
-    if (Math.abs(goal - p) < 0.0004) p = goal;
+    var goal = target(), k = 1 - Math.exp(-dt / 75);
+    p += (goal - p) * k; if (Math.abs(goal - p) < 0.0003) p = goal;
+    mx += (tmx - mx) * (1 - Math.exp(-dt / 160)); my += (tmy - my) * (1 - Math.exp(-dt / 160));
     render(now);
     if (visible) requestAnimationFrame(loop); else { running = false; last = 0; }
   }
   function start(){ if (!running){ running = true; requestAnimationFrame(loop); } }
+  var warmed = false;
   new IntersectionObserver(function(es){
     visible = es[0].isIntersecting; if (visible) start();
-  }, { rootMargin: '200px 0px' }).observe(sec);
+    /* decode every image up front so no beat stalls on a first paint */
+    if (visible && !warmed){ warmed = true; sec.querySelectorAll('img').forEach(function(im){ im.loading = 'eager'; if (im.decode) im.decode().catch(function(){}); }); }
+  }, { rootMargin: '600px 0px' }).observe(sec);
+
+  /* settle on the nearest beat once scrolling rests inside the pinned span */
+  var snapT = 0, touching = false, snapping = 0;
+  function settle(){
+    if (touching || window.__blNoSnap || Date.now() < snapping) return;
+    var g = target(); if (g <= P[1] * 0.5 || g >= 0.985) return;
+    var j = 1, best = 9;
+    for (var i = 1; i < P.length; i++){ var dd = Math.abs(g - P[i]); if (dd < best){ best = dd; j = i; } }
+    var y = Math.round(top0 + P[j] * span), cur = window.scrollY || window.pageYOffset;
+    if (Math.abs(y - cur) > 6){ snapping = Date.now() + 700; window.scrollTo({ top: y, behavior: 'smooth' }); }
+  }
+  window.addEventListener('scroll', function(){ clearTimeout(snapT); snapT = setTimeout(settle, 170); }, { passive: true });
+  window.addEventListener('touchstart', function(){ touching = true; }, { passive: true });
+  window.addEventListener('touchend', function(){ touching = false; clearTimeout(snapT); snapT = setTimeout(settle, 220); }, { passive: true });
+  for (var r = 0; r < rail.length; r++) (function(i){
+    rail[i].addEventListener('click', function(){ snapping = Date.now() + 900; window.scrollTo({ top: Math.round(top0 + P[i + 1] * span), behavior: 'smooth' }); });
+  })(r);
+  if (window.matchMedia('(pointer:fine)').matches){
+    stage.addEventListener('pointermove', function(e){ var r = stage.getBoundingClientRect(); tmx = (e.clientX - r.left) / r.width * 2 - 1; tmy = (e.clientY - r.top) / r.height * 2 - 1; }, { passive: true });
+    stage.addEventListener('pointerleave', function(){ tmx = tmy = 0; });
+  }
   var lw = window.innerWidth, lh = stage.offsetHeight;
   window.addEventListener('resize', function(){
-    /* toolbar show/hide fires resize on phones; only re-measure on real changes */
     if (window.innerWidth !== lw || Math.abs(stage.offsetHeight - lh) > 80){ lw = window.innerWidth; lh = stage.offsetHeight; measure(); }
   }, { passive: true });
   window.addEventListener('load', measure);
   measure(); p = target(); render(performance.now());
-  window.__bl = { progress: function(){ return p; }, target: target };
+  window.__bl = { progress: function(){ return p; }, beats: P, span: function(){ return span; }, top: function(){ return top0; } };
 })();
 </script>
 
