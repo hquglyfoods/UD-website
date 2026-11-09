@@ -601,10 +601,10 @@ nav.nav .nav-order-mobile{display:none !important}
 /* contact shadow / ambient occlusion each layer drops on the one below it */
 .bl-ao{position:absolute;z-index:0;left:5%;right:5%;bottom:-16%;height:40%;border-radius:50%;background:radial-gradient(closest-side,rgba(40,16,2,.55),rgba(40,16,2,.18) 60%,rgba(40,16,2,0));filter:blur(6px);will-change:transform,opacity}
 /* callouts */
-.bl-call{position:absolute;top:46%;z-index:2;display:flex;padding:8px 14px;border-radius:14px;background:rgba(5,8,16,.42);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);align-items:center;gap:12px;white-space:nowrap;opacity:0;pointer-events:none}
+.bl-call{position:absolute;top:46%;z-index:2;display:flex;padding:8px 14px;border-radius:14px;background:rgba(10,14,24,.8);box-shadow:0 10px 24px -14px rgba(0,0,0,.5);align-items:center;gap:12px;white-space:nowrap;opacity:0;pointer-events:none}
 .bl-call .num{font-family:var(--serif);font-size:22px;line-height:1;color:var(--orange-on-dark)}
 .bl-stage.light .bl-call .num{color:var(--orange)}
-.bl-stage.light .bl-call{background:rgba(255,253,248,.72)}
+.bl-stage.light .bl-call{background:rgba(255,253,248,.92)}
 .bl-call .lead{display:block;width:clamp(22px,2vw,40px);height:1px;background:currentColor;opacity:.55;transform-origin:var(--o,left);transform:scaleX(var(--d,0))}
 .bl-call .dot{width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 0 4px rgba(255,255,255,.12);flex:none}
 .bl-call .t{font-size:10.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
@@ -701,8 +701,8 @@ nav.nav .nav-order-mobile{display:none !important}
   .bl-call .num{font-size:17px}
   .bl-call .t{font-size:8.5px;letter-spacing:.08em}
   .bl-call{padding:5px 8px}
-  .bl-call{padding:5px 8px;border-radius:12px;background:rgba(5,8,16,.5);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff}
-  .bl-stage.light .bl-call{background:rgba(255,253,248,.7);color:var(--text-dark)}
+  .bl-call{padding:5px 8px;border-radius:12px;background:rgba(10,14,24,.82);color:#fff}
+  .bl-stage.light .bl-call{background:rgba(255,253,248,.92);color:var(--text-dark)}
   .bl-call .dot{display:none}
   /* labels sit in the gaps between layers, never over the fruit */
   .bl-story{padding-right:0}
