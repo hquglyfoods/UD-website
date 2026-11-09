@@ -530,7 +530,7 @@ nav.nav .nav-order-mobile{display:none !important}
 .reel-shot canvas.sun{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 50%;mix-blend-mode:soft-light;opacity:0;transition:opacity 1.2s;pointer-events:none}
 .reel-shot canvas.sun.ready{opacity:1}
 @media(max-width:700px){ .reel-shot canvas.sun{object-position:78% 60%} }
-/* ===================== built in layers (2026-11-09, v3) =====================
+/* ===================== built in layers (2026-11-09, v4 photoreal) =====================
    One hole-less donut, pinned and rebuilt by the scroll across five beats.
    The section opens and closes on the same black as the hero and the reel, so
    it joins both without a seam. Colour changes are a circular wipe from the
@@ -580,14 +580,16 @@ nav.nav .nav-order-mobile{display:none !important}
 .bl-numeral span{position:absolute;right:0;top:0;opacity:0;transform:translateY(12%);transition:opacity .6s var(--ease),transform .9s var(--ease)}
 .bl-numeral span.on{opacity:1;transform:none}
 .bl-numeral::before{content:'00';visibility:hidden}
-.bl-donut{position:relative;width:min(32vw,54vh,600px);aspect-ratio:2004/1877;will-change:transform,opacity}
+.bl-donut{position:relative;width:min(34vw,56vh,620px);aspect-ratio:723/599;will-change:transform,opacity}
 .bl-ground{position:absolute;left:6%;right:6%;bottom:-6%;height:13%;border-radius:50%;background:radial-gradient(closest-side,rgba(20,10,2,.42),rgba(20,10,2,.16) 55%,rgba(20,10,2,0));will-change:transform,opacity}
 .bl-layer{position:absolute;will-change:transform}
 .bl-layer img{position:relative;z-index:1;display:block;width:100%;height:auto}
-.bl-l-top{left:0;top:0;width:100%;z-index:4}
-.bl-l-berries{left:1.65%;top:18.59%;width:96.71%;z-index:3}
-.bl-l-cream{left:1.10%;top:34.10%;width:97.80%;z-index:2}
-.bl-l-bottom{left:3.04%;top:44.70%;width:93.91%;z-index:1}
+.bl-l-top{left:2.21%;top:0;width:96.4%;z-index:4}
+.bl-l-fill{left:3.04%;top:21.7%;width:93.2%;z-index:2}
+.bl-l-bottom{left:2.63%;top:51%;width:95.85%;z-index:1}
+/* the untouched product photo sits over the stack whenever it is closed */
+.bl-photo{position:absolute;left:0;top:0;width:100%;height:auto;z-index:5;pointer-events:none;will-change:opacity;transition:opacity .22s linear}
+.bl-photo.off{opacity:0}
 /* contact shadow / ambient occlusion each layer drops on the one below it */
 .bl-ao{position:absolute;z-index:0;left:5%;right:5%;bottom:-16%;height:40%;border-radius:50%;background:radial-gradient(closest-side,rgba(40,16,2,.55),rgba(40,16,2,.18) 60%,rgba(40,16,2,0));filter:blur(6px);will-change:transform,opacity}
 /* callouts */
@@ -601,14 +603,12 @@ nav.nav .nav-order-mobile{display:none !important}
 .bl-call.l .t small{margin-left:auto}
 .bl-call.r{left:94%;--o:left}
 .bl-call.l{right:94%;flex-direction:row-reverse;text-align:right;--o:right}
+.bl-call.low{top:74%}
 /* floating parts */
 .bl-parts{position:absolute;inset:0;pointer-events:none;z-index:2}
 .bl-part{position:absolute;width:var(--w,64px);will-change:transform,opacity;opacity:0}
 .bl-part img{display:block;width:100%;height:auto;filter:drop-shadow(0 10px 14px rgba(20,8,0,.25))}
 .bl-part.far img{filter:blur(1.6px) drop-shadow(0 8px 10px rgba(20,8,0,.18))}
-.bl-dust{position:absolute;inset:0;pointer-events:none;opacity:0;z-index:2}
-.bl-dust b{position:absolute;width:var(--s,3px);height:var(--s,3px);border-radius:50%;background:#fffaf0;box-shadow:0 0 6px rgba(255,250,240,.6);animation:blDust var(--t,9s) linear infinite;animation-delay:var(--dl,0s)}
-@keyframes blDust{0%{transform:translate3d(0,0,0);opacity:0}15%{opacity:.9}85%{opacity:.7}100%{transform:translate3d(var(--dx,20px),-120px,0);opacity:0}}
 /* real product chip */
 .bl-real{position:absolute;right:2%;bottom:4%;z-index:4;display:flex;align-items:center;gap:14px;padding:9px 22px 9px 9px;border-radius:100px;background:rgba(255,253,248,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 22px 44px -22px rgba(40,20,5,.45),inset 0 0 0 1px rgba(26,36,56,.06);color:var(--text-dark);white-space:nowrap;opacity:0;transform:translateY(18px);transition:opacity .5s var(--ease),transform .7s var(--ease);pointer-events:none}
 .bl-real.on{opacity:1;transform:none;pointer-events:auto}
@@ -693,7 +693,7 @@ nav.nav .nav-order-mobile{display:none !important}
   .bl{height:auto}
   .bl-stage{position:relative;height:auto;min-height:100svh;color:var(--text-dark)}
   .bl-bg{background:var(--bg-cream-warm)}
-  .bl-wipe,.bl-grain,.bl-parts,.bl-dust,.bl-numeral,.bl-rail,.bl-progress,.bl-flavors{display:none}
+  .bl-wipe,.bl-grain,.bl-parts,.bl-numeral,.bl-rail,.bl-progress,.bl-flavors{display:none}
   .bl-slide{position:relative;top:0;transform:none;display:none}
   .bl-slide[data-i="3"]{display:block}
   .bl-slide h2 .ln>span,.bl-kicker,.bl-slide p,.bl-ctas,.bl-kicker i{transform:none!important;opacity:1!important}
@@ -818,7 +818,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
         <div class="bl-slide" data-i="1">
           <div class="bl-kicker"><span>02</span><i></i><em>Inside the PB &amp; Jelly</em></div>
           <h2><span class="ln"><span>Pulled</span></span><span class="ln"><span><span class="serif-italic">apart.</span></span></span></h2>
-          <p>Four layers, nothing hollow. Here is everything that goes into one donut.</p>
+          <p>Three layers, nothing hollow. Here is everything that goes into one donut.</p>
         </div>
         <div class="bl-slide" data-i="2">
           <div class="bl-kicker"><span>03</span><i></i><em>Filled, not injected</em></div>
@@ -840,15 +840,14 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
       </div>
       <div class="bl-visual" id="blVisual">
         <div class="bl-numeral" aria-hidden="true"><span class="on">01</span><span>02</span><span>03</span><span>04</span><span>05</span></div>
-        <div class="bl-dust" id="blDust" aria-hidden="true"><b style="left:46%;top:39%;--s:3px;--t:12s;--dl:-0s;--dx:-31px"></b><b style="left:73%;top:32%;--s:3px;--t:11s;--dl:-0s;--dx:24px"></b><b style="left:32%;top:24%;--s:2px;--t:10s;--dl:-6s;--dx:-32px"></b><b style="left:35%;top:31%;--s:4px;--t:10s;--dl:-0s;--dx:32px"></b><b style="left:20%;top:48%;--s:4px;--t:7s;--dl:-9s;--dx:34px"></b><b style="left:55%;top:26%;--s:2px;--t:7s;--dl:-8s;--dx:-23px"></b><b style="left:42%;top:73%;--s:2px;--t:11s;--dl:-1s;--dx:33px"></b><b style="left:44%;top:91%;--s:2px;--t:7s;--dl:-9s;--dx:33px"></b><b style="left:86%;top:44%;--s:3px;--t:7s;--dl:-8s;--dx:-32px"></b><b style="left:77%;top:27%;--s:4px;--t:8s;--dl:-7s;--dx:28px"></b><b style="left:59%;top:60%;--s:3px;--t:11s;--dl:-7s;--dx:6px"></b><b style="left:43%;top:51%;--s:2px;--t:12s;--dl:-12s;--dx:-9px"></b><b style="left:15%;top:93%;--s:3px;--t:11s;--dl:-7s;--dx:3px"></b><b style="left:62%;top:56%;--s:4px;--t:7s;--dl:-1s;--dx:25px"></b><b style="left:58%;top:41%;--s:3px;--t:8s;--dl:-7s;--dx:13px"></b><b style="left:10%;top:29%;--s:4px;--t:11s;--dl:-12s;--dx:0px"></b><b style="left:48%;top:64%;--s:4px;--t:10s;--dl:-9s;--dx:18px"></b><b style="left:13%;top:31%;--s:3px;--t:10s;--dl:-11s;--dx:-32px"></b><b style="left:12%;top:59%;--s:4px;--t:12s;--dl:-7s;--dx:-4px"></b><b style="left:54%;top:64%;--s:2px;--t:10s;--dl:-5s;--dx:-19px"></b><b style="left:83%;top:34%;--s:3px;--t:7s;--dl:-3s;--dx:-4px"></b><b style="left:21%;top:51%;--s:3px;--t:10s;--dl:-7s;--dx:-30px"></b></div>
         <div class="bl-donut" id="blDonut" role="img" aria-label="A PB and Jelly Donut: a hole-less brioche donut filled with whipped peanut cream and sliced strawberries, dusted with powdered sugar">
           <div class="bl-ground" id="blGround"></div>
-          <div class="bl-layer bl-l-bottom"><img src="/images/layers/pbj-bottom-1200.webp" srcset="/images/layers/pbj-bottom-700.webp 700w, /images/layers/pbj-bottom-1200.webp 1200w, /images/layers/pbj-bottom-2000.webp 2000w" sizes="(max-width:860px) 74vw, 38vw" width="1882" height="1038" alt="" decoding="async"><div class="bl-call l"><span class="dot"></span><span class="lead"></span><span class="num">01</span><span class="t">Brioche<small>Hand-mixed dough, fried in 100% avocado oil</small></span></div></div>
-          <div class="bl-layer bl-l-cream"><i class="bl-ao"></i><img src="/images/layers/pbj-cream-1200.webp" srcset="/images/layers/pbj-cream-700.webp 700w, /images/layers/pbj-cream-1200.webp 1200w, /images/layers/pbj-cream-2000.webp 2000w" sizes="(max-width:860px) 74vw, 38vw" width="1960" height="909" alt="" decoding="async"><div class="bl-call r"><span class="dot"></span><span class="lead"></span><span class="num">02</span><span class="t">Peanut cream<small>Whipped in the store, every morning</small></span></div></div>
-          <div class="bl-layer bl-l-berries"><i class="bl-ao"></i><img src="/images/layers/pbj-berries-1200.webp" srcset="/images/layers/pbj-berries-700.webp 700w, /images/layers/pbj-berries-1200.webp 1200w, /images/layers/pbj-berries-2000.webp 2000w" sizes="(max-width:860px) 74vw, 38vw" width="1938" height="972" alt="" decoding="async"><div class="bl-call l"><span class="dot"></span><span class="lead"></span><span class="num">03</span><span class="t">Strawberries<small>Sliced fresh, finished with syrup</small></span></div></div>
-          <div class="bl-layer bl-l-top"><i class="bl-ao"></i><img src="/images/layers/pbj-top-1200.webp" srcset="/images/layers/pbj-top-700.webp 700w, /images/layers/pbj-top-1200.webp 1200w, /images/layers/pbj-top-2000.webp 2000w" sizes="(max-width:860px) 74vw, 38vw" width="2004" height="921" alt="" decoding="async"><div class="bl-call r"><span class="dot"></span><span class="lead"></span><span class="num">04</span><span class="t">The crown<small>Powdered sugar. Still no hole.</small></span></div></div>
+          <div class="bl-layer bl-l-bottom"><img src="/images/layers/ph-bottom.webp" width="758" height="321" alt="" decoding="async"><div class="bl-call l"><span class="dot"></span><span class="lead"></span><span class="num">01</span><span class="t">Brioche<small>Hand-mixed dough, fried in 100% avocado oil</small></span></div></div>
+          <div class="bl-layer bl-l-fill"><i class="bl-ao"></i><img src="/images/layers/ph-fill.webp" width="674" height="363" alt="" decoding="async"><div class="bl-call r"><span class="dot"></span><span class="lead"></span><span class="num">02</span><span class="t">Peanut cream<small>Whipped in the store, every morning</small></span></div><div class="bl-call l low"><span class="dot"></span><span class="lead"></span><span class="num">03</span><span class="t">Strawberries<small>Sliced fresh, finished with syrup</small></span></div></div>
+          <div class="bl-layer bl-l-top"><i class="bl-ao"></i><img src="/images/layers/ph-top.webp" width="697" height="292" alt="" decoding="async"><div class="bl-call r"><span class="dot"></span><span class="lead"></span><span class="num">04</span><span class="t">The crown<small>Powdered sugar. Still no hole.</small></span></div></div>
+          <img class="bl-photo" id="blPhoto" src="/images/layers/ph-real.webp" width="878" height="729" alt="" decoding="async">
         </div>
-        <div class="bl-parts" id="blParts" aria-hidden="true"><div class="bl-part nm" data-x="6" data-y="8" data-z="1" style="--w:80px;left:6%;top:8%"><img src="/images/layers/sp-berry1.webp" alt="" width="220" height="220" loading="lazy" decoding="async"></div><div class="bl-part " data-x="93" data-y="4" data-z="0.6" style="--w:46px;left:93%;top:4%"><img src="/images/layers/sp-peanut1.webp" alt="" width="220" height="220" loading="lazy" decoding="async"></div><div class="bl-part " data-x="90" data-y="70" data-z="1.2" style="--w:74px;left:90%;top:70%"><img src="/images/layers/sp-berry2.webp" alt="" width="220" height="220" loading="lazy" decoding="async"></div><div class="bl-part " data-x="10" data-y="88" data-z="0.8" style="--w:36px;left:10%;top:88%"><img src="/images/layers/sp-drop.webp" alt="" width="220" height="220" loading="lazy" decoding="async"></div><div class="bl-part far" data-x="64" data-y="92" data-z="0.5" style="--w:40px;left:64%;top:92%"><img src="/images/layers/sp-peanut2.webp" alt="" width="220" height="220" loading="lazy" decoding="async"></div><div class="bl-part far" data-x="12" data-y="36" data-z="0.7" style="--w:36px;left:12%;top:36%"><img src="/images/layers/sp-crumb1.webp" alt="" width="220" height="220" loading="lazy" decoding="async"></div><div class="bl-part far" data-x="22" data-y="94" data-z="0.4" style="--w:44px;left:22%;top:94%"><img src="/images/layers/sp-berry1.webp" alt="" width="220" height="220" loading="lazy" decoding="async"></div></div>
+        <div class="bl-parts" id="blParts" aria-hidden="true"><div class="bl-part nm" data-x="6" data-y="8" data-z="1" style="--w:84px;left:6%;top:8%"><img src="/images/layers/ph-berry-half.webp" alt="" width="249" height="208" loading="lazy" decoding="async"></div><div class="bl-part " data-x="92" data-y="4" data-z="0.6" style="--w:64px;left:92%;top:4%"><img src="/images/layers/ph-peanuts.webp" alt="" width="338" height="259" loading="lazy" decoding="async"></div><div class="bl-part " data-x="90" data-y="70" data-z="1.2" style="--w:78px;left:90%;top:70%"><img src="/images/layers/ph-berry-slices.webp" alt="" width="259" height="249" loading="lazy" decoding="async"></div><div class="bl-part " data-x="10" data-y="88" data-z="0.8" style="--w:46px;left:10%;top:88%"><img src="/images/layers/ph-peanut-half.webp" alt="" width="147" height="77" loading="lazy" decoding="async"></div><div class="bl-part far" data-x="64" data-y="91" data-z="0.5" style="--w:56px;left:64%;top:91%"><img src="/images/layers/ph-berry-half.webp" alt="" width="249" height="208" loading="lazy" decoding="async"></div><div class="bl-part far" data-x="12" data-y="36" data-z="0.7" style="--w:30px;left:12%;top:36%"><img src="/images/layers/ph-crumb1.webp" alt="" width="69" height="52" loading="lazy" decoding="async"></div><div class="bl-part far" data-x="24" data-y="94" data-z="0.4" style="--w:50px;left:24%;top:94%"><img src="/images/layers/ph-peanut-halves.webp" alt="" width="133" height="88" loading="lazy" decoding="async"></div><div class="bl-part far nm" data-x="40" data-y="8" data-z="0.9" style="--w:26px;left:40%;top:8%"><img src="/images/layers/ph-crumb2.webp" alt="" width="49" height="44" loading="lazy" decoding="async"></div></div>
         <a class="bl-real" id="blReal" href="/menu"><img src="/images/layers/real-pbj.webp" width="640" height="531" alt="The PB &amp; Jelly Donut as served in our stores" loading="lazy" decoding="async"><span><span>In stores now &middot; Fall seasonal</span><strong>PB &amp; Jelly Donut</strong></span></a>
         <div class="bl-flavors" id="blFlavors"><div class="bl-strip" id="blStrip"><a class="bl-fl" href="/menu"><span class="ph"><img src="/images/layers/real-milk-cream.webp" alt="Milk Cream Donut" loading="lazy" decoding="async"></span><span class="nm">Milk Cream</span><span class="tg">Homemade milk cream</span></a><a class="bl-fl" href="/menu"><span class="ph"><img src="/images/layers/real-nutella.webp" alt="Nutella Donut" loading="lazy" decoding="async"></span><span class="nm">Nutella</span><span class="tg">Hazelnut, edge to edge</span></a><a class="bl-fl" href="/menu"><span class="ph"><img src="/images/layers/real-dubai.webp" alt="Dubai Chocolate Donut" loading="lazy" decoding="async"></span><span class="nm">Dubai Chocolate</span><span class="tg">Pistachio &amp; kataifi</span></a><a class="bl-fl" href="/menu"><span class="ph"><img src="/images/layers/real-strawberry-cc.webp" alt="Strawberry Cream Cheese Donut" loading="lazy" decoding="async"></span><span class="nm">Strawberry Cream Cheese</span><span class="tg">Berry cream cheese</span></a><a class="bl-fl" href="/menu"><span class="ph"><img src="/images/layers/real-pbj.webp" alt="PB &amp; Jelly Donut" loading="lazy" decoding="async"></span><span class="nm">PB &amp; Jelly</span><span class="tg">Fall seasonal</span></a></div></div>
       </div>
@@ -1981,7 +1980,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
 
 </script>
 <script>
-/* ---------- built in layers (2026-11-09, v3) ----------
+/* ---------- built in layers (2026-11-09, v4 photoreal) ----------
    Five beats on one pinned stage. Scroll sets a target progress; the frame
    loop eases toward it, so a flick still reads as motion. When scrolling
    rests between beats it settles on the nearest one. */
@@ -1990,31 +1989,31 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
   if (!sec || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var $ = function(id){ return document.getElementById(id); };
   var stage = $('blStage'), donut = $('blDonut'), ground = $('blGround'), bg = $('blBg'), wipe = $('blWipe');
-  var real = $('blReal'), bar = $('blBar'), dust = $('blDust'), flavors = $('blFlavors'), strip = $('blStrip'), visual = $('blVisual');
+  var real = $('blReal'), bar = $('blBar'), photo = $('blPhoto'), flavors = $('blFlavors'), strip = $('blStrip'), visual = $('blVisual');
   var slides = sec.querySelectorAll('.bl-slide'), rail = sec.querySelectorAll('.bl-rail button'), nums = sec.querySelectorAll('.bl-numeral span');
   var fls = strip.querySelectorAll('.bl-fl'), parts = sec.querySelectorAll('.bl-part');
-  var names = ['top', 'berries', 'cream', 'bottom'], L = {}, AO = {}, CALL = {};
-  names.forEach(function(n){ L[n] = sec.querySelector('.bl-l-' + n); AO[n] = L[n].querySelector('.bl-ao'); CALL[n] = L[n].querySelector('.bl-call'); });
+  var names = ['top', 'fill', 'bottom'], L = {}, AO = {}, CALL = {};
+  names.forEach(function(n){ L[n] = sec.querySelector('.bl-l-' + n); AO[n] = L[n].querySelector('.bl-ao'); CALL[n] = L[n].querySelectorAll('.bl-call'); });
 
   /* beat positions on the pinned scroll; index 0 is the black pre-roll */
   var P = [0, 0.07, 0.29, 0.51, 0.73, 0.95];
   /* layer state: [y (donut heights), x (donut widths), rotate deg, scale, callout] */
   var Z = [0,0,0,1,0];
   var ST = [
-    { g:[0.9, 0.05, 1], top:Z, berries:Z, cream:Z, bottom:Z, parts:0, dust:0.4 },
-    { g:[1, 0, 1],      top:Z, berries:Z, cream:Z, bottom:Z, parts:0, dust:0 },
-    { g:[0.8, 0.06, 1], top:[-0.46,0.03,-6,1.04,1], berries:[-0.17,-0.04,5,1.01,1], cream:[0.08,0.03,-3,0.99,1], bottom:[0.32,-0.02,3,0.97,1], parts:1, dust:1 },
-    { g:[0.9, 0.1, 1], top:[-0.36,0.05,-9,1.03,0], berries:[0.1,0,0,1,1], cream:[0.1,0,0,1,1], bottom:[0.1,0,0,1,0], parts:0.75, dust:0.5 },
-    { g:[1, 0, 1],      top:Z, berries:Z, cream:Z, bottom:Z, parts:0, dust:0 },
-    { g:[0.62, -0.1, 0], top:Z, berries:Z, cream:Z, bottom:Z, parts:0, dust:0.5 }
+    { g:[0.9, 0.05, 1], top:Z, fill:Z, bottom:Z, parts:0 },
+    { g:[1, 0, 1],      top:Z, fill:Z, bottom:Z, parts:0 },
+    { g:[0.8, 0.07, 1], top:[-0.5,0.03,-6,1.04,1], fill:[-0.04,-0.03,4,1.01,1], bottom:[0.38,-0.02,3,0.97,1], parts:1 },
+    { g:[0.9, 0.1, 1], top:[-0.4,0.05,-9,1.03,0], fill:[0.08,0,0,1,1], bottom:[0.08,0,0,1,0], parts:0.75 },
+    { g:[1, 0, 1],      top:Z, fill:Z, bottom:Z, parts:0 },
+    { g:[0.62, -0.1, 0], top:Z, fill:Z, bottom:Z, parts:0 }
   ];
   /* which layer leads each move: apart is top-down, building is bottom-up */
-  var ORDER = [null, {top:0,berries:1,cream:2,bottom:3}, {bottom:0,cream:1,berries:2,top:3}, {top:0,berries:0,cream:0,bottom:0}, null];
+  var ORDER = [null, {top:0,fill:1,bottom:2}, {bottom:0,fill:1,top:2}, {top:0,fill:0,bottom:0}, null];
   /* black (joins the hero), cream, navy, blush, warm cream, black (joins the reel) */
   var BG = ['#050810', '#F5EFE3', '#121A26', '#F3D5C8', '#EFE7D5', '#050810'];
   var LIGHT = [false, true, false, true, true, false];
-  var DEPTH = { top:1, berries:0.6, cream:0.25, bottom:-0.25 };
-  var PH = { top:0, berries:1.7, cream:3.1, bottom:4.4 };
+  var DEPTH = { top:1, fill:0.45, bottom:-0.25 };
+  var PH = { top:0, fill:2.1, bottom:4.4 };
 
   var clamp = function(v){ return v < 0 ? 0 : v > 1 ? 1 : v; };
   var io = function(t){ return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2; };
@@ -2043,18 +2042,18 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
   /* each move uses the middle of its segment so every beat has a short hold */
   function local(p, s){ var t = clamp((p - P[s]) / (P[s + 1] - P[s])); return clamp((t - 0.12) / 0.76); }
 
-  var p = target(), shown = -1, seg = -1, light = null, running = false, last = 0, visible = false;
+  var photoOff = null, p = target(), shown = -1, seg = -1, light = null, running = false, last = 0, visible = false;
   var mx = 0, my = 0, tmx = 0, tmy = 0;
   function render(now){
     var s = segOf(p), t = local(p, s), et = io(t), A = ST[s], B = ST[s + 1], ord = ORDER[s];
     /* layers */
-    var sepSum = 0;
-    for (var i = 0; i < 4; i++){
+    var sepSum = 0, open = 0;
+    for (var i = 0; i < 3; i++){
       var n = names[i], a = A[n], b = B[n];
       var d = ord ? ord[n] * 0.1 : 0, lt = clamp((t - d) / 0.7);
       var e = (s === 3 && n === 'top') ? back(lt) : io(lt);
       var y = lerp(a[0], b[0], e), x = lerp(a[1], b[1], e), r = lerp(a[2], b[2], e), sc = lerp(a[3], b[3], e);
-      var sep = Math.min(1, Math.abs(y) * 2.2); sepSum += sep;
+      var sep = Math.min(1, Math.abs(y) * 2.2); sepSum += sep; open = Math.max(open, Math.abs(y) + Math.abs(x) + Math.abs(r) / 60);
       var fl = Math.sin(now / 1300 + PH[n]) * sep * 0.014 * H;
       var px = mx * DEPTH[n] * (6 + sep * 14), py = my * DEPTH[n] * (4 + sep * 8);
       L[n].style.transform = 'translate3d(' + (x * W + px).toFixed(1) + 'px,' + (y * H + fl + py).toFixed(1) + 'px,0) rotate(' + (r + mx * DEPTH[n] * sep * 2).toFixed(2) + 'deg) scale(' + sc.toFixed(4) + ')';
@@ -2066,16 +2065,21 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
         AO[n].style.transform = 'translate3d(0,' + (gap * H * 0.5).toFixed(1) + 'px,0) scale(' + (1 + gap * 0.9).toFixed(3) + ')';
       }
       var cv = lerp(a[4], b[4], clamp(lt * 1.5 - 0.35));
-      CALL[n].style.opacity = cv.toFixed(3);
-      CALL[n].style.transform = 'rotate(' + (-(r + mx * DEPTH[n] * sep * 2)).toFixed(2) + 'deg)';
-      CALL[n].style.setProperty('--d', clamp(cv * 1.2 - 0.1).toFixed(3));
+      for (var c = 0; c < CALL[n].length; c++){
+        var ce = CALL[n][c], cc = clamp(cv * 1.15 - c * 0.15);
+        ce.style.opacity = cc.toFixed(3);
+        ce.style.transform = 'rotate(' + (-(r + mx * DEPTH[n] * sep * 2)).toFixed(2) + 'deg)';
+        ce.style.setProperty('--d', clamp(cc * 1.2 - 0.1).toFixed(3));
+      }
     }
     /* whole donut: scale, lift, fade out into the flavour strip */
     var g0 = lerp(A.g[0], B.g[0], et), g1 = lerp(A.g[1], B.g[1], et), g2 = lerp(A.g[2], B.g[2], s === 4 ? clamp(et * 1.6) : et);
     var bob = Math.sin(now / 1700) * 0.006 * H;
     donut.style.transform = 'translate3d(0,' + (g1 * H + bob).toFixed(1) + 'px,0) scale(' + g0.toFixed(4) + ')';
     donut.style.opacity = g2.toFixed(3);
-    var spread = sepSum / 4;
+    /* the real photo carries the closed stack; the shot layers take over as soon as it opens */
+    var po = open > 0.006; if (po !== photoOff){ photoOff = po; photo.classList.toggle('off', po); }
+    var spread = sepSum / 3;
     ground.style.transform = 'translate3d(0,' + (spread * H * 0.32).toFixed(1) + 'px,0) scale(' + (1 + spread * 0.55).toFixed(3) + ',' + (1 + spread * 0.25).toFixed(3) + ')';
     ground.style.opacity = (1 - spread * 0.55).toFixed(3);
     /* floating parts drift on their own depth */
@@ -2088,7 +2092,6 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
       el.style.transform = 'translate3d(' + (dx + sx).toFixed(1) + 'px,' + (dy + (1 - pv) * 40).toFixed(1) + 'px,0) rotate(' + ((p * 220 + k * 47) * (k % 2 ? 1 : -1) * 0.4).toFixed(1) + 'deg) scale(' + (0.6 + pv * 0.4).toFixed(3) + ')';
       el.style.opacity = pv.toFixed(3);
     }
-    dust.style.opacity = lerp(A.dust, B.dust, et).toFixed(3);
     /* flavours */
     var f = clamp((p - 0.79) / 0.21), fo = clamp((p - 0.8) / 0.08);
     flavors.style.opacity = fo.toFixed(3);
