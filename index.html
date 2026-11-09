@@ -530,6 +530,102 @@ nav.nav .nav-order-mobile{display:none !important}
 .reel-shot canvas.sun{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 50%;mix-blend-mode:soft-light;opacity:0;transition:opacity 1.2s;pointer-events:none}
 .reel-shot canvas.sun.ready{opacity:1}
 @media(max-width:700px){ .reel-shot canvas.sun{object-position:78% 60%} }
+/* ===================== built in layers (2026-11-09) =====================
+   One donut, pinned, rebuilt by the scroll: whole -> pulled apart -> filled ->
+   stacked. Everything that moves is transform/opacity on a fixed-size stage, so
+   nothing reflows while it plays. */
+.bl{position:relative;height:500vh;height:500svh;background:var(--bg-cream)}
+.bl-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:var(--bg-cream);color:var(--text-dark);transition:color .5s var(--ease)}
+.bl-stage.dark{color:var(--text-light)}
+.bl-inner{position:relative;height:100%;max-width:1280px;margin:0 auto;padding:84px 32px 40px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:center;gap:24px}
+.bl-copy{position:relative;z-index:3;height:340px}
+.bl-eyebrow{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--orange);margin-bottom:22px;transition:color .5s var(--ease)}
+.bl-stage.dark .bl-eyebrow{color:var(--orange-on-dark)}
+.bl-slide{position:absolute;left:0;right:0;top:40px;pointer-events:none}
+.bl-slide.on{pointer-events:auto}
+.bl-slide h2{font-family:var(--serif);font-weight:400;font-size:clamp(3rem,6.4vw,6rem);line-height:.92;letter-spacing:-.02em;text-transform:uppercase;margin:0 0 22px}
+.bl-slide h2 .ln{display:block;overflow:hidden;padding-bottom:.06em}
+.bl-slide h2 .ln span{display:block;transform:translateY(105%);transition:transform .7s var(--ease)}
+.bl-slide.on h2 .ln span{transform:none;transition-delay:.12s}
+.bl-slide.on h2 .ln + .ln span{transition-delay:.2s}
+.bl-slide p,.bl-slide .bl-ctas{opacity:0;transform:translateY(14px);transition:opacity .45s var(--ease),transform .6s var(--ease)}
+.bl-slide.on p,.bl-slide.on .bl-ctas{opacity:1;transform:none;transition-delay:.28s}
+.bl-slide p{font-size:clamp(15px,1.35vw,17px);line-height:1.6;max-width:38ch;margin:0 0 26px;opacity:0;color:inherit}
+.bl-slide.on p{opacity:.78}
+.bl-ctas{display:flex;flex-wrap:wrap;gap:10px}
+.bl-pill{display:inline-flex;align-items:center;gap:10px;padding:13px 22px 13px 24px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;background:var(--text-dark);color:#fff;transition:transform .25s var(--ease),background .25s var(--ease)}
+.bl-pill::after{content:'\2192';transition:transform .25s var(--ease)}
+.bl-pill:hover{transform:translateY(-2px)}
+.bl-pill:hover::after{transform:translateX(3px)}
+.bl-pill.alt{background:transparent;color:inherit;box-shadow:inset 0 0 0 1px currentColor}
+.bl-stage.dark .bl-pill:not(.alt){background:var(--bg-cream);color:var(--text-dark)}
+.bl-pill.hot{background:var(--orange)}
+
+.bl-visual{position:relative;height:100%;display:flex;align-items:center;justify-content:center}
+.bl-frame{position:absolute;inset:6% 4% 8% 14%;border:1px solid currentColor;opacity:.14;pointer-events:none}
+.bl-tag{position:absolute;top:calc(6% + 14px);right:calc(4% + 16px);font-size:10px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;opacity:.6}
+.bl-donut{position:relative;width:min(34vw,62vh,470px);aspect-ratio:508/485;will-change:transform}
+.bl-layer{position:absolute;will-change:transform}
+.bl-layer img{display:block;width:100%;height:auto;filter:drop-shadow(0 18px 22px rgba(60,30,10,.16))}
+.bl-l-top{left:.2%;top:0;width:100%;z-index:4}
+.bl-l-berries{left:0;top:18.76%;width:99.8%;z-index:3}
+.bl-l-cream{left:1%;top:35.67%;width:97.44%;z-index:2}
+.bl-l-bottom{left:1.2%;top:54.85%;width:96.65%;z-index:1}
+.bl-shadow{position:absolute;left:8%;right:8%;bottom:-7%;height:12%;border-radius:50%;background:radial-gradient(closest-side,rgba(40,20,5,.32),rgba(40,20,5,0));will-change:transform,opacity}
+.bl-call{position:absolute;top:50%;display:flex;align-items:center;gap:10px;white-space:nowrap;font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;opacity:0;pointer-events:none}
+.bl-call i{display:block;height:1px;width:clamp(28px,5vw,72px);background:currentColor;opacity:.5}
+.bl-call b{display:block;width:6px;height:6px;border-radius:50%;background:var(--orange-on-dark);flex:none}
+.bl-call.r{left:100%;margin-left:-4%}
+.bl-call.l{right:100%;margin-right:-4%;flex-direction:row-reverse}
+.bl-call small{display:block;font-weight:500;letter-spacing:.04em;text-transform:none;font-size:12px;opacity:.7;margin-top:2px}
+
+.bl-real{position:absolute;right:4%;bottom:9%;display:flex;align-items:center;gap:14px;padding:10px 20px 10px 10px;border-radius:100px;background:rgba(255,255,255,.72);backdrop-filter:blur(10px);box-shadow:0 18px 40px -18px rgba(40,20,5,.35);color:var(--text-dark);opacity:0;transform:translateY(16px);transition:opacity .5s var(--ease),transform .6s var(--ease);pointer-events:none}
+.bl-real.on{opacity:1;transform:none;pointer-events:auto}
+.bl-real img{width:58px;height:58px;object-fit:contain;border-radius:50%;background:#F3D9CF}
+.bl-real span{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--orange)}
+.bl-real strong{display:block;font-family:var(--serif);font-weight:400;font-size:18px;line-height:1.1}
+
+.bl-dots{position:absolute;right:22px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;z-index:4}
+.bl-dots b{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.25;transition:opacity .3s,transform .3s var(--ease)}
+.bl-dots b.on{opacity:1;transform:scale(1.5)}
+.bl-progress{position:absolute;left:32px;right:32px;bottom:22px;height:1px;background:currentColor;opacity:.12}
+.bl-progress i{position:absolute;left:0;top:0;bottom:0;width:100%;background:var(--orange);transform-origin:left;transform:scaleX(0)}
+
+@media(max-width:860px){
+  .bl-inner{grid-template-columns:1fr;grid-template-rows:auto 1fr;padding:94px 20px 28px;gap:0;align-items:stretch}
+  .bl-copy{height:250px}
+  .bl-eyebrow{margin-bottom:10px}
+  .bl-slide{top:24px}
+  .bl-slide h2{font-size:clamp(2.5rem,12vw,3.6rem);margin-bottom:12px}
+  .bl-slide p{font-size:14.5px;margin-bottom:14px;max-width:34ch}
+  .bl-pill{padding:11px 18px 11px 20px;font-size:10px}
+  .bl-donut{width:min(54vw,40vh,330px)}
+  .bl-frame{inset:4% 2% 6% 2%}
+  .bl-tag{top:calc(4% + 10px);right:calc(2% + 12px)}
+  .bl-call{font-size:9px;letter-spacing:.12em}
+  .bl-call small{display:none}
+  .bl-call i{width:16px}
+  .bl-call{white-space:normal;width:24vw;line-height:1.25}
+  .bl-call.r{margin-left:-2%}
+  .bl-call.l{margin-right:-2%;text-align:right}
+  .bl-call i{width:10px}
+  .bl-real{right:50%;transform:translate(50%,16px);bottom:1.5%;padding:8px 18px 8px 8px;white-space:nowrap}
+  .bl-real.on{transform:translate(50%,0)}
+  .bl-real img{width:44px;height:44px}
+  .bl-real strong{font-size:15px}
+  .bl-dots{right:10px}
+  .bl-progress{left:20px;right:20px;bottom:12px}
+}
+@media(max-width:860px) and (max-height:700px){ .bl-copy{height:200px} .bl-slide p{display:none} }
+@media(prefers-reduced-motion:reduce){
+  .bl{height:auto}
+  .bl-stage{position:relative;height:auto;min-height:100svh}
+  .bl-slide{position:relative;top:0;display:none}
+  .bl-slide:last-child{display:block}
+  .bl-slide h2 .ln span,.bl-slide p,.bl-slide .bl-ctas{transform:none;opacity:1}
+  .bl-copy{height:auto}
+  .bl-real{opacity:1;transform:none;pointer-events:auto}
+}
 </style>
 <!--AUTO-SEO:START-->
 <meta property="og:site_name" content="Ugly Donuts &amp; Corn Dogs">
@@ -626,6 +722,49 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
     </div>
   </div>
   <div class="cine-cue"><i></i>Scroll</div>
+</section>
+
+<!-- BUILT IN LAYERS: one hole-less donut, pinned and rebuilt by the scroll -->
+<section class="bl" id="built-in-layers" aria-label="Built in layers: inside the PB &amp; Jelly Donut">
+  <div class="bl-stage" id="blStage">
+    <div class="bl-inner">
+      <div class="bl-copy">
+        <div class="bl-eyebrow">Handmade daily &middot; No hole, all filling</div>
+        <div class="bl-slide on">
+          <h2><span class="ln"><span>Built in</span></span><span class="ln"><span>layers.</span></span></h2>
+          <p>Our donuts have no hole. One soft brioche round, split by hand and built to order.</p>
+          <div class="bl-ctas"><a class="bl-pill" href="/menu">See the donuts</a></div>
+        </div>
+        <div class="bl-slide">
+          <h2><span class="ln"><span>Pulled</span></span><span class="ln"><span>apart.</span></span></h2>
+          <p>Four layers, nothing hollow. This is what goes into a PB &amp; Jelly Donut.</p>
+        </div>
+        <div class="bl-slide">
+          <h2><span class="ln"><span>Filled to</span></span><span class="ln"><span>the edge.</span></span></h2>
+          <p>Whipped peanut cream, then strawberries sliced fresh in the store. Edge to edge, every time.</p>
+        </div>
+        <div class="bl-slide">
+          <h2><span class="ln"><span>Stacked</span></span><span class="ln"><span>to finish.</span></span></h2>
+          <p>A dusted crown on top, finished after you order. Ugly on purpose, warm when it reaches you.</p>
+          <div class="bl-ctas"><a class="bl-pill hot" href="https://uglydonutsandcorndogsknickerbocker.toast.site/order?showAllLocations=true">Order online</a><a class="bl-pill alt" href="/menu">Full menu</a></div>
+        </div>
+      </div>
+      <div class="bl-visual">
+        <div class="bl-frame" aria-hidden="true"></div>
+        <div class="bl-tag" aria-hidden="true">No. 01 &mdash; PB &amp; Jelly</div>
+        <div class="bl-donut" id="blDonut" role="img" aria-label="A PB and Jelly Donut: a hole-less brioche donut filled with peanut cream and sliced strawberries, dusted with powdered sugar">
+          <div class="bl-shadow" id="blShadow"></div>
+          <div class="bl-layer bl-l-bottom"><img src="/images/layers/pbj-bottom.webp" width="491" height="219" alt="" decoding="async"><div class="bl-call l"><b></b><i></i><div>Brioche dough<small>Fried in 100% avocado oil</small></div></div></div>
+          <div class="bl-layer bl-l-cream"><img src="/images/layers/pbj-cream.webp" width="495" height="229" alt="" decoding="async"><div class="bl-call r"><b></b><i></i><div>Peanut cream<small>Whipped in-store</small></div></div></div>
+          <div class="bl-layer bl-l-berries"><img src="/images/layers/pbj-berries.webp" width="507" height="216" alt="" decoding="async"><div class="bl-call l"><b></b><i></i><div>Strawberries<small>Sliced fresh, every day</small></div></div></div>
+          <div class="bl-layer bl-l-top"><img src="/images/layers/pbj-top.webp" width="508" height="212" alt="" decoding="async"><div class="bl-call r"><b></b><i></i><div>Dusted crown<small>Powdered sugar, no hole</small></div></div></div>
+        </div>
+        <a class="bl-real" id="blReal" href="/menu"><img src="/images/layers/pbj-real.webp" width="720" height="596" alt="The PB &amp; Jelly Donut as served in our stores" loading="lazy" decoding="async"><div><span>Fall seasonal</span><strong>PB &amp; Jelly Donut</strong></div></a>
+      </div>
+    </div>
+    <div class="bl-dots" aria-hidden="true"><b class="on"></b><b></b><b></b><b></b></div>
+    <div class="bl-progress" aria-hidden="true"><i id="blBar"></i></div>
+  </div>
 </section>
 
 <!-- THE REEL: one pinned stage, three beats. Each photo appears once on the page. -->
@@ -1696,7 +1835,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
     if (z === 'above') go(0);
     else if (z === 'below') go(beats - 1);
     else if (dir > 0 && cur >= beats - 1) goTo(reelEnd());         /* out the bottom: next section's top */
-    else if (dir < 0 && cur <= 0) goTo(0);                          /* out the top: back to the hero */
+    else if (dir < 0 && cur <= 0) goTo(Math.max(0, reel.offsetTop - stageH())); /* out the top: back to the end of the layers section */
     else go(cur + dir);
   }
 
@@ -1750,6 +1889,109 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
 })();
 
 </script>
+<script>
+/* ---------- built in layers (2026-11-09) ----------
+   Scroll progress through the pinned section drives one donut through four
+   states. Progress is eased toward the scroll position each frame so a flick
+   still reads as motion, and only transforms/opacity are written. */
+(function(){
+  var sec = document.getElementById('built-in-layers');
+  if (!sec || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var stage = document.getElementById('blStage'), donut = document.getElementById('blDonut');
+  var shadow = document.getElementById('blShadow'), real = document.getElementById('blReal'), bar = document.getElementById('blBar');
+  var slides = sec.querySelectorAll('.bl-slide'), dots = sec.querySelectorAll('.bl-dots b');
+  var L = {
+    top: sec.querySelector('.bl-l-top'), berries: sec.querySelector('.bl-l-berries'),
+    cream: sec.querySelector('.bl-l-cream'), bottom: sec.querySelector('.bl-l-bottom')
+  };
+  var names = ['top', 'berries', 'cream', 'bottom'];
+  var calls = {}; names.forEach(function(n){ calls[n] = L[n].querySelector('.bl-call'); });
+  /* Beat positions along the pinned scroll, 0..1. */
+  var K = [0.04, 0.33, 0.63, 0.93];
+  /* Per beat, per layer: [y in donut heights, rotation deg, x in donut widths, callout opacity] */
+  var S = [
+    { top:[0,0,0,0], berries:[0,0,0,0], cream:[0,0,0,0], bottom:[0,0,0,0] },
+    { top:[-0.44,-5,0.02,1], berries:[-0.15,4,-0.03,1], cream:[0.12,-2,0.025,1], bottom:[0.38,2,-0.01,1] },
+    { top:[-0.40,-7,0.03,0], berries:[0.06,0,0,1], cream:[0.06,0,0,1], bottom:[0.06,0,0,0] },
+    { top:[0,0,0,0], berries:[0,0,0,0], cream:[0,0,0,0], bottom:[0,0,0,0] }
+  ];
+  /* Which layer moves first in each transition: pulling apart goes top-down,
+     building goes bottom-up, so the stack reads as assembled, not teleported. */
+  var ORDER = [
+    { top:0, berries:1, cream:2, bottom:3 },
+    { bottom:0, cream:1, berries:2, top:3 },
+    { top:0, berries:1, cream:1, bottom:1 }
+  ];
+  var BG = [[245,239,227],[16,22,31],[242,214,201],[239,231,213]];
+  var SCALE = [1, 0.84, 0.92, 1];
+  var clamp = function(v){ return v < 0 ? 0 : v > 1 ? 1 : v; };
+  var io = function(t){ return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2; };
+  var back = function(t){ var c = 1.9, c3 = c + 1; return 1 + c3*Math.pow(t - 1, 3) + c*Math.pow(t - 1, 2); };
+  var lerp = function(a, b, t){ return a + (b - a) * t; };
+
+  var W = 0, H = 0, span = 1, top0 = 0;
+  function measure(){
+    W = donut.offsetWidth; H = donut.offsetHeight;
+    top0 = sec.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
+    span = Math.max(1, sec.offsetHeight - stage.offsetHeight);
+  }
+  function target(){ return clamp(((window.scrollY || window.pageYOffset) - top0) / span); }
+
+  var shown = -1, dark = null, p = target(), running = false, last = 0, visible = false;
+  function render(now){
+    /* where we are between beats */
+    var seg = 0;
+    while (seg < K.length - 2 && p > K[seg + 1]) seg++;
+    var t = clamp((p - K[seg]) / (K[seg + 1] - K[seg]));
+    var a = S[seg], b = S[seg + 1], ord = ORDER[seg];
+    for (var i = 0; i < names.length; i++){
+      var n = names[i], d = ord[n] * 0.12, lt = clamp((t - d) / (1 - 0.36));
+      var e = (seg === 2 && n === 'top') ? back(lt) : io(lt);
+      var y = lerp(a[n][0], b[n][0], e), r = lerp(a[n][1], b[n][1], e), x = lerp(a[n][2], b[n][2], e);
+      L[n].style.transform = 'translate3d(' + (x * W).toFixed(1) + 'px,' + (y * H).toFixed(1) + 'px,0) rotate(' + r.toFixed(2) + 'deg)';
+      calls[n].style.opacity = lerp(a[n][3], b[n][3], clamp(lt * 1.6 - 0.3)).toFixed(3);
+    }
+    var et = io(t), sc = lerp(SCALE[seg], SCALE[seg + 1], et);
+    var bob = Math.sin(now / 900) * 0.008 * H;
+    donut.style.transform = 'translate3d(0,' + bob.toFixed(1) + 'px,0) scale(' + sc.toFixed(4) + ')';
+    var spread = Math.abs(lerp(S[seg].bottom[0], S[seg + 1].bottom[0], et));
+    shadow.style.transform = 'translate3d(0,' + (spread * H).toFixed(1) + 'px,0) scale(' + (1 + spread * 0.6).toFixed(3) + ',1)';
+    shadow.style.opacity = (1 - spread * 1.4).toFixed(3);
+    var c = BG[seg].map(function(v, k){ return Math.round(lerp(v, BG[seg + 1][k], et)); });
+    stage.style.backgroundColor = 'rgb(' + c.join(',') + ')';
+    var isDark = (0.299*c[0] + 0.587*c[1] + 0.114*c[2]) < 128;
+    if (isDark !== dark){ dark = isDark; stage.classList.toggle('dark', isDark); }
+    var idx = p < 0.19 ? 0 : p < 0.49 ? 1 : p < 0.79 ? 2 : 3;
+    if (idx !== shown){
+      if (shown >= 0){ slides[shown].classList.remove('on'); dots[shown].classList.remove('on'); }
+      slides[idx].classList.add('on'); dots[idx].classList.add('on'); shown = idx;
+      real.classList.toggle('on', idx === 3);
+    }
+    bar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+  }
+  function loop(now){
+    var dt = last ? Math.min(64, now - last) : 16; last = now;
+    var goal = target(), k = 1 - Math.exp(-dt / 85);
+    p += (goal - p) * k;
+    if (Math.abs(goal - p) < 0.0004) p = goal;
+    render(now);
+    if (visible) requestAnimationFrame(loop); else { running = false; last = 0; }
+  }
+  function start(){ if (!running){ running = true; requestAnimationFrame(loop); } }
+  new IntersectionObserver(function(es){
+    visible = es[0].isIntersecting; if (visible) start();
+  }, { rootMargin: '200px 0px' }).observe(sec);
+  var lw = window.innerWidth, lh = stage.offsetHeight;
+  window.addEventListener('resize', function(){
+    /* toolbar show/hide fires resize on phones; only re-measure on real changes */
+    if (window.innerWidth !== lw || Math.abs(stage.offsetHeight - lh) > 80){ lw = window.innerWidth; lh = stage.offsetHeight; measure(); }
+  }, { passive: true });
+  window.addEventListener('load', measure);
+  measure(); p = target(); render(performance.now());
+  window.__bl = { progress: function(){ return p; }, target: target };
+})();
+</script>
+
 <!-- ============================================================
      UGLY DONUTS COOKIE CONSENT BANNER
      Paste this block immediately before </body> on every page.
