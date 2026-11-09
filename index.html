@@ -616,13 +616,17 @@ nav.nav .nav-order-mobile{display:none !important}
 .bl-real span{display:block;font-size:9.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--orange)}
 .bl-real strong{display:block;font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.15;margin-top:3px}
 /* flavours */
-.bl-flavors{position:absolute;left:0;right:-72px;top:50%;transform:translateY(-50%);pointer-events:none;opacity:0;z-index:3;overflow:hidden;padding:30px 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 9%,#000 88%,transparent)}
+.bl-flavors{position:absolute;left:-2%;right:40px;top:50%;transform:translateY(-50%);pointer-events:none;opacity:0;z-index:3}
+@media(max-width:860px){.bl-flavors{overflow:hidden;right:auto}}
 .bl-flavors.on{pointer-events:auto}
-.bl-strip{display:flex;gap:clamp(18px,2.4vw,40px);will-change:transform}
-.bl-fl{flex:none;width:clamp(170px,17vw,330px);text-align:center;color:var(--text-light);will-change:transform}
-.bl-fl .ph{position:relative;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center}
-.bl-fl .ph::before{content:'';position:absolute;inset:10%;border-radius:50%;background:radial-gradient(closest-side,rgba(225,102,26,.22),rgba(225,102,26,0))}
-.bl-fl img{position:relative;max-width:92%;max-height:78%;object-fit:contain;filter:drop-shadow(0 22px 22px rgba(0,0,0,.45))}
+.bl-strip{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));column-gap:clamp(14px,2vw,40px);row-gap:clamp(10px,3vh,40px)}
+.bl-strip .bl-fl{grid-column:span 2}
+.bl-strip .bl-fl:nth-child(4){grid-column:2/4}
+.bl-strip .bl-fl:nth-child(5){grid-column:4/6}
+.bl-fl{min-width:0;text-align:center;color:var(--text-light);will-change:transform}
+.bl-fl .ph{position:relative;aspect-ratio:1/.74;display:flex;align-items:center;justify-content:center}
+.bl-fl .ph::before{content:'';position:absolute;inset:-6%;border-radius:50%;background:radial-gradient(closest-side,rgba(225,102,26,.22),rgba(225,102,26,0))}
+.bl-fl img{position:relative;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 22px 22px rgba(0,0,0,.45))}
 .bl-fl .nm{display:block;font-family:var(--serif);font-size:clamp(18px,1.5vw,24px);line-height:1.15;margin-top:6px}
 .bl-fl .tg{display:block;font-size:9.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--orange-on-dark);margin-top:6px}
 /* rail + progress */
@@ -672,6 +676,9 @@ nav.nav .nav-order-mobile{display:none !important}
   .bl-real img{width:46px;height:46px}
   .bl-real strong{font-size:16px}
   .bl-flavors{left:-22px;right:-22px;-webkit-mask-image:none;mask-image:none}
+  .bl-strip{display:flex;gap:16px;will-change:transform}
+  .bl-strip .bl-fl,.bl-strip .bl-fl:nth-child(4),.bl-strip .bl-fl:nth-child(5){flex:none;width:44vw}
+  .bl-fl .ph{aspect-ratio:1/1}
   .bl-visual{padding-right:0}
   .bl-fl{width:44vw}
   .bl-rail{right:8px;gap:12px}
@@ -2086,15 +2093,15 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
     var f = clamp((p - 0.79) / 0.21), fo = clamp((p - 0.8) / 0.08);
     flavors.style.opacity = fo.toFixed(3);
     flavors.classList.toggle('on', fo > 0.5);
-    strip.style.transform = 'translate3d(' + (lerp(VW * (mobile ? 0.3 : 0.12), -stripMax, io(f))).toFixed(1) + 'px,0,0)';
+    strip.style.transform = mobile ? 'translate3d(' + (lerp(VW * 0.3, -stripMax, io(f))).toFixed(1) + 'px,0,0)' : 'none';
     for (var q = 0; q < fls.length; q++){
       var ft = clamp(fo * 2.2 - q * 0.22);
-      fls[q].style.transform = 'translate3d(0,' + ((1 - expo(ft)) * 90 + Math.sin(now / 1400 + q) * 5).toFixed(1) + 'px,0)';
+      fls[q].style.transform = 'translate3d(0,' + ((1 - expo(ft)) * 90 + (mobile ? 0 : (q % 2 ? -1 : 1) * (1 - io(f)) * 26) + Math.sin(now / 1400 + q) * 5).toFixed(1) + 'px,0)';
       fls[q].style.opacity = ft.toFixed(3);
     }
     /* colour: base is this segment's start, the wipe brings in the next */
     if (s !== seg){ seg = s; bg.style.background = BG[s]; wipe.style.background = BG[s + 1]; }
-    var wt = expo(clamp(t * 1.15));
+    var wt = io(clamp(t * 1.1));
     wipe.style.clipPath = 'circle(' + (wt * maxR).toFixed(1) + 'px at ' + cx.toFixed(1) + 'px ' + cy.toFixed(1) + 'px)';
     var isLight = wt >= flipAt ? LIGHT[s + 1] : LIGHT[s];
     if (isLight !== light){ light = isLight; stage.classList.toggle('light', isLight); }
@@ -2125,12 +2132,22 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
   }, { rootMargin: '600px 0px' }).observe(sec);
 
   /* settle on the nearest beat once scrolling rests inside the pinned span */
-  var snapT = 0, touching = false, snapping = 0;
+  var snapT = 0, touching = false, snapping = 0, lastBeat = 1;
   function settle(){
     if (touching || window.__blNoSnap || Date.now() < snapping) return;
     var g = target(); if (g <= P[1] * 0.5 || g >= 0.985) return;
     var j = 1, best = 9;
     for (var i = 1; i < P.length; i++){ var dd = Math.abs(g - P[i]); if (dd < best){ best = dd; j = i; } }
+    /* a short swipe still means "next": once the reader has moved a little
+       way off the beat they were on, carry on in that direction */
+    if (j === lastBeat){
+      var dir = g > P[lastBeat] ? 1 : -1, nb = lastBeat + dir;
+      if (Math.abs(g - P[lastBeat]) > 0.025){
+        if (nb < 1 || nb > P.length - 1) return;   /* leaving the section: let it go */
+        j = nb;
+      }
+    }
+    lastBeat = j;
     var y = Math.round(top0 + P[j] * span), cur = window.scrollY || window.pageYOffset;
     if (Math.abs(y - cur) > 6){ snapping = Date.now() + 700; window.scrollTo({ top: y, behavior: 'smooth' }); }
   }
@@ -2138,7 +2155,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
   window.addEventListener('touchstart', function(){ touching = true; }, { passive: true });
   window.addEventListener('touchend', function(){ touching = false; clearTimeout(snapT); snapT = setTimeout(settle, 220); }, { passive: true });
   for (var r = 0; r < rail.length; r++) (function(i){
-    rail[i].addEventListener('click', function(){ snapping = Date.now() + 900; window.scrollTo({ top: Math.round(top0 + P[i + 1] * span), behavior: 'smooth' }); });
+    rail[i].addEventListener('click', function(){ snapping = Date.now() + 900; lastBeat = i + 1; window.scrollTo({ top: Math.round(top0 + P[i + 1] * span), behavior: 'smooth' }); });
   })(r);
   if (window.matchMedia('(pointer:fine)').matches){
     stage.addEventListener('pointermove', function(e){ var r = stage.getBoundingClientRect(); tmx = (e.clientX - r.left) / r.width * 2 - 1; tmy = (e.clientY - r.top) / r.height * 2 - 1; }, { passive: true });
