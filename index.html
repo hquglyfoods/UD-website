@@ -2262,7 +2262,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
   new IntersectionObserver(function(es){
     visible = es[0].isIntersecting; if (visible) start();
     /* decode every image up front so no beat stalls on a first paint */
-    if (visible && !warmed){ warmed = true; sec.querySelectorAll('img').forEach(function(im){ im.loading = 'eager'; if (im.decode) im.decode().catch(function(){}); }); }
+    if (visible && !warmed){ warmed = true; sec.querySelectorAll('img').forEach(function(im){ im.loading = 'eager'; if (im.decode) im.decode().catch(function(){}); }); ['il-field', 'il-donut'].forEach(function(n){ var im = new Image(); im.src = '/images/layers/' + n + '.webp'; if (im.decode) im.decode().catch(function(){}); }); }
   }, { rootMargin: '600px 0px' }).observe(sec);
 
   /* settle on the nearest beat once scrolling rests inside the pinned span */
