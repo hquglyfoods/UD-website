@@ -165,6 +165,42 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent;col
   .hero-actions{justify-content:center}
 }
 
+
+/* ============ DONUT LAYERS (LOOP-style floating product, 2026-11-09) ============ */
+.donut-layers{position:relative;background:var(--bg-cream);color:var(--text-dark)}
+.donut-layers-stage{position:sticky;top:0;height:100dvh;min-height:560px;overflow:hidden;display:grid;grid-template-columns:1fr 1.1fr;align-items:center;gap:clamp(24px,4vw,64px);padding:0 clamp(20px,5vw,72px);max-width:1280px;margin:0 auto}
+.dl-copy{position:relative;z-index:2;max-width:34ch}
+.dl-eyebrow{font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--orange);margin:0 0 18px}
+.dl-slide{position:absolute;inset:auto auto auto 0;opacity:0;transform:translateY(18px);transition:opacity .45s var(--ease),transform .45s var(--ease);pointer-events:none;max-width:34ch}
+.dl-slide.on{position:relative;opacity:1;transform:none;pointer-events:auto}
+.dl-slide h2{font-family:var(--serif);font-weight:400;font-size:clamp(2.4rem,5.2vw,4.2rem);line-height:1.02;letter-spacing:-0.025em;margin:0 0 18px;color:var(--text-dark)}
+.dl-slide p{font-size:clamp(15px,1.3vw,17px);line-height:1.65;color:var(--text-dark-soft);margin:0 0 28px;max-width:38ch}
+.dl-visual{position:relative;height:min(72vh,620px);display:flex;align-items:center;justify-content:center}
+.dl-frame{position:absolute;inset:8% 10%;border:1px solid rgba(9,16,24,0.12);border-radius:4px;pointer-events:none;z-index:1}
+.dl-product{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(28px) scale(.96);transition:opacity .5s var(--ease),transform .55s var(--ease);z-index:2}
+.dl-product.on{opacity:1;transform:none}
+.dl-product img{width:min(78%,420px);height:auto;object-fit:contain;filter:drop-shadow(0 28px 40px rgba(9,16,24,0.22));animation:dlFloat 5.5s ease-in-out infinite}
+.dl-product.on img{animation-delay:calc(var(--i,0)*.15s)}
+@keyframes dlFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.dl-dots{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);display:flex;gap:8px;z-index:3}
+.dl-dots b{display:block;width:8px;height:8px;border-radius:99px;background:rgba(9,16,24,0.18);transition:width .25s,background .25s}
+.dl-dots b.on{width:28px;background:var(--text-dark)}
+@media(max-width:820px){
+  .donut-layers-stage{grid-template-columns:1fr;grid-template-rows:auto 1fr;align-content:center;padding-top:72px;padding-bottom:64px;gap:12px}
+  .dl-visual{height:min(48vh,360px);order:-1}
+  .dl-product img{width:min(70%,280px)}
+  .dl-slide h2{font-size:clamp(2rem,9vw,2.8rem)}
+  .dl-dots{bottom:18px}
+}
+@media(prefers-reduced-motion:reduce){
+  .donut-layers-stage{position:static;height:auto;display:block;padding:64px 24px}
+  .dl-slide{position:relative;opacity:1;transform:none;pointer-events:auto;margin-bottom:28px}
+  .dl-visual{height:auto;display:grid;gap:28px;margin:24px 0}
+  .dl-product{position:relative;opacity:1;transform:none}
+  .dl-product img{animation:none;width:min(70%,300px);margin:0 auto}
+  .dl-frame,.dl-dots{display:none}
+}
+
 /* ============ BRAND ANCHOR ============ */
 .brand-anchor{padding:64px 0;text-align:center;border-top:1px solid var(--border-cream)}
 .brand-anchor-statement{font-family:var(--serif);font-size:clamp(2.4rem,5vw,4.2rem);line-height:1.1;letter-spacing:-0.02em;color:var(--text-dark);margin:0;font-weight:400}
@@ -650,6 +686,44 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
       </div>
     </div>
     <div class="reel-rail" id="reelRail"><b><i></i></b><b><i></i></b><b><i></i></b><b><i></i></b></div>
+  </div>
+</section>
+
+
+<!-- DONUT LAYERS: LOOP-style floating hole-less donuts -->
+<section class="donut-layers" id="donut-layers" aria-label="Handmade donuts, built in layers">
+  <div class="donut-layers-stage" id="dlStage">
+    <div class="dl-copy">
+      <div class="dl-eyebrow">Handmade · Hole-less</div>
+      <div class="dl-slide on" data-i="0">
+        <h2>Filled to start.</h2>
+        <p>Our donuts have no hole. Soft dough, split open, and packed with real cream.</p>
+        <a href="/menu.html#cat-donut" class="btn btn-primary">See the donuts</a>
+      </div>
+      <div class="dl-slide" data-i="1">
+        <h2>Layered with Nutella.</h2>
+        <p>Warm dough meets a thick hazelnut fill. One of the signatures people come back for.</p>
+        <a href="/menu.html#cat-donut" class="btn btn-primary">See the donuts</a>
+      </div>
+      <div class="dl-slide" data-i="2">
+        <h2>Built in layers.</h2>
+        <p>Dubai chocolate, pistachio cream, and a dark glaze. Cross-section of what &ldquo;ugly&rdquo; tastes like.</p>
+        <a href="/menu.html#cat-donut" class="btn btn-primary">See the donuts</a>
+      </div>
+      <div class="dl-slide" data-i="3">
+        <h2>Stacked to finish.</h2>
+        <p>Strawberry milk cream and dulce de leche. Same hole-less shape, different kind of sweet.</p>
+        <a href="/menu.html#cat-donut" class="btn btn-primary">See the donuts</a>
+      </div>
+    </div>
+    <div class="dl-visual" aria-hidden="true">
+      <div class="dl-frame"></div>
+      <div class="dl-product on" data-i="0" style="--i:0"><img src="/.netlify/images?url=%2Fuploads%2Fmilk-cream.jpeg&w=800" alt="" width="778" height="778" loading="lazy" decoding="async"></div>
+      <div class="dl-product" data-i="1" style="--i:1"><img src="/.netlify/images?url=%2Fuploads%2Fnutella1.jpg&w=800" alt="" width="1000" height="1000" loading="lazy" decoding="async"></div>
+      <div class="dl-product" data-i="2" style="--i:2"><img src="/.netlify/images?url=%2Fuploads%2Fdubai-chocolate-double-transparent.png&w=800" alt="" width="1600" height="1358" loading="lazy" decoding="async"></div>
+      <div class="dl-product" data-i="3" style="--i:3"><img src="/.netlify/images?url=%2Fuploads%2Fstrawberry-milk-cream.jpeg&w=800" alt="" width="692" height="692" loading="lazy" decoding="async"></div>
+    </div>
+    <div class="dl-dots" id="dlDots" aria-hidden="true"><b class="on"></b><b></b><b></b><b></b></div>
   </div>
 </section>
 
@@ -1752,7 +1826,41 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
 </script>
 <!-- ============================================================
      UGLY DONUTS COOKIE CONSENT BANNER
-     Paste this block immediately before </body> on every page.
+     Paste this block immediately before 
+<script>
+(function(){
+  var sec = document.getElementById('donut-layers');
+  if(!sec) return;
+  var slides = sec.querySelectorAll('.dl-slide');
+  var products = sec.querySelectorAll('.dl-product');
+  var dots = sec.querySelectorAll('#dlDots b');
+  var n = slides.length;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce) return;
+  function setH(){ sec.style.height = ((n + 0.85) * window.innerHeight) + 'px'; }
+  setH();
+  window.addEventListener('resize', setH, {passive:true});
+  var cur = 0;
+  function go(i){
+    if(i === cur) return;
+    cur = i;
+    slides.forEach(function(el,j){ el.classList.toggle('on', j===i); });
+    products.forEach(function(el,j){ el.classList.toggle('on', j===i); });
+    dots.forEach(function(el,j){ el.classList.toggle('on', j===i); });
+  }
+  function onScroll(){
+    var r = sec.getBoundingClientRect();
+    var total = sec.offsetHeight - window.innerHeight;
+    if(total <= 0) return;
+    var p = Math.min(1, Math.max(0, -r.top / total));
+    go(Math.min(n-1, Math.floor(p * n)));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+</script>
+
+</body> on every page.
      Self-contained: own styles + script. No external dependencies.
      Behavior: opt-OUT model. Essential cookies always run.
      Non-essential (analytics/ads) run only if the visitor has not
