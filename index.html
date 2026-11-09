@@ -585,10 +585,12 @@ nav.nav .nav-order-mobile{display:none !important}
 .bl-layer{position:absolute;will-change:transform}
 .bl-layer img{position:relative;z-index:1;display:block;width:100%;height:auto}
 .bl-l-top{left:2.5%;top:-1.5%;width:95%;z-index:4}
-.bl-l-fill{left:2.29%;top:23.6%;width:95.7%;z-index:2}
+.bl-l-berries{left:1.59%;top:26.5%;width:97.12%;z-index:2}
+/* the cream sits in front of the crown, so the crown's cut underside is always tucked behind it when closed */
+.bl-l-cream{left:9%;top:29%;width:82%;z-index:5}
 .bl-l-bottom{left:1.13%;top:50.65%;width:95.85%;z-index:1}
 /* the untouched product photo sits over the stack whenever it is closed */
-.bl-photo{position:absolute;left:0;top:0;width:100%;height:auto;z-index:5;pointer-events:none;will-change:opacity;transition:opacity .22s linear}
+.bl-photo{position:absolute;left:0;top:0;width:100%;height:auto;z-index:6;pointer-events:none;will-change:opacity;transition:opacity .22s linear}
 .bl-photo.off{opacity:0}
 /* contact shadow / ambient occlusion each layer drops on the one below it */
 .bl-ao{position:absolute;z-index:0;left:5%;right:5%;bottom:-16%;height:40%;border-radius:50%;background:radial-gradient(closest-side,rgba(40,16,2,.55),rgba(40,16,2,.18) 60%,rgba(40,16,2,0));filter:blur(6px);will-change:transform,opacity}
@@ -605,14 +607,28 @@ nav.nav .nav-order-mobile{display:none !important}
 .bl-call.l{right:94%;flex-direction:row-reverse;text-align:right;--o:right}
 .bl-call.low{top:74%}
 /* strawberry story: drawn while it is being built, real photo once it is done */
-.bl-field{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:0;background:url(/images/layers/il-field.webp) center 55%/auto 130% no-repeat;will-change:opacity}
-.bl-field::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(243,230,208,.92) 0%,rgba(243,230,208,.7) 34%,rgba(243,230,208,0) 62%)}
+.bl-scene{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:0;overflow:hidden;will-change:opacity}
+.bl-scene>*{position:absolute;pointer-events:none}
+.bl-field{inset:-4% -2%;background:url(/images/layers/il-field.webp) 62% 40%/cover no-repeat;will-change:transform}
+.bl-rays{left:-30%;top:-60%;width:120%;height:160%;background:repeating-conic-gradient(from 200deg at 22% 30%,rgba(255,236,190,.0) 0deg,rgba(255,236,190,.22) 3deg,rgba(255,236,190,0) 7deg,rgba(255,236,190,0) 12deg);-webkit-mask-image:radial-gradient(circle at 22% 30%,#000 0,rgba(0,0,0,.6) 30%,transparent 62%);mask-image:radial-gradient(circle at 22% 30%,#000 0,rgba(0,0,0,.6) 30%,transparent 62%);mix-blend-mode:screen;animation:blRays 26s linear infinite;transform-origin:22% 30%}
+@keyframes blRays{to{transform:rotate(14deg)}}
+.bl-haze{inset:0;background:linear-gradient(180deg,rgba(255,226,170,0) 30%,rgba(255,214,150,.28) 62%,rgba(120,70,20,.22) 100%)}
+.bl-textfade{inset:0;background:linear-gradient(90deg,rgba(250,238,214,.86) 0%,rgba(250,238,214,.55) 30%,rgba(250,238,214,0) 52%)}
+.bl-fg{bottom:-6%;will-change:transform}
+.bl-fg img{display:block;width:100%;height:auto}
+.bl-fgL{left:-7%;width:min(40vw,640px);filter:blur(2.5px)}
+.bl-fgR{right:-5%;width:min(26vw,420px);filter:blur(1.5px)}
+.bl-motes{inset:0}
+.bl-motes b{position:absolute;width:var(--s);height:var(--s);border-radius:50%;background:radial-gradient(circle,rgba(255,248,220,.95),rgba(255,226,150,.35) 50%,rgba(255,226,150,0) 72%);animation:blMote var(--t) ease-in-out infinite;animation-delay:var(--d)}
+@keyframes blMote{0%,100%{transform:translate3d(0,0,0);opacity:.2}50%{transform:translate3d(var(--x),-26px,0);opacity:1}}
 .bl-story{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding-right:120px;pointer-events:none;z-index:2}
 .bl-sbox{position:relative;width:min(36vw,58vh,640px);aspect-ratio:578/392}
 .bl-sbox>*{position:absolute;left:0;top:0;opacity:0;will-change:transform,opacity}
 .bl-sbox img{display:block;width:100%;height:auto}
 .bl-sbox .full{width:100%}
 .bl-sbox .gnd{left:5%;top:auto;bottom:-9%;width:90%;height:16%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.55),rgba(0,0,0,.18) 55%,rgba(0,0,0,0))}
+.bl-ssh{height:0;padding-bottom:calc(var(--w) * .3);width:var(--w);border-radius:50%;background:radial-gradient(closest-side,rgba(40,12,0,.55),rgba(40,12,0,.15) 60%,rgba(40,12,0,0))}
+.bl-slash{width:60%;height:3px;border-radius:3px;background:linear-gradient(90deg,rgba(255,255,255,0),#fff 40%,rgba(255,255,255,.9) 60%,rgba(255,255,255,0));box-shadow:0 0 12px 2px rgba(255,250,235,.8);transform-origin:left center}
 .bl-flash{width:100%;height:100%;background:radial-gradient(closest-side,rgba(255,250,238,.95),rgba(255,240,214,.55) 60%,rgba(255,240,214,.15));mix-blend-mode:screen;-webkit-mask-image:url(/images/layers/il-donut.webp);mask-image:url(/images/layers/il-donut.webp);-webkit-mask-size:100% 100%;mask-size:100% 100%}
 .bl-sheen{width:100%;height:100%;overflow:hidden;-webkit-mask-image:url(/images/layers/il-donut.webp);mask-image:url(/images/layers/il-donut.webp);-webkit-mask-size:100% 100%;mask-size:100% 100%}
 .bl-sheen i{position:absolute;top:-20%;bottom:-20%;left:0;width:34%;background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,250,235,.85),rgba(255,255,255,0));transform:translateX(var(--sx,-120%)) skewX(-14deg)}
@@ -682,13 +698,15 @@ nav.nav .nav-order-mobile{display:none !important}
   .bl-call .dot{display:none}
   /* labels sit in the gaps between layers, never over the fruit */
   .bl-l-top .bl-call{top:100%;bottom:auto;left:4%;right:auto;margin-top:4px}
-  .bl-l-fill .bl-call.r{top:auto;bottom:100%;right:4%;left:auto;margin-bottom:2px}
-  .bl-l-fill .bl-call.low{top:100%;left:4%;right:auto;margin-top:2px}
+  .bl-l-cream .bl-call{top:auto;bottom:100%;right:4%;left:auto;margin-bottom:2px}
+  .bl-l-berries .bl-call{top:auto;bottom:100%;left:4%;right:auto;margin-bottom:2px}
   .bl-l-bottom .bl-call{top:100%;left:auto;right:4%;margin-top:6px}
   .bl-story{padding-right:0}
   .bl-sbox{width:80vw}
-  .bl-field{background-position:58% 50%}
-  .bl-field::after{background:linear-gradient(180deg,rgba(243,230,208,.94) 0%,rgba(243,230,208,.75) 36%,rgba(243,230,208,0) 58%)}
+  .bl-field{background-position:70% 40%}
+  .bl-textfade{background:linear-gradient(180deg,rgba(250,238,214,.9) 0%,rgba(250,238,214,.7) 34%,rgba(250,238,214,0) 52%)}
+  .bl-fgL{width:72vw;left:-22%}
+  .bl-fgR{width:46vw;right:-14%}
   .bl-part{width:calc(var(--w) * .72)}
   .bl-part.far,.bl-part.nm{display:none}
   .bl-rail{display:none}
@@ -724,7 +742,7 @@ nav.nav .nav-order-mobile{display:none !important}
   .bl-stage .bl-pill{background:var(--text-dark);color:var(--bg-cream)}
   .bl-stage .bl-pill.hot{background:var(--orange);color:#fff}
   .bl-stage .bl-pill.ghost{background:transparent;color:var(--text-dark);box-shadow:inset 0 0 0 1px currentColor}
-  .bl-field,.bl-story{display:none}
+  .bl-scene,.bl-story{display:none}
   .bl-stage .bl-kicker,.bl-stage .bl-slide h2 .serif-italic{color:var(--orange)}
   .bl-real{opacity:1;transform:none;pointer-events:auto}
   .bl-inner{min-height:100svh}
@@ -830,7 +848,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
 <!-- BUILT IN LAYERS: one hole-less donut, pinned and rebuilt by the scroll -->
 <section class="bl" id="built-in-layers" aria-label="Built in layers: inside an Ugly donut">
   <div class="bl-stage" id="blStage">
-    <div class="bl-bg" id="blBg"></div><div class="bl-wipe" id="blWipe"></div><div class="bl-field" id="blField" aria-hidden="true"></div><div class="bl-grain" aria-hidden="true"></div>
+    <div class="bl-bg" id="blBg"></div><div class="bl-wipe" id="blWipe"></div><div class="bl-scene" id="blScene" aria-hidden="true"><div class="bl-field" id="blField"></div><div class="bl-rays"></div><div class="bl-haze"></div><div class="bl-motes"><b style="left:45%;top:78%;--s:5px;--t:9s;--d:-0s;--x:-20px"></b><b style="left:72%;top:24%;--s:6px;--t:10s;--d:-0s;--x:8px"></b><b style="left:31%;top:20%;--s:4px;--t:9s;--d:-6s;--x:-20px"></b><b style="left:34%;top:23%;--s:8px;--t:9s;--d:-0s;--x:12px"></b><b style="left:19%;top:78%;--s:5px;--t:11s;--d:-9s;--x:-21px"></b><b style="left:77%;top:55%;--s:7px;--t:6s;--d:-3s;--x:-22px"></b><b style="left:75%;top:72%;--s:5px;--t:8s;--d:-6s;--x:-15px"></b><b style="left:73%;top:25%;--s:8px;--t:8s;--d:-8s;--x:19px"></b><b style="left:27%;top:24%;--s:8px;--t:10s;--d:-3s;--x:-1px"></b><b style="left:16%;top:53%;--s:9px;--t:6s;--d:-9s;--x:-21px"></b><b style="left:83%;top:31%;--s:7px;--t:11s;--d:-8s;--x:3px"></b><b style="left:44%;top:47%;--s:8px;--t:9s;--d:-5s;--x:-5px"></b><b style="left:35%;top:68%;--s:5px;--t:11s;--d:-3s;--x:-19px"></b><b style="left:77%;top:37%;--s:8px;--t:9s;--d:-5s;--x:22px"></b><b style="left:61%;top:36%;--s:8px;--t:6s;--d:-1s;--x:8px"></b><b style="left:57%;top:28%;--s:6px;--t:7s;--d:-7s;--x:2px"></b></div><div class="bl-fg bl-fgR" id="blFgR"><img src="/images/layers/il-fg-small.webp" width="608" height="520" alt="" loading="lazy" decoding="async"></div><div class="bl-fg bl-fgL" id="blFgL"><img src="/images/layers/il-fg-big.webp" width="1107" height="803" alt="" loading="lazy" decoding="async"></div><div class="bl-textfade"></div></div><div class="bl-grain" aria-hidden="true"></div>
     <div class="bl-inner">
       <div class="bl-copy">
         <div class="bl-slide on" data-i="0">
@@ -842,7 +860,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
         <div class="bl-slide" data-i="1">
           <div class="bl-kicker"><span>02</span><i></i><em>Inside the PB &amp; Jelly</em></div>
           <h2><span class="ln"><span>Pulled</span></span><span class="ln"><span><span class="serif-italic">apart.</span></span></span></h2>
-          <p>Three layers, nothing hollow. Here is everything that goes into one donut.</p>
+          <p>Four layers, nothing hollow. Here is everything that goes into one donut.</p>
         </div>
         <div class="bl-slide" data-i="2">
           <div class="bl-kicker"><span>03</span><i></i><em>Filled, not injected</em></div>
@@ -883,7 +901,8 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
         <div class="bl-donut" id="blDonut" role="img" aria-label="A PB and Jelly Donut: a hole-less brioche donut filled with whipped peanut cream and sliced strawberries, dusted with powdered sugar">
           <div class="bl-ground" id="blGround"></div>
           <div class="bl-layer bl-l-bottom"><img src="/images/layers/ph-bottom.webp" width="758" height="321" alt="" decoding="async"><div class="bl-call l"><span class="dot"></span><span class="lead"></span><span class="num">01</span><span class="t">Brioche<small>Hand-mixed dough, fried in 100% avocado oil</small></span></div></div>
-          <div class="bl-layer bl-l-fill"><i class="bl-ao"></i><img src="/images/layers/ph-fill.webp" width="674" height="363" alt="" decoding="async"><div class="bl-call r"><span class="dot"></span><span class="lead"></span><span class="num">02</span><span class="t">Peanut cream<small>Whipped in the store, every morning</small></span></div><div class="bl-call l low"><span class="dot"></span><span class="lead"></span><span class="num">03</span><span class="t">Strawberries<small>Sliced fresh, finished with syrup</small></span></div></div>
+          <div class="bl-layer bl-l-berries"><i class="bl-ao"></i><img src="/images/layers/ph-berries.webp" width="684" height="345" alt="" decoding="async"><div class="bl-call r"><span class="dot"></span><span class="lead"></span><span class="num">02</span><span class="t">Strawberries<small>Sliced fresh, finished with syrup</small></span></div></div>
+          <div class="bl-layer bl-l-cream"><i class="bl-ao"></i><img src="/images/layers/ph-cream.webp" width="585" height="312" alt="" decoding="async"><div class="bl-call l"><span class="dot"></span><span class="lead"></span><span class="num">03</span><span class="t">Peanut cream<small>Whipped in the store, every morning</small></span></div></div>
           <div class="bl-layer bl-l-top"><i class="bl-ao"></i><img src="/images/layers/ph-top.webp" width="697" height="292" alt="" decoding="async"><div class="bl-call r"><span class="dot"></span><span class="lead"></span><span class="num">04</span><span class="t">The crown<small>Powdered sugar. Still no hole.</small></span></div></div>
           <img class="bl-photo" id="blPhoto" src="/images/layers/ph-real.webp" width="878" height="729" alt="" decoding="async">
         </div>
@@ -891,9 +910,18 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
           <i class="gnd" id="blSgnd"></i>
           <div id="blSprig" style="width:80%"><img src="/images/layers/il-sprig.webp" width="696" height="518" alt="" loading="lazy" decoding="async"></div>
           <div id="blSprigB" style="width:80%"><img src="/images/layers/il-sprig-bare.webp" width="696" height="518" alt="" loading="lazy" decoding="async"></div>
-          <div id="blSplash" style="width:50%"><img src="/images/layers/il-splash.webp" width="428" height="368" alt="" loading="lazy" decoding="async"></div>
+          <div id="blLeaf" style="width:26%"><img src="/images/layers/il-leaf.webp" width="371" height="296" alt="" loading="lazy" decoding="async"></div>
+          <div id="blStream" style="width:62%"><img src="/images/layers/il-stream.webp" width="714" height="448" alt="" loading="lazy" decoding="async"></div>
+          <div id="blSplash" style="width:52%"><img src="/images/layers/il-splash.webp" width="437" height="389" alt="" loading="lazy" decoding="async"></div>
+          <div class="bl-drop" style="width:7%"><img src="/images/layers/il-drop1.webp" width="128" height="117" alt="" loading="lazy" decoding="async"></div><div class="bl-drop" style="width:5%"><img src="/images/layers/il-drop2.webp" width="118" height="110" alt="" loading="lazy" decoding="async"></div><div class="bl-drop" style="width:6%"><img src="/images/layers/il-drop3.webp" width="108" height="100" alt="" loading="lazy" decoding="async"></div><div class="bl-drop" style="width:4%"><img src="/images/layers/il-drop4.webp" width="90" height="86" alt="" loading="lazy" decoding="async"></div><div class="bl-drop" style="width:5%"><img src="/images/layers/il-drop1.webp" width="128" height="117" alt="" loading="lazy" decoding="async"></div><div class="bl-drop" style="width:3.5%"><img src="/images/layers/il-drop4.webp" width="90" height="86" alt="" loading="lazy" decoding="async"></div><div class="bl-drop" style="width:4.5%"><img src="/images/layers/il-drop2.webp" width="118" height="110" alt="" loading="lazy" decoding="async"></div>
           <div class="full" id="blIllu"><img src="/images/layers/il-donut.webp" width="643" height="438" alt="" loading="lazy" decoding="async"></div>
-          <div id="blBerry" style="width:27%"><img src="/images/layers/il-berry.webp" width="404" height="484" alt="" loading="lazy" decoding="async"></div>
+          <i class="bl-ssh" style="--w:21%"></i><i class="bl-ssh" style="--w:22%"></i><i class="bl-ssh" style="--w:23%"></i><i class="bl-ssh" style="--w:21%"></i><i class="bl-ssh" style="--w:24%"></i><i class="bl-ssh" style="--w:21%"></i>
+          <div id="blBerry" style="width:30.6%"><img src="/images/layers/il-berry.webp" width="404" height="484" alt="" loading="lazy" decoding="async"></div>
+          <div id="blHandE" style="width:71%"><img src="/images/layers/il-hand-empty.webp" width="614" height="630" alt="" loading="lazy" decoding="async"></div>
+          <div id="blHandB" style="width:71%"><img src="/images/layers/il-hand.webp" width="614" height="890" alt="" loading="lazy" decoding="async"></div>
+          <div id="blKnife" style="width:58%"><img src="/images/layers/il-knife.webp" width="566" height="254" alt="" loading="lazy" decoding="async"></div>
+          <i class="bl-slash" id="blSlash"></i>
+          <div class="bl-juice" style="width:4%"><img src="/images/layers/il-juice1.webp" width="118" height="102" alt="" loading="lazy" decoding="async"></div><div class="bl-juice" style="width:3%"><img src="/images/layers/il-juice2.webp" width="80" height="68" alt="" loading="lazy" decoding="async"></div><div class="bl-juice" style="width:3.5%"><img src="/images/layers/il-juice3.webp" width="98" height="84" alt="" loading="lazy" decoding="async"></div><div class="bl-juice" style="width:2.6%"><img src="/images/layers/il-juice2.webp" width="80" height="68" alt="" loading="lazy" decoding="async"></div><div class="bl-juice" style="width:3.2%"><img src="/images/layers/il-juice1.webp" width="118" height="102" alt="" loading="lazy" decoding="async"></div>
           <div class="bl-isl" data-x="0.339" data-y="0.15" data-r="-100" style="width:19%"><img src="/images/layers/il-slice1.webp" width="259" height="331" alt="" loading="lazy" decoding="async"></div><div class="bl-isl" data-x="0.754" data-y="0.122" data-r="-84" style="width:20%"><img src="/images/layers/il-slice2.webp" width="253" height="318" alt="" loading="lazy" decoding="async"></div><div class="bl-isl" data-x="0.54" data-y="0.34" data-r="-86" style="width:21%"><img src="/images/layers/il-slice3.webp" width="253" height="325" alt="" loading="lazy" decoding="async"></div><div class="bl-isl" data-x="0.234" data-y="0.735" data-r="-62" style="width:19%"><img src="/images/layers/il-slice4.webp" width="250" height="323" alt="" loading="lazy" decoding="async"></div><div class="bl-isl" data-x="0.517" data-y="0.69" data-r="-100" style="width:22%"><img src="/images/layers/il-slice5.webp" width="251" height="325" alt="" loading="lazy" decoding="async"></div><div class="bl-isl" data-x="0.721" data-y="0.82" data-r="-104" style="width:19%"><img src="/images/layers/il-slice6.webp" width="253" height="326" alt="" loading="lazy" decoding="async"></div>
           <div class="full" id="blRealN"><img src="/images/layers/real-nutella-strawberry.webp" width="578" height="392" alt="" loading="lazy" decoding="async"></div>
           <div class="bl-sheen" id="blSheen"><i></i></div>
@@ -2042,12 +2070,13 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
   if (!sec || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var $ = function(id){ return document.getElementById(id); };
   var stage = $('blStage'), donut = $('blDonut'), ground = $('blGround'), bg = $('blBg'), wipe = $('blWipe');
-  var real = $('blReal'), bar = $('blBar'), photo = $('blPhoto'), field = $('blField'), sbox = $('blSbox'), flavors = $('blFlavors'), strip = $('blStrip'), visual = $('blVisual');
+  var real = $('blReal'), bar = $('blBar'), photo = $('blPhoto'), field = $('blField'), scene = $('blScene'), fgL = $('blFgL'), fgR = $('blFgR'), sbox = $('blSbox'), flavors = $('blFlavors'), strip = $('blStrip'), visual = $('blVisual');
   var slides = sec.querySelectorAll('.bl-slide'), rail = sec.querySelectorAll('.bl-rail button'), nums = sec.querySelectorAll('.bl-numeral span');
   var fls = strip.querySelectorAll('.bl-fl'), parts = sec.querySelectorAll('.bl-part');
   var SLS = sec.querySelectorAll('.bl-isl');
-  var SP = { sprig: $('blSprig'), bare: $('blSprigB'), splash: $('blSplash'), illu: $('blIllu'), berry: $('blBerry'), realn: $('blRealN'), sheen: $('blSheen'), flash: $('blFlash'), chip: $('blChip'), gnd: $('blSgnd') };
-  var names = ['top', 'fill', 'bottom'], L = {}, AO = {}, CALL = {};
+  var SP = { sprig: $('blSprig'), bare: $('blSprigB'), leaf: $('blLeaf'), stream: $('blStream'), splash: $('blSplash'), illu: $('blIllu'), berry: $('blBerry'), handE: $('blHandE'), handB: $('blHandB'), knife: $('blKnife'), slash: $('blSlash'), realn: $('blRealN'), sheen: $('blSheen'), flash: $('blFlash'), chip: $('blChip'), gnd: $('blSgnd') };
+  var DROPS = sec.querySelectorAll('.bl-drop'), JUICE = sec.querySelectorAll('.bl-juice'), SSH = sec.querySelectorAll('.bl-ssh');
+  var names = ['top', 'cream', 'berries', 'bottom'], L = {}, AO = {}, CALL = {};
   names.forEach(function(n){ L[n] = sec.querySelector('.bl-l-' + n); AO[n] = L[n].querySelector('.bl-ao'); CALL[n] = L[n].querySelectorAll('.bl-call'); });
 
   /* beat positions on the pinned scroll; index 0 is the black pre-roll */
@@ -2056,23 +2085,23 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
   /* layer state: [y (donut heights), x (donut widths), rotate deg, scale, callout] */
   var Z = [0,0,0,1,0];
   var ST = [
-    { g:[0.9, 0.05, 1], top:Z, fill:Z, bottom:Z, parts:0 },
-    { g:[1, 0, 1],      top:Z, fill:Z, bottom:Z, parts:0 },
-    { g:[0.8, 0.07, 1], top:[-0.5,0.03,-6,1.04,1], fill:[-0.04,-0.03,4,1.01,1], bottom:[0.38,-0.02,3,0.97,1], parts:1 },
-    { g:[0.9, 0.1, 1], top:[-0.4,0.05,-9,1.03,0], fill:[0.08,0,0,1,1], bottom:[0.08,0,0,1,0], parts:0.75 },
-    { g:[1, 0, 1],      top:Z, fill:Z, bottom:Z, parts:0 },
-    { g:[0.8, -0.1, 0], top:Z, fill:Z, bottom:Z, parts:0 },
-    { g:[0.8, -0.1, 0], top:Z, fill:Z, bottom:Z, parts:0 },
-    { g:[0.8, -0.1, 0], top:Z, fill:Z, bottom:Z, parts:0 },
-    { g:[0.62, -0.1, 0], top:Z, fill:Z, bottom:Z, parts:0 }
+    { g:[0.9, 0.05, 1], top:Z, cream:Z, berries:Z, bottom:Z, parts:0 },
+    { g:[1, 0, 1],      top:Z, cream:Z, berries:Z, bottom:Z, parts:0 },
+    { g:[0.74, 0.07, 1], top:[-0.62,0.03,-6,1.04,1], cream:[-0.25,-0.03,4,1.02,1], berries:[0.1,0.03,-3,1,1], bottom:[0.46,-0.02,3,0.97,1], parts:1 },
+    { g:[0.9, 0.1, 1], top:[-0.42,0.05,-9,1.03,0], cream:[0.07,0,0,1,1], berries:[0.07,0,0,1,1], bottom:[0.07,0,0,1,0], parts:0.75 },
+    { g:[1, 0, 1],      top:Z, cream:Z, berries:Z, bottom:Z, parts:0 },
+    { g:[0.8, -0.1, 0], top:Z, cream:Z, berries:Z, bottom:Z, parts:0 },
+    { g:[0.8, -0.1, 0], top:Z, cream:Z, berries:Z, bottom:Z, parts:0 },
+    { g:[0.8, -0.1, 0], top:Z, cream:Z, berries:Z, bottom:Z, parts:0 },
+    { g:[0.62, -0.1, 0], top:Z, cream:Z, berries:Z, bottom:Z, parts:0 }
   ];
   /* which layer leads each move: apart is top-down, building is bottom-up */
-  var ORDER = [null, {top:0,fill:1,bottom:2}, {bottom:0,fill:1,top:2}, {top:0,fill:0,bottom:0}, null, null, null, null];
+  var ORDER = [null, {top:0,cream:1,berries:2,bottom:3}, {bottom:0,berries:1,cream:2,top:3}, {top:0,cream:0,berries:0,bottom:0}, null, null, null, null];
   /* black (joins the hero), cream, navy, blush, warm cream, black (joins the reel) */
   var BG = ['#050810', '#F5EFE3', '#121A26', '#F3D5C8', '#EFE7D5', '#F3E6D0', '#F3E6D0', '#17100B', '#050810'];
   var LIGHT = [false, true, false, true, true, true, true, false, false];
-  var DEPTH = { top:1, fill:0.45, bottom:-0.25 };
-  var PH = { top:0, fill:2.1, bottom:4.4 };
+  var DEPTH = { top:1, cream:0.6, berries:0.3, bottom:-0.25 };
+  var PH = { top:0, cream:1.6, berries:3.1, bottom:4.4 };
 
   var clamp = function(v){ return v < 0 ? 0 : v > 1 ? 1 : v; };
   var io = function(t){ return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2; };
@@ -2110,10 +2139,10 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
     var s = segOf(p), t = local(p, s), et = io(t), A = ST[s], B = ST[s + 1], ord = ORDER[s];
     /* layers */
     var sepSum = 0, open = 0;
-    for (var i = 0; i < 3; i++){
+    for (var i = 0; i < 4; i++){
       var n = names[i], a = A[n], b = B[n];
       var d = ord ? ord[n] * 0.1 : 0, lt = clamp((t - d) / 0.7);
-      var e = (s === 3 && n === 'top') ? back(lt) : io(lt);
+      var e = io(lt);   /* no overshoot: the crown must never dip past closed */
       var y = lerp(a[0], b[0], e), x = lerp(a[1], b[1], e), r = lerp(a[2], b[2], e), sc = lerp(a[3], b[3], e);
       var sep = Math.min(1, Math.abs(y) * 2.2); sepSum += sep; open = Math.max(open, Math.abs(y) + Math.abs(x) + Math.abs(r) / 60);
       var fl = Math.sin(now / 1300 + PH[n]) * sep * 0.014 * H;
@@ -2126,7 +2155,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
         AO[n].style.opacity = clamp(1 - gap * 3.2).toFixed(3);
         AO[n].style.transform = 'translate3d(0,' + (gap * H * 0.5).toFixed(1) + 'px,0) scale(' + (1 + gap * 0.9).toFixed(3) + ')';
       }
-      var cv = lerp(a[4], b[4], clamp(lt * 1.5 - 0.35));
+      var cv = b[4] < a[4] ? lerp(a[4], b[4], clamp(lt * 3.2)) : lerp(a[4], b[4], clamp(lt * 1.5 - 0.35));
       for (var c = 0; c < CALL[n].length; c++){
         var ce = CALL[n][c], cc = clamp(cv * 1.15 - c * 0.15);
         ce.style.opacity = cc.toFixed(3);
@@ -2140,8 +2169,8 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
     donut.style.transform = 'translate3d(0,' + (g1 * H + bob).toFixed(1) + 'px,0) scale(' + g0.toFixed(4) + ')';
     donut.style.opacity = g2.toFixed(3);
     /* the real photo carries the closed stack; the shot layers take over as soon as it opens */
-    var po = open > 0.006; if (po !== photoOff){ photoOff = po; photo.classList.toggle('off', po); }
-    var spread = sepSum / 3;
+    var po = open > 0.03; if (po !== photoOff){ photoOff = po; photo.classList.toggle('off', po); }
+    var spread = sepSum / 4;
     ground.style.transform = 'translate3d(0,' + (spread * H * 0.32).toFixed(1) + 'px,0) scale(' + (1 + spread * 0.55).toFixed(3) + ',' + (1 + spread * 0.25).toFixed(3) + ')';
     ground.style.opacity = (1 - spread * 0.55).toFixed(3);
     /* floating parts drift on their own depth */
@@ -2160,66 +2189,112 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
       storyOn = inStory;
       var u4 = s === 4 ? t : s > 4 ? 1 : 0, u5 = s === 5 ? t : s > 5 ? 1 : 0, u6 = s === 6 ? t : s > 6 ? 1 : 0, u7 = s === 7 ? t : s > 7 ? 1 : 0;
       if (!inStory){ u4 = u5 = u6 = u7 = 0; }
-      /* field: revealed by the wipe on the way in, gone before the real photo arrives */
+      var hide = function(el){ el.style.opacity = 0; };
+      var put = function(el, x, y, r, sc, o, scy){ el.style.opacity = o.toFixed(3); el.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) rotate(' + (r || 0).toFixed(2) + 'deg) scale(' + (sc || 1).toFixed(3) + (scy ? ',' + scy.toFixed(3) : '') + ')'; };
+      var bell = function(v, a, b, c, d){ return clamp((v - a) / (b - a)) * (1 - clamp((v - c) / (d - c))); };
+      /* scene: revealed by the wipe on the way in, gone before the real photo arrives */
       var fv = s === 4 ? clamp((t - 0.3) / 0.12) : s === 5 ? 1 : s === 6 ? 1 - clamp(t / 0.42) : 0;
-      field.style.opacity = fv.toFixed(3);
-      field.style.clipPath = s === 4 ? circ0 : 'none';
+      scene.style.opacity = fv.toFixed(3);
+      scene.style.clipPath = s === 4 ? circ0 : 'none';
+      var story = clamp((u4 + u5 + u6) / 3);                       /* 0..1 across the drawn part */
+      field.style.transform = 'translate3d(' + (-story * 30 + mx * -8).toFixed(1) + 'px,' + (story * -26 + my * -5).toFixed(1) + 'px,0) scale(' + (1.08 - story * 0.06).toFixed(4) + ')';
+      var fgIn = expo(clamp((u4 - 0.4) / 0.4));
+      fgL.style.transform = 'translate3d(' + (story * -70 + mx * -26).toFixed(1) + 'px,' + ((1 - fgIn) * 260 + story * 40).toFixed(1) + 'px,0)';
+      fgR.style.transform = 'translate3d(' + (story * 40 + mx * -18).toFixed(1) + 'px,' + ((1 - fgIn) * 200 + story * 30).toFixed(1) + 'px,0)';
+      /* the sprig and its berry */
       var sway = Math.sin(now / 1400) * 2.2;
-      /* the sprig with its berry grows up into frame, then the berry is picked */
-      var sIn = expo(clamp((u4 - 0.55) / 0.35)), picked = u5 > 0.06;
-      var sOut = io(clamp((u5 - 0.1) / 0.4));
-      var spX = 0.06 * NW, spY = 0.02 * NH + (1 - sIn) * 0.5 * NH + sOut * 0.6 * NH;
-      var spT = 'translate3d(' + (spX - sOut * 0.25 * NW).toFixed(1) + 'px,' + spY.toFixed(1) + 'px,0) rotate(' + (sway - sOut * 24).toFixed(2) + 'deg)';
-      SP.sprig.style.transform = spT; SP.bare.style.transform = spT;
-      SP.sprig.style.opacity = picked ? 0 : sIn.toFixed(3);
-      SP.bare.style.opacity = picked ? (1 - sOut).toFixed(3) : 0;
-      /* berry: starts where it hung on the sprig, lifts, swings to centre and grows */
-      var bm = io(clamp((u5 - 0.04) / 0.46));
-      var bx0 = spX + 0.8 * NW * 0.803 - 0.135 * NW, by0 = spY + 0.8 * NW * 0.744 * 0.712 - 0.27 * NW * 1.198 * 0.58;
-      var bx1 = 0.365 * NW, by1 = 0.02 * NH;
-      var wob = u5 > 0.45 && u5 < 0.78 ? Math.sin(u5 * 90) * 4 * (1 - Math.abs(u5 - 0.62) / 0.17) : 0;
-      var bOut = clamp((u5 - 0.74) / 0.08);
-      SP.berry.style.opacity = (picked ? 1 - bOut : 0).toFixed(3);
-      SP.berry.style.transform = 'translate3d(' + lerp(bx0, bx1, bm).toFixed(1) + 'px,' + (lerp(by0, by1, bm) - Math.sin(Math.PI * bm) * 0.3 * NH).toFixed(1) + 'px,0) rotate(' + (lerp(sway * 0.5 - 8, 0, bm) + wob).toFixed(2) + 'deg) scale(' + lerp(1.25, 1.35, bm).toFixed(3) + ')';
-      /* wash: a splash blooms behind the berry */
-      var wv = clamp((u5 - 0.44) / 0.1) * (1 - clamp((u5 - 0.68) / 0.12));
-      SP.splash.style.opacity = wv.toFixed(3);
-      SP.splash.style.transform = 'translate3d(' + (0.25 * NW).toFixed(1) + 'px,' + (0.3 * NH - wv * 0.06 * NH).toFixed(1) + 'px,0) scale(' + (0.7 + 0.45 * wv).toFixed(3) + ')';
+      var sIn = expo(clamp((u4 - 0.55) / 0.35));
+      var pickAt = 0.24, picked = u5 >= pickAt;
+      var jig = clamp((u5 - pickAt) / 0.2), spring = picked ? Math.sin(jig * Math.PI * 3) * (1 - jig) * 10 : 0;
+      var sink = io(clamp((u5 - 0.32) / 0.26));
+      var spX = 0.1 * NW, spY = -0.05 * NH + (1 - sIn) * 0.6 * NH + sink * 0.7 * NH;
+      var spR = sway + spring - sink * 18;
+      var spO = sIn * (1 - sink);
+      put(SP.sprig, spX - sink * 0.2 * NW, spY, spR, 1, picked ? 0 : spO);
+      put(SP.bare, spX - sink * 0.2 * NW, spY, spR, 1, picked ? spO : 0);
+      /* berry centre on the sprig (sprig box is 0.8 NW wide) */
+      var bx = spX + 0.8 * NW * 0.803, by = spY + 0.8 * NW * 0.744 * 0.712;
+      /* a leaf shakes loose when the berry is picked */
+      var lf = clamp((u5 - pickAt) / 0.42);
+      put(SP.leaf, spX + 0.05 * NW + lf * 0.25 * NW + Math.sin(lf * 9) * 0.05 * NW, spY + 0.12 * NH + lf * 1.1 * NH, -20 + lf * 160 + Math.sin(lf * 7) * 25, 0.9, picked ? bell(lf, 0, 0.08, 0.75, 1) * spO / Math.max(spO, 0.001) : 0);
+      /* the hand: reaches down, pinches the stem, lifts the berry to centre */
+      var Wh = 0.71 * NW, Hh = Wh * 1.45, hx0 = -0.585 * Wh, hy0 = -0.83 * Hh;  /* offsets from berry centre */
+      var hd = io(clamp(u5 / 0.22));
+      var cx2 = 0.5 * NW, cy2 = 0.36 * NH;                          /* where the berry is washed and cut */
+      var lm = io(clamp((u5 - 0.27) / 0.23));
+      var bcx = lerp(bx, cx2, lm), bcy = lerp(by, cy2, lm) - Math.sin(Math.PI * lm) * 0.25 * NH;
+      var rel = clamp((u5 - 0.5) / 0.1);                            /* hand lets go */
+      if (u5 > 0 && u5 < pickAt){
+        put(SP.handE, bx + hx0 + (1 - hd) * 0.2 * NW, by + hy0 - (1 - hd) * 1.1 * NH, (1 - hd) * 8, 1, clamp(u5 * 10));
+        hide(SP.handB);
+      } else if (picked && u5 < 0.5){
+        put(SP.handB, bcx + hx0, bcy + hy0, Math.sin(lm * Math.PI) * -6, 1, 1);
+        hide(SP.handE);
+      } else if (u5 >= 0.5 && rel < 1){
+        put(SP.handE, cx2 + hx0 + rel * 0.25 * NW, cy2 + hy0 - io(rel) * 0.9 * NH, rel * 10, 1, 1 - rel);
+        hide(SP.handB);
+      } else { hide(SP.handE); hide(SP.handB); }
+      /* the berry on its own after the hand lets go, through the wash, until the cut */
+      var cut = clamp((u5 - 0.8) / 0.04);
+      var wob = bell(u5, 0.52, 0.56, 0.68, 0.72) * Math.sin(now / 70) * 3;
+      var BW = 0.306 * NW, BH = BW * 1.198;
+      put(SP.berry, cx2 - BW / 2, cy2 - BH * 0.6 + bell(u5, 0.52, 0.58, 0.66, 0.72) * 0.02 * NH, wob, 1, u5 >= 0.5 && s <= 5 ? 1 - cut : 0);
+      /* wash: a stream pours over it, droplets fly, a splash blooms below */
+      var wv = bell(u5, 0.5, 0.55, 0.68, 0.73);
+      put(SP.stream, cx2 - 0.56 * NW, cy2 - 0.5 * NW, 0, 1, wv, 0.97 + 0.03 * Math.sin(now / 90));
+      var rv = clamp((u5 - 0.5) / 0.05), rt = clamp((u5 - 0.68) / 0.05);   /* water flows in from the left, drains off the end */
+      SP.stream.style.clipPath = 'inset(0 ' + ((1 - rv) * 100).toFixed(1) + '% 0 ' + (rt * 100).toFixed(1) + '%)';
+      var sp = bell(u5, 0.55, 0.6, 0.7, 0.76);
+      put(SP.splash, cx2 - 0.26 * NW, cy2 + 0.06 * NH - sp * 0.05 * NH, 0, 0.7 + 0.4 * sp, sp);
+      for (var di = 0; di < DROPS.length; di++){
+        var dd = clamp((u5 - 0.55 - di * 0.018) / 0.14), ang = -2.6 + di * 0.75, v = (0.32 + (di % 3) * 0.08) * NW;
+        put(DROPS[di], cx2 + Math.cos(ang) * v * dd, cy2 + Math.sin(ang) * v * dd * 0.8 + 0.9 * NH * dd * dd, 0, 0.6 + 0.6 * dd, bell(dd, 0, 0.12, 0.7, 1) * (s === 5 ? 1 : 0));
+      }
+      /* the cut: a paring knife sweeps through, a bright slash, juice */
+      var kn = clamp((u5 - 0.72) / 0.1);
+      put(SP.knife, cx2 - 0.6 * NW + io(kn) * 0.75 * NW, cy2 - 0.2 * NH + io(kn) * 0.06 * NH, -12 + io(kn) * 10, 1, bell(kn, 0, 0.15, 0.8, 1) * (s === 5 ? 1 : 0));
+      var sl = clamp((u5 - 0.76) / 0.06);
+      put(SP.slash, cx2 - 0.3 * NW, cy2 - 0.02 * NH, -6, 1, bell(u5, 0.76, 0.79, 0.84, 0.88) * (s === 5 ? 1 : 0), 1);
+      SP.slash.style.transform += ' scaleX(' + io(sl).toFixed(3) + ')';
+      /* juice: a burst at the cut, a small one when the first slices land */
+      for (var ji = 0; ji < JUICE.length; ji++){
+        var jj = s === 5 ? clamp((u5 - 0.8 - ji * 0.012) / 0.14) : s === 6 ? clamp((u6 - 0.55 - ji * 0.015) / 0.14) : 0;
+        var ja = -2.2 + ji * 0.55, jv = (s === 5 ? 0.3 : 0.18) * NW, jx0 = s === 5 ? cx2 : 0.45 * NW, jy0 = s === 5 ? cy2 : 0.1 * NH;
+        put(JUICE[ji], jx0 + Math.cos(ja) * jv * jj, jy0 + Math.sin(ja) * jv * jj + 0.6 * NH * jj * jj, ji * 40, 0.7 + 0.5 * jj, bell(jj, 0, 0.1, 0.65, 1) * (inStory ? 1 : 0));
+      }
       /* donut (drawn) rises in on the way to the landing */
       var dIn = expo(clamp((u6 - 0.12) / 0.3));
       var hand = clamp((u6 - 0.84) / 0.1);        /* drawn -> real */
       var real7 = 1 - io(clamp(u7 * 1.6));         /* real photo leaves for the flavours */
       SP.illu.style.opacity = (dIn * (1 - hand)).toFixed(3);
       var dT = 'translate3d(0,' + ((1 - dIn) * 0.45 * NH - (1 - real7) * 0.25 * NH + Math.sin(now / 1700) * 0.005 * NH).toFixed(1) + 'px,0) scale(' + (0.92 + 0.08 * dIn - (1 - real7) * 0.1).toFixed(4) + ')';
-      SP.illu.style.transform = dT; SP.realn.style.transform = dT; SP.sheen.style.transform = dT;
+      SP.illu.style.transform = dT; SP.realn.style.transform = dT; SP.sheen.style.transform = dT; SP.flash.style.transform = dT; SP.gnd.style.transform = dT;
       SP.realn.style.opacity = (hand * real7).toFixed(3);
       SP.gnd.style.opacity = (dIn * real7 * 0.9).toFixed(3);
-      SP.gnd.style.transform = dT;
-      /* a sheen passes across the drawn donut, then a soft flash covers the swap */
       var sh = clamp((u6 - 0.7) / 0.18);
       SP.sheen.style.opacity = (sh > 0 && sh < 1 ? 1 : 0) * (1 - hand);
       SP.sheen.firstChild.style.setProperty('--sx', (-120 + sh * 420).toFixed(1) + '%');
       var fl = Math.sin(Math.PI * clamp((u6 - 0.8) / 0.16));
       SP.flash.style.opacity = (fl * 0.9).toFixed(3);
-      SP.flash.style.transform = dT;
       SP.chip.style.opacity = (clamp((u6 - 0.95) / 0.05) * real7).toFixed(3);
       SP.chip.style.transform = 'translate(-50%,' + ((1 - clamp((u6 - 0.95) / 0.05)) * 10).toFixed(1) + 'px)';
-      /* slices: appear out of the berry, fan into a row, then fly onto the donut one by one */
+      /* slices: out of the berry, fan into a row, then fly onto the donut one by one */
       for (var si = 0; si < SLS.length; si++){
         var se = SLS[si], sw = SLW[si], shh = SLH[si];
         var tx = +se.getAttribute('data-x') * NW - sw / 2, ty = +se.getAttribute('data-y') * NH - shh / 2, tr = +se.getAttribute('data-r');
-        var cxB = 0.5 * NW - sw / 2, cyB = 0.16 * NH;                    /* where the berry was */
-        var rx = (0.09 + si * 0.164) * NW - sw / 2, ry = 0.2 * NH + (si % 2) * 0.06 * NH, rr = (si % 2 ? 7 : -7);
-        var cut = clamp((u5 - 0.74) / 0.08), fan = io(clamp((u5 - 0.8) / 0.2));
+        var rx = (0.09 + si * 0.164) * NW - sw / 2, ry = 0.24 * NH + (si % 2) * 0.06 * NH, rr = (si % 2 ? 7 : -7);
+        var fan = io(clamp((u5 - 0.84) / 0.16));
         var e = clamp((u6 - 0.3 - si * 0.065) / 0.2), mv = io(clamp(e / 0.8)), spp = clamp((e - 0.8) / 0.2);
-        var x0 = lerp(cxB + (si - 2.5) * 2, rx, fan), y0 = lerp(cyB, ry, fan), r0 = lerp((si - 2.5) * 4, rr, fan);
+        var x0 = lerp(cx2 - sw / 2 + (si - 2.5) * 3, rx, fan), y0 = lerp(cy2 - shh / 2, ry, fan), r0 = lerp((si - 2.5) * 5, rr, fan);
         var bounce = -0.04 * NH * Math.sin(spp * Math.PI) * (1 - spp * 0.4);
         var X = lerp(x0, tx, mv), Y = lerp(y0 + Math.sin(now / 1300 + si) * 4 * (1 - mv), ty, mv) - 0.35 * NH * Math.sin(Math.PI * mv) + bounce;
-        var sq = 1 - 0.08 * Math.sin(spp * Math.PI);
-        se.style.opacity = (cut * (1 - hand)).toFixed(3);
-        se.style.transform = 'translate3d(' + X.toFixed(1) + 'px,' + Y.toFixed(1) + 'px,0) rotate(' + lerp(r0, tr, mv).toFixed(1) + 'deg) scale(' + lerp(0.62 + 0.38 * fan, 0.92, mv).toFixed(3) + ',' + (lerp(0.62 + 0.38 * fan, 0.92, mv) * sq).toFixed(3) + ')';
+        var sq = 1 - 0.08 * Math.sin(spp * Math.PI), scl = lerp(0.62 + 0.38 * fan, 0.92, mv);
+        put(se, X, Y, lerp(r0, tr, mv), scl, cut * (1 - hand), scl * sq);
+        /* a small contact shadow appears under each slice as it lands */
+        var so = clamp((mv - 0.6) / 0.4) * (1 - hand);
+        put(SSH[si], tx + sw * 0.5 - sw * 0.55, ty + shh * 0.38, tr * 0.1, 1.5 - 0.5 * clamp((mv - 0.6) / 0.4), so * 0.9);
       }
-      if (!inStory){ field.style.opacity = '0'; }
+      if (!inStory){ scene.style.opacity = '0'; }
     }
     /* flavours */
     var f = clamp((p - 0.87) / 0.13), fo = clamp((p - 0.875) / 0.06);
