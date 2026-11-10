@@ -530,6 +530,165 @@ nav.nav .nav-order-mobile{display:none !important}
 .reel-shot canvas.sun{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 50%;mix-blend-mode:soft-light;opacity:0;transition:opacity 1.2s;pointer-events:none}
 .reel-shot canvas.sun.ready{opacity:1}
 @media(max-width:700px){ .reel-shot canvas.sun{object-position:78% 60%} }
+/* ===================== built in layers (2026-11-09, v5) =====================
+   One hole-less donut, pinned and rebuilt by the scroll across four beats.
+   The section opens and closes on the same black as the hero and the reel, so
+   it joins both without a seam. Colour changes are a circular wipe from the
+   donut, never a crossfade, so two colours are never averaged into mud.
+   Per frame, only transform / opacity / one clip-path are written. */
+.bl{position:relative;height:1200vh;height:1200svh;background:var(--bg-black)}
+.bl-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;color:var(--text-light);isolation:isolate}
+.bl-stage.light{color:var(--text-dark)}
+.bl-bg,.bl-wipe{position:absolute;inset:0;z-index:-2;background:var(--bg-black)}
+.bl-wipe{z-index:-1;clip-path:circle(0px at 70% 50%);will-change:clip-path}
+.bl-grain{position:absolute;inset:-50%;z-index:-1;pointer-events:none;opacity:.06;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.bl-inner{position:relative;height:100%;max-width:1760px;margin:0 auto;padding:96px 72px 64px;display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);align-items:center;gap:32px}
+
+/* copy */
+.bl-copy{position:relative;z-index:3;height:min(440px,62vh)}
+.bl-slide{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);pointer-events:none}
+.bl-slide.on{pointer-events:auto}
+.bl-kicker{display:flex;align-items:center;gap:14px;font-size:11px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--orange-on-dark);margin-bottom:26px}
+.bl-stage.light .bl-kicker{color:var(--orange)}
+.bl-kicker em{font-style:normal;opacity:.55;letter-spacing:.12em}
+.bl-kicker i{display:block;width:34px;height:1px;background:currentColor;opacity:.6;transform-origin:left;transform:scaleX(0);transition:transform .8s var(--ease)}
+.bl-slide.on .bl-kicker i{transform:none;transition-delay:.15s}
+.bl-kicker,.bl-slide p,.bl-ctas{opacity:0;transform:translateY(14px);transition:opacity .5s var(--ease),transform .7s var(--ease)}
+.bl-slide.on .bl-kicker{opacity:1;transform:none;transition-delay:.05s}
+.bl-slide.on p{opacity:.78;transform:none;transition-delay:.32s}
+.bl-slide.on .bl-ctas{opacity:1;transform:none;transition-delay:.42s}
+.bl-slide h2{font-family:var(--serif);font-weight:400;font-size:clamp(3.4rem,6.4vw,7.8rem);line-height:.9;letter-spacing:-.03em;margin:0 0 28px}
+.bl-slide h2 .ln{display:block;overflow:hidden;padding:0 .04em .08em 0;margin-bottom:-.08em}
+.bl-slide h2 .ln>span{display:block;transform:translateY(110%) rotate(2deg);transform-origin:left bottom;transition:transform .55s cubic-bezier(.55,0,.8,.2)}
+.bl-slide.on h2 .ln>span{transform:none;transition:transform 1s var(--ease) .1s}
+.bl-slide.on h2 .ln+.ln>span{transition-delay:.18s}
+.bl-slide h2 .serif-italic{color:var(--orange-on-dark)}
+.bl-stage.light .bl-slide h2 .serif-italic{color:var(--orange)}
+.bl-slide p{font-size:clamp(15px,1.15vw,18px);line-height:1.65;max-width:36ch;margin:0 0 30px}
+.bl-ctas{display:flex;flex-wrap:wrap;gap:10px}
+.bl-pill{display:inline-flex;align-items:center;gap:12px;padding:15px 26px 15px 28px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;background:var(--bg-cream);color:var(--text-dark);transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.bl-stage.light .bl-pill{background:var(--text-dark);color:var(--bg-cream)}
+.bl-pill::after{content:'\2192';transition:transform .3s var(--ease)}
+.bl-pill:hover{transform:translateY(-2px);box-shadow:0 14px 30px -14px rgba(0,0,0,.45)}
+.bl-pill:hover::after{transform:translateX(4px)}
+.bl-pill.hot,.bl-stage.light .bl-pill.hot{background:var(--orange);color:#fff}
+.bl-pill.ghost,.bl-stage.light .bl-pill.ghost{background:transparent;color:inherit;box-shadow:inset 0 0 0 1px currentColor}
+
+/* visual */
+.bl-visual{position:relative;height:100%;display:flex;align-items:center;justify-content:center;padding-right:64px}
+.bl-numeral{position:absolute;right:-2%;top:50%;transform:translateY(-54%);font-family:var(--serif);font-size:clamp(220px,30vw,480px);line-height:1;letter-spacing:-.06em;color:transparent;-webkit-text-stroke:1px currentColor;opacity:.13;pointer-events:none;user-select:none}
+.bl-numeral span{position:absolute;right:0;top:0;opacity:0;transform:translateY(12%);transition:opacity .6s var(--ease),transform .9s var(--ease)}
+.bl-numeral span.on{opacity:1;transform:none}
+.bl-numeral::before{content:'00';visibility:hidden}
+.bl-donut{position:relative;z-index:1;width:min(100%,98vh,1000px);aspect-ratio:723/599;will-change:transform,opacity}
+/* labels live in one overlay above the donut, so no layer can ever cover them */
+.bl-calls{position:absolute;inset:0;z-index:5;pointer-events:none}
+.bl-calls .bl-call,.bl-calls .bl-call.r,.bl-calls .bl-call.l{left:0;top:0;right:auto;bottom:auto;will-change:transform,opacity}
+.bl-ground{position:absolute;left:6%;right:6%;bottom:-6%;height:13%;border-radius:50%;background:radial-gradient(closest-side,rgba(20,10,2,.42),rgba(20,10,2,.16) 55%,rgba(20,10,2,0));will-change:transform,opacity}
+.bl-layer{position:absolute;will-change:transform}
+.bl-layer img{position:relative;z-index:1;display:block;width:100%;height:auto}
+/* assembled, the cream hides the back of the strawberry layer; the full ring only shows once the cream lifts off */
+.bl-layer img.bl-bf{position:absolute;left:0;top:0}
+#blBerFull{opacity:0;will-change:opacity}
+.bl-l-top{left:2.5%;top:-1.5%;width:95%;z-index:4}
+.bl-l-berries{left:1.16%;top:35.9%;width:97.97%;z-index:2}
+/* the cream sits in front of the crown, so the crown's cut underside is always tucked behind it when closed */
+.bl-l-cream{left:9.25%;top:27%;width:78.81%;z-index:5}
+.bl-l-bottom{left:1.13%;top:50.65%;width:95.85%;z-index:1}
+/* the untouched product photo sits over the stack whenever it is closed */
+.bl-photo{position:absolute;left:0;top:0;width:100%;height:auto;z-index:6;pointer-events:none;will-change:opacity}
+.bl-photo.off{opacity:0}
+/* contact shadow / ambient occlusion each layer drops on the one below it */
+.bl-ao{position:absolute;z-index:0;left:5%;right:5%;bottom:-16%;height:40%;border-radius:50%;background:radial-gradient(closest-side,rgba(40,16,2,.55),rgba(40,16,2,.16) 55%,rgba(40,16,2,.05) 80%,rgba(40,16,2,0));will-change:transform,opacity}
+/* callouts */
+.bl-call{position:absolute;top:46%;z-index:2;display:flex;padding:8px 14px;border-radius:14px;background:rgba(10,14,24,.8);box-shadow:0 10px 24px -14px rgba(0,0,0,.5);align-items:center;gap:12px;white-space:nowrap;opacity:0;pointer-events:none}
+.bl-call .num{font-family:var(--serif);font-size:22px;line-height:1;color:var(--orange-on-dark)}
+.bl-stage.light .bl-call .num{color:var(--orange)}
+.bl-stage.light .bl-call{background:rgba(255,253,248,.92)}
+.bl-call .lead{display:block;width:clamp(22px,2vw,40px);height:1px;background:currentColor;opacity:.55;transform-origin:var(--o,left);transform:scaleX(var(--d,0))}
+.bl-call .dot{width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 0 4px rgba(255,255,255,.12);flex:none}
+.bl-call .t{font-size:10.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+.bl-call .t small{display:block;margin-top:5px;font-size:12px;line-height:1.35;font-weight:500;letter-spacing:.02em;text-transform:none;opacity:.7;white-space:normal;width:132px}
+.bl-call.l .t small{margin-left:auto}
+.bl-call.r{left:94%;--o:left}
+.bl-call.l{right:94%;flex-direction:row-reverse;text-align:right;--o:right}
+.bl-call.low{top:74%}
+/* real product chip */
+.bl-real{position:absolute;right:2%;bottom:4%;z-index:4;display:flex;align-items:center;gap:14px;padding:9px 22px 9px 9px;border-radius:100px;background:rgba(255,253,248,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 22px 44px -22px rgba(40,20,5,.45),inset 0 0 0 1px rgba(26,36,56,.06);color:var(--text-dark);white-space:nowrap;opacity:0;transform:translateY(18px);transition:opacity .5s var(--ease),transform .7s var(--ease);pointer-events:none}
+.bl-real.on{opacity:1;transform:none;pointer-events:auto}
+.bl-real img{width:62px;height:62px;object-fit:contain;border-radius:50%;background:radial-gradient(#f6e3d9,#ecd0c2)}
+.bl-real span{display:block;font-size:9.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--orange)}
+.bl-real strong{display:block;font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.15;margin-top:3px}
+/* rail + progress */
+.bl-rail{position:absolute;right:22px;top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;gap:16px;list-style:none;margin:0;padding:0}
+.bl-rail button{display:flex;align-items:center;justify-content:flex-end;gap:12px;background:none;border:0;padding:2px 0;color:inherit;font:700 10px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;cursor:pointer}
+.bl-rail button .lb{opacity:0;transform:translateX(6px);transition:opacity .3s,transform .4s var(--ease)}
+.bl-rail:not(:hover) button.on .lb{opacity:0!important}
+.bl-rail button .nb{font-family:var(--serif);font-size:13px;letter-spacing:0;opacity:.4;transition:opacity .3s}
+.bl-rail button i{display:block;width:14px;height:1px;background:currentColor;opacity:.35;transition:width .4s var(--ease),opacity .3s}
+.bl-rail button.on .lb{opacity:.9;transform:none}
+.bl-rail button.on .nb{opacity:1}
+.bl-rail button.on i{width:32px;opacity:1}
+.bl-rail button:hover .lb{opacity:.7;transform:none}
+.bl-rail button:focus-visible{outline:1px solid currentColor;outline-offset:4px}
+.bl-progress{position:absolute;left:72px;right:72px;bottom:30px;height:1px;z-index:5}
+.bl-progress::before{content:'';position:absolute;inset:0;background:currentColor;opacity:.16}
+.bl-progress i{position:absolute;left:0;top:0;bottom:0;width:100%;background:var(--orange-on-dark);transform-origin:left;transform:scaleX(0)}
+.bl-progress b{position:absolute;top:-3px;width:1px;height:7px;background:currentColor;opacity:.35}
+
+@media(min-width:1700px){ .bl-inner{padding:110px 96px 72px} .bl-progress{left:96px;right:96px} }
+@media(max-width:1100px) and (min-width:861px) and (min-aspect-ratio:10/9){ .bl-inner{padding:92px 40px 56px;grid-template-columns:minmax(0,.62fr) minmax(0,1.38fr)} .bl-call .t small{display:none} }
+@media(max-width:860px), (max-width:1180px) and (max-aspect-ratio:10/9){
+  .bl-inner{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);padding:92px 22px 40px;gap:0;align-items:stretch}
+  .bl-copy{height:236px}
+  .bl-slide{top:0;transform:none}
+  .bl-kicker{margin-bottom:14px;font-size:10px}
+  .bl-slide h2{font-size:clamp(2.7rem,12.4vw,3.6rem);margin-bottom:14px}
+  .bl-slide p{font-size:14.5px;margin-bottom:16px;max-width:34ch}
+  .bl-pill{padding:12px 18px 12px 20px;font-size:10px}
+  .bl-donut{width:94vw}
+  .bl-numeral{font-size:62vw;right:-4%;opacity:.09}
+  .bl-call{gap:7px}
+  .bl-call .t small,.bl-call .lead{display:none}
+  .bl-call .num{font-size:17px}
+  .bl-call .t{font-size:8.5px;letter-spacing:.08em}
+  .bl-call{padding:5px 8px}
+  .bl-call{padding:5px 8px;border-radius:12px;background:rgba(10,14,24,.82);color:#fff}
+  .bl-stage.light .bl-call{background:rgba(255,253,248,.92);color:var(--text-dark)}
+  .bl-call .dot{display:none}
+  /* labels sit in the gaps between layers, never over the fruit */
+  .bl-rail{display:none}
+  .bl-call.r,.bl-call.l{flex-direction:column;align-items:center;gap:4px;text-align:center}
+  .bl-real{right:50%;bottom:2%;transform:translate(50%,18px);padding:7px 18px 7px 7px}
+  .bl-real.on{transform:translate(50%,0)}
+  .bl-real img{width:46px;height:46px}
+  .bl-real strong{font-size:16px}
+  .bl-visual{padding-right:0}
+  .bl-rail{right:8px;gap:12px}
+  .bl-rail button .lb{display:none}
+  .bl-rail button i{width:8px}
+  .bl-rail button.on i{width:16px}
+  .bl-rail button .nb{font-size:11px}
+  .bl-progress{left:22px;right:22px;bottom:18px}
+}
+@media(max-width:860px) and (max-height:720px){ .bl-copy{height:200px} .bl-slide p{display:none} }
+@media(prefers-reduced-motion:reduce){
+  .bl{height:auto}
+  .bl-stage{position:relative;height:auto;min-height:100svh;color:var(--text-dark)}
+  .bl-bg{background:var(--bg-cream-warm)}
+  .bl-wipe,.bl-grain,.bl-numeral,.bl-rail,.bl-progress{display:none}
+  .bl-slide{position:relative;top:0;transform:none;display:none}
+  .bl-slide[data-i="3"]{display:block}
+  .bl-slide h2 .ln>span,.bl-kicker,.bl-slide p,.bl-ctas,.bl-kicker i{transform:none!important;opacity:1!important}
+  .bl-slide p{opacity:.78!important}
+  .bl-copy{height:auto}
+  .bl-stage .bl-pill{background:var(--text-dark);color:var(--bg-cream)}
+  .bl-stage .bl-pill.hot{background:var(--orange);color:#fff}
+  .bl-stage .bl-pill.ghost{background:transparent;color:var(--text-dark);box-shadow:inset 0 0 0 1px currentColor}
+  .bl-stage .bl-kicker,.bl-stage .bl-slide h2 .serif-italic{color:var(--orange)}
+  .bl-real{opacity:1;transform:none;pointer-events:auto}
+  .bl-inner{min-height:100svh}
+}
 </style>
 <!--AUTO-SEO:START-->
 <meta property="og:site_name" content="Ugly Donuts &amp; Corn Dogs">
@@ -626,6 +785,54 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
     </div>
   </div>
   <div class="cine-cue"><i></i>Scroll</div>
+</section>
+
+<!-- BUILT IN LAYERS: one hole-less donut, pinned and rebuilt by the scroll -->
+<section class="bl" id="built-in-layers" aria-label="Built in layers: inside an Ugly donut">
+  <div class="bl-stage" id="blStage">
+    <div class="bl-bg" id="blBg"></div><div class="bl-wipe" id="blWipe"></div><div class="bl-grain" aria-hidden="true"></div>
+    <div class="bl-inner">
+      <div class="bl-copy">
+        <div class="bl-slide on" data-i="0">
+          <div class="bl-kicker"><span>01</span><i></i><em>Handmade daily</em></div>
+          <h2><span class="ln"><span>Built in</span></span><span class="ln"><span><span class="serif-italic">layers.</span></span></span></h2>
+          <p>No hole, all filling. Every Ugly donut starts as one soft brioche round, split by hand and built to order.</p>
+          <div class="bl-ctas"><a class="bl-pill" href="/menu">See the donuts</a></div>
+        </div>
+        <div class="bl-slide" data-i="1">
+          <div class="bl-kicker"><span>02</span><i></i><em>Inside the PB &amp; Jelly</em></div>
+          <h2><span class="ln"><span>Pulled</span></span><span class="ln"><span><span class="serif-italic">apart.</span></span></span></h2>
+          <p>Four layers, nothing hollow. Here is everything that goes into one donut.</p>
+        </div>
+        <div class="bl-slide" data-i="2">
+          <div class="bl-kicker"><span>03</span><i></i><em>Filled, not injected</em></div>
+          <h2><span class="ln"><span>Filled to</span></span><span class="ln"><span><span class="serif-italic">the edge.</span></span></span></h2>
+          <p>Whipped peanut cream first, then strawberries sliced fresh in the store. Edge to edge, every time.</p>
+        </div>
+        <div class="bl-slide" data-i="3">
+          <div class="bl-kicker"><span>04</span><i></i><em>Finished after you order</em></div>
+          <h2><span class="ln"><span>Stacked</span></span><span class="ln"><span><span class="serif-italic">to finish.</span></span></span></h2>
+          <p>A dusted crown on top, and it is yours. Ugly on purpose, warm when it reaches you.</p>
+          <div class="bl-ctas"><a class="bl-pill hot" href="https://uglydonutsandcorndogsknickerbocker.toast.site/order?showAllLocations=true">Order online</a><a class="bl-pill ghost" href="/menu">Full menu</a></div>
+        </div>
+      </div>
+      <div class="bl-visual" id="blVisual">
+        <div class="bl-numeral" aria-hidden="true"><span class="on">01</span><span>02</span><span>03</span><span>04</span></div>
+        <div class="bl-donut" id="blDonut" role="img" aria-label="A PB and Jelly Donut: a hole-less brioche donut filled with whipped peanut cream and sliced strawberries, dusted with powdered sugar">
+          <div class="bl-ground" id="blGround"></div>
+          <div class="bl-layer bl-l-bottom"><img src="/images/layers/ph-bottom.webp" width="758" height="321" alt="" decoding="async"></div>
+          <div class="bl-layer bl-l-berries"><i class="bl-ao"></i><img class="bl-bf" src="/images/layers/ph-berries-front.webp" width="690" height="304" alt="" decoding="async"><img id="blBerFull" src="/images/layers/ph-berries.webp" width="690" height="304" alt="" decoding="async"></div>
+          <div class="bl-layer bl-l-cream"><i class="bl-ao"></i><img src="/images/layers/ph-cream.webp" width="555" height="304" alt="" decoding="async"></div>
+          <div class="bl-layer bl-l-top"><i class="bl-ao"></i><img src="/images/layers/ph-top.webp" width="697" height="292" alt="" decoding="async"></div>
+          <img class="bl-photo" id="blPhoto" src="/images/layers/ph-real.webp" width="878" height="729" alt="" decoding="async">
+        </div>
+        <div class="bl-calls" id="blCalls" aria-hidden="true"><div class="bl-call r" data-n="top"><span class="dot"></span><span class="lead"></span><span class="num">04</span><span class="t">The crown<small>Powdered sugar. Still no hole.</small></span></div><div class="bl-call l" data-n="cream"><span class="dot"></span><span class="lead"></span><span class="num">03</span><span class="t">Peanut cream<small>Whipped in the store, every morning</small></span></div><div class="bl-call r" data-n="berries"><span class="dot"></span><span class="lead"></span><span class="num">02</span><span class="t">Strawberries<small>Sliced fresh, finished with syrup</small></span></div><div class="bl-call l" data-n="bottom"><span class="dot"></span><span class="lead"></span><span class="num">01</span><span class="t">Brioche<small>Hand-mixed dough, fried in 100% avocado oil</small></span></div></div>
+        <a class="bl-real" id="blReal" href="/menu"><img src="/images/layers/real-pbj.webp" width="640" height="531" alt="The PB &amp; Jelly Donut as served in our stores" loading="lazy" decoding="async"><span><span>In stores now &middot; Fall seasonal</span><strong>PB &amp; Jelly Donut</strong></span></a>
+      </div>
+    </div>
+    <div class="bl-rail" id="blRail" aria-label="Section steps"><button type="button" class="on"><span class="lb">Built</span><span class="nb">01</span><i></i></button><button type="button"><span class="lb">Apart</span><span class="nb">02</span><i></i></button><button type="button"><span class="lb">Filled</span><span class="nb">03</span><i></i></button><button type="button"><span class="lb">Stacked</span><span class="nb">04</span><i></i></button></div>
+    <div class="bl-progress" aria-hidden="true"><i id="blBar"></i></div>
+  </div>
 </section>
 
 <!-- THE REEL: one pinned stage, three beats. Each photo appears once on the page. -->
@@ -1696,7 +1903,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
     if (z === 'above') go(0);
     else if (z === 'below') go(beats - 1);
     else if (dir > 0 && cur >= beats - 1) goTo(reelEnd());         /* out the bottom: next section's top */
-    else if (dir < 0 && cur <= 0) goTo(0);                          /* out the top: back to the hero */
+    else if (dir < 0 && cur <= 0) goTo(Math.max(0, reel.offsetTop - stageH())); /* out the top: back to the end of the layers section */
     else go(cur + dir);
   }
 
@@ -1750,6 +1957,239 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
 })();
 
 </script>
+<script>
+/* ---------- built in layers (2026-11-09, v13) ----------
+   Pinned stage scrubbed 1:1 to scroll (tiny smoothing only, no snap, no
+   glide, no time-played tweens). Four PB&J layer beats, then the reel. */
+(function(){
+  var sec = document.getElementById('built-in-layers');
+  if (!sec || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var $ = function(id){ return document.getElementById(id); };
+  var stage = $('blStage'), donut = $('blDonut'), ground = $('blGround'), bg = $('blBg'), wipe = $('blWipe');
+  var real = $('blReal'), bar = $('blBar'), photo = $('blPhoto'), visual = $('blVisual');
+  var slides = sec.querySelectorAll('.bl-slide'), rail = sec.querySelectorAll('.bl-rail button'), nums = sec.querySelectorAll('.bl-numeral span');
+  var parts = sec.querySelectorAll('.bl-part');
+  var names = ['top', 'cream', 'berries', 'bottom'], L = {}, AO = {}, CALL = {};
+  names.forEach(function(n){ L[n] = sec.querySelector('.bl-l-' + n); AO[n] = L[n].querySelector('.bl-ao'); CALL[n] = sec.querySelectorAll('.bl-calls .bl-call[data-n="' + n + '"]'); });
+
+  /* beat positions on the pinned scroll; index 0 is the black pre-roll.
+     Section is 12 screens tall (span 11): each layer beat ~2.4 screens,
+     then a short stacked hold that wipes to black and joins the reel. */
+  var P = [0, 0.06, 0.28, 0.50, 0.72, 1];
+  /* layer state: [y (donut heights), x (donut widths), rotate deg, scale, callout] */
+  var Z = [0,0,0,1,0];
+  var ST = [
+    { g:[0.9, 0.05, 1], top:Z, cream:Z, berries:Z, bottom:Z, parts:0 },
+    { g:[1, 0, 1],      top:Z, cream:Z, berries:Z, bottom:Z, parts:0 },
+    { g:[0.74, 0.07, 1], top:[-0.62,0.03,-6,1.04,1], cream:[-0.25,-0.03,4,1.02,1], berries:[0.1,0.03,-3,1,1], bottom:[0.46,-0.02,3,0.97,1], parts:1 },
+    { g:[0.9, 0.1, 1], top:[-0.42,0.05,-9,1.03,0], cream:[0.07,0,0,1,1], berries:[0.07,0,0,1,1], bottom:[0.07,0,0,1,0], parts:0.75 },
+    { g:[1, 0, 1],      top:Z, cream:Z, berries:Z, bottom:Z, parts:0 },
+    { g:[1, 0, 1],      top:Z, cream:Z, berries:Z, bottom:Z, parts:0 }
+  ];
+  /* which layer leads each move: apart is top-down, building is bottom-up */
+  var ORDER = [null, {top:0,cream:1,berries:2,bottom:3}, {bottom:0,berries:1,cream:2,top:3}, {top:0,cream:0,berries:0,bottom:0}, null];
+  /* black (joins the hero), cream, navy, blush, warm cream, black (joins the reel) */
+  var BG = ['#050810', '#F5EFE3', '#121A26', '#F3D5C8', '#EFE7D5', '#050810'];
+  var LIGHT = [false, true, false, true, true, false];
+  var DEPTH = { top:1, cream:0.6, berries:0.3, bottom:-0.25 };
+  var PH = { top:0, cream:1.6, berries:3.1, bottom:4.4 };
+
+  var clamp = function(v){ return v < 0 ? 0 : v > 1 ? 1 : v; };
+  var io = function(t){ return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2; };
+  var io5 = function(t){ return t < 0.5 ? 16*t*t*t*t*t : 1 - Math.pow(-2*t + 2, 5) / 2; };
+  var lerp = function(a, b, t){ return a + (b - a) * t; };
+
+  var LMIN = 6, LMAX = 0, YS = {}, berFull = $('blBerFull'), TX = {}, TY = {}, LB = {}, CW = {}, VISW = 0, VISH = 0, DOX = 0, DOY = 0, GCAP = [0.9, 1, 0.86, 0.94, 1];
+  var W, H, VW, top0, span, cx, cy, maxR, flipAt = [], mobile;
+  function measure(){
+    mobile = window.matchMedia('(max-width:860px), (max-width:1180px) and (max-aspect-ratio:10/9)').matches;
+    W = donut.offsetWidth; H = donut.offsetHeight;
+    top0 = sec.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
+    span = Math.max(1, sec.offsetHeight - stage.offsetHeight);
+    var sr = stage.getBoundingClientRect(), dr = donut.getBoundingClientRect(), cr = sec.querySelector('.bl-copy').getBoundingClientRect();
+    /* the wipe grows from the donut; copy flips colour the moment the edge reaches it */
+    cx = dr.left + dr.width/2 - sr.left; cy = dr.top - sr.top + dr.height/2 - (donut.style.transform ? 0 : 0);
+    var far = function(x, y){ return Math.hypot(x - cx, y - cy); };
+    maxR = Math.max(far(0,0), far(sr.width,0), far(0,sr.height), far(sr.width,sr.height)) + 20;
+    var hx = cr.left - sr.left + Math.min(cr.width, 420) * 0.5, hy = cr.top - sr.top + cr.height * (mobile ? 0.35 : 0.5);
+    flipAt = far(hx, hy) / maxR;
+    var vis = donut.parentNode, vcs = getComputedStyle(vis);
+    VISW = vis.clientWidth - parseFloat(vcs.paddingRight) * 0; VISH = vis.clientHeight;
+    DOX = donut.offsetLeft; DOY = donut.offsetTop;
+    var pc = sec.querySelector('.bl-parts');
+    if (pc){
+      var pr0 = pc.getBoundingClientRect(), sr0 = stage.getBoundingClientRect(), pr = { left: pr0.left - sr0.left, top: pr0.top - sr0.top, width: pr0.width, height: pr0.height }, vw = stage.clientWidth, Mg = mobile ? 16 : 28;
+      var hdr = (document.getElementById('nav') || {offsetHeight:0}).offsetHeight || 0;
+      parts.forEach(function(el){
+        var z = +el.getAttribute('data-z'), w = el.offsetWidth, h = el.offsetHeight || w;
+        var dr = 8 * z + 18 * z + w * 0.22 + 6, dv = 10 * z + 40 * z + h * 0.22 + 6;
+        var bx = parseFloat(el.getAttribute('data-x')) / 100 * pr.width, by = parseFloat(el.getAttribute('data-y')) / 100 * pr.height;
+        var minX = Math.max(0, Mg - pr.left) + dr, maxX = Math.min(pr.width, vw - Mg - pr.left) - w - dr;
+        var minY = Math.max(0, hdr + Mg - pr.top) + dv, maxY = Math.min(pr.height, stage.clientHeight - Mg - pr.top - 24) - h - dv;
+        el.style.left = Math.round(Math.max(minX, Math.min(maxX, bx))) + 'px';
+        el.style.top = Math.round(Math.max(minY, Math.min(maxY, by))) + 'px';
+      });
+    }
+    var aw = vis.clientWidth - parseFloat(vcs.paddingLeft) - parseFloat(vcs.paddingRight), ah = vis.clientHeight - parseFloat(vcs.paddingTop) - parseFloat(vcs.paddingBottom);
+    var vr = vis.getBoundingClientRect(), textRight = 0;
+    sec.querySelectorAll('.bl-slide').forEach(function(sl){
+      sl.querySelectorAll('h2 .ln>span, p, .bl-kicker, .bl-ctas>*').forEach(function(el){
+        var rg = document.createRange(); rg.selectNodeContents(el); var rb = rg.getBoundingClientRect();
+        if (rb.width) textRight = Math.max(textRight, rb.right);
+      });
+    });
+    LMIN = mobile ? 6 : Math.max(6 - vr.left + (sec.querySelector('.bl-inner').getBoundingClientRect().left + 24), textRight - vr.left + 28);
+    var railEl = sec.querySelector('.bl-rail'), rl = railEl ? railEl.getBoundingClientRect().left : stage.getBoundingClientRect().right - 60;
+    LMAX = mobile ? VISW - 6 : Math.max(VISW - 44, rl - vr.left - 70);
+    var SIDE = mobile ? { top:'r', cream:'l', berries:'r', bottom:'l' } : { top:'r', cream:'r', berries:'r', bottom:'r' };
+    names.forEach(function(n){ var c = CALL[n][0]; if (c){ c.classList.toggle('r', SIDE[n] === 'r'); c.classList.toggle('l', SIDE[n] === 'l'); } });
+    names.forEach(function(n){ LB[n] = [L[n].offsetLeft, L[n].offsetTop, L[n].offsetWidth, L[n].offsetHeight]; var c = CALL[n][0]; CW[n] = c ? [c.offsetWidth, c.offsetHeight] : [0, 0]; });
+    /* fit: each state is scaled so the whole stack (and its shadow) fits the column, then centred */
+    var ZX = mobile ? { top:-0.11, cream:0.11, berries:-0.11, bottom:0.11 } : { top:-0.05, cream:0.05, berries:-0.05, bottom:0.05 };
+    names.forEach(function(n){ ST[2][n][1] = ZX[n]; });
+    var WCAP = mobile ? [0.98, 0.98, 0.7, 0.64, 0.98] : [1, 1, 0.8, 0.8, 1];
+    var reserve = mobile ? 74 : 0;                    /* the 'in stores now' chip under the closed donut on phones */
+    for (var st = 0; st <= 4; st++){
+      var mn = 1e9, mxx = -1e9;
+      names.forEach(function(n){ var lsS = ST[st][n], rot = Math.abs(lsS[2]) * Math.PI / 180, cyy = LB[n][1] + LB[n][3] / 2 + lsS[0] * H, hh = (LB[n][3] * Math.cos(rot) + LB[n][2] * Math.sin(rot)) * lsS[3] / 2 + 0.016 * H; mn = Math.min(mn, cyy - hh); mxx = Math.max(mxx, cyy + hh); });
+      mxx = Math.max(mxx, H * 1.05);
+      var ahs = ah - (st === 4 ? reserve : 0) - (mobile ? 8 : 24);
+      var gf = Math.min(GCAP[st], ahs / (mxx - mn), WCAP[st] * aw / W);
+      ST[st].g[0] = gf;
+      var maxCW = 0; names.forEach(function(n){ maxCW = Math.max(maxCW, CW[n][0]); });
+      var need = 0;   /* desktop labels sit in front of the donut's right edge instead of shrinking it */
+      if (need){ gf = Math.min(gf, (LMAX - LMIN - need - 12) / (W * 1.08)); ST[st].g[0] = gf; ST[st].g[1] = -((mn + mxx) / 2 - H / 2) * gf / H; }
+      var rightEdge = DOX + W / 2 + W * gf * 0.54, room = LMAX - rightEdge;
+      var shift = need ? Math.max(0, need - room) : 0;
+      shift = Math.min(shift, Math.max(0, DOX + W / 2 - W * gf * 0.54 - LMIN));
+      ST[st].g[3] = -shift / W;
+      ST[st].g[1] = (-((mn + mxx) / 2 - H / 2) * gf - (st === 4 ? reserve / 2 : 0)) / H;
+    }
+    /* the outro keeps the stacked fit, so the donut does not jump as the wipe goes to black */
+    ST[5].g = ST[4].g.slice();
+    ST[5].top = ST[4].top; ST[5].cream = ST[4].cream; ST[5].berries = ST[4].berries; ST[5].bottom = ST[4].bottom;
+  }
+  function target(){ return clamp(((window.scrollY || window.pageYOffset) - top0) / span); }
+  function segOf(p){ var s = 0; while (s < P.length - 2 && p > P[s + 1]) s++; return s; }
+  /* each move uses the middle of its segment so every beat has a short hold */
+  function local(p, s){ var t = clamp((p - P[s]) / (P[s + 1] - P[s])); return clamp((t - 0.16) / 0.68); }
+
+  var p = target(), shown = -1, seg = -1, light = null, running = false, last = 0, visible = false;
+  var mx = 0, my = 0, tmx = 0, tmy = 0;
+  function render(now){
+    var s = segOf(p), t = local(p, s), et = io(t), A = ST[s], B = ST[s + 1], ord = ORDER[s];
+    /* layers */
+    var sepSum = 0, open = 0;
+    for (var i = 0; i < 4; i++){
+      var n = names[i], a = A[n], b = B[n];
+      var d = ord ? ord[n] * 0.11 : 0, lt = clamp((t - d) / 0.67);
+      var e = io5(lt);  /* no overshoot: the crown must never dip past closed */
+      /* a soft settle as a layer arrives on the one below: a squash, never a dip */
+      var arrive = Math.abs(a[0] - b[0]) > 0.05 && Math.abs(b[0]) < 0.08 ? Math.sin(Math.PI * clamp((lt - 0.78) / 0.22)) : 0;
+      var y = lerp(a[0], b[0], e), x = lerp(a[1], b[1], e), r = lerp(a[2], b[2], e), sc = lerp(a[3], b[3], e);
+      var sep = Math.min(1, Math.abs(y) * 2.2); sepSum += sep; open = Math.max(open, Math.abs(y) + Math.abs(x) + Math.abs(r) / 60);
+      var fl = Math.sin(now / 1300 + PH[n]) * sep * 0.014 * H;
+      var px = mx * DEPTH[n] * (6 + sep * 14), py = my * DEPTH[n] * (4 + sep * 8);
+      TX[n] = x * W + px; TY[n] = y * H + fl + py; YS[n] = y;
+      L[n].style.transform = 'translate3d(' + (x * W + px).toFixed(1) + 'px,' + (y * H + fl + py).toFixed(1) + 'px,0) rotate(' + (r + mx * DEPTH[n] * sep * 2).toFixed(2) + 'deg) scale(' + (sc * (1 + arrive * 0.008)).toFixed(4) + ',' + (sc * (1 - arrive * 0.016)).toFixed(4) + ')';
+      if (AO[n]){
+        /* closer to the layer below = darker, tighter contact shadow */
+        var below = names[i + 1], yb = lerp(A[below][0], B[below][0], e);
+        var gap = Math.max(0, yb - y);
+        AO[n].style.opacity = clamp(1 - gap * 3.2).toFixed(3);
+        AO[n].style.transform = 'translate3d(0,' + (gap * H * 0.5).toFixed(1) + 'px,0) scale(' + (1 + gap * 0.9).toFixed(3) + ')';
+      }
+      var cv = b[4] < a[4] ? lerp(a[4], b[4], clamp(lt * 3.2)) : lerp(a[4], b[4], clamp(lt * 1.5 - 0.35));
+      for (var c = 0; c < CALL[n].length; c++){
+        var ce = CALL[n][c], cc = clamp(cv * 1.15 - c * 0.15);
+        ce.style.opacity = cc.toFixed(3);
+        ce.style.setProperty('--d', clamp(cc * 1.2 - 0.1).toFixed(3));
+      }
+    }
+    berFull.style.opacity = clamp((YS.berries - YS.cream - 0.03) / 0.12).toFixed(3);
+    /* whole donut: scale, lift */
+    var g0 = lerp(A.g[0], B.g[0], et), g1 = lerp(A.g[1], B.g[1], et), gx = lerp(A.g[3] || 0, B.g[3] || 0, et), g2 = lerp(A.g[2], B.g[2], et);
+    var bob = Math.sin(now / 1700) * 0.006 * H;
+    donut.style.transform = 'translate3d(' + (gx * W).toFixed(1) + 'px,' + (g1 * H + bob).toFixed(1) + 'px,0) scale(' + g0.toFixed(4) + ')';
+    donut.style.opacity = g2.toFixed(3);
+    /* labels: anchored to each layer's outer edge, kept inside the visual column, always in front */
+    for (var li = 0; li < 4; li++){
+      var ln = names[li], cl = CALL[ln][0]; if (!cl || cl.style.opacity === '0') continue;
+      var right = cl.classList.contains('r');
+      var ax = LB[ln][0] + LB[ln][2] * (right ? 0.97 : 0.03) + TX[ln], ay = LB[ln][1] + LB[ln][3] * (mobile ? (ln === 'bottom' ? 0.62 : 0.5) : ({ top:0.5, cream:0.3, berries:0.78, bottom:0.6 })[ln]) + TY[ln];
+      var vx = DOX + W / 2 + gx * W + (ax - W / 2) * g0, vy = DOY + H / 2 + (ay - H / 2) * g0 + g1 * H + bob;
+      var cw = CW[ln][0], ch = CW[ln][1];
+      var lx = right ? vx + 8 : vx - 8 - cw;
+      lx = Math.max(LMIN, Math.min(LMAX - cw, lx));
+      var ly = Math.max(4, Math.min(VISH - ch - 4, vy - ch / 2));
+      cl.style.transform = 'translate3d(' + lx.toFixed(1) + 'px,' + ly.toFixed(1) + 'px,0)';
+    }
+    /* the real photo carries the closed stack; the shot layers take over as soon as it opens */
+    var po = open > 0.03; photo.style.opacity = po ? '0' : '1';
+    var spread = sepSum / 4;
+    ground.style.transform = 'translate3d(0,' + (spread * H * 0.32).toFixed(1) + 'px,0) scale(' + (1 + spread * 0.55).toFixed(3) + ',' + (1 + spread * 0.25).toFixed(3) + ')';
+    ground.style.opacity = (1 - spread * 0.55).toFixed(3);
+    /* floating parts (none in the markup; kept so a later add stays wired) */
+    var pv = lerp(A.parts, B.parts, et);
+    for (var k = 0; k < parts.length; k++){
+      var el = parts[k], z = +el.getAttribute('data-z'), ph = k * 1.3;
+      var dy = (0.5 - p) * z * 160 + Math.sin(now / (1500 + k * 170) + ph) * 10 * z;
+      var dx = Math.cos(now / (1900 + k * 130) + ph) * 8 * z + mx * z * 18;
+      var sx = (1 - pv) * (k % 2 ? 40 : -40);
+      el.style.transform = 'translate3d(' + (dx + sx).toFixed(1) + 'px,' + (dy + (1 - pv) * 40).toFixed(1) + 'px,0) rotate(' + ((p * 220 + k * 47) * (k % 2 ? 1 : -1) * 0.4).toFixed(1) + 'deg) scale(' + (0.6 + pv * 0.4).toFixed(3) + ')';
+      el.style.opacity = pv.toFixed(3);
+    }
+    /* colour: base is this segment's start, the wipe brings in the next */
+    if (s !== seg){ seg = s; bg.style.background = BG[s]; wipe.style.background = BG[s + 1]; }
+    /* last beat holds the stacked look, then the wipe to black starts a little later */
+    var wt = s === 4 ? io(clamp((t - 0.2) / 0.7)) : io(clamp(t * 1.1));
+    var circ = 'circle(' + (wt * maxR).toFixed(1) + 'px at ' + cx.toFixed(1) + 'px ' + cy.toFixed(1) + 'px)';
+    wipe.style.clipPath = circ;
+    var isLight = wt >= flipAt ? LIGHT[s + 1] : LIGHT[s];
+    if (isLight !== light){ light = isLight; stage.classList.toggle('light', isLight); }
+    /* copy, rail, numeral — clamp to the four layer beats */
+    var idx = 0, best = 9;
+    for (var j = 1; j <= 4; j++){ var dd = Math.abs(p - P[j]); if (dd < best){ best = dd; idx = j - 1; } }
+    if (idx !== shown){
+      if (shown >= 0){ slides[shown].classList.remove('on'); rail[shown].classList.remove('on'); nums[shown].classList.remove('on'); }
+      slides[idx].classList.add('on'); rail[idx].classList.add('on'); nums[idx].classList.add('on'); shown = idx;
+      real.classList.toggle('on', idx === 3);
+    }
+    bar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+  }
+  function loop(now){
+    var dt = last ? Math.min(64, now - last) : 16; last = now;
+    var goal = target(), k = 1 - Math.exp(-dt / 80);
+    p += (goal - p) * k; if (Math.abs(goal - p) < 0.0003) p = goal;
+    mx += (tmx - mx) * (1 - Math.exp(-dt / 160)); my += (tmy - my) * (1 - Math.exp(-dt / 160));
+    render(now);
+    if (visible) requestAnimationFrame(loop); else { running = false; last = 0; }
+  }
+  function start(){ if (!running){ running = true; requestAnimationFrame(loop); } }
+  var warmed = false;
+  new IntersectionObserver(function(es){
+    visible = es[0].isIntersecting; if (visible) start();
+    if (visible && !warmed){ warmed = true; sec.querySelectorAll('img').forEach(function(im){ im.loading = 'eager'; if (im.decode) im.decode().catch(function(){}); }); }
+  }, { rootMargin: '600px 0px' }).observe(sec);
+
+  /* no snap, no glide: progress is only from scroll. Rail jumps to a beat. */
+  for (var r = 0; r < rail.length; r++) (function(i){
+    rail[i].addEventListener('click', function(){ window.scrollTo({ top: Math.round(top0 + P[i + 1] * span), behavior: 'instant' }); });
+  })(r);
+  if (window.matchMedia('(pointer:fine)').matches){
+    stage.addEventListener('pointermove', function(e){ var r = stage.getBoundingClientRect(); tmx = (e.clientX - r.left) / r.width * 2 - 1; tmy = (e.clientY - r.top) / r.height * 2 - 1; }, { passive: true });
+    stage.addEventListener('pointerleave', function(){ tmx = tmy = 0; });
+  }
+  var lw = window.innerWidth, lh = stage.offsetHeight;
+  window.addEventListener('resize', function(){
+    if (window.innerWidth !== lw || Math.abs(stage.offsetHeight - lh) > 80){ lw = window.innerWidth; lh = stage.offsetHeight; measure(); }
+  }, { passive: true });
+  window.addEventListener('load', measure);
+  measure(); p = target(); render(performance.now());
+  window.__bl = { progress: function(){ return p; }, target: target, beats: P, span: function(){ return span; }, top: function(){ return top0; } };
+})();
+</script>
+
 <!-- ============================================================
      UGLY DONUTS COOKIE CONSENT BANNER
      Paste this block immediately before </body> on every page.
