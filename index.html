@@ -542,7 +542,7 @@ nav.nav .nav-order-mobile{display:none !important}
 .bl-bg,.bl-wipe{position:absolute;inset:0;z-index:-2;background:var(--bg-black)}
 .bl-wipe{z-index:-1;clip-path:circle(0px at 70% 50%);will-change:clip-path}
 .bl-grain{position:absolute;inset:-50%;z-index:-1;pointer-events:none;opacity:.06;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-.bl-inner{position:relative;height:100%;max-width:1440px;margin:0 auto;padding:96px 72px 64px;display:grid;grid-template-columns:minmax(0,.84fr) minmax(0,1.16fr);align-items:center;gap:32px}
+.bl-inner{position:relative;height:100%;max-width:1760px;margin:0 auto;padding:96px 72px 64px;display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);align-items:center;gap:32px}
 
 /* copy */
 .bl-copy{position:relative;z-index:3;height:min(440px,62vh)}
@@ -575,12 +575,12 @@ nav.nav .nav-order-mobile{display:none !important}
 .bl-pill.ghost,.bl-stage.light .bl-pill.ghost{background:transparent;color:inherit;box-shadow:inset 0 0 0 1px currentColor}
 
 /* visual */
-.bl-visual{position:relative;height:100%;display:flex;align-items:center;justify-content:center;padding-right:84px}
+.bl-visual{position:relative;height:100%;display:flex;align-items:center;justify-content:center;padding-right:64px}
 .bl-numeral{position:absolute;right:-2%;top:50%;transform:translateY(-54%);font-family:var(--serif);font-size:clamp(220px,30vw,480px);line-height:1;letter-spacing:-.06em;color:transparent;-webkit-text-stroke:1px currentColor;opacity:.13;pointer-events:none;user-select:none}
 .bl-numeral span{position:absolute;right:0;top:0;opacity:0;transform:translateY(12%);transition:opacity .6s var(--ease),transform .9s var(--ease)}
 .bl-numeral span.on{opacity:1;transform:none}
 .bl-numeral::before{content:'00';visibility:hidden}
-.bl-donut{position:relative;z-index:1;width:min(40vw,70vh,700px);aspect-ratio:723/599;will-change:transform,opacity}
+.bl-donut{position:relative;z-index:1;width:min(100%,98vh,1000px);aspect-ratio:723/599;will-change:transform,opacity}
 /* labels live in one overlay above the donut, so no layer can ever cover them */
 .bl-calls{position:absolute;inset:0;z-index:5;pointer-events:none}
 .bl-calls .bl-call,.bl-calls .bl-call.r,.bl-calls .bl-call.l{left:0;top:0;right:auto;bottom:auto;will-change:transform,opacity}
@@ -642,11 +642,6 @@ nav.nav .nav-order-mobile{display:none !important}
 .bl-sheen{width:100%;height:100%;overflow:hidden;-webkit-mask-image:url(/images/layers/il-donut.webp);mask-image:url(/images/layers/il-donut.webp);-webkit-mask-size:100% 100%;mask-size:100% 100%}
 .bl-sheen i{position:absolute;top:-20%;bottom:-20%;left:0;width:34%;background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,246,228,.42),rgba(255,255,255,0));transform:translateX(var(--sx,-120%)) skewX(-14deg)}
 .bl-chip{position:absolute;left:50%;bottom:-24%;top:auto;transform:translateX(-50%);white-space:nowrap;font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--orange-on-dark);opacity:0}
-/* floating parts */
-.bl-parts{position:absolute;inset:0;pointer-events:none;z-index:0}
-.bl-part{position:absolute;width:var(--w,64px);will-change:transform,opacity;opacity:0}
-.bl-part img{display:block;width:100%;height:auto;filter:drop-shadow(0 10px 14px rgba(20,8,0,.25))}
-.bl-part.far img{filter:blur(1.6px) drop-shadow(0 8px 10px rgba(20,8,0,.18))}
 /* real product chip */
 .bl-real{position:absolute;right:2%;bottom:4%;z-index:4;display:flex;align-items:center;gap:14px;padding:9px 22px 9px 9px;border-radius:100px;background:rgba(255,253,248,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 22px 44px -22px rgba(40,20,5,.45),inset 0 0 0 1px rgba(26,36,56,.06);color:var(--text-dark);white-space:nowrap;opacity:0;transform:translateY(18px);transition:opacity .5s var(--ease),transform .7s var(--ease);pointer-events:none}
 .bl-real.on{opacity:1;transform:none;pointer-events:auto}
@@ -655,7 +650,7 @@ nav.nav .nav-order-mobile{display:none !important}
 .bl-real strong{display:block;font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.15;margin-top:3px}
 /* flavours */
 .bl-flavors{position:absolute;left:-2%;right:40px;top:50%;transform:translateY(-50%);pointer-events:none;opacity:0;z-index:3}
-@media(max-width:860px){.bl-flavors{overflow:hidden;right:auto}}
+@media(max-width:860px), (max-width:1180px) and (max-aspect-ratio:10/9){.bl-flavors{overflow:hidden;right:auto}}
 .bl-flavors.on{pointer-events:auto}
 .bl-strip{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));column-gap:clamp(14px,2vw,40px);row-gap:clamp(10px,3vh,40px)}
 .bl-strip .bl-fl{grid-column:span 2}
@@ -685,8 +680,8 @@ nav.nav .nav-order-mobile{display:none !important}
 .bl-progress b{position:absolute;top:-3px;width:1px;height:7px;background:currentColor;opacity:.35}
 
 @media(min-width:1700px){ .bl-inner{padding:110px 96px 72px} .bl-progress{left:96px;right:96px} }
-@media(max-width:1100px) and (min-width:861px){ .bl-inner{padding:92px 48px 56px} .bl-call .t small{display:none} }
-@media(max-width:860px){
+@media(max-width:1100px) and (min-width:861px) and (min-aspect-ratio:10/9){ .bl-inner{padding:92px 40px 56px;grid-template-columns:minmax(0,.62fr) minmax(0,1.38fr)} .bl-call .t small{display:none} }
+@media(max-width:860px), (max-width:1180px) and (max-aspect-ratio:10/9){
   .bl-inner{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);padding:92px 22px 40px;gap:0;align-items:stretch}
   .bl-copy{height:236px}
   .bl-slide{top:0;transform:none}
@@ -711,8 +706,6 @@ nav.nav .nav-order-mobile{display:none !important}
   .bl-textfade{background:linear-gradient(180deg,rgba(250,238,214,.9) 0%,rgba(250,238,214,.7) 34%,rgba(250,238,214,0) 52%)}
   .bl-fgL{width:72vw;left:-22%}
   .bl-fgR{width:46vw;right:-14%}
-  .bl-part{width:calc(var(--w) * .72)}
-  .bl-part.far,.bl-part.nm{display:none}
   .bl-rail{display:none}
   .bl-call.r,.bl-call.l{flex-direction:column;align-items:center;gap:4px;text-align:center}
   .bl-real{right:50%;bottom:2%;transform:translate(50%,18px);padding:7px 18px 7px 7px}
@@ -737,7 +730,7 @@ nav.nav .nav-order-mobile{display:none !important}
   .bl{height:auto}
   .bl-stage{position:relative;height:auto;min-height:100svh;color:var(--text-dark)}
   .bl-bg{background:var(--bg-cream-warm)}
-  .bl-wipe,.bl-grain,.bl-parts,.bl-numeral,.bl-rail,.bl-progress,.bl-flavors{display:none}
+  .bl-wipe,.bl-grain,.bl-numeral,.bl-rail,.bl-progress,.bl-flavors{display:none}
   .bl-slide{position:relative;top:0;transform:none;display:none}
   .bl-slide[data-i="3"]{display:block}
   .bl-slide h2 .ln>span,.bl-kicker,.bl-slide p,.bl-ctas,.bl-kicker i{transform:none!important;opacity:1!important}
@@ -934,8 +927,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
           <div class="bl-flash" id="blFlash"></div>
           <span class="bl-chip" id="blChip">Real photo &middot; Nutella Strawberry</span>
         </div></div>
-        <div class="bl-parts" id="blParts" aria-hidden="true"><div class="bl-part nm" data-x="6" data-y="8" data-z="1" style="--w:84px;left:6%;top:8%"><img src="/images/layers/ph-berry-half.webp" alt="" width="249" height="208" loading="lazy" decoding="async"></div><div class="bl-part " data-x="92" data-y="4" data-z="0.6" style="--w:64px;left:92%;top:4%"><img src="/images/layers/ph-peanuts.webp" alt="" width="338" height="259" loading="lazy" decoding="async"></div><div class="bl-part " data-x="90" data-y="70" data-z="1.2" style="--w:66px;left:90%;top:70%"><img src="/images/layers/ph-slice2.webp" alt="" width="207" height="223" loading="lazy" decoding="async"></div><div class="bl-part far" data-x="80" data-y="18" data-z="0.5" style="--w:40px;left:80%;top:18%"><img src="/images/layers/ph-slice5.webp" alt="" width="223" height="213" loading="lazy" decoding="async"></div><div class="bl-part " data-x="10" data-y="88" data-z="0.8" style="--w:46px;left:10%;top:88%"><img src="/images/layers/ph-peanut-half.webp" alt="" width="147" height="77" loading="lazy" decoding="async"></div><div class="bl-part far" data-x="64" data-y="91" data-z="0.5" style="--w:56px;left:64%;top:91%"><img src="/images/layers/ph-berry-half.webp" alt="" width="249" height="208" loading="lazy" decoding="async"></div><div class="bl-part far" data-x="12" data-y="36" data-z="0.7" style="--w:30px;left:12%;top:36%"><img src="/images/layers/ph-crumb1.webp" alt="" width="69" height="52" loading="lazy" decoding="async"></div><div class="bl-part far" data-x="24" data-y="94" data-z="0.4" style="--w:50px;left:24%;top:94%"><img src="/images/layers/ph-peanut-halves.webp" alt="" width="133" height="88" loading="lazy" decoding="async"></div><div class="bl-part far nm" data-x="40" data-y="8" data-z="0.9" style="--w:26px;left:40%;top:8%"><img src="/images/layers/ph-crumb2.webp" alt="" width="49" height="44" loading="lazy" decoding="async"></div></div>
-        <a class="bl-real" id="blReal" href="/menu"><img src="/images/layers/real-pbj.webp" width="640" height="531" alt="The PB &amp; Jelly Donut as served in our stores" loading="lazy" decoding="async"><span><span>In stores now &middot; Fall seasonal</span><strong>PB &amp; Jelly Donut</strong></span></a>
+                <a class="bl-real" id="blReal" href="/menu"><img src="/images/layers/real-pbj.webp" width="640" height="531" alt="The PB &amp; Jelly Donut as served in our stores" loading="lazy" decoding="async"><span><span>In stores now &middot; Fall seasonal</span><strong>PB &amp; Jelly Donut</strong></span></a>
         <div class="bl-flavors" id="blFlavors"><div class="bl-strip" id="blStrip"><a class="bl-fl" href="/menu"><span class="ph"><img src="/images/layers/real-milk-cream.webp" alt="Milk Cream Donut" loading="lazy" decoding="async"></span><span class="nm">Milk Cream</span><span class="tg">Homemade milk cream</span></a><a class="bl-fl" href="/menu"><span class="ph"><img src="/images/layers/real-nutella.webp" alt="Nutella Donut" loading="lazy" decoding="async"></span><span class="nm">Nutella</span><span class="tg">Hazelnut, edge to edge</span></a><a class="bl-fl" href="/menu"><span class="ph"><img src="/images/layers/real-dubai.webp" alt="Dubai Chocolate Donut" loading="lazy" decoding="async"></span><span class="nm">Dubai Chocolate</span><span class="tg">Pistachio &amp; kataifi</span></a><a class="bl-fl" href="/menu"><span class="ph"><img src="/images/layers/real-strawberry-cc.webp" alt="Strawberry Cream Cheese Donut" loading="lazy" decoding="async"></span><span class="nm">Strawberry Cream Cheese</span><span class="tg">Berry cream cheese</span></a><a class="bl-fl" href="/menu"><span class="ph"><img src="/images/layers/real-pbj.webp" alt="PB &amp; Jelly Donut" loading="lazy" decoding="async"></span><span class="nm">PB &amp; Jelly</span><span class="tg">Fall seasonal</span></a></div></div>
       </div>
     </div>
@@ -2123,10 +2115,10 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
   var circ0 = 'none', DS = 1, NW = 0, NH = 0, SLW = [], SLH = [], storyOn = true;
   var W, H, VW, top0, span, cx, cy, maxR, flipAt = [], stripMax = 0, mobile;
   function measure(){
-    mobile = window.innerWidth <= 860;
+    mobile = window.matchMedia('(max-width:860px), (max-width:1180px) and (max-aspect-ratio:10/9)').matches;
     NW = sbox.offsetWidth; NH = sbox.offsetHeight;
     /* the landing donut matches the size of the layered donut: near full width on phones, big on desktop */
-    var dvw = stage.clientWidth, dvh = stage.clientHeight, DW = mobile ? 0.94 * dvw : Math.min(0.45 * dvw, 840);
+    var dvw = stage.clientWidth, dvh = stage.clientHeight, DW = mobile ? 0.94 * dvw : Math.max(donut.offsetWidth * 0.98, 0.38 * dvw);
     DW = Math.min(DW, (mobile ? 0.4 : 0.6) * dvh * 1043 / 704); DS = NW ? Math.max(1, DW / NW) : 1;
     for (var q = 0; q < SLS.length; q++){ var im = SLS[q].querySelector('img'); SLW[q] = SLS[q].offsetWidth; SLH[q] = SLW[q] * im.getAttribute('height') / im.getAttribute('width'); }
     W = donut.offsetWidth; H = donut.offsetHeight;
@@ -2168,6 +2160,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
     });
     LMIN = mobile ? 6 : Math.max(6 - vr.left + (sec.querySelector('.bl-inner').getBoundingClientRect().left + 24), textRight - vr.left + 28);
     var railEl = sec.querySelector('.bl-rail'), rl = railEl ? railEl.getBoundingClientRect().left : stage.getBoundingClientRect().right - 60;
+    if (!mobile && NW){ var sbr = sbox.getBoundingClientRect(), cxs = sbr.left + sbr.width / 2; DS = Math.max(1, Math.min(DS, 2 * (cxs - textRight - 32) / NW, 2 * (rl - cxs - 24) / NW)); }
     LMAX = mobile ? VISW - 6 : Math.max(VISW - 44, rl - vr.left - 70);
     var SIDE = mobile ? { top:'r', cream:'l', berries:'r', bottom:'l' } : { top:'r', cream:'r', berries:'r', bottom:'r' };
     names.forEach(function(n){ var c = CALL[n][0]; if (c){ c.classList.toggle('r', SIDE[n] === 'r'); c.classList.toggle('l', SIDE[n] === 'l'); } });
@@ -2175,7 +2168,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
     /* fit: each state is scaled so the whole stack (and its shadow) fits the column, then centred */
     var ZX = mobile ? { top:-0.11, cream:0.11, berries:-0.11, bottom:0.11 } : { top:-0.05, cream:0.05, berries:-0.05, bottom:0.05 };
     names.forEach(function(n){ ST[2][n][1] = ZX[n]; });
-    var WCAP = mobile ? [0.98, 0.98, 0.7, 0.64, 0.98] : [1.04, 1.04, 0.72, 0.66, 1.04];
+    var WCAP = mobile ? [0.98, 0.98, 0.7, 0.64, 0.98] : [1, 1, 0.8, 0.8, 1];
     var reserve = mobile ? 74 : 0;                    /* the 'in stores now' chip under the closed donut on phones */
     for (var st = 0; st <= 4; st++){
       var mn = 1e9, mxx = -1e9;
@@ -2185,7 +2178,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
       var gf = Math.min(GCAP[st], ahs / (mxx - mn), WCAP[st] * aw / W);
       ST[st].g[0] = gf;
       var maxCW = 0; names.forEach(function(n){ maxCW = Math.max(maxCW, CW[n][0]); });
-      var need = (st === 2 || st === 3) && !mobile ? maxCW + 20 : 0;
+      var need = 0;   /* desktop labels sit in front of the donut's right edge instead of shrinking it */
       if (need){ gf = Math.min(gf, (LMAX - LMIN - need - 12) / (W * 1.08)); ST[st].g[0] = gf; ST[st].g[1] = -((mn + mxx) / 2 - H / 2) * gf / H; }
       var rightEdge = DOX + W / 2 + W * gf * 0.54, room = LMAX - rightEdge;
       var shift = need ? Math.max(0, need - room) : 0;
