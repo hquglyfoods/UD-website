@@ -531,12 +531,12 @@ nav.nav .nav-order-mobile{display:none !important}
 .reel-shot canvas.sun.ready{opacity:1}
 @media(max-width:700px){ .reel-shot canvas.sun{object-position:78% 60%} }
 /* ===================== built in layers (2026-11-09, v5) =====================
-   One hole-less donut, pinned and rebuilt by the scroll across five beats.
+   One hole-less donut, pinned and rebuilt by the scroll across four beats.
    The section opens and closes on the same black as the hero and the reel, so
    it joins both without a seam. Colour changes are a circular wipe from the
    donut, never a crossfade, so two colours are never averaged into mud.
    Per frame, only transform / opacity / one clip-path are written. */
-.bl{position:relative;height:2600vh;height:2600svh;background:var(--bg-black)}
+.bl{position:relative;height:1200vh;height:1200svh;background:var(--bg-black)}
 .bl-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;color:var(--text-light);isolation:isolate}
 .bl-stage.light{color:var(--text-dark)}
 .bl-bg,.bl-wipe{position:absolute;inset:0;z-index:-2;background:var(--bg-black)}
@@ -613,65 +613,12 @@ nav.nav .nav-order-mobile{display:none !important}
 .bl-call.r{left:94%;--o:left}
 .bl-call.l{right:94%;flex-direction:row-reverse;text-align:right;--o:right}
 .bl-call.low{top:74%}
-/* strawberry story: drawn while it is being built, real photo once it is done */
-.bl-scene{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:0;overflow:hidden;will-change:opacity}
-.bl-scene>*{position:absolute;pointer-events:none}
-.bl-field{inset:-8% -6%;background:url(/images/layers/st-field.webp) 50% 46%/cover no-repeat;will-change:transform}
-.bl-rays{left:-30%;top:-60%;width:120%;height:160%;background:repeating-conic-gradient(from 200deg at 22% 30%,rgba(255,236,190,.0) 0deg,rgba(255,236,190,.22) 3deg,rgba(255,236,190,0) 7deg,rgba(255,236,190,0) 12deg);-webkit-mask-image:radial-gradient(circle at 22% 30%,#000 0,rgba(0,0,0,.6) 30%,transparent 62%);mask-image:radial-gradient(circle at 22% 30%,#000 0,rgba(0,0,0,.6) 30%,transparent 62%);mix-blend-mode:screen;animation:blRays 26s linear infinite;transform-origin:22% 30%}
-@keyframes blRays{to{transform:rotate(14deg)}}
-.bl-haze{inset:0;background:linear-gradient(180deg,rgba(255,226,170,0) 30%,rgba(255,214,150,.28) 62%,rgba(120,70,20,.22) 100%)}
-.bl-textfade{inset:0;background:linear-gradient(90deg,rgba(250,238,214,.86) 0%,rgba(250,238,214,.55) 30%,rgba(250,238,214,0) 52%)}
-.bl-fg{bottom:-6%;will-change:transform}
-.bl-fg img{display:block;width:100%;height:auto}
-.bl-fgL{left:-7%;width:min(40vw,640px);transform-origin:50% 100%}
-.bl-fgR{right:-5%;width:min(26vw,420px);transform-origin:50% 100%}
-.bl-mid{display:none}
-.bl-near{left:-10%;right:-10%;bottom:-16%;height:32vh;background:url(/images/layers/st-near.webp) 50% 100%/auto 100% no-repeat;will-change:transform}
-.bl-mist{width:40%;height:40%;border-radius:50%;background:radial-gradient(closest-side,rgba(236,150,150,.32),rgba(240,190,180,.14) 55%,rgba(240,190,180,0));pointer-events:none}
-.bl-motes{inset:0}
-.bl-motes b{position:absolute;width:var(--s);height:var(--s);border-radius:50%;background:radial-gradient(circle,rgba(255,248,220,.95),rgba(255,226,150,.35) 50%,rgba(255,226,150,0) 72%);animation:blMote var(--t) ease-in-out infinite;animation-delay:var(--d)}
-@keyframes blMote{0%,100%{transform:translate3d(0,0,0);opacity:.2}50%{transform:translate3d(var(--x),-26px,0);opacity:1}}
-.bl-story{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding-right:120px;pointer-events:none;z-index:2}
-.bl-sbox{position:relative;width:min(58vw,86vh,1100px);height:min(84vh,70vw,980px)}
-.bl-sbox .bl-plate{inset:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;transform-origin:50% 50%}
-.bl-plate img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;filter:drop-shadow(0 22px 36px rgba(40,18,6,.28))}
-.bl-sbox .bl-land{left:50%;top:50%;width:100%;aspect-ratio:1564/1056;height:auto;transform:translate(-50%,-50%);transform-origin:50% 50%;opacity:1;visibility:hidden;overflow:visible}
-.bl-sbox .bl-land>*{position:absolute;left:0;top:0}
-.bl-sbox .bl-land .full{width:100%}
-.bl-sbox .bl-land .gnd{left:6%;top:auto;bottom:-10%;width:88%;height:18%}
-.bl-sbox .bl-land .bl-chip{left:50%;top:auto;bottom:-24%}
-.bl-sbox canvas.bl-water{left:-50%;top:-120%;width:200%;height:280%;opacity:1;pointer-events:none}
-#blHandE img,#blHandB img{-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 22%);mask-image:linear-gradient(to bottom,transparent 0,#000 22%);filter:drop-shadow(0 10px 14px rgba(60,30,10,.18))}
-.bl-sbox>*{position:absolute;left:0;top:0;opacity:0;will-change:transform,opacity}
-.bl-sbox img{display:block;width:100%;height:auto}
-.bl-sbox .full{width:100%}
-.bl-sbox .gnd{left:5%;top:auto;bottom:-9%;width:90%;height:16%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.55),rgba(0,0,0,.18) 55%,rgba(0,0,0,0))}
-.bl-ssh{height:0;padding-bottom:calc(var(--w) * .3);width:var(--w);border-radius:50%;background:radial-gradient(closest-side,rgba(40,12,0,.55),rgba(40,12,0,.15) 60%,rgba(40,12,0,0))}
-.bl-slash{width:60%;height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(255,240,225,0),rgba(255,236,220,.75) 45%,rgba(255,236,220,.6) 60%,rgba(255,240,225,0))}
-.bl-flash{width:100%;height:100%;background:radial-gradient(closest-side,rgba(255,250,238,.95),rgba(255,240,214,.55) 60%,rgba(255,240,214,.15));mix-blend-mode:screen;-webkit-mask-image:url(/images/layers/il-donut.webp);mask-image:url(/images/layers/il-donut.webp);-webkit-mask-size:100% 100%;mask-size:100% 100%}
-.bl-sheen{width:100%;height:100%;overflow:hidden;-webkit-mask-image:url(/images/layers/il-donut.webp);mask-image:url(/images/layers/il-donut.webp);-webkit-mask-size:100% 100%;mask-size:100% 100%}
-.bl-sheen i{position:absolute;top:-20%;bottom:-20%;left:0;width:34%;background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,246,228,.42),rgba(255,255,255,0));transform:translateX(var(--sx,-120%)) skewX(-14deg)}
-.bl-chip{position:absolute;left:50%;bottom:-24%;top:auto;transform:translateX(-50%);white-space:nowrap;font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--orange-on-dark);opacity:0}
 /* real product chip */
 .bl-real{position:absolute;right:2%;bottom:4%;z-index:4;display:flex;align-items:center;gap:14px;padding:9px 22px 9px 9px;border-radius:100px;background:rgba(255,253,248,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 22px 44px -22px rgba(40,20,5,.45),inset 0 0 0 1px rgba(26,36,56,.06);color:var(--text-dark);white-space:nowrap;opacity:0;transform:translateY(18px);transition:opacity .5s var(--ease),transform .7s var(--ease);pointer-events:none}
 .bl-real.on{opacity:1;transform:none;pointer-events:auto}
 .bl-real img{width:62px;height:62px;object-fit:contain;border-radius:50%;background:radial-gradient(#f6e3d9,#ecd0c2)}
 .bl-real span{display:block;font-size:9.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--orange)}
 .bl-real strong{display:block;font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.15;margin-top:3px}
-/* flavours */
-.bl-flavors{position:absolute;left:-2%;right:40px;top:50%;transform:translateY(-50%);pointer-events:none;opacity:0;z-index:3}
-@media(max-width:860px), (max-width:1180px) and (max-aspect-ratio:10/9){.bl-flavors{overflow:hidden;right:auto}}
-.bl-flavors.on{pointer-events:auto}
-.bl-strip{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));column-gap:clamp(14px,2vw,40px);row-gap:clamp(10px,3vh,40px)}
-.bl-strip .bl-fl{grid-column:span 2}
-.bl-strip .bl-fl:nth-child(4){grid-column:2/4}
-.bl-strip .bl-fl:nth-child(5){grid-column:4/6}
-.bl-fl{min-width:0;text-align:center;color:var(--text-light);will-change:transform}
-.bl-fl .ph{position:relative;aspect-ratio:1/.74;display:flex;align-items:center;justify-content:center}
-.bl-fl .ph::before{content:'';position:absolute;inset:-6%;border-radius:50%;background:radial-gradient(closest-side,rgba(225,102,26,.22),rgba(225,102,26,0))}
-.bl-fl img{position:relative;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 22px 22px rgba(0,0,0,.45))}
-.bl-fl .nm{display:block;font-family:var(--serif);font-size:clamp(18px,1.5vw,24px);line-height:1.15;margin-top:6px}
-.bl-fl .tg{display:block;font-size:9.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--orange-on-dark);margin-top:6px}
 /* rail + progress */
 .bl-rail{position:absolute;right:22px;top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;gap:16px;list-style:none;margin:0;padding:0}
 .bl-rail button{display:flex;align-items:center;justify-content:flex-end;gap:12px;background:none;border:0;padding:2px 0;color:inherit;font:700 10px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;cursor:pointer}
@@ -710,26 +657,13 @@ nav.nav .nav-order-mobile{display:none !important}
   .bl-stage.light .bl-call{background:rgba(255,253,248,.92);color:var(--text-dark)}
   .bl-call .dot{display:none}
   /* labels sit in the gaps between layers, never over the fruit */
-  .bl-story{padding-right:0}
-  .bl-sbox{width:94vw;height:min(54vh,94vw)}
-  .bl-plate img{filter:drop-shadow(0 12px 20px rgba(40,18,6,.25))}
-  .bl-field{background-position:50% 42%}
-  .bl-textfade{background:linear-gradient(180deg,rgba(250,238,214,.9) 0%,rgba(250,238,214,.7) 34%,rgba(250,238,214,0) 52%)}
-  .bl-fgL{width:72vw;left:-22%}
-  .bl-fgR{width:46vw;right:-14%}
-  .bl-near{height:22vh;bottom:-10%}
   .bl-rail{display:none}
   .bl-call.r,.bl-call.l{flex-direction:column;align-items:center;gap:4px;text-align:center}
   .bl-real{right:50%;bottom:2%;transform:translate(50%,18px);padding:7px 18px 7px 7px}
   .bl-real.on{transform:translate(50%,0)}
   .bl-real img{width:46px;height:46px}
   .bl-real strong{font-size:16px}
-  .bl-flavors{left:-22px;right:-22px;-webkit-mask-image:none;mask-image:none}
-  .bl-strip{display:flex;gap:16px;will-change:transform}
-  .bl-strip .bl-fl,.bl-strip .bl-fl:nth-child(4),.bl-strip .bl-fl:nth-child(5){flex:none;width:44vw}
-  .bl-fl .ph{aspect-ratio:1/1}
   .bl-visual{padding-right:0}
-  .bl-fl{width:44vw}
   .bl-rail{right:8px;gap:12px}
   .bl-rail button .lb{display:none}
   .bl-rail button i{width:8px}
@@ -742,7 +676,7 @@ nav.nav .nav-order-mobile{display:none !important}
   .bl{height:auto}
   .bl-stage{position:relative;height:auto;min-height:100svh;color:var(--text-dark)}
   .bl-bg{background:var(--bg-cream-warm)}
-  .bl-wipe,.bl-grain,.bl-numeral,.bl-rail,.bl-progress,.bl-flavors{display:none}
+  .bl-wipe,.bl-grain,.bl-numeral,.bl-rail,.bl-progress{display:none}
   .bl-slide{position:relative;top:0;transform:none;display:none}
   .bl-slide[data-i="3"]{display:block}
   .bl-slide h2 .ln>span,.bl-kicker,.bl-slide p,.bl-ctas,.bl-kicker i{transform:none!important;opacity:1!important}
@@ -751,7 +685,6 @@ nav.nav .nav-order-mobile{display:none !important}
   .bl-stage .bl-pill{background:var(--text-dark);color:var(--bg-cream)}
   .bl-stage .bl-pill.hot{background:var(--orange);color:#fff}
   .bl-stage .bl-pill.ghost{background:transparent;color:var(--text-dark);box-shadow:inset 0 0 0 1px currentColor}
-  .bl-scene,.bl-story{display:none}
   .bl-stage .bl-kicker,.bl-stage .bl-slide h2 .serif-italic{color:var(--orange)}
   .bl-real{opacity:1;transform:none;pointer-events:auto}
   .bl-inner{min-height:100svh}
@@ -857,7 +790,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
 <!-- BUILT IN LAYERS: one hole-less donut, pinned and rebuilt by the scroll -->
 <section class="bl" id="built-in-layers" aria-label="Built in layers: inside an Ugly donut">
   <div class="bl-stage" id="blStage">
-    <div class="bl-bg" id="blBg"></div><div class="bl-wipe" id="blWipe"></div><div class="bl-scene" id="blScene" aria-hidden="true"><div class="bl-field" id="blField"></div><div class="bl-haze"></div><div class="bl-near" id="blNear"></div><div class="bl-textfade"></div></div><div class="bl-grain" aria-hidden="true"></div>
+    <div class="bl-bg" id="blBg"></div><div class="bl-wipe" id="blWipe"></div><div class="bl-grain" aria-hidden="true"></div>
     <div class="bl-inner">
       <div class="bl-copy">
         <div class="bl-slide on" data-i="0">
@@ -882,31 +815,9 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
           <p>A dusted crown on top, and it is yours. Ugly on purpose, warm when it reaches you.</p>
           <div class="bl-ctas"><a class="bl-pill hot" href="https://uglydonutsandcorndogsknickerbocker.toast.site/order?showAllLocations=true">Order online</a><a class="bl-pill ghost" href="/menu">Full menu</a></div>
         </div>
-        <div class="bl-slide" data-i="4">
-          <div class="bl-kicker"><span>05</span><i></i><em>The Nutella Strawberry</em></div>
-          <h2><span class="ln"><span>It starts</span></span><span class="ln"><span><span class="serif-italic">in the field.</span></span></span></h2>
-          <p>Ripe, red and picked at its best. Only that kind makes it onto a donut.</p>
-        </div>
-        <div class="bl-slide" data-i="5">
-          <div class="bl-kicker"><span>06</span><i></i><em>Washed and sliced</em></div>
-          <h2><span class="ln"><span>Sliced fresh,</span></span><span class="ln"><span><span class="serif-italic">in the store.</span></span></span></h2>
-          <p>Rinsed, hulled and cut into hearts right before they go in.</p>
-        </div>
-        <div class="bl-slide" data-i="6">
-          <div class="bl-kicker"><span>07</span><i></i><em>The real thing</em></div>
-          <h2><span class="ln"><span>Nutella and</span></span><span class="ln"><span><span class="serif-italic">strawberries.</span></span></span></h2>
-          <p>Folded into a warm brioche round. This is the Nutella Strawberry, exactly as it comes out of our kitchen.</p>
-          <div class="bl-ctas"><a class="bl-pill" href="/menu">See the donuts</a></div>
-        </div>
-        <div class="bl-slide" data-i="7">
-          <div class="bl-kicker"><span>08</span><i></i><em>Same shape, every flavor</em></div>
-          <h2><span class="ln"><span>One shape.</span></span><span class="ln"><span><span class="serif-italic">Every filling.</span></span></span></h2>
-          <p>Milk cream, Nutella, Dubai chocolate and more. Always hole-less, always full.</p>
-          <div class="bl-ctas"><a class="bl-pill" href="/menu">Explore the menu</a></div>
-        </div>
       </div>
       <div class="bl-visual" id="blVisual">
-        <div class="bl-numeral" aria-hidden="true"><span class="on">01</span><span>02</span><span>03</span><span>04</span><span>05</span><span>06</span><span>07</span><span>08</span></div>
+        <div class="bl-numeral" aria-hidden="true"><span class="on">01</span><span>02</span><span>03</span><span>04</span></div>
         <div class="bl-donut" id="blDonut" role="img" aria-label="A PB and Jelly Donut: a hole-less brioche donut filled with whipped peanut cream and sliced strawberries, dusted with powdered sugar">
           <div class="bl-ground" id="blGround"></div>
           <div class="bl-layer bl-l-bottom"><img src="/images/layers/ph-bottom.webp" width="758" height="321" alt="" decoding="async"></div>
@@ -916,31 +827,10 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
           <img class="bl-photo" id="blPhoto" src="/images/layers/ph-real.webp" width="878" height="729" alt="" decoding="async">
         </div>
         <div class="bl-calls" id="blCalls" aria-hidden="true"><div class="bl-call r" data-n="top"><span class="dot"></span><span class="lead"></span><span class="num">04</span><span class="t">The crown<small>Powdered sugar. Still no hole.</small></span></div><div class="bl-call l" data-n="cream"><span class="dot"></span><span class="lead"></span><span class="num">03</span><span class="t">Peanut cream<small>Whipped in the store, every morning</small></span></div><div class="bl-call r" data-n="berries"><span class="dot"></span><span class="lead"></span><span class="num">02</span><span class="t">Strawberries<small>Sliced fresh, finished with syrup</small></span></div><div class="bl-call l" data-n="bottom"><span class="dot"></span><span class="lead"></span><span class="num">01</span><span class="t">Brioche<small>Hand-mixed dough, fried in 100% avocado oil</small></span></div></div>
-        <div class="bl-story" aria-hidden="true"><div class="bl-sbox" id="blSbox">
-          <div class="bl-plate" id="blPlateBerry"><img src="/images/layers/st-berry-plate.webp" width="1400" height="1867" alt="" loading="lazy" decoding="async"></div>
-          <div class="bl-plate" id="blPlateReach"><img src="/images/layers/st-reach.webp" width="1800" height="1350" alt="" loading="lazy" decoding="async"></div>
-          <div class="bl-plate" id="blPlateHold"><img src="/images/layers/st-hold.webp" width="1600" height="2133" alt="" loading="lazy" decoding="async"></div>
-          <div class="bl-plate" id="blPlateWash"><img src="/images/layers/st-wash.webp" width="1800" height="1350" alt="" loading="lazy" decoding="async"></div>
-          <div class="bl-plate" id="blPlateCut"><img src="/images/layers/st-cut.webp" width="1800" height="1350" alt="" loading="lazy" decoding="async"></div>
-          <div class="bl-land" id="blLand">
-            <i class="gnd" id="blSgnd"></i>
-            <div class="full" id="blIllu"><img src="/images/layers/st-donut.webp" width="1564" height="1056" alt="" loading="lazy" decoding="async"></div>
-            <i class="bl-ssh" style="--w:22%"></i><i class="bl-ssh" style="--w:22%"></i><i class="bl-ssh" style="--w:21%"></i><i class="bl-ssh" style="--w:23%"></i><i class="bl-ssh" style="--w:22%"></i><i class="bl-ssh" style="--w:21%"></i>
-            <div class="bl-isl" data-x="0.30" data-y="0.22" data-r="-26" style="width:22%"><img src="/images/layers/st-slice1.webp" width="420" height="410" alt="" loading="lazy" decoding="async"></div>
-            <div class="bl-isl" data-x="0.72" data-y="0.20" data-r="18" style="width:21%"><img src="/images/layers/st-slice2.webp" width="420" height="411" alt="" loading="lazy" decoding="async"></div>
-            <div class="bl-isl" data-x="0.51" data-y="0.36" data-r="-8" style="width:20%"><img src="/images/layers/st-slice3.webp" width="420" height="415" alt="" loading="lazy" decoding="async"></div>
-            <div class="bl-isl" data-x="0.28" data-y="0.70" data-r="14" style="width:23%"><img src="/images/layers/st-slice4.webp" width="420" height="415" alt="" loading="lazy" decoding="async"></div>
-            <div class="bl-isl" data-x="0.50" data-y="0.72" data-r="-10" style="width:22%"><img src="/images/layers/st-slice5.webp" width="420" height="413" alt="" loading="lazy" decoding="async"></div>
-            <div class="bl-isl" data-x="0.76" data-y="0.78" data-r="16" style="width:21%"><img src="/images/layers/st-slice6.webp" width="420" height="418" alt="" loading="lazy" decoding="async"></div>
-            <div class="full" id="blRealN"><img src="/images/layers/real-nutella-strawberry.webp" width="1564" height="1056" alt="" loading="lazy" decoding="async"></div>
-            <span class="bl-chip" id="blChip">Real photo &middot; Nutella Strawberry</span>
-          </div>
-        </div></div></div></div>
-                <a class="bl-real" id="blReal" href="/menu"><img src="/images/layers/real-pbj.webp" width="640" height="531" alt="The PB &amp; Jelly Donut as served in our stores" loading="lazy" decoding="async"><span><span>In stores now &middot; Fall seasonal</span><strong>PB &amp; Jelly Donut</strong></span></a>
-        <div class="bl-flavors" id="blFlavors"><div class="bl-strip" id="blStrip"><a class="bl-fl" href="/menu"><span class="ph"><img src="/images/layers/real-milk-cream.webp" alt="Milk Cream Donut" loading="lazy" decoding="async"></span><span class="nm">Milk Cream</span><span class="tg">Homemade milk cream</span></a><a class="bl-fl" href="/menu"><span class="ph"><img src="/images/layers/real-nutella.webp" alt="Nutella Donut" loading="lazy" decoding="async"></span><span class="nm">Nutella</span><span class="tg">Hazelnut, edge to edge</span></a><a class="bl-fl" href="/menu"><span class="ph"><img src="/images/layers/real-dubai.webp" alt="Dubai Chocolate Donut" loading="lazy" decoding="async"></span><span class="nm">Dubai Chocolate</span><span class="tg">Pistachio &amp; kataifi</span></a><a class="bl-fl" href="/menu"><span class="ph"><img src="/images/layers/real-strawberry-cc.webp" alt="Strawberry Cream Cheese Donut" loading="lazy" decoding="async"></span><span class="nm">Strawberry Cream Cheese</span><span class="tg">Berry cream cheese</span></a><a class="bl-fl" href="/menu"><span class="ph"><img src="/images/layers/real-pbj.webp" alt="PB &amp; Jelly Donut" loading="lazy" decoding="async"></span><span class="nm">PB &amp; Jelly</span><span class="tg">Fall seasonal</span></a></div></div>
+        <a class="bl-real" id="blReal" href="/menu"><img src="/images/layers/real-pbj.webp" width="640" height="531" alt="The PB &amp; Jelly Donut as served in our stores" loading="lazy" decoding="async"><span><span>In stores now &middot; Fall seasonal</span><strong>PB &amp; Jelly Donut</strong></span></a>
       </div>
     </div>
-    <div class="bl-rail" id="blRail" aria-label="Section steps"><button type="button" class="on"><span class="lb">Built</span><span class="nb">01</span><i></i></button><button type="button"><span class="lb">Apart</span><span class="nb">02</span><i></i></button><button type="button"><span class="lb">Filled</span><span class="nb">03</span><i></i></button><button type="button"><span class="lb">Stacked</span><span class="nb">04</span><i></i></button><button type="button"><span class="lb">Field</span><span class="nb">05</span><i></i></button><button type="button"><span class="lb">Sliced</span><span class="nb">06</span><i></i></button><button type="button"><span class="lb">Nutella</span><span class="nb">07</span><i></i></button><button type="button"><span class="lb">Flavors</span><span class="nb">08</span><i></i></button></div>
+    <div class="bl-rail" id="blRail" aria-label="Section steps"><button type="button" class="on"><span class="lb">Built</span><span class="nb">01</span><i></i></button><button type="button"><span class="lb">Apart</span><span class="nb">02</span><i></i></button><button type="button"><span class="lb">Filled</span><span class="nb">03</span><i></i></button><button type="button"><span class="lb">Stacked</span><span class="nb">04</span><i></i></button></div>
     <div class="bl-progress" aria-hidden="true"><i id="blBar"></i></div>
   </div>
 </section>
@@ -2068,29 +1958,24 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
 
 </script>
 <script>
-/* ---------- built in layers (2026-11-09, v12) ----------
+/* ---------- built in layers (2026-11-09, v13) ----------
    Pinned stage scrubbed 1:1 to scroll (tiny smoothing only, no snap, no
-   glide, no time-played tweens). Beats 1-4 keep the PB&J layer look.
-   Beats 5-7 are a rebuilt Nutella story of painted plates. */
+   glide, no time-played tweens). Four PB&J layer beats, then the reel. */
 (function(){
   var sec = document.getElementById('built-in-layers');
   if (!sec || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var $ = function(id){ return document.getElementById(id); };
   var stage = $('blStage'), donut = $('blDonut'), ground = $('blGround'), bg = $('blBg'), wipe = $('blWipe');
-  var real = $('blReal'), bar = $('blBar'), photo = $('blPhoto'), field = $('blField'), scene = $('blScene'), nearR = $('blNear'), sbox = $('blSbox'), land = $('blLand'), flavors = $('blFlavors'), strip = $('blStrip'), visual = $('blVisual');
+  var real = $('blReal'), bar = $('blBar'), photo = $('blPhoto'), visual = $('blVisual');
   var slides = sec.querySelectorAll('.bl-slide'), rail = sec.querySelectorAll('.bl-rail button'), nums = sec.querySelectorAll('.bl-numeral span');
-  var fls = strip.querySelectorAll('.bl-fl'), parts = sec.querySelectorAll('.bl-part');
-  var SLS = sec.querySelectorAll('.bl-isl');
-  var SP = { berry: $('blPlateBerry'), reach: $('blPlateReach'), hold: $('blPlateHold'), wash: $('blPlateWash'), cut: $('blPlateCut'), illu: $('blIllu'), realn: $('blRealN'), chip: $('blChip'), gnd: $('blSgnd') };
-  var preRaster = 0;
-  var SSH = sec.querySelectorAll('.bl-ssh');
+  var parts = sec.querySelectorAll('.bl-part');
   var names = ['top', 'cream', 'berries', 'bottom'], L = {}, AO = {}, CALL = {};
   names.forEach(function(n){ L[n] = sec.querySelector('.bl-l-' + n); AO[n] = L[n].querySelector('.bl-ao'); CALL[n] = sec.querySelectorAll('.bl-calls .bl-call[data-n="' + n + '"]'); });
 
   /* beat positions on the pinned scroll; index 0 is the black pre-roll.
-     Section is 26 screens tall (span 25): layer beats ~2.75 screens, the
-     field ~3.25, the store sequence ~4.25, the landing + dissolve ~4.5. */
-  var P = [0, 0.03, 0.14, 0.25, 0.36, 0.49, 0.66, 0.84, 0.97];
+     Section is 12 screens tall (span 11): each layer beat ~2.4 screens,
+     then a short stacked hold that wipes to black and joins the reel. */
+  var P = [0, 0.06, 0.28, 0.50, 0.72, 1];
   /* layer state: [y (donut heights), x (donut widths), rotate deg, scale, callout] */
   var Z = [0,0,0,1,0];
   var ST = [
@@ -2099,33 +1984,25 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
     { g:[0.74, 0.07, 1], top:[-0.62,0.03,-6,1.04,1], cream:[-0.25,-0.03,4,1.02,1], berries:[0.1,0.03,-3,1,1], bottom:[0.46,-0.02,3,0.97,1], parts:1 },
     { g:[0.9, 0.1, 1], top:[-0.42,0.05,-9,1.03,0], cream:[0.07,0,0,1,1], berries:[0.07,0,0,1,1], bottom:[0.07,0,0,1,0], parts:0.75 },
     { g:[1, 0, 1],      top:Z, cream:Z, berries:Z, bottom:Z, parts:0 },
-    { g:[0.8, -0.1, 0], top:Z, cream:Z, berries:Z, bottom:Z, parts:0 },
-    { g:[0.8, -0.1, 0], top:Z, cream:Z, berries:Z, bottom:Z, parts:0 },
-    { g:[0.8, -0.1, 0], top:Z, cream:Z, berries:Z, bottom:Z, parts:0 },
-    { g:[0.62, -0.1, 0], top:Z, cream:Z, berries:Z, bottom:Z, parts:0 }
+    { g:[1, 0, 1],      top:Z, cream:Z, berries:Z, bottom:Z, parts:0 }
   ];
   /* which layer leads each move: apart is top-down, building is bottom-up */
-  var ORDER = [null, {top:0,cream:1,berries:2,bottom:3}, {bottom:0,berries:1,cream:2,top:3}, {top:0,cream:0,berries:0,bottom:0}, null, null, null, null];
+  var ORDER = [null, {top:0,cream:1,berries:2,bottom:3}, {bottom:0,berries:1,cream:2,top:3}, {top:0,cream:0,berries:0,bottom:0}, null];
   /* black (joins the hero), cream, navy, blush, warm cream, black (joins the reel) */
-  var BG = ['#050810', '#F5EFE3', '#121A26', '#F3D5C8', '#EFE7D5', '#F3E6D0', '#F3E6D0', '#17100B', '#050810'];
-  var LIGHT = [false, true, false, true, true, true, true, false, false];
+  var BG = ['#050810', '#F5EFE3', '#121A26', '#F3D5C8', '#EFE7D5', '#050810'];
+  var LIGHT = [false, true, false, true, true, false];
   var DEPTH = { top:1, cream:0.6, berries:0.3, bottom:-0.25 };
   var PH = { top:0, cream:1.6, berries:3.1, bottom:4.4 };
 
   var clamp = function(v){ return v < 0 ? 0 : v > 1 ? 1 : v; };
   var io = function(t){ return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2; };
   var io5 = function(t){ return t < 0.5 ? 16*t*t*t*t*t : 1 - Math.pow(-2*t + 2, 5) / 2; };
-  var outc = function(t){ return 1 - Math.pow(1 - t, 3); };
-  var expo = function(t){ return t >= 1 ? 1 : 1 - Math.pow(2, -10*t); };
-  var back = function(t){ var c = 1.6, c3 = c + 1; return 1 + c3*Math.pow(t - 1, 3) + c*Math.pow(t - 1, 2); };
   var lerp = function(a, b, t){ return a + (b - a) * t; };
 
   var LMIN = 6, LMAX = 0, YS = {}, berFull = $('blBerFull'), TX = {}, TY = {}, LB = {}, CW = {}, VISW = 0, VISH = 0, DOX = 0, DOY = 0, GCAP = [0.9, 1, 0.86, 0.94, 1];
-  var circ0 = 'none', DS = 1, NW = 0, NH = 0, SLW = [], SLH = [], storyOn = true;
-  var W, H, VW, top0, span, cx, cy, maxR, flipAt = [], stripMax = 0, mobile;
+  var W, H, VW, top0, span, cx, cy, maxR, flipAt = [], mobile;
   function measure(){
     mobile = window.matchMedia('(max-width:860px), (max-width:1180px) and (max-aspect-ratio:10/9)').matches;
-    for (var q = 0; q < SLS.length; q++){ SLW[q] = 0; SLH[q] = 0; }
     W = donut.offsetWidth; H = donut.offsetHeight;
     top0 = sec.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
     span = Math.max(1, sec.offsetHeight - stage.offsetHeight);
@@ -2136,11 +2013,9 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
     maxR = Math.max(far(0,0), far(sr.width,0), far(0,sr.height), far(sr.width,sr.height)) + 20;
     var hx = cr.left - sr.left + Math.min(cr.width, 420) * 0.5, hy = cr.top - sr.top + cr.height * (mobile ? 0.35 : 0.5);
     flipAt = far(hx, hy) / maxR;
-    VW = flavors.offsetWidth; stripMax = Math.max(0, strip.scrollWidth - VW * (mobile ? 0.96 : 0.9));
     var vis = donut.parentNode, vcs = getComputedStyle(vis);
     VISW = vis.clientWidth - parseFloat(vcs.paddingRight) * 0; VISH = vis.clientHeight;
     DOX = donut.offsetLeft; DOY = donut.offsetTop;
-    /* keep the floating extras fully on screen: clamp each base position inside a safe margin (drift + rotation included) */
     var pc = sec.querySelector('.bl-parts');
     if (pc){
       var pr0 = pc.getBoundingClientRect(), sr0 = stage.getBoundingClientRect(), pr = { left: pr0.left - sr0.left, top: pr0.top - sr0.top, width: pr0.width, height: pr0.height }, vw = stage.clientWidth, Mg = mobile ? 16 : 28;
@@ -2190,29 +2065,16 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
       ST[st].g[3] = -shift / W;
       ST[st].g[1] = (-((mn + mxx) / 2 - H / 2) * gf - (st === 4 ? reserve / 2 : 0)) / H;
     }
-    var dvw = stage.clientWidth, dvh = stage.clientHeight;
-    var maxW, maxH;
-    if (mobile){
-      maxW = Math.min(0.94 * dvw, dvw - 16);
-      maxH = Math.min(0.54 * dvh, maxW);
-    } else {
-      var leftClear = Math.max(LMIN, textRight - vr.left + 28);
-      var rightClear = Math.max(80, vr.right - (railEl ? railEl.getBoundingClientRect().left : vr.right) + 16);
-      maxW = Math.max(280, vis.clientWidth - leftClear - rightClear);
-      maxW = Math.min(maxW, 0.62 * dvw, 0.90 * dvh * 1564 / 1056, 1100);
-      maxH = Math.min(0.86 * dvh, maxW * 1.12, 980);
-    }
-    sbox.style.width = Math.round(maxW) + 'px';
-    sbox.style.height = Math.round(maxH) + 'px';
-    NW = sbox.offsetWidth; NH = sbox.offsetHeight; DS = 1;
-    for (var q2 = 0; q2 < SLS.length; q2++){ var im2 = SLS[q2].querySelector('img'); SLW[q2] = SLS[q2].offsetWidth; SLH[q2] = SLW[q2] * im2.getAttribute('height') / im2.getAttribute('width'); }
+    /* the outro keeps the stacked fit, so the donut does not jump as the wipe goes to black */
+    ST[5].g = ST[4].g.slice();
+    ST[5].top = ST[4].top; ST[5].cream = ST[4].cream; ST[5].berries = ST[4].berries; ST[5].bottom = ST[4].bottom;
   }
   function target(){ return clamp(((window.scrollY || window.pageYOffset) - top0) / span); }
   function segOf(p){ var s = 0; while (s < P.length - 2 && p > P[s + 1]) s++; return s; }
   /* each move uses the middle of its segment so every beat has a short hold */
   function local(p, s){ var t = clamp((p - P[s]) / (P[s + 1] - P[s])); return clamp((t - 0.16) / 0.68); }
 
-  var photoOff = null, p = target(), shown = -1, seg = -1, light = null, running = false, last = 0, visible = false;
+  var p = target(), shown = -1, seg = -1, light = null, running = false, last = 0, visible = false;
   var mx = 0, my = 0, tmx = 0, tmy = 0;
   function render(now){
     var s = segOf(p), t = local(p, s), et = io(t), A = ST[s], B = ST[s + 1], ord = ORDER[s];
@@ -2245,8 +2107,8 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
       }
     }
     berFull.style.opacity = clamp((YS.berries - YS.cream - 0.03) / 0.12).toFixed(3);
-    /* whole donut: scale, lift, fade out into the flavour strip */
-    var g0 = lerp(A.g[0], B.g[0], et), g1 = lerp(A.g[1], B.g[1], et), gx = lerp(A.g[3] || 0, B.g[3] || 0, et), g2 = lerp(A.g[2], B.g[2], s === 4 ? clamp(t * 3.2) : et);
+    /* whole donut: scale, lift */
+    var g0 = lerp(A.g[0], B.g[0], et), g1 = lerp(A.g[1], B.g[1], et), gx = lerp(A.g[3] || 0, B.g[3] || 0, et), g2 = lerp(A.g[2], B.g[2], et);
     var bob = Math.sin(now / 1700) * 0.006 * H;
     donut.style.transform = 'translate3d(' + (gx * W).toFixed(1) + 'px,' + (g1 * H + bob).toFixed(1) + 'px,0) scale(' + g0.toFixed(4) + ')';
     donut.style.opacity = g2.toFixed(3);
@@ -2267,7 +2129,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
     var spread = sepSum / 4;
     ground.style.transform = 'translate3d(0,' + (spread * H * 0.32).toFixed(1) + 'px,0) scale(' + (1 + spread * 0.55).toFixed(3) + ',' + (1 + spread * 0.25).toFixed(3) + ')';
     ground.style.opacity = (1 - spread * 0.55).toFixed(3);
-    /* floating parts drift on their own depth */
+    /* floating parts (none in the markup; kept so a later add stays wired) */
     var pv = lerp(A.parts, B.parts, et);
     for (var k = 0; k < parts.length; k++){
       var el = parts[k], z = +el.getAttribute('data-z'), ph = k * 1.3;
@@ -2277,95 +2139,17 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
       el.style.transform = 'translate3d(' + (dx + sx).toFixed(1) + 'px,' + (dy + (1 - pv) * 40).toFixed(1) + 'px,0) rotate(' + ((p * 220 + k * 47) * (k % 2 ? 1 : -1) * 0.4).toFixed(1) + 'deg) scale(' + (0.6 + pv * 0.4).toFixed(3) + ')';
       el.style.opacity = pv.toFixed(3);
     }
-    /* strawberry story v12: cinematic plates, 1:1 with scroll, then slices land and dissolve */
-    var inStory = s >= 4 && s <= 7;
-    if (inStory || storyOn){
-      storyOn = inStory;
-      var u4 = s === 4 ? t : s > 4 ? 1 : 0, u5 = s === 5 ? t : s > 5 ? 1 : 0, u6 = s === 6 ? t : s > 6 ? 1 : 0, u7 = s === 7 ? t : s > 7 ? 1 : 0;
-      if (!inStory){ u4 = u5 = u6 = u7 = 0; }
-      var put = function(el, x, y, r, sc, o, scy){ if (!el) return; el.style.opacity = o.toFixed(3); el.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) rotate(' + (r || 0).toFixed(2) + 'deg) scale(' + (sc || 1).toFixed(4) + (scy ? ',' + scy.toFixed(4) : '') + ')'; };
-      var bell = function(v, a, b, c, d){ return clamp((v - a) / (b - a)) * (1 - clamp((v - c) / (d - c))); };
-      var pop = function(el, o, k){
-        if (!el) return;
-        el.style.opacity = o.toFixed(3);
-        el.style.transform = 'translate3d(0,' + (-0.02 * NH * k).toFixed(1) + 'px,0) scale(' + (1 + 0.05 * k).toFixed(4) + ')';
-      };
-      var fv = s === 4 ? clamp((t - 0.14) / 0.18) : s === 5 ? 1 : s === 6 ? 1 - clamp(t / 0.28) : 0;
-      scene.style.opacity = fv.toFixed(3);
-      scene.style.clipPath = s === 4 ? circ0 : 'none';
-      var storyP = clamp(u4 * 0.7 + u5 * 0.3);
-      field.style.transform = 'translate3d(' + (-storyP * 30 + mx * -6).toFixed(1) + 'px,' + (storyP * -18 + my * -4).toFixed(1) + 'px,0) scale(' + (1.02 + storyP * 0.09).toFixed(4) + ')';
-      if (nearR) nearR.style.transform = 'translate3d(' + (-storyP * 110 + mx * -26).toFixed(1) + 'px,' + (storyP * 18).toFixed(1) + 'px,0) scale(' + (1 + storyP * 0.07).toFixed(4) + ')';
-      var berryO = 0, berryK = 0;
-      if (s === 4){ berryO = clamp((u4 - 0.22) / 0.26); berryK = clamp((u4 - 0.22) / 0.78); }
-      else if (s === 5){ berryO = 1 - clamp(u5 / 0.16); berryK = 1; }
-      pop(SP.berry, inStory ? berryO : 0, berryK);
-      pop(SP.reach, inStory ? bell(u5, 0.00, 0.16, 0.26, 0.42) : 0, clamp(u5 / 0.42));
-      pop(SP.hold,  inStory ? bell(u5, 0.24, 0.38, 0.48, 0.62) : 0, clamp((u5 - 0.24) / 0.38));
-      pop(SP.wash,  inStory ? bell(u5, 0.50, 0.64, 0.74, 0.86) : 0, clamp((u5 - 0.50) / 0.36));
-      var cutO = 0, cutK = 0;
-      if (s === 5){ cutO = clamp((u5 - 0.76) / 0.16); cutK = clamp((u5 - 0.76) / 0.24); }
-      else if (s === 6){ cutO = 1 - clamp(u6 / 0.05); cutK = 1; }
-      pop(SP.cut, inStory ? cutO : 0, cutK);
-      var dIn = expo(clamp((u6 - 0.04) / 0.22));
-      var hand = io(clamp((u6 - 0.64) / 0.30));
-      var real7 = 1 - io(clamp(u7 * 1.5));
-      var rising = s >= 6;
-      var landY = (rising ? (1 - dIn) * 0.16 * NH : 0) - (1 - real7) * 0.12 * NH;
-      var landS = rising ? (0.90 + 0.10 * dIn - (1 - real7) * 0.10) : 1;
-      if (land){
-        land.style.visibility = (u6 > 0 || u7 > 0) ? 'visible' : 'hidden';
-        land.style.transform = 'translate(-50%, calc(-50% + ' + landY.toFixed(1) + 'px)) scale(' + landS.toFixed(4) + ')';
-      }
-      SP.illu.style.opacity = (clamp(dIn * 2.2) * (1 - hand)).toFixed(3);
-      SP.realn.style.opacity = (hand * real7).toFixed(3);
-      SP.gnd.style.opacity = (dIn * real7 * 0.9).toFixed(3);
-      SP.chip.style.opacity = (clamp((u6 - 0.90) / 0.08) * real7).toFixed(3);
-      SP.chip.style.transform = 'translate(-50%,' + ((1 - clamp((u6 - 0.90) / 0.08)) * 10).toFixed(1) + 'px)';
-      var LW = land ? land.offsetWidth : NW, LH = land ? land.offsetHeight : NH;
-      var LX = land ? land.offsetLeft : 0, LY = land ? land.offsetTop : 0;
-      for (var si = 0; si < SLS.length; si++){
-        var se = SLS[si], sw = SLW[si] || se.offsetWidth, shh = SLH[si] || se.offsetHeight;
-        var tx = (+se.getAttribute('data-x')) * LW - sw / 2, ty = (+se.getAttribute('data-y')) * LH - shh / 2, tr = +se.getAttribute('data-r');
-        var rx = (0.10 + si * 0.13) * LW - sw / 2, ry = 0.04 * LH - shh / 2, rr = (-16 + si * 7);
-        var lift = io(clamp((u6 - si * 0.015) / 0.14));
-        var e = clamp((u6 - 0.14 - si * 0.075) / 0.22), mv = io(clamp(e / 0.82)), spp = clamp((e - 0.82) / 0.18);
-        var x0 = lerp((0.20 + (si % 3) * 0.20) * LW - sw / 2, rx, lift);
-        var y0 = lerp(0.06 * LH - shh / 2, ry, lift) - Math.sin(Math.PI * lift) * 0.08 * LH;
-        var r0 = lerp((si - 2.5) * 8, rr, lift);
-        var bounce = -0.048 * LH * Math.sin(spp * Math.PI) * (1 - spp * 0.35);
-        var X = lerp(x0, tx, mv), Y = lerp(y0, ty, mv) - 0.16 * LH * Math.sin(Math.PI * mv) + bounce;
-        var sq = 1 - 0.08 * Math.sin(spp * Math.PI), scl = lerp(0.92 + 0.08 * lift, 1, mv);
-        var vis = s >= 6 ? lift * (1 - hand) : 0;
-        put(se, X, Y, lerp(r0, tr, mv), scl, vis, scl * sq);
-        var so = clamp((mv - 0.55) / 0.45) * (1 - hand) * (s >= 6 ? 1 : 0);
-        put(SSH[si], tx + sw * 0.5 - sw * 0.55, ty + shh * 0.42, tr * 0.08, 1.45 - 0.4 * clamp((mv - 0.55) / 0.45), so * 0.85);
-      }
-      if (!inStory){ scene.style.opacity = '0'; }
-    }
-    if (preRaster > 0 && !inStory){ preRaster--; scene.style.opacity = preRaster ? '0.002' : '0'; }
-    if (s === 3 && t > 0.3) scene.style.opacity = '0.002'; else if (s < 3 && scene.style.opacity === '0.002') scene.style.opacity = '0';
-    /* flavours */
-    var f = clamp((p - P[7]) / (1 - P[7])), fo = clamp((p - P[7]) / ((1 - P[7]) * 0.42));
-    flavors.style.opacity = fo.toFixed(3);
-    flavors.classList.toggle('on', fo > 0.5);
-    strip.style.transform = mobile ? 'translate3d(' + (lerp(VW * 0.3, -stripMax, io(f))).toFixed(1) + 'px,0,0)' : 'none';
-    for (var q = 0; q < fls.length; q++){
-      var ft = clamp(fo * 2.2 - q * 0.22);
-      fls[q].style.transform = 'translate3d(0,' + ((1 - expo(ft)) * 90 + (mobile ? 0 : (q % 2 ? -1 : 1) * (1 - io(f)) * 26) + Math.sin(now / 1400 + q) * 5).toFixed(1) + 'px,0)';
-      fls[q].style.opacity = ft.toFixed(3);
-    }
     /* colour: base is this segment's start, the wipe brings in the next */
     if (s !== seg){ seg = s; bg.style.background = BG[s]; wipe.style.background = BG[s + 1]; }
-    var wt = s === 4 ? io(clamp((t - 0.3) / 0.6)) : io(clamp(t * 1.1));
-    circ0 = 'circle(' + (wt * maxR).toFixed(1) + 'px at ' + cx.toFixed(1) + 'px ' + cy.toFixed(1) + 'px)';
+    /* last beat holds the stacked look, then the wipe to black starts a little later */
+    var wt = s === 4 ? io(clamp((t - 0.2) / 0.7)) : io(clamp(t * 1.1));
     var circ = 'circle(' + (wt * maxR).toFixed(1) + 'px at ' + cx.toFixed(1) + 'px ' + cy.toFixed(1) + 'px)';
     wipe.style.clipPath = circ;
     var isLight = wt >= flipAt ? LIGHT[s + 1] : LIGHT[s];
     if (isLight !== light){ light = isLight; stage.classList.toggle('light', isLight); }
-    /* copy, rail, numeral */
+    /* copy, rail, numeral — clamp to the four layer beats */
     var idx = 0, best = 9;
-    for (var j = 1; j < P.length; j++){ var dd = Math.abs(p - P[j]); if (dd < best){ best = dd; idx = j - 1; } }
+    for (var j = 1; j <= 4; j++){ var dd = Math.abs(p - P[j]); if (dd < best){ best = dd; idx = j - 1; } }
     if (idx !== shown){
       if (shown >= 0){ slides[shown].classList.remove('on'); rail[shown].classList.remove('on'); nums[shown].classList.remove('on'); }
       slides[idx].classList.add('on'); rail[idx].classList.add('on'); nums[idx].classList.add('on'); shown = idx;
@@ -2385,8 +2169,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
   var warmed = false;
   new IntersectionObserver(function(es){
     visible = es[0].isIntersecting; if (visible) start();
-    /* decode every image up front so no beat stalls on a first paint */
-    if (visible && !warmed){ warmed = true; preRaster = 12; sec.querySelectorAll('img').forEach(function(im){ im.loading = 'eager'; if (im.decode) im.decode().catch(function(){}); }); ['st-field', 'st-donut', 'st-reach', 'st-hold', 'st-wash', 'st-cut', 'st-berry-plate'].forEach(function(n){ var im = new Image(); im.src = '/images/layers/' + n + '.webp'; if (im.decode) im.decode().catch(function(){}); }); }
+    if (visible && !warmed){ warmed = true; sec.querySelectorAll('img').forEach(function(im){ im.loading = 'eager'; if (im.decode) im.decode().catch(function(){}); }); }
   }, { rootMargin: '600px 0px' }).observe(sec);
 
   /* no snap, no glide: progress is only from scroll. Rail jumps to a beat. */
