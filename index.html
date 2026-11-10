@@ -2435,18 +2435,22 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
       }
       /* donut (drawn) rises in on the way to the landing */
       var dIn = expo(clamp((u6 - 0.08) / 0.26));
-      var hand = io(clamp((u6 - 0.8) / 0.08));   /* drawn -> real, hidden under the flash peak */
+      var hand = io5(clamp((u6 - 0.64) / 0.26));  /* drawn -> real: a slow, plain cross-dissolve, no glow or flash */
       var real7 = 1 - io(clamp(u7 * 1.6));         /* real photo leaves for the flavours */
       SP.illu.style.opacity = (clamp(dIn * 2.2) * (1 - hand)).toFixed(3);
       var dT = 'translate3d(0,' + ((1 - dIn) * 0.45 * NH - (1 - real7) * 0.25 * NH + Math.sin(now / 1700) * 0.005 * NH).toFixed(1) + 'px,0) scale(' + ((0.92 + 0.08 * dIn - (1 - real7) * 0.1) * DS).toFixed(4) + ')';
       SP.illu.style.transform = dT; SP.realn.style.transform = dT; SP.sheen.style.transform = dT; SP.flash.style.transform = dT; SP.gnd.style.transform = dT;
       SP.realn.style.opacity = (hand * real7).toFixed(3);
+      /* the photo settles in: a hair larger and softer, easing to rest as it takes over */
+      SP.realn.style.transform = dT + ' scale(' + (1 + 0.018 * (1 - hand)).toFixed(4) + ')';
+      SP.realn.style.filter = hand > 0 && hand < 1 ? 'blur(' + (1.2 * (1 - hand)).toFixed(2) + 'px)' : 'none';
+      SP.illu.style.filter = hand > 0 && hand < 1 ? 'blur(' + (0.9 * hand).toFixed(2) + 'px)' : 'none';
       SP.gnd.style.opacity = (dIn * real7 * 0.9).toFixed(3);
       var sh = clamp((u6 - 0.64) / 0.15);
-      SP.sheen.style.opacity = (sh > 0 && sh < 1 ? 1 : 0) * (1 - hand);
+      SP.sheen.style.opacity = 0;
       SP.sheen.firstChild.style.setProperty('--sx', (-120 + sh * 420).toFixed(1) + '%');
       var fl = Math.sin(Math.PI * clamp((u6 - 0.76) / 0.16));
-      SP.flash.style.opacity = (fl * 0.5).toFixed(3);
+      SP.flash.style.opacity = 0;
       SP.chip.style.opacity = (clamp((u6 - 0.95) / 0.05) * real7).toFixed(3);
       SP.chip.style.transform = 'translate(-50%,' + ((1 - clamp((u6 - 0.95) / 0.05)) * 10).toFixed(1) + 'px)';
       /* slices: out of the berry, fan into a row, then fly onto the donut one by one */
