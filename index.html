@@ -640,7 +640,7 @@ nav.nav .nav-order-mobile{display:none !important}
 .bl-slash{width:60%;height:3px;border-radius:3px;background:linear-gradient(90deg,rgba(255,255,255,0),#fff 40%,rgba(255,255,255,.9) 60%,rgba(255,255,255,0));box-shadow:0 0 12px 2px rgba(255,250,235,.8);transform-origin:left center}
 .bl-flash{width:100%;height:100%;background:radial-gradient(closest-side,rgba(255,250,238,.95),rgba(255,240,214,.55) 60%,rgba(255,240,214,.15));mix-blend-mode:screen;-webkit-mask-image:url(/images/layers/il-donut.webp);mask-image:url(/images/layers/il-donut.webp);-webkit-mask-size:100% 100%;mask-size:100% 100%}
 .bl-sheen{width:100%;height:100%;overflow:hidden;-webkit-mask-image:url(/images/layers/il-donut.webp);mask-image:url(/images/layers/il-donut.webp);-webkit-mask-size:100% 100%;mask-size:100% 100%}
-.bl-sheen i{position:absolute;top:-20%;bottom:-20%;left:0;width:34%;background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,250,235,.85),rgba(255,255,255,0));transform:translateX(var(--sx,-120%)) skewX(-14deg)}
+.bl-sheen i{position:absolute;top:-20%;bottom:-20%;left:0;width:34%;background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,246,228,.42),rgba(255,255,255,0));transform:translateX(var(--sx,-120%)) skewX(-14deg)}
 .bl-chip{position:absolute;left:50%;bottom:-24%;top:auto;transform:translateX(-50%);white-space:nowrap;font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--orange-on-dark);opacity:0}
 /* floating parts */
 .bl-parts{position:absolute;inset:0;pointer-events:none;z-index:0}
@@ -2120,11 +2120,14 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
   var lerp = function(a, b, t){ return a + (b - a) * t; };
 
   var LMIN = 6, LMAX = 0, YS = {}, berFull = $('blBerFull'), TX = {}, TY = {}, LB = {}, CW = {}, VISW = 0, VISH = 0, DOX = 0, DOY = 0, GCAP = [0.9, 1, 0.86, 0.94, 1];
-  var circ0 = 'none', NW = 0, NH = 0, SLW = [], SLH = [], storyOn = true;
+  var circ0 = 'none', DS = 1, NW = 0, NH = 0, SLW = [], SLH = [], storyOn = true;
   var W, H, VW, top0, span, cx, cy, maxR, flipAt = [], stripMax = 0, mobile;
   function measure(){
     mobile = window.innerWidth <= 860;
     NW = sbox.offsetWidth; NH = sbox.offsetHeight;
+    /* the landing donut matches the size of the layered donut: near full width on phones, big on desktop */
+    var dvw = stage.clientWidth, dvh = stage.clientHeight, DW = mobile ? 0.94 * dvw : Math.min(0.45 * dvw, 840);
+    DW = Math.min(DW, (mobile ? 0.4 : 0.6) * dvh * 1043 / 704); DS = NW ? Math.max(1, DW / NW) : 1;
     for (var q = 0; q < SLS.length; q++){ var im = SLS[q].querySelector('img'); SLW[q] = SLS[q].offsetWidth; SLH[q] = SLW[q] * im.getAttribute('height') / im.getAttribute('width'); }
     W = donut.offsetWidth; H = donut.offsetHeight;
     top0 = sec.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
@@ -2140,6 +2143,21 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
     var vis = donut.parentNode, vcs = getComputedStyle(vis);
     VISW = vis.clientWidth - parseFloat(vcs.paddingRight) * 0; VISH = vis.clientHeight;
     DOX = donut.offsetLeft; DOY = donut.offsetTop;
+    /* keep the floating extras fully on screen: clamp each base position inside a safe margin (drift + rotation included) */
+    var pc = sec.querySelector('.bl-parts');
+    if (pc){
+      var pr0 = pc.getBoundingClientRect(), sr0 = stage.getBoundingClientRect(), pr = { left: pr0.left - sr0.left, top: pr0.top - sr0.top, width: pr0.width, height: pr0.height }, vw = stage.clientWidth, Mg = mobile ? 16 : 28;
+      var hdr = (document.getElementById('nav') || {offsetHeight:0}).offsetHeight || 0;
+      parts.forEach(function(el){
+        var z = +el.getAttribute('data-z'), w = el.offsetWidth, h = el.offsetHeight || w;
+        var dr = 8 * z + 18 * z + w * 0.22 + 6, dv = 10 * z + 40 * z + h * 0.22 + 6;
+        var bx = parseFloat(el.getAttribute('data-x')) / 100 * pr.width, by = parseFloat(el.getAttribute('data-y')) / 100 * pr.height;
+        var minX = Math.max(0, Mg - pr.left) + dr, maxX = Math.min(pr.width, vw - Mg - pr.left) - w - dr;
+        var minY = Math.max(0, hdr + Mg - pr.top) + dv, maxY = Math.min(pr.height, stage.clientHeight - Mg - pr.top - 24) - h - dv;
+        el.style.left = Math.round(Math.max(minX, Math.min(maxX, bx))) + 'px';
+        el.style.top = Math.round(Math.max(minY, Math.min(maxY, by))) + 'px';
+      });
+    }
     var aw = vis.clientWidth - parseFloat(vcs.paddingLeft) - parseFloat(vcs.paddingRight), ah = vis.clientHeight - parseFloat(vcs.paddingTop) - parseFloat(vcs.paddingBottom);
     var vr = vis.getBoundingClientRect(), textRight = 0;
     sec.querySelectorAll('.bl-slide').forEach(function(sl){
@@ -2416,33 +2434,33 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
         put(JUICE[ji], jx0 + Math.cos(ja) * jv * jj, jy0 + Math.sin(ja) * jv * jj + 0.55 * NH * jj * jj, ji * 40 + jj * 90, 0.6 + 0.5 * jj, bell(jj, 0, 0.08, 0.6, 1) * (inStory ? 1 : 0));
       }
       /* donut (drawn) rises in on the way to the landing */
-      var dIn = expo(clamp((u6 - 0.12) / 0.3));
-      var hand = io(clamp((u6 - 0.8) / 0.16));    /* drawn -> real */
+      var dIn = expo(clamp((u6 - 0.08) / 0.26));
+      var hand = io(clamp((u6 - 0.8) / 0.08));   /* drawn -> real, hidden under the flash peak */
       var real7 = 1 - io(clamp(u7 * 1.6));         /* real photo leaves for the flavours */
-      SP.illu.style.opacity = (dIn * (1 - hand)).toFixed(3);
-      var dT = 'translate3d(0,' + ((1 - dIn) * 0.45 * NH - (1 - real7) * 0.25 * NH + Math.sin(now / 1700) * 0.005 * NH).toFixed(1) + 'px,0) scale(' + (0.92 + 0.08 * dIn - (1 - real7) * 0.1).toFixed(4) + ')';
+      SP.illu.style.opacity = (clamp(dIn * 2.2) * (1 - hand)).toFixed(3);
+      var dT = 'translate3d(0,' + ((1 - dIn) * 0.45 * NH - (1 - real7) * 0.25 * NH + Math.sin(now / 1700) * 0.005 * NH).toFixed(1) + 'px,0) scale(' + ((0.92 + 0.08 * dIn - (1 - real7) * 0.1) * DS).toFixed(4) + ')';
       SP.illu.style.transform = dT; SP.realn.style.transform = dT; SP.sheen.style.transform = dT; SP.flash.style.transform = dT; SP.gnd.style.transform = dT;
       SP.realn.style.opacity = (hand * real7).toFixed(3);
       SP.gnd.style.opacity = (dIn * real7 * 0.9).toFixed(3);
-      var sh = clamp((u6 - 0.7) / 0.18);
+      var sh = clamp((u6 - 0.64) / 0.15);
       SP.sheen.style.opacity = (sh > 0 && sh < 1 ? 1 : 0) * (1 - hand);
       SP.sheen.firstChild.style.setProperty('--sx', (-120 + sh * 420).toFixed(1) + '%');
-      var fl = Math.sin(Math.PI * clamp((u6 - 0.8) / 0.16));
-      SP.flash.style.opacity = (fl * 0.42).toFixed(3);
+      var fl = Math.sin(Math.PI * clamp((u6 - 0.76) / 0.16));
+      SP.flash.style.opacity = (fl * 0.5).toFixed(3);
       SP.chip.style.opacity = (clamp((u6 - 0.95) / 0.05) * real7).toFixed(3);
       SP.chip.style.transform = 'translate(-50%,' + ((1 - clamp((u6 - 0.95) / 0.05)) * 10).toFixed(1) + 'px)';
       /* slices: out of the berry, fan into a row, then fly onto the donut one by one */
       for (var si = 0; si < SLS.length; si++){
         var se = SLS[si], sw = SLW[si], shh = SLH[si];
-        var tx = +se.getAttribute('data-x') * NW - sw / 2, ty = +se.getAttribute('data-y') * NH - shh / 2, tr = +se.getAttribute('data-r');
+        var tx = NW / 2 + (+se.getAttribute('data-x') - 0.5) * NW * DS - sw / 2, ty = NH / 2 + (+se.getAttribute('data-y') - 0.5) * NH * DS - shh / 2, tr = +se.getAttribute('data-r');
         var RY = [0, 0.05, -0.025, 0.07, 0.012, 0.04], RR = [-14, 9, -4, 16, -10, 6], RS = [1, 0.94, 1.06, 0.97, 1.02, 0.95];
         var rx = (0.09 + si * 0.164) * NW - sw / 2, ry = (0.22 + RY[si]) * NH, rr = RR[si] + Math.sin(now / 1500 + si * 1.7) * 3;
         var fan = io(clamp((u5 - 0.84 - si * 0.012) / 0.15));
-        var e = clamp((u6 - 0.3 - si * 0.065) / 0.2), mv = io(clamp(e / 0.8)), spp = clamp((e - 0.8) / 0.2);
+        var e = clamp((u6 - 0.2 - si * 0.05) / 0.17), mv = io(clamp(e / 0.8)), spp = clamp((e - 0.8) / 0.2);
         var x0 = lerp(cx2 - sw / 2, rx, fan), y0 = lerp(cy2 - shh / 2 - BH * 0.05, ry, fan) - Math.sin(Math.PI * fan) * 0.08 * NH, r0 = lerp((si - 2.5) * 12, rr, fan);
         var bounce = -0.04 * NH * Math.sin(spp * Math.PI) * (1 - spp * 0.4);
         var X = lerp(x0, tx, mv), Y = lerp(y0 + Math.sin(now / 1300 + si) * 4 * (1 - mv), ty, mv) - 0.35 * NH * Math.sin(Math.PI * mv) + bounce;
-        var sq = 1 - 0.07 * Math.sin(spp * Math.PI), scl = lerp((0.3 + 0.7 * fan) * RS[si], 0.92, mv);
+        var sq = 1 - 0.07 * Math.sin(spp * Math.PI), scl = lerp((0.3 + 0.7 * fan) * RS[si], 1.04 * DS, mv);
         put(se, X, Y, lerp(r0, tr, mv), scl, clamp((u5 - 0.84 - si * 0.012) / 0.03) * (1 - hand), scl * sq);
         /* a small contact shadow appears under each slice as it lands */
         var so = clamp((mv - 0.6) / 0.4) * (1 - hand);
