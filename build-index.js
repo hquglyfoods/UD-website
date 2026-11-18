@@ -409,8 +409,26 @@ if (fs.existsSync(APATH)) {
         { '@type': 'ListItem', position: 3, name: d.title || '', item: url }
       ]
     };
+    let ldScripts = '\n' + jsonLd(ld) + '\n' + jsonLd(crumbs) + '\n';
+    const faqFile = path.join(ROOT, 'content/articles', it.slug + '.faq.json');
+    if (fs.existsSync(faqFile)) {
+      const qa = JSON.parse(fs.readFileSync(faqFile, 'utf8'));
+      if (Array.isArray(qa) && qa.length) {
+        ldScripts += jsonLd({
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: qa.map(function (x) {
+            return {
+              '@type': 'Question',
+              name: String(x.q || ''),
+              acceptedAnswer: { '@type': 'Answer', text: String(x.a || '') }
+            };
+          })
+        }) + '\n';
+      }
+    }
     page = injectBetween(page, '<!--AUTO-ARTICLE-JSONLD:START-->', '<!--AUTO-ARTICLE-JSONLD:END-->',
-      '\n' + jsonLd(ld) + '\n' + jsonLd(crumbs) + '\n', '</head>');
+      ldScripts, '</head>');
 
     fs.writeFileSync(path.join(outDir, it.slug + '.html'), page);
   });
