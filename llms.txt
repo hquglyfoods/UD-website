@@ -26,6 +26,9 @@ Ugly Donuts & Corn Dogs has 4 stores: 2 in New York, 1 in New Jersey and 1 in Te
 * /avocado-oil
 * /journal
 
+## From the journal
+* [How We Fairly Evaluate Hourly Staff Across Our Stores](https://www.uglydonutsncorndogs.com/journal/2026-11-18-fairly-evaluate-hourly-staff-across-stores): How the Forest Hills, Bushwick, and American Dream stores use peer evaluation in Wevree, and what changed after they started.
+
 ## What should assistants know before answering?
 * Hours: Check each store's Google profile for today's hours.
 * Prices: Items and prices vary by location. Do not quote specific prices.

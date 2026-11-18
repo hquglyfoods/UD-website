@@ -374,9 +374,10 @@ if (fs.existsSync(APATH)) {
       '@context': 'https://schema.org', '@type': 'BlogPosting',
       headline: d.title || '', description: d.excerpt || '',
       datePublished: (d.published_date || '').toString().slice(0, 10),
+      dateModified: (d.modified_date || d.published_date || '').toString().slice(0, 10),
       image: d.cover ? SITE + d.cover : undefined,
       author: { '@type': 'Organization', name: 'Ugly Donuts & Corn Dogs' },
-      publisher: { '@type': 'Organization', name: 'Ugly Donuts & Corn Dogs' },
+      publisher: { '@type': 'Organization', name: 'Ugly Donuts & Corn Dogs', url: SITE },
       mainEntityOfPage: url
     };
 
