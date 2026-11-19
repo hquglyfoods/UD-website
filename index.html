@@ -378,21 +378,25 @@ nav.nav .nav-order-mobile{display:none !important}
 
 /* ===================== scroll cinema (2026-08-11) ===================== */
 
-/* Apple-like pinned hero: scale/fade on scroll, transform/opacity only. */
-.hero-cine-pin{height:155vh;position:relative;}
+/* Apple-like pinned hero: scale/fade on scroll, next section rises in. Transform/opacity only. */
+.hero-cine-pin{height:150vh;position:relative;}
 .hero-cine{position:sticky;top:0;height:100dvh;min-height:560px;overflow:hidden;background:var(--bg-black)}
-.hero-cine-media{transform-origin:center 60%;will-change:transform,opacity}
-.hero-cine-inner .hero-text{will-change:transform,opacity}
+.hero-cine-media{transform-origin:center 58%}
+.hero-cine-inner .hero-text,.cine-cue{will-change:transform,opacity}
+.reel-stage{will-change:transform,opacity}
+/* Reel starts rising over the last beat of the hero pin (transform/opacity only on the stage). */
+.reel{position:relative;z-index:4;margin-top:-28vh}
+@media(prefers-reduced-motion:reduce){.reel{margin-top:0}}
 .fade-up{transition:opacity 1s cubic-bezier(.22,.61,.36,1),transform 1s cubic-bezier(.22,.61,.36,1)}
 @media(prefers-reduced-motion:reduce){
   .hero-cine-pin{height:auto}
   .hero-cine{position:relative;height:100dvh}
-  .hero-cine-media,.hero-cine-inner .hero-text{transform:none!important;opacity:1!important;will-change:auto}
+  .hero-cine-media,.hero-cine-inner .hero-text,.reel-stage,.cine-cue{transform:none!important;opacity:1!important;will-change:auto}
 }
 
 .hero-cine{position:sticky;top:0;height:100dvh;min-height:560px;overflow:hidden;background:var(--bg-black)}
-.hero-cine-media{position:absolute;inset:0;will-change:transform}
-.hero-cine-media img{width:100%;height:100%;object-fit:cover;object-position:67% 57%;transform:scale(1.05)}
+.hero-cine-media{position:absolute;inset:0}
+.hero-cine-media img{width:100%;height:100%;object-fit:cover;object-position:67% 57%;transform:none}
 .hero-cine-veil{position:absolute;inset:0;background:linear-gradient(105deg,rgba(5,8,16,0.82) 0%,rgba(5,8,16,0.5) 45%,rgba(5,8,16,0.15) 100%)}
 /* The hero dips to the reel's own black on the way out and the reel fades up from
    it, so the join between the two shots reads as a dissolve, not a seam. */
@@ -438,7 +442,7 @@ nav.nav .nav-order-mobile{display:none !important}
    top and the copy sits below it on the black the band fades into. */
 @media(max-width:700px){
   .hero-cine-media{height:54%;bottom:auto}
-  .hero-cine-media img{transform:scale(1.03)}
+  .hero-cine-media img{transform:none}
   .hero-cine-veil{background:linear-gradient(180deg,rgba(5,8,16,0.1) 0%,rgba(5,8,16,0.28) 38%,var(--bg-black) 54%,var(--bg-black) 100%)}
   .hero-cine::after{display:none}
   .hero-cine-inner{align-items:flex-end}
@@ -583,6 +587,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
   .menu-page-grid .menu-card-desc,.menu-card-desc{font-size:12.5px !important}
 }
 </style>
+<link rel="preload" as="image" href="/.netlify/images?url=%2Fimages%2Fhero%2F01-hot-cheetos.png&amp;w=800&amp;fm=webp" imagesrcset="/.netlify/images?url=%2Fimages%2Fhero%2F01-hot-cheetos.png&amp;w=800&amp;fm=webp 800w, /.netlify/images?url=%2Fimages%2Fhero%2F01-hot-cheetos.png&amp;w=1200&amp;fm=webp 1200w, /.netlify/images?url=%2Fimages%2Fhero%2F01-hot-cheetos.png&amp;w=1800&amp;fm=webp 1800w" imagesizes="100vw" fetchpriority="high">
 </head>
 <body>
 <a href="#main-content" class="skip-to-content">Skip to content</a>
@@ -622,7 +627,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
 <div class="hero-cine-pin" id="heroPin">
 <section class="hero-cine" id="top">
   <div class="hero-cine-media" data-hero-media>
-    <img style="aspect-ratio:1967/800" src="/.netlify/images?url=%2Fimages%2Fhero%2F01-hot-cheetos.png&w=1200" alt="A Hot Cheetos Korean corn dog, freshly fried" fetchpriority="high">
+    <img style="aspect-ratio:1967/800" src="/.netlify/images?url=%2Fimages%2Fhero%2F01-hot-cheetos.png&amp;w=800&amp;fm=webp" srcset="/.netlify/images?url=%2Fimages%2Fhero%2F01-hot-cheetos.png&amp;w=800&amp;fm=webp 800w, /.netlify/images?url=%2Fimages%2Fhero%2F01-hot-cheetos.png&amp;w=1200&amp;fm=webp 1200w, /.netlify/images?url=%2Fimages%2Fhero%2F01-hot-cheetos.png&amp;w=1800&amp;fm=webp 1800w" sizes="100vw" alt="A Hot Cheetos Korean corn dog, freshly fried" width="1200" height="488" fetchpriority="high" decoding="async">
   </div>
   <div class="hero-cine-veil"></div>
   <div class="hero-cine-dip" id="heroDip"></div>
@@ -1226,17 +1231,40 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
       var pr = pin.getBoundingClientRect();
       var span = Math.max(1, pin.offsetHeight - vh);
       hp = clamp((-pr.top) / span);
-      dip.style.opacity = (hp * 0.92).toFixed(3);
+      /* Smoothstep so the pin eases in and out like an Apple story beat. */
+      var hpe = hp * hp * (3 - 2 * hp);
+      dip.style.opacity = (hpe * 0.72).toFixed(3);
       var media = hero && hero.querySelector('[data-hero-media]');
       var text = hero && hero.querySelector('.hero-text');
+      var cue = hero && hero.querySelector('.cine-cue');
       if (media){
-        var sc = (1.05 + hp * 0.14).toFixed(3);
-        media.style.transform = 'translate3d(0,' + (hp * 18).toFixed(2) + 'px,0) scale(' + sc + ')';
-        media.style.opacity = (1 - hp * 0.22).toFixed(3);
+        if (hpe === 0){
+          media.style.transform = 'none';
+          media.style.opacity = '1';
+        } else {
+          if (!media.dataset.will){ media.style.willChange = 'transform, opacity'; media.dataset.will = '1'; }
+          var sc = (1 + hpe * 0.22).toFixed(3);
+          media.style.transform = 'translate3d(0,' + (hpe * 10).toFixed(2) + 'px,0) scale(' + sc + ')';
+          media.style.opacity = (1 - hpe * 0.42).toFixed(3);
+        }
       }
       if (text){
-        text.style.transform = 'translate3d(0,' + (-hp * 56).toFixed(2) + 'px,0)';
-        text.style.opacity = (1 - hp * 0.55).toFixed(3);
+        text.style.transform = hpe ? ('translate3d(0,' + (-hpe * 72).toFixed(2) + 'px,0)') : 'none';
+        text.style.opacity = (1 - hpe * 0.85).toFixed(3);
+      }
+      if (cue){ cue.style.opacity = (1 - Math.min(1, hpe * 3)).toFixed(3); }
+      /* Next section rises in as the hero dissolves. */
+      if (stage){
+        var rt0 = reel.getBoundingClientRect();
+        if (rt0.top > 0){
+          var enter = clamp(1 - rt0.top / vh);
+          var e2 = enter * enter * (3 - 2 * enter);
+          stage.style.transform = 'translate3d(0,' + ((1 - e2) * 72).toFixed(2) + 'px,0)';
+          stage.style.opacity = (0.25 + e2 * 0.75).toFixed(3);
+        } else {
+          stage.style.transform = 'none';
+          stage.style.opacity = '1';
+        }
       }
     } else {
       dip.style.opacity = clamp(y / ((hero ? hero.offsetHeight : sh) * 0.85)).toFixed(3);
