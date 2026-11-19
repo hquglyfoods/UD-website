@@ -59,6 +59,13 @@ body {
 .nav-center { position: absolute; left: 50%; transform: translateX(-50%); }
 .nav-wordmark img { height: 38px; display: block; }
 .wordmark-dark-img { display: none; }
+
+/* Cream header: show the dark wordmark (light mark is invisible on cream). */
+.nav-wordmark .wordmark-light-img { display: none; }
+.nav-wordmark .wordmark-dark-img { display: block; height: 38px; width: auto; }
+.doc-hero .eyebrow a { color: var(--orange-light, #E8DCC8); text-decoration: none; }
+.doc-hero .eyebrow a:hover { color: #fff; text-decoration: underline; }
+
 .nav-right { display: flex; align-items: center; }
 .nav-cta { font-size: 13px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #fff; background: var(--orange); padding: 11px 22px; border-radius: 40px; text-decoration: none; transition: background 0.2s; }
 .nav-cta:hover { background: var(--orange-light); }
@@ -118,7 +125,7 @@ body {
   .nav.open .nav-more-menu { position: static; opacity: 1; visibility: visible; box-shadow: none; border: none; padding: 4px 0 0; min-width: 0; background: none; }
   .nav-center { position: static; transform: none; }
   .nav-right { display: none; }
-  .nav-order-mobile { display: inline-block; font-size: 13px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #fff; background: var(--orange); padding: 9px 18px; border-radius: 40px; text-decoration: none; }
+  .nav-order-mobile { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 18px; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #fff; background: var(--orange); border-radius: 40px; text-decoration: none; line-height: 1; }
   .nav { padding: 12px 20px; }
   .doc-wrap { grid-template-columns: 1fr; gap: 0; }
   .doc-toc { display: none; }
@@ -166,7 +173,7 @@ body {
   </div>
   <div class="nav-center">
     <a href="/" class="nav-wordmark">
-      <img style="aspect-ratio:1376/1376" src="/images/wordmark-light.png" alt="Ugly Donuts &amp; Corn Dogs" class="wordmark-light-img">
+      <img style="aspect-ratio:1376/1376" src="/images/wordmark-light.png" alt="Ugly Donuts &amp; Corn Dogs" class="wordmark-light-img"><img style="aspect-ratio:371/371" src="/images/wordmark.png" alt="Ugly Donuts &amp; Corn Dogs" class="wordmark-dark-img">
     </a>
   </div>
   <div class="nav-right">
