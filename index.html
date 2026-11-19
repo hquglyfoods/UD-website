@@ -1263,6 +1263,14 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
           var lift = rt0.top * e2;
           stage.style.transform = 'translate3d(0,' + (-lift).toFixed(2) + 'px,0)';
           stage.style.opacity = e2.toFixed(3);
+          /* Shots stay opacity 0 until .on, and .reel-in is a black veil keyed off layout top.
+             Reveal the first beat as soon as the stage is being lifted, or the overlap is just a black rectangle. */
+          if (e2 > 0.04 && !lit){
+            lit = true; wasPinned = true;
+            shots[BEAT_SHOT[active]].classList.add('on');
+            lines[BEAT_LINE[active]].classList.add('on');
+            enter(BEAT_SHOT[active]);
+          }
         } else {
           stage.style.transform = 'none';
           stage.style.opacity = '1';
@@ -1283,7 +1291,8 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
     var rt = reel.getBoundingClientRect();
     /* Reel overlaps the pinned hero for the last beat; keep it from eating hero CTA clicks until it actually covers the viewport. */
     reel.style.pointerEvents = (rt.top <= 0) ? 'auto' : 'none';
-    reelIn.style.opacity = clamp(rt.top / (sh * 0.8)).toFixed(3);
+    /* The old veil faded the incoming reel to black before it arrived. Keep it off so the two shots can crossfade. */
+    reelIn.style.opacity = '0';
     if (rt.top <= 0 && rt.bottom >= sh){
       if (!lit){ lit = true; wasPinned = true; shots[BEAT_SHOT[active]].classList.add('on'); lines[BEAT_LINE[active]].classList.add('on'); enter(BEAT_SHOT[active]); }
       /* Progress runs over the beats only. The trailing stage is a hold on the
