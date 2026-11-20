@@ -570,6 +570,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
   .menu-page-grid .menu-card-desc,.menu-card-desc{font-size:12.5px !important}
 }
 </style>
+<style>.nav-more:not(.open) .nav-more-menu { display: none !important; }</style>
 </head>
 <body>
 <a href="#main-content" class="skip-to-content">Skip to content</a>
@@ -782,10 +783,10 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
     </div>
     <div class="menu-empty fade-up" id="menu-empty" style="display:none"></div>
     <div class="menu-grid" id="menu-grid"><!--AUTO-HOME-MENU:START-->
-<a href="/menu.html" class="menu-card"><div class="menu-card-photo"><img style="aspect-ratio:1600/1600" src="/.netlify/images?url=%2Fuploads%2Fhot-cheetos-ugdog.jpeg&w=640" alt="Hot Cheetos Corn Dog" loading="lazy"></div><div class="menu-card-cat">Korean Corn Dogs</div><h4 class="menu-card-name">Hot Cheetos Corn Dog</h4><p class="menu-card-desc">Corn dog topped with cheddar cheese sauce and blended hot cheetos</p></a>
-<a href="/menu.html" class="menu-card"><div class="menu-card-photo"><img style="aspect-ratio:1086/1448" src="/.netlify/images?url=%2Fuploads%2Fmidnight-lemonade.jpg&w=640" alt="Midnight Lemonade" loading="lazy"></div><div class="menu-card-cat">Fizzy Refreshers</div><h4 class="menu-card-name">Midnight Lemonade</h4><p class="menu-card-desc">A sparkling lemonade made with premium real fruit lemon syrup, topped with butterfly pea for a magical color twist</p></a>
-<a href="/menu.html" class="menu-card"><div class="menu-card-photo"><img style="aspect-ratio:1080/770" src="/.netlify/images?url=%2Fuploads%2Fnutella-strawberry-copy.jpg&w=640" alt="Nutella Strawberry Donut" loading="lazy"></div><div class="menu-card-cat">Donuts</div><h4 class="menu-card-name">Nutella Strawberry Donut</h4><p class="menu-card-desc">Donut filled with nutella and strawberry slices</p></a>
-<a href="/menu.html" class="menu-card"><div class="menu-card-photo"><img style="aspect-ratio:1215/866" src="/.netlify/images?url=%2Fuploads%2Fpotato-corn-dog.jpg&w=640" alt="Potato Corn Dog" loading="lazy"></div><div class="menu-card-cat">Korean Corn Dogs</div><h4 class="menu-card-name">Potato Corn Dog</h4><p class="menu-card-desc">Potato Korean Corn Dog with choice of inner filling</p></a>
+<a href="/menu.html" class="menu-card"><div class="menu-card-photo"><img style="aspect-ratio:1600/1600" src="/.netlify/images?url=%2Fuploads%2Fhot-cheetos-ugdog.jpeg&w=640" alt="Hot Cheetos Corn Dog" loading="lazy"></div><div class="menu-card-cat">Korean Corn Dogs</div><h4 role="heading" aria-level="3" class="menu-card-name">Hot Cheetos Corn Dog</h4><p class="menu-card-desc">Corn dog topped with cheddar cheese sauce and blended hot cheetos</p></a>
+<a href="/menu.html" class="menu-card"><div class="menu-card-photo"><img style="aspect-ratio:1086/1448" src="/.netlify/images?url=%2Fuploads%2Fmidnight-lemonade.jpg&w=640" alt="Midnight Lemonade" loading="lazy"></div><div class="menu-card-cat">Fizzy Refreshers</div><h4 role="heading" aria-level="3" class="menu-card-name">Midnight Lemonade</h4><p class="menu-card-desc">A sparkling lemonade made with premium real fruit lemon syrup, topped with butterfly pea for a magical color twist</p></a>
+<a href="/menu.html" class="menu-card"><div class="menu-card-photo"><img style="aspect-ratio:1080/770" src="/.netlify/images?url=%2Fuploads%2Fnutella-strawberry-copy.jpg&w=640" alt="Nutella Strawberry Donut" loading="lazy"></div><div class="menu-card-cat">Donuts</div><h4 role="heading" aria-level="3" class="menu-card-name">Nutella Strawberry Donut</h4><p class="menu-card-desc">Donut filled with nutella and strawberry slices</p></a>
+<a href="/menu.html" class="menu-card"><div class="menu-card-photo"><img style="aspect-ratio:1215/866" src="/.netlify/images?url=%2Fuploads%2Fpotato-corn-dog.jpg&w=640" alt="Potato Corn Dog" loading="lazy"></div><div class="menu-card-cat">Korean Corn Dogs</div><h4 role="heading" aria-level="3" class="menu-card-name">Potato Corn Dog</h4><p class="menu-card-desc">Potato Korean Corn Dog with choice of inner filling</p></a>
 <!--AUTO-HOME-MENU:END--></div>
     <div class="section-cta" id="menu-see-all">
       <a href="/menu.html" class="btn btn-outline btn-arrow">See Full Menu</a>
@@ -1076,7 +1077,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
         return '<a href="/menu.html" class="menu-card">' +
           '<div class="menu-card-photo">' + photo + '</div>' +
           '<div class="menu-card-cat">' + (d.category||'') + '</div>' +
-          '<h4 class="menu-card-name">' + (d.name||'') + '</h4>' +
+          '<h4 role="heading" aria-level="3" class="menu-card-name">' + (d.name||'') + '</h4>' +
           '<p class="menu-card-desc">' + (d.description||'') + '</p>' +
           '</a>';
       }).join('');
@@ -1382,7 +1383,7 @@ a,button,input,select,textarea,label,summary,[role=button],[onclick]{touch-actio
     function wallR(y){ return 1616 - (y - 260) * 0.05; }
     function speckSetup(){
       var src = document.createElement('canvas'); src.width = W; src.height = H;
-      var sc = src.getContext('2d'); sc.drawImage(img, 0, 0, W, H);
+      var sc = src.getContext('2d', { willReadFrequently: true }); sc.drawImage(img, 0, 0, W, H);
       /* a small round, soft-edged crop of the photo centred on a point */
       function soft(cx, cy, R){
         var c = document.createElement('canvas'), q = c.getContext('2d'), g;
