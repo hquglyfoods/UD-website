@@ -448,7 +448,7 @@ if (fs.existsSync(JPATH)) {
       '<div class="journal-page-card-photo">' + coverImg + '</div>' +
       '<div class="journal-page-card-meta">' + (d.category || 'Journal') +
       '<span class="sep">&middot;</span>' + (d.read_time || '3 min read') + '</div>' +
-      '<h3>' + (d.title || '') + '</h3>' +
+      '<h3 role="heading" aria-level="2">' + (d.title || '') + '</h3>' +
       '<p>' + (d.excerpt || '') + '</p></a>';
   }).join('\n');
   const hasArticles = articles.length > 0;
