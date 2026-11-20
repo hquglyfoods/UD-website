@@ -511,7 +511,7 @@ if (fs.existsSync(JPATH)) {
     const photo = d.photo ? '<img src="' + imgUrl(d.photo, 640) + '" alt="' + attrEscape(d.name || '') + '" loading="lazy">' : '';
     return '<a href="/menu.html" class="menu-card"><div class="menu-card-photo">' + photo + '</div>' +
       '<div class="menu-card-cat">' + escapeHtml(d.category || '') + '</div>' +
-      '<h4 class="menu-card-name">' + escapeHtml(d.name || '') + '</h4>' +
+      '<h4 role="heading" aria-level="3" class="menu-card-name">' + escapeHtml(d.name || '') + '</h4>' +
       '<p class="menu-card-desc">' + escapeHtml(d.description || '') + '</p></a>';
   }).join('\n');
 
@@ -561,14 +561,14 @@ if (fs.existsSync(MPATH)) {
   function menuCard(it) {
     const d = it.data;
     const photo = d.photo ? '<img src="' + imgUrl(d.photo, 400) + '" alt="' + attrEscape(d.name || '') + '" loading="lazy">' : '';
-    return '<div class="menu-card"><div class="menu-card-text"><h4 class="menu-card-name">' + (d.name || '') + '</h4>' +
+    return '<div class="menu-card"><div class="menu-card-text"><h4 role="heading" aria-level="3" class="menu-card-name">' + (d.name || '') + '</h4>' +
       '<p class="menu-card-desc">' + (d.description || '') + '</p></div>' +
       '<div class="menu-card-photo">' + photo + '</div></div>';
   }
   let grid = '', curCat = null;
   items.forEach(function (it) {
     const c = it.data.category || 'Other';
-    if (c !== curCat) { grid += '<div class="menu-cat-header"><h3 class="menu-cat-title">' + c + '</h3></div>'; curCat = c; }
+    if (c !== curCat) { grid += '<div class="menu-cat-header"><h3 role="heading" aria-level="2" class="menu-cat-title">' + c + '</h3></div>'; curCat = c; }
     grid += menuCard(it);
   });
   const has = items.length > 0;
