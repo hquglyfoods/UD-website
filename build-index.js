@@ -685,10 +685,10 @@ if (fs.existsSync(SPATH)) {
   console.log('[ok]   sitemap.xml (' + articles.length + ' article urls)');
 }
 
-/* ===================== 5b. GEO answer-first blocks (2026-10-27) ===================== */
-/* Visible "quick answer" block under each hero plus matching FAQPage JSON-LD.
-   Copy lives in content/geo/answers.json. Runs before section 6 so the social
-   tags pick up the updated title and description. Franchise copy is excluded. */
+/* ===================== 5b. GEO metadata (2026-11-23) ===================== */
+/* Remove visible Quick answer blocks and FAQPage schema from these six pages.
+   Keep GEO titles and descriptions and the story AboutPage schema. Runs before
+   section 6 so social tags pick up the updated title and description. */
 
 const GEO = (function () {
   try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'content/geo/answers.json'), 'utf8')); }
@@ -712,13 +712,6 @@ function geoFaqLd(qa) {
 function geoQaHtml(qa, hTag) {
   return qa.map(function (x) { return '<' + hTag + '>' + escapeHtml(x.q) + '</' + hTag + '>\n<p>' + geoInline(x.a) + '</p>'; }).join('\n');
 }
-const GEO_CSS = '<style>.geo-answer{background:var(--bg-cream,#faf6ef);padding:56px 0;border-bottom:1px solid var(--border-cream,rgba(26,36,56,.08))}' +
-  '.geo-answer .geo-inner{max-width:780px;margin:0 auto;padding:0 24px;color:var(--text-dark,#1a2438)}' +
-  '.geo-answer .eyebrow{margin-bottom:12px}.geo-answer p{font-size:17px;line-height:1.65;margin:0 0 16px}' +
-  '.geo-answer ul{margin:0 0 24px;padding-left:20px}.geo-answer li{font-size:16px;line-height:1.6;margin:4px 0}' +
-  '.geo-answer h2{font-family:var(--serif,Georgia,serif);font-weight:400;font-size:clamp(1.3rem,2.4vw,1.7rem);line-height:1.25;margin:28px 0 10px}' +
-  '.geo-answer .geo-related{font-size:14px;margin-top:24px;opacity:.8}</style>';
-
 (function () {
   const FILES = { '/': 'index.html', '/locations': 'locations.html', '/menu': 'menu.html', '/avocado-oil': 'avocado-oil.html', '/catering': 'catering.html', '/story': 'story.html' };
   let n = 0;
@@ -728,34 +721,18 @@ const GEO_CSS = '<style>.geo-answer{background:var(--bg-cream,#faf6ef);padding:5
     let html = fs.readFileSync(fp, 'utf8');
     html = html.replace(/<title>[\s\S]*?<\/title>/, function () { return '<title>' + escapeHtml(g.title) + '</title>'; });
     html = html.replace(/<meta name="description" content="[^"]*"/, function () { return '<meta name="description" content="' + attrEscape(g.meta) + '"'; });
-    const block = '\n<section class="geo-answer" id="quick-answer" aria-label="Quick answer">' + GEO_CSS + '<div class="geo-inner">\n' +
-      '<div class="eyebrow">Quick answer</div>\n<p>' + geoInline(g.intro) + '</p>\n' +
-      (g.facts.length ? '<ul>' + g.facts.map(function (f) { return '<li>' + geoInline(f) + '</li>'; }).join('') + '</ul>\n' : '') +
-      geoQaHtml(g.qa, 'h2') + '\n' +
-      (g.related.length ? '<p class="geo-related">Related: ' + g.related.map(function (l) { return '<a href="' + attrEscape(l[1]) + '" class="text-link">' + escapeHtml(l[0]) + '</a>'; }).join(' · ') + '</p>\n' : '') +
-      '</div></section>\n';
-    const S = '<!--AUTO-GEO-ANSWER:START-->', E = '<!--AUTO-GEO-ANSWER:END-->';
-    if (html.indexOf(S) === -1) {
-      /* Placed just above the footer (not under the hero): still visible,
-         crawlable HTML for AI answers, but out of the first screen. */
-      let at = html.lastIndexOf('</main>');
-      if (at === -1) at = html.lastIndexOf('<footer');
-      if (at === -1) return;
-      html = html.slice(0, at) + '\n' + S + E + html.slice(at);
-    }
-    html = injectBetween(html, S, E, block, null);
-    // Pages that already carry a FAQPage (avocado-oil) keep theirs: one FAQPage per page.
+    html = html.replace(/<!--AUTO-GEO-ANSWER:START-->[\s\S]*?<!--AUTO-GEO-ANSWER:END-->/g, '');
+    html = html.replace(/<section\b(?=[^>]*\bclass=["'][^"']*\bgeo-answer\b[^"']*["'])[^>]*>[\s\S]*?<\/section>/gi, '');
+    html = html.replace(/<!--AUTO-GEO-SCHEMA:START-->[\s\S]*?<!--AUTO-GEO-SCHEMA:END-->/g, '');
     const lds = [];
-    const hasFaq = /"@type":\s*"FAQPage"/.test(html.replace(/<!--AUTO-GEO-SCHEMA:START-->[\s\S]*?<!--AUTO-GEO-SCHEMA:END-->/, ''));
-    if (g.qa.length && !hasFaq) lds.push(geoFaqLd(g.qa));
     if (route === '/story') lds.push({ '@context': 'https://schema.org', '@type': 'AboutPage', '@id': SITE + '/story#page', url: SITE + '/story',
       name: 'The Ugly Donuts & Corn Dogs Story', inLanguage: 'en-US', isPartOf: { '@id': SITE + '/#website' },
       about: { '@type': 'Organization', '@id': ORG_ID, name: 'Ugly Donuts & Corn Dogs', alternateName: '어글리', founder: { '@type': 'Person', name: 'John Kim' } } });
-    html = injectBetween(html, '<!--AUTO-GEO-SCHEMA:START-->', '<!--AUTO-GEO-SCHEMA:END-->', '\n' + lds.map(jsonLd).join('\n') + '\n', '</head>');
+    if (lds.length) html = injectBetween(html, '<!--AUTO-GEO-SCHEMA:START-->', '<!--AUTO-GEO-SCHEMA:END-->', '\n' + lds.map(jsonLd).join('\n') + '\n', '</head>');
     fs.writeFileSync(fp, html);
     n++;
   });
-  console.log('[ok]   GEO answer-first blocks on ' + n + ' pages');
+  console.log('[ok]   GEO metadata on ' + n + ' pages');
 })();
 
 /* ===================== 6. social meta + manifest (all listing pages) ===================== */
