@@ -34,15 +34,15 @@ Order at the kiosk in store and pick your mix on the spot. Tell the team you wou
 
 ## Quick FAQ
 
-\*\*Is the corn dog dough vegan?\*\* Yes. Both our corn dog dough and our donut dough are vegan.
+**Is the corn dog dough vegan?** Yes. Both our corn dog dough and our donut dough are vegan.
 
-\*\*Can I get a fully plant based corn dog?\*\* Yes. Pick any coating and choose the plant based sausage filling, and ask at the kiosk about sauces and toppings.
+**Can I get a fully plant based corn dog?** Yes. Pick any coating and choose the plant based sausage filling, and ask at the kiosk about sauces and toppings.
 
-\*\*Which coatings can I choose?\*\* Original, Potato, Sweet Potato or Nude. All four start from the same vegan dough.
+**Which coatings can I choose?** Original, Potato, Sweet Potato or Nude. All four start from the same vegan dough.
 
-\*\*What should I ask at the kiosk?\*\* Ask for the plant based sausage option and which sauces and toppings work with a plant based order that day.
+**What should I ask at the kiosk?** Ask for the plant based sausage option and which sauces and toppings work with a plant based order that day.
 
-\*\*What do you fry in?\*\* Everything is fried in 100 percent avocado oil.
+**What do you fry in?** Everything is fried in 100 percent avocado oil.
 
 ## Want to bring Ugly Donuts & Corn Dogs to your city?
 
