@@ -822,7 +822,7 @@ console.log('[ok]   social meta + manifest on ' + SEO_PAGES.length + ' pages');
     // Instagram plus every store's Google Places entity. Linking the brand to the
     // places is what lets Google connect this site to the listings that actually
     // decide local ranking; place_id is filled in for all four stores.
-    sameAs: ['https://www.instagram.com/uglydonutsncorndogs'].concat(
+    sameAs: ['https://www.instagram.com/uglydonutsncorndogs', 'https://www.facebook.com/uglydonutsncorndogs'].concat(
       readItems('content/locations')
         .filter(function (it) { return it.data && it.data.place_id; })
         .map(function (it) { return 'https://www.google.com/maps/place/?q=place_id:' + it.data.place_id; })

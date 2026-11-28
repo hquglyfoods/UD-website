@@ -25,6 +25,12 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Reel videos and posters are cache-busted with a content hash in the query string.
+[[headers]]
+  for = "/images/reel/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
 # Named images (replaceable): short cache
 [[headers]]
   for = "/images/*"
